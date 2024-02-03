@@ -8,5 +8,5 @@ public class InventorySO : ScriptableObject
 {
     public int inventorySize = 0;
 
-    public Dictionary<int, Item> inventory;
+    public Dictionary<int, string> inventory;
 }
