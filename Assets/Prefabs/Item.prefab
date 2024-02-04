@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 433035381156083893}
   - component: {fileID: 5720839755617397147}
   - component: {fileID: 5527795246843831277}
-  - component: {fileID: -7779244068970442918}
+  - component: {fileID: 7387779997689524326}
   m_Layer: 0
-  m_Name: WeaponItem
+  m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   slotType: 1
   amount: 0
   isStackable: 0
---- !u!114 &-7779244068970442918
+--- !u!114 &7387779997689524326
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,17 +118,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 211604260712709183}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9e3741b73645a54e92ea2537f0f46da, type: 3}
+  m_Script: {fileID: 11500000, guid: b44d708e68801394289eb7b4f44bca60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
   description: 
-  slotType: 1
+  slotType: 0
   isStackable: 0
   emitsLight: 0
-  amount: 1
+  amount: 0
   sprite_inventory: {fileID: 0}
   sprite_hand: {fileID: 0}
+  sprite_equip: {fileID: 0}
 --- !u!1 &6599278895345260592
 GameObject:
   m_ObjectHideFlags: 0

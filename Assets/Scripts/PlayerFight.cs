@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerFight : MonoBehaviour
 {
-    public WeaponMelee meleeWeapon;
-    public WeaponRanged rangedWeapon;
+    public Item itemInHand;
 
     private Dictionary<string, float> stats;
 
@@ -34,11 +33,7 @@ public class PlayerFight : MonoBehaviour
 
     void ActiveWeapon()
     {
-        if (meleeWeapon != null && rangedWeapon == null) // Melee weapon active
-            stats = meleeWeapon.stats;
-        else if (rangedWeapon != null && meleeWeapon == null) // Ranged weapon active
-            stats = rangedWeapon.stats;
-        else if (meleeWeapon == null && rangedWeapon == null) // No weapon active -> fists as weapon
+        if (itemInHand == null) // No active weapon -> fists as weapon
         {
             stats = new(){
                 {"damage", 2f},
@@ -53,11 +48,15 @@ public class PlayerFight : MonoBehaviour
                 {"twoHanded", 0f},
                 {"weight", 0f},
             };
+            return;
         }
-        else // Error
+        if (itemInHand.slotType == (Slot.SlotType.WeaponMelee | Slot.SlotType.WeaponRanged)) // itemInHand is some weapon
         {
-            meleeWeapon = null;
-            rangedWeapon = null;
+            stats = itemInHand.stats;
+        }
+        else if (itemInHand.slotType == Slot.SlotType.Consumable) // itemInHand is some consumable
+        {
+
         }
     }
 }

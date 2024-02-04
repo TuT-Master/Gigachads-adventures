@@ -8,11 +8,15 @@ public class ProjectileSO : ScriptableObject
     public string itemName;
     public string description;
 
-    public float damage = 0;
-    public float penetration = 0;
-    public float armorIgnore = 0;
-    public float projectileSpeed = 0;
-    public float splashDamage = 0;
-    public float splashRadius = 0;
-    public float weight = 0;
+    public Dictionary<string, float> projectileStats;
+    [SerializeField] private float damage = 0;
+    [SerializeField] private float penetration = 0;
+    [SerializeField] private float armorIgnore = 0;
+    [SerializeField] private float projectileSpeed = 0;
+    [SerializeField] private float splashDamage = 0;
+    [SerializeField] private float splashRadius = 0;
+    [SerializeField] private float weight = 0;
+
+    public Sprite sprite_inventory;
+    public Sprite sprite_equip;
 }

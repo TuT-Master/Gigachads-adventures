@@ -33,15 +33,15 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (gameObject.transform.childCount == 0 && CanBePlaced(eventData.pointerDrag.GetComponent<ItemUI>().slotType))
+        if (gameObject.transform.childCount == 0 && CanBePlaced(eventData.pointerDrag.GetComponent<Item>().slotType))
         {
             GameObject dropped = eventData.pointerDrag;
             ItemUI item_DragHandler = dropped.GetComponent<ItemUI>();
             item_DragHandler.parentAfterDrag = transform;
         }
-        if (gameObject.transform.childCount == 1 && eventData.pointerDrag.GetComponent<ItemUI>().isStackable && gameObject.transform.GetChild(0).gameObject.GetComponent<ItemUI>().isStackable)
+        if (gameObject.transform.childCount == 1 && eventData.pointerDrag.GetComponent<Item>().isStackable && gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().isStackable)
         {
-            gameObject.transform.GetChild(0).gameObject.GetComponent<ItemUI>().amount += eventData.pointerDrag.GetComponent<ItemUI>().amount;
+            gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount += eventData.pointerDrag.GetComponent<Item>().amount;
             Destroy(eventData.pointerDrag);
         }
     }

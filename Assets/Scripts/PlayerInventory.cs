@@ -14,7 +14,7 @@ public class PlayerInventory : MonoBehaviour
 
     // Toolbar
     [SerializeField] private GameObject[] allToolbarSlots;
-    private GameObject[] toolbarSlots;
+    private List<GameObject> toolbarSlots = new();
 
     private bool canScrollAgain;
     private int toolbarId;
@@ -32,6 +32,10 @@ public class PlayerInventory : MonoBehaviour
 
     private void Update()
     {
+        toolbarSlots.Clear();
+        for (int i = 0; i < toolbarSlotsCount; i++)
+            toolbarSlots.Add(allToolbarSlots[i]);
+
         MyInput();
         ActiveToolbarSlot();
     }
@@ -91,18 +95,8 @@ public class PlayerInventory : MonoBehaviour
     {
         if (toolbarSlots[toolbarId].transform.childCount != 0)
         {
-            if (toolbarSlots[toolbarId].transform.GetChild(0).gameObject.TryGetComponent(out WeaponMelee weaponMelee))
-            {
-                Debug.Log("Melee weapon active!");
-            }
-            else if (toolbarSlots[toolbarId].transform.GetChild(0).gameObject.TryGetComponent(out WeaponRanged weaponRanged))
-            {
-                Debug.Log("Ranged weapon active!");
-            }
-            else if (toolbarSlots[toolbarId].transform.GetChild(0).gameObject.TryGetComponent(out Consumable consumable))
-            {
-                Debug.Log("Consumable active!");
-            }
+            if (toolbarSlots[toolbarId].transform.GetChild(0).gameObject.TryGetComponent(out Item item))
+                GetComponent<PlayerFight>().itemInHand = item;
         }
     }
 }
