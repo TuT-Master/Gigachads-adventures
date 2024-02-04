@@ -12,4 +12,7 @@ public class ArmorSO : ScriptableObject
     public Sprite sprite_equip;
 
     public Slot.SlotType slotType;
+
+    // Armor bonuses
+    public float armor;
 }

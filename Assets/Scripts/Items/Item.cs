@@ -73,7 +73,5 @@ public class Item : MonoBehaviour
     private void Awake()
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
-        sprite_inventory = null;
-        sprite_hand = null;
     }
 }
