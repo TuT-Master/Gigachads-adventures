@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    public Dictionary<string, float> playerStats;
+
     public float hp;
     public float stamina;
     public float mana;
@@ -25,7 +27,6 @@ public class PlayerStats : MonoBehaviour
     public float penetrationBonus;
     public float armorIgnoreBonus;
 
-    private Dictionary<string, float> basePlayerStats;
 
     private PlayerInventory playerInventory;
     private List<Item> armors;
@@ -34,12 +35,65 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         playerInventory = GetComponent<PlayerInventory>();
+        playerStats = new()
+        {
+            { "hp", hp },
+            { "stamina", stamina },
+            { "mana", mana },
+            { "hpMax", hpMax },
+            { "staminaMax", staminaMax },
+            { "manaMax", manaMax },
+            { "armor", armor },
+            { "evasion", evasion },
+            { "weight", weight },
+            { "speed", speed },
+            { "experience", experience },
+            { "level", level },
+            { "accuracyBonus", accuracyBonus },
+            { "penetrationBonus", penetrationBonus },
+            { "armorIgnoreBonus", armorIgnoreBonus },
+        };
     }
-
     private void Update()
     {
+        Dictionary<string, float> baseStats = new()
+        {
+            { "hp", hp },
+            { "stamina", stamina },
+            { "mana", mana },
+            { "hpMax", hpMax },
+            { "staminaMax", staminaMax },
+            { "manaMax", manaMax },
+            { "armor", armor },
+            { "evasion", evasion },
+            { "weight", weight },
+            { "speed", speed },
+            { "experience", experience },
+            { "level", level },
+            { "accuracyBonus", accuracyBonus },
+            { "penetrationBonus", penetrationBonus },
+            { "armorIgnoreBonus", armorIgnoreBonus },
+        };
+        Dictionary<string, float> bonusStats = new()
+        {
+            { "hp", 0 },
+            { "stamina", 0 },
+            { "mana", 0 },
+            { "hpMax", 0 },
+            { "staminaMax", 0 },
+            { "manaMax", 0 },
+            { "armor", 0 },
+            { "evasion", 0 },
+            { "weight", 0 },
+            { "speed", 0 },
+            { "experience", 0 },
+            { "level", 0 },
+            { "accuracyBonus", 0 },
+            { "penetrationBonus", 0 },
+            { "armorIgnoreBonus", 0 },
+        };
         // Updating Lists
-        for(int i = 0; i < playerInventory.armorSlots.transform.childCount; i++)
+        for (int i = 0; i < playerInventory.armorSlots.transform.childCount; i++)
             if (playerInventory.armorSlots.transform.GetChild(i).TryGetComponent(out Item item))
                 armors.Add(item);
         for (int i = 0; i < playerInventory.equipmentSlots.transform.childCount; i++)
