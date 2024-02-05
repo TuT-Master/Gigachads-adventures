@@ -106,9 +106,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 5720839755617397147}
   parentAfterDrag: {fileID: 0}
-  slotType: 1
-  amount: 0
-  isStackable: 0
 --- !u!114 &7387779997689524326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44d708e68801394289eb7b4f44bca60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Primitive club
   description: 
   slotType: 0
   isStackable: 0

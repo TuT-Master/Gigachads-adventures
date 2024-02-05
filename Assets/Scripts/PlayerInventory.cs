@@ -7,10 +7,20 @@ public class PlayerInventory : MonoBehaviour
 
     public bool playerInventoryOpen;
 
+    public GameObject armorSlots;
+    public GameObject equipmentSlots;
 
     [SerializeField]
-    private GameObject inventory;
-
+    private GameObject inventoryCanvas;
+    [SerializeField]
+    private GameObject backpackInventory;
+    public int backpackSize;
+    [SerializeField]
+    private GameObject beltInventory;
+    public int beltSize;
+    [SerializeField]
+    private GameObject pocketsInventory;
+    public int pocketsSize;
 
     // Toolbar
     [SerializeField] private GameObject[] allToolbarSlots;
@@ -38,7 +48,58 @@ public class PlayerInventory : MonoBehaviour
 
         MyInput();
         ActiveToolbarSlot();
+        UpdateBackpack();
+        UpdateBelt();
+        UpdatePockets();
     }
+
+    void UpdateBackpack()
+    {
+        for (int i = 0; i < backpackInventory.transform.childCount; i++)
+        {
+            if(i < backpackSize)
+                backpackInventory.transform.GetChild(i).gameObject.SetActive(true);
+            else
+                RemoveSlot(backpackInventory.transform, i);
+        }
+    }
+
+
+    void UpdateBelt()
+    {
+        for (int i = 0; i < beltInventory.transform.childCount; i++)
+        {
+            if (i < beltSize)
+                beltInventory.transform.GetChild(i).gameObject.SetActive(true);
+            else
+                RemoveSlot(beltInventory.transform, i);
+        }
+    }
+    void UpdatePockets()
+    {
+        for (int i = 0; i < pocketsInventory.transform.childCount; i++)
+        {
+            if (i < pocketsSize)
+                pocketsInventory.transform.GetChild(i).gameObject.SetActive(true);
+            else
+                RemoveSlot(pocketsInventory.transform, i);
+        }
+    }
+    void RemoveSlot(Transform parent, int index)
+    {
+        // Check if there are any items in it
+        if (parent.GetChild(index).childCount > 0)
+        {
+            DropItemOnDaFloor(parent.GetChild(index).GetChild(0).GetComponent<Item>());
+            Destroy(parent.GetChild(index).GetChild(0).gameObject);
+        }
+        parent.GetChild(index).gameObject.SetActive(false);
+    }
+    void DropItemOnDaFloor(Item item)
+    {
+        Debug.Log("Dropping item in da floor " + item.itemName);
+    }
+
 
     void MyInput()
     {
@@ -61,13 +122,13 @@ public class PlayerInventory : MonoBehaviour
     {
         if(open)
         {
-            inventory.SetActive(true);
+            inventoryCanvas.SetActive(true);
             Time.timeScale = 0f;
             playerInventoryOpen = true;
         }
         else
         {
-            inventory.SetActive(false);
+            inventoryCanvas.SetActive(false);
             Time.timeScale = 1f;
             playerInventoryOpen = false;
         }

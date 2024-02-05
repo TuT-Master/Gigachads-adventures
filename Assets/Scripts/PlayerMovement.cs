@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 1f;
+    private PlayerStats playerStats;
     public Rigidbody _rb;
 
     float x, y;
 
     void Start()
     {
+        playerStats = GetComponent<PlayerStats>();
         _rb = GetComponent<Rigidbody>();
     }
 
@@ -28,6 +29,9 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
-        _rb.AddForce(new Vector3(x, 0, y) * speed, ForceMode.Force);
+        _rb.mass = playerStats.weight / 40;
+        if(_rb.mass < 1)
+            _rb.mass = 1;
+        _rb.AddForce(new Vector3(x, 0, y) * playerStats.speed, ForceMode.Force);
     }
 }
