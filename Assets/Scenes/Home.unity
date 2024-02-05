@@ -950,6 +950,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInventoryOpen: 0
+  armorSlots: {fileID: 15150576}
+  equipmentSlots: {fileID: 1795644236}
   inventoryCanvas: {fileID: 556875289}
   backpackInventory: {fileID: 1924770780}
   backpackSize: 8
@@ -957,8 +959,6 @@ MonoBehaviour:
   beltSize: 0
   pocketsInventory: {fileID: 732029706}
   pocketsSize: 0
-  armorSlots: {fileID: 15150576}
-  equipmentSlots: {fileID: 1795644236}
   allToolbarSlots:
   - {fileID: 1825636937}
   - {fileID: 1488527055}
