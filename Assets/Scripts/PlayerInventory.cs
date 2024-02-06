@@ -71,7 +71,19 @@ public class PlayerInventory : MonoBehaviour
         }
         else
         {
-            itemCard = Instantiate(itemCardPrefab, inventoryCanvas.transform);
+            itemCard = Instantiate(itemCardPrefab, Vector3.zero, Quaternion.identity, inventoryCanvas.transform);
+            Vector3 itemPos = item.gameObject.transform.position;
+            if(itemPos.x > 1300)
+                itemPos = new(itemPos.x - 570, itemPos.y);
+            else
+                itemPos = new(itemPos.x + 70, itemPos.y);
+            if (itemPos.y > 650)
+                itemPos = new(itemPos.x, itemPos.y - 570);
+            else
+                itemPos = new(itemPos.x, itemPos.y - 250);
+            itemCard.transform.position = itemPos;
+
+
             isItemCardOpen = true;
             // TODO - set up itemCard by item
             // ItemCard GFX

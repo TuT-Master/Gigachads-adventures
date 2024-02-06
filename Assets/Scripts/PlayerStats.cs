@@ -115,7 +115,7 @@ public class PlayerStats : MonoBehaviour
 
         // Send all stats to PlayerStats
 
-        foreach (string key in playerStats.Keys)
+        foreach (string key in baseStats.Keys)
         {
             playerStats[key] = baseStats[key] + bonusStats[key];
             if(bonusStats[key] > 0)
