@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -29,8 +30,9 @@ public class PlayerStats : MonoBehaviour
 
 
     private PlayerInventory playerInventory;
-    private List<Item> armors;
-    private List<Item> equipment;
+    private List<Item> armors = new();
+    private List<Item> equipment = new();
+
 
     private void Start()
     {
@@ -54,6 +56,7 @@ public class PlayerStats : MonoBehaviour
             { "armorIgnoreBonus", armorIgnoreBonus },
         };
     }
+
     private void Update()
     {
         Dictionary<string, float> baseStats = new()
@@ -94,20 +97,29 @@ public class PlayerStats : MonoBehaviour
         };
         // Updating Lists
         for (int i = 0; i < playerInventory.armorSlots.transform.childCount; i++)
-            if (playerInventory.armorSlots.transform.GetChild(i).TryGetComponent(out Item item))
+            if (playerInventory.armorSlots.transform.GetChild(i).childCount > 0 && playerInventory.armorSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
                 armors.Add(item);
         for (int i = 0; i < playerInventory.equipmentSlots.transform.childCount; i++)
-            if (playerInventory.equipmentSlots.transform.GetChild(i).TryGetComponent(out Item item))
+            if (playerInventory.equipmentSlots.transform.GetChild(i).childCount > 0 && playerInventory.equipmentSlots.transform.GetChild(i).TryGetComponent(out Item item))
                 equipment.Add(item);
 
         // Updating stats
-        foreach (Item item in armors)
-        {
+        if(armors.Count > 0)
+            foreach (Item item in armors)
+                foreach (string key in item.stats.Keys)
+                    bonusStats[key] += item.stats[key];
+        if (equipment.Count > 0)
+            foreach (Item item in equipment)
+                foreach (string key in item.stats.Keys)
+                    bonusStats[key] += item.stats[key];
 
-        }
-        foreach (Item item in equipment)
-        {
+        // Send all stats to PlayerStats
 
+        foreach (string key in playerStats.Keys)
+        {
+            playerStats[key] = baseStats[key] + bonusStats[key];
+            if(bonusStats[key] > 0)
+                Debug.Log(playerStats[key].ToString());
         }
     }
 }

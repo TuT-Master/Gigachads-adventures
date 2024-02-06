@@ -887,6 +887,8 @@ MonoBehaviour:
   - {fileID: 1379610275}
   - {fileID: 1842891154}
   - {fileID: 159367614}
+  itemCardPrefab: {fileID: 7688285658852871474, guid: 3753a1bef096b8c42a44bbfee4a5582a,
+    type: 3}
 --- !u!114 &220485076
 MonoBehaviour:
   m_ObjectHideFlags: 0

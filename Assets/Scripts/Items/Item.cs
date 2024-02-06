@@ -17,6 +17,8 @@ public class Item : MonoBehaviour
 
     public int amount;
 
+    public Dictionary<string, float> armorStats;
+
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
     public Sprite sprite_equip;
@@ -27,6 +29,7 @@ public class Item : MonoBehaviour
     public Item(WeaponMeleeSO weaponSO)
     {
         itemName = weaponSO.itemName;
+        description = weaponSO.description;
         slotType = Slot.SlotType.WeaponMelee;
         sprite_inventory = weaponSO.sprite_inventory;
         sprite_hand = weaponSO.sprite_hand;
@@ -37,6 +40,7 @@ public class Item : MonoBehaviour
     public Item(WeaponRangedSO weaponSO)
     {
         itemName = weaponSO.itemName;
+        description= weaponSO.description;
         slotType = Slot.SlotType.WeaponRanged;
         sprite_inventory = weaponSO.sprite_inventory;
         sprite_hand = weaponSO.sprite_hand;
@@ -56,6 +60,7 @@ public class Item : MonoBehaviour
     public Item(ProjectileSO projectile)
     {
         slotType = Slot.SlotType.Ammo;
+        description = projectile.description;
         sprite_inventory = projectile.sprite_inventory;
         sprite_equip = projectile.sprite_equip;
         stats = projectile.projectileStats;
@@ -64,6 +69,7 @@ public class Item : MonoBehaviour
     {
         itemName = armorSO.itemName;
         description = armorSO.description;
+        armorStats = armorSO.armorStats;
         slotType = armorSO.slotType;
         sprite_inventory = armorSO.sprite_inventory;
         sprite_equip = armorSO.sprite_equip;

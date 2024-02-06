@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -30,10 +32,16 @@ public class PlayerInventory : MonoBehaviour
     private int toolbarId;
     private int toolbarSlotsCount;
 
+    // ItemCard
+    [SerializeField]
+    private GameObject itemCardPrefab;
+    private GameObject itemCard;
+    private bool isItemCardOpen;
 
 
     private void Start()
     {
+        isItemCardOpen = false;
         canScrollAgain = true;
         toolbarId = 0;
         toolbarSlotsCount = 2;
@@ -51,6 +59,38 @@ public class PlayerInventory : MonoBehaviour
         UpdateBackpack();
         UpdateBelt();
         UpdatePockets();
+    }
+
+    public void OpenItemCard(Item item)
+    {
+        if(isItemCardOpen)
+        {
+            if(itemCard != null)
+                Destroy(itemCard);
+            isItemCardOpen = false;
+        }
+        else
+        {
+            itemCard = Instantiate(itemCardPrefab, inventoryCanvas.transform);
+            isItemCardOpen = true;
+            // TODO - set up itemCard by item
+            // ItemCard GFX
+            //itemCard.transform.GetChild(0).GetComponent<Image>().sprite = 
+            // Item image
+            itemCard.transform.GetChild(1).GetComponent<Image>().sprite = item.sprite_inventory;
+            // Item name
+            itemCard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = item.itemName;
+            // Item description
+            itemCard.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = item.description;
+            // Item's stats
+            //itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = stats
+        }
+    }
+    public void CloseItemCard()
+    {
+        if (itemCard != null)
+            Destroy(itemCard);
+        isItemCardOpen = false;
     }
 
     void UpdateBackpack()
