@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -27,6 +24,8 @@ public class PlayerStats : MonoBehaviour
     public float accuracyBonus;
     public float penetrationBonus;
     public float armorIgnoreBonus;
+
+    public float skillIssue;
 
 
     private PlayerInventory playerInventory;
@@ -54,6 +53,7 @@ public class PlayerStats : MonoBehaviour
             { "accuracyBonus", accuracyBonus },
             { "penetrationBonus", penetrationBonus },
             { "armorIgnoreBonus", armorIgnoreBonus },
+            { "skillIssue", skillIssue },
         };
     }
 
@@ -76,6 +76,7 @@ public class PlayerStats : MonoBehaviour
             { "accuracyBonus", accuracyBonus },
             { "penetrationBonus", penetrationBonus },
             { "armorIgnoreBonus", armorIgnoreBonus },
+            { "skillIssue", skillIssue },
         };
         Dictionary<string, float> bonusStats = new()
         {
@@ -94,7 +95,9 @@ public class PlayerStats : MonoBehaviour
             { "accuracyBonus", 0 },
             { "penetrationBonus", 0 },
             { "armorIgnoreBonus", 0 },
+            { "skillIssue", skillIssue },
         };
+
         // Updating Lists
         for (int i = 0; i < playerInventory.armorSlots.transform.childCount; i++)
             if (playerInventory.armorSlots.transform.GetChild(i).childCount > 0 && playerInventory.armorSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))

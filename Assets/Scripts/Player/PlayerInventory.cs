@@ -105,6 +105,7 @@ public class PlayerInventory : MonoBehaviour
         isItemCardOpen = false;
     }
 
+
     void UpdateBackpack()
     {
         for (int i = 0; i < backpackInventory.transform.childCount; i++)
@@ -115,8 +116,6 @@ public class PlayerInventory : MonoBehaviour
                 RemoveSlot(backpackInventory.transform, i);
         }
     }
-
-
     void UpdateBelt()
     {
         for (int i = 0; i < beltInventory.transform.childCount; i++)
@@ -137,6 +136,8 @@ public class PlayerInventory : MonoBehaviour
                 RemoveSlot(pocketsInventory.transform, i);
         }
     }
+
+
     void RemoveSlot(Transform parent, int index)
     {
         // Check if there are any items in it
@@ -150,6 +151,22 @@ public class PlayerInventory : MonoBehaviour
     void DropItemOnDaFloor(Item item)
     {
         Debug.Log("Dropping item in da floor " + item.itemName);
+    }
+
+
+    public void AddItem(Item item)
+    {
+        bool done = false;
+        for(int i = 0; i < backpackInventory.transform.childCount; i++)
+        {
+            if(backpackInventory.transform.GetChild(i).gameObject.activeInHierarchy && backpackInventory.transform.GetChild(i).childCount == 0)
+            {
+
+                done = true;
+            }
+        }
+        if (!done)
+            Debug.Log("Item could not be placed - no free slot in backpack!");
     }
 
 
