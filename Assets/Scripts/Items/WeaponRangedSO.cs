@@ -11,6 +11,7 @@ public class WeaponRangedSO : ScriptableObject
     public int amount;
 
     public bool isStackable;
+    public int stackSize;
     public bool emitsLight;
 
     public Sprite sprite_inventory;

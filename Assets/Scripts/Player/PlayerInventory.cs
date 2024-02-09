@@ -183,15 +183,28 @@ public class PlayerInventory : MonoBehaviour
             if(backpackInventory.transform.GetChild(i).gameObject.activeInHierarchy && !done)
             {
                 if (backpackInventory.transform.GetChild(i).childCount == 0)
-                    freeSpaceId = i;
-                else if (backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().slotType == item.slotType)
                 {
-                    backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount += item.amount;
-                    done = true;
+                    if (freeSpaceId == -1)
+                        freeSpaceId = i;
+                }
+                else if(
+                    backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().slotType == item.slotType &&
+                    backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().isStackable)
+                {
+                    if(backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount + item.amount <= backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().stackSize)
+                    {
+                        backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount += item.amount;
+                        done = true;
+                    }
+                    else
+                    {
+                        item.amount -= (backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().stackSize - backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount);
+                        backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount = backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().stackSize;
+                    }
                 }
             }
         }
-        if(!done && freeSpaceId >= 0)
+        if(!done && freeSpaceId != -1)
         {
             GameObject newItem = Instantiate(itemPrefab, backpackInventory.transform.GetChild(freeSpaceId));
             newItem.GetComponent<Item>().SetUpByItem(item);

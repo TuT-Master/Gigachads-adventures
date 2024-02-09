@@ -490,6 +490,16 @@ PrefabInstance:
       propertyPath: amount
       value: 69
       objectReference: {fileID: 0}
+    - target: {fileID: 7387779997689524326, guid: d5f78788650a06743b7495a57b098820,
+        type: 3}
+      propertyPath: stackSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387779997689524326, guid: d5f78788650a06743b7495a57b098820,
+        type: 3}
+      propertyPath: isStackable
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3702,6 +3712,16 @@ PrefabInstance:
         type: 3}
       propertyPath: amount
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387779997689524326, guid: d5f78788650a06743b7495a57b098820,
+        type: 3}
+      propertyPath: stackSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387779997689524326, guid: d5f78788650a06743b7495a57b098820,
+        type: 3}
+      propertyPath: isStackable
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
