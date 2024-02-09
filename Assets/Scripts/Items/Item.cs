@@ -13,6 +13,7 @@ public class Item : MonoBehaviour
     public Slot.SlotType slotType;
 
     public bool isStackable;
+    public int stackSize;
     public bool emitsLight;
 
     public int amount;
@@ -46,6 +47,7 @@ public class Item : MonoBehaviour
         sprite_hand = weaponSO.sprite_hand;
         stats = weaponSO.stats;
         isStackable = weaponSO.isStackable;
+        stackSize = weaponSO.stackSize;
         emitsLight = weaponSO.emitsLight;
     }
     public Item(ConsumableSO consumableSO)
@@ -56,6 +58,7 @@ public class Item : MonoBehaviour
         sprite_inventory = consumableSO.sprite_inventory;
         sprite_hand = consumableSO.sprite_hand;
         isStackable = consumableSO.isStackable;
+        stackSize = consumableSO.stackSize;
     }
     public Item(ProjectileSO projectile)
     {
@@ -64,6 +67,7 @@ public class Item : MonoBehaviour
         sprite_inventory = projectile.sprite_inventory;
         sprite_equip = projectile.sprite_equip;
         stats = projectile.projectileStats;
+        stackSize = projectile.stackSize;
     }
     public Item(ArmorSO armorSO)
     {
@@ -74,10 +78,41 @@ public class Item : MonoBehaviour
         sprite_inventory = armorSO.sprite_inventory;
         sprite_equip = armorSO.sprite_equip;
     }
+    public void SetUpByItem(Item item)
+    {
+        stats = item.stats;
+        itemName = item.itemName;
+        description = item.description;
+        slotType = item.slotType;
+        isStackable = item.isStackable;
+        stackSize = item.stackSize;
+        emitsLight = item.emitsLight;
+        amount = item.amount;
+        armorStats = item.armorStats;
+        sprite_inventory = item.sprite_inventory;
+        sprite_hand = item.sprite_hand;
+        sprite_equip = item.sprite_equip;
+    }
 
 
     private void Awake()
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    private void Update()
+    {
+        if (amount <= 0)
+            StartCoroutine(DestroyItem());
+        else if (amount == 1)
+            text.text = "";
+        else
+            text.text = amount.ToString();
+    }
+
+    private IEnumerator DestroyItem()
+    {
+        yield return new WaitForEndOfFrame();
+        Destroy(gameObject);
     }
 }

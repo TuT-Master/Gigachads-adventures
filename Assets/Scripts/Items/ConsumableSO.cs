@@ -12,4 +12,5 @@ public class ConsumableSO : ScriptableObject
     public Sprite sprite_hand;
 
     public bool isStackable;
+    public int stackSize;
 }

@@ -8,6 +8,8 @@ public class ProjectileSO : ScriptableObject
     public string itemName;
     public string description;
 
+    public int stackSize;
+
     public Dictionary<string, float> projectileStats;
     [SerializeField] private float damage = 0;
     [SerializeField] private float penetration = 0;

@@ -30,6 +30,15 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public Image image;
 
+    public bool isActive;
+
+    void Update()
+    {
+        if (isActive)
+            gameObject.SetActive(true);
+        else
+            gameObject.SetActive(false);
+    }
 
     public void OnDrop(PointerEventData eventData)
     {

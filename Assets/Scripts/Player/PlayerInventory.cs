@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class PlayerInventory : MonoBehaviour
 {
-
     public bool playerInventoryOpen;
 
     public GameObject armorSlots;
     public GameObject equipmentSlots;
+
 
     [SerializeField]
     private GameObject inventoryCanvas;
@@ -24,17 +24,25 @@ public class PlayerInventory : MonoBehaviour
     private GameObject pocketsInventory;
     public int pocketsSize;
 
+
+    // Prefabs
+    [SerializeField]
+    private GameObject itemPrefab;
+    [SerializeField]
+    private GameObject itemOnDaFloorPrefab;
+    [SerializeField]
+    private GameObject itemCardPrefab;
+
+
     // Toolbar
     [SerializeField] private GameObject[] allToolbarSlots;
     private List<GameObject> toolbarSlots = new();
-
     private bool canScrollAgain;
     private int toolbarId;
     private int toolbarSlotsCount;
 
+
     // ItemCard
-    [SerializeField]
-    private GameObject itemCardPrefab;
     private GameObject itemCard;
     private bool isItemCardOpen;
 
@@ -110,8 +118,11 @@ public class PlayerInventory : MonoBehaviour
     {
         for (int i = 0; i < backpackInventory.transform.childCount; i++)
         {
-            if(i < backpackSize)
+            if (i < backpackSize)
+            {
                 backpackInventory.transform.GetChild(i).gameObject.SetActive(true);
+                backpackInventory.transform.GetChild(i).GetComponent<Slot>().isActive = true;
+            }
             else
                 RemoveSlot(backpackInventory.transform, i);
         }
@@ -121,7 +132,10 @@ public class PlayerInventory : MonoBehaviour
         for (int i = 0; i < beltInventory.transform.childCount; i++)
         {
             if (i < beltSize)
+            {
                 beltInventory.transform.GetChild(i).gameObject.SetActive(true);
+                beltInventory.transform.GetChild(i).GetComponent<Slot>().isActive = true;
+            }
             else
                 RemoveSlot(beltInventory.transform, i);
         }
@@ -131,7 +145,10 @@ public class PlayerInventory : MonoBehaviour
         for (int i = 0; i < pocketsInventory.transform.childCount; i++)
         {
             if (i < pocketsSize)
+            {
                 pocketsInventory.transform.GetChild(i).gameObject.SetActive(true);
+                pocketsInventory.transform.GetChild(i).GetComponent<Slot>().isActive = true;
+            }
             else
                 RemoveSlot(pocketsInventory.transform, i);
         }
@@ -146,27 +163,57 @@ public class PlayerInventory : MonoBehaviour
             DropItemOnDaFloor(parent.GetChild(index).GetChild(0).GetComponent<Item>());
             Destroy(parent.GetChild(index).GetChild(0).gameObject);
         }
-        parent.GetChild(index).gameObject.SetActive(false);
+        parent.GetChild(index).GetComponent<Slot>().isActive = false;
     }
     void DropItemOnDaFloor(Item item)
     {
-        Debug.Log("Dropping item in da floor " + item.itemName);
+        GameObject droppedItem = Instantiate(itemOnDaFloorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        droppedItem.GetComponent<ItemOnDaFloor>().SetUpItemOnDaFloor(item);
     }
 
 
     public void AddItem(Item item)
     {
+        ToggleInventory(!playerInventoryOpen);
+
         bool done = false;
+        int freeSpaceId = -1;
         for(int i = 0; i < backpackInventory.transform.childCount; i++)
         {
-            if(backpackInventory.transform.GetChild(i).gameObject.activeInHierarchy && backpackInventory.transform.GetChild(i).childCount == 0)
+            if(backpackInventory.transform.GetChild(i).gameObject.activeInHierarchy && !done)
             {
-
-                done = true;
+                if (backpackInventory.transform.GetChild(i).childCount == 0)
+                {
+                    if (freeSpaceId == -1)
+                        freeSpaceId = i;
+                }
+                else if(
+                    backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().slotType == item.slotType &&
+                    backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().isStackable)
+                {
+                    if(backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount + item.amount <= backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().stackSize)
+                    {
+                        backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount += item.amount;
+                        done = true;
+                    }
+                    else
+                    {
+                        item.amount -= (backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().stackSize - backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount);
+                        backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount = backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().stackSize;
+                    }
+                }
             }
+        }
+        if(!done && freeSpaceId != -1)
+        {
+            GameObject newItem = Instantiate(itemPrefab, backpackInventory.transform.GetChild(freeSpaceId));
+            newItem.GetComponent<Item>().SetUpByItem(item);
+            done = true;
         }
         if (!done)
             Debug.Log("Item could not be placed - no free slot in backpack!");
+
+        ToggleInventory(!playerInventoryOpen);
     }
 
 
