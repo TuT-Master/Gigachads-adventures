@@ -38,25 +38,23 @@ public class PlayerMovement : MonoBehaviour
         // Mouse
         Vector3 mouse = new();
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 6))
+        if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("Floor")))
             mouse = hit.point;
         Vector2 dir = new(mouse.x - _rb.position.x, mouse.z - _rb.position.z);
         float angle = Mathf.Atan2(dir.normalized.x, dir.normalized.y) * Mathf.Rad2Deg;
 
         if (angle is >= (-90) and < 0)
         {
-            // vlevo nahoøe
+            // vlevo nahoï¿½e
             if (angle < -35)
                 angle = -35;
-            playerGFX.transform.localRotation = Quaternion.Euler(15, 0, 0);
             turn = true;
         }
         else if (angle is <= 90 and >= 0)
         {
-            // vpravo nahoøe
+            // vpravo nahoï¿½e
             if (angle > 35)
                 angle = 35;
-            playerGFX.transform.localRotation = Quaternion.Euler(15, 0, 0);
             turn = true;
         }
         else if (angle is > 90 and < 180)
@@ -64,7 +62,6 @@ public class PlayerMovement : MonoBehaviour
             // vpravo dole
             if (angle < 145)
                 angle = 145;
-            playerGFX.transform.localRotation = Quaternion.Euler(-15, 0, 0);
             turn = false;
         }
         else
@@ -72,18 +69,22 @@ public class PlayerMovement : MonoBehaviour
             // vlevo dole
             if (angle > -145)
                 angle = -145;
-            playerGFX.transform.localRotation = Quaternion.Euler(-15, 0, 0);
             turn = false;
         }
 
-        if(turn)
-            for (int i = 0; i < playerGFX.transform.childCount; i++)
-            {
-                if(playerGFX.transform.GetChild(i).name == "Hair")
-                    playerGFX.transform.GetChild(i).localPosition = new(0f, 0.55f, 0.001f);
-                else if (playerGFX.transform.GetChild(i).name == "Beard")
-                    playerGFX.transform.GetChild(i).localPosition = new(0f, 0.55f, 0.001f);
-            }
+        if (turn)
+        {
+            playerGFX.transform.localRotation = Quaternion.Euler(5, 0, 0);
+            playerGFX.transform.Find("Hair").localPosition = new Vector3(0, 0.55f, -0.001f);
+            playerGFX.transform.Find("Beard").localPosition = new Vector3(0, 0.55f, -0.001f);
+        }
+        else
+        {
+            playerGFX.transform.localRotation = Quaternion.Euler(-10, 0, 0);
+            playerGFX.transform.Find("Hair").localPosition = new Vector3(0, 0.55f, 0.001f);
+            playerGFX.transform.Find("Beard").localPosition = new Vector3(0, 0.55f, 0.001f);
+
+        }
 
         _rb.MoveRotation(Quaternion.Euler(0, angle, 0));
     }
