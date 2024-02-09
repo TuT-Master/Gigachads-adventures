@@ -123,7 +123,7 @@ MonoBehaviour:
   slotType: 0
   isStackable: 0
   emitsLight: 0
-  amount: 0
+  amount: 2
   sprite_inventory: {fileID: 0}
   sprite_hand: {fileID: 0}
   sprite_equip: {fileID: 0}

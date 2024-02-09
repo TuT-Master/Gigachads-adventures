@@ -43,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 dir = new(mouse.x - _rb.position.x, mouse.z - _rb.position.z);
         float angle = Mathf.Atan2(dir.normalized.x, dir.normalized.y) * Mathf.Rad2Deg;
 
+        #region Rotating player towards mouse cursor
         if (angle is >= (-90) and < 0)
         {
             // vlevo naho�e
@@ -71,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
                 angle = -145;
             turn = false;
         }
+        #endregion
 
         if (turn)
         {
