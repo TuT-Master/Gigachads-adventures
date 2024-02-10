@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Item database", menuName = "Scriptable objects/Item database")]
 public class ItemDatabase : ScriptableObject
 {
     public List<WeaponMeleeSO> weaponsMelee;

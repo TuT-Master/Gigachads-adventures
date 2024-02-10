@@ -109,12 +109,12 @@ public class PlayerStats : MonoBehaviour
         // Updating stats
         if(armors.Count > 0)
             foreach (Item item in armors)
-                foreach (string key in item.stats.Keys)
-                    bonusStats[key] += item.stats[key];
+                foreach (string key in item.armorStats.Keys)
+                    bonusStats[key] += item.armorStats[key];
         if (equipment.Count > 0)
             foreach (Item item in equipment)
-                foreach (string key in item.stats.Keys)
-                    bonusStats[key] += item.stats[key];
+                foreach (string key in item.armorStats.Keys)
+                    bonusStats[key] += item.armorStats[key];
 
         // Send all stats to PlayerStats
 

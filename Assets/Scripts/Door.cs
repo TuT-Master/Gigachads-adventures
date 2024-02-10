@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
+    public int currentRoomId;
+
     public bool canInteract;
+    public bool leadToRoom;
+
+    public int leadToRoomId;
+
+    public string sceneName;
+
+
 
     private Animator animator;
+
 
     void Start()
     {
@@ -16,9 +26,17 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log("Interaction");
-        animator.SetTrigger("OpenDoor");
+        if (canInteract)
+        {
+            animator.SetTrigger("OpenDoor");
+
+            canInteract = false;
+        }
+        else
+        {
+            Debug.Log("Locked!");
+        }
     }
 
-    public bool CanInteract() { return canInteract; }
+    public bool CanInteract() { return true; }
 }
