@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e492eb93face1f4c835c917ff0e5af5, type: 3}
+  m_Name: Item database
+  m_EditorClassIdentifier: 
+  weaponsMelee:
+  - {fileID: 11400000, guid: 412e6c6a2e0d5e0479f518c694aed94d, type: 2}
+  - {fileID: 11400000, guid: 6c20bbdce8e2d1046af11c7176596bd1, type: 2}
+  weaponsRanged:
+  - {fileID: 11400000, guid: 1b43d55501f0f5643bd26850ffd048ef, type: 2}
+  armors:
+  - {fileID: 11400000, guid: 6a4d07a578e6de94e86b5e904f7305e8, type: 2}
+  - {fileID: 11400000, guid: 482c5cd403d4b5e4bbc435a5cf84c105, type: 2}
+  - {fileID: 11400000, guid: 4f924105a3a39704e86ae54ad365efc9, type: 2}
+  - {fileID: 11400000, guid: 4a48b2b0ecab3e842a991303b29cfc9a, type: 2}
+  consumables:
+  - {fileID: 11400000, guid: a762031ea8bea694789206638365315c, type: 2}
+  projectiles:
+  - {fileID: 11400000, guid: 0a9aa93304c54b84aacc6b88bbfae12d, type: 2}

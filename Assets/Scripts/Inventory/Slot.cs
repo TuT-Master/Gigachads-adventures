@@ -32,6 +32,7 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public bool isActive;
 
+
     void Update()
     {
         if (isActive)
