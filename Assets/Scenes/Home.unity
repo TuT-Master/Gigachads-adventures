@@ -1185,6 +1185,7 @@ GameObject:
   - component: {fileID: 220485076}
   - component: {fileID: 220485077}
   - component: {fileID: 220485078}
+  - component: {fileID: 220485079}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1254,6 +1255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 0}
+  angle: 0
   rotationMin: 0
   rotationMax: 0
   playerGFX: {fileID: 722590334}
@@ -1351,6 +1353,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactCollider: {fileID: 902259201}
+--- !u!114 &220485079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220485070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2841296b1b1532942a2b8f3c2b0df004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  light: {fileID: 1920631064}
 --- !u!1001 &246037178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7317,7 +7332,7 @@ PrefabInstance:
     - target: {fileID: 7231304254855833534, guid: c7fd5884133fb5e43ac994c308eb3135,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7231304254855833534, guid: c7fd5884133fb5e43ac994c308eb3135,
         type: 3}
@@ -7327,7 +7342,7 @@ PrefabInstance:
     - target: {fileID: 7231304254855833534, guid: c7fd5884133fb5e43ac994c308eb3135,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7231304254855833534, guid: c7fd5884133fb5e43ac994c308eb3135,
         type: 3}
@@ -7342,7 +7357,7 @@ PrefabInstance:
     - target: {fileID: 7231304254855833534, guid: c7fd5884133fb5e43ac994c308eb3135,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7231304254855833534, guid: c7fd5884133fb5e43ac994c308eb3135,
         type: 3}

@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody _rb;
+    public float angleRaw;
+
 
     [SerializeField]
     private float rotationMin;
@@ -42,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
             mouse = hit.point;
         Vector2 dir = new(mouse.x - _rb.position.x, mouse.z - _rb.position.z);
         float angle = Mathf.Atan2(dir.normalized.x, dir.normalized.y) * Mathf.Rad2Deg;
+        angleRaw = angle;
 
         #region Rotating player towards mouse cursor
         if (angle is >= (-90) and < 0)
