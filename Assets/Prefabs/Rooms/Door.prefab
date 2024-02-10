@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2759866757498689234}
+  - component: {fileID: -8281373787972661877}
+  - component: {fileID: 7338570282248705843}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -30,8 +32,43 @@ Transform:
   m_Children:
   - {fileID: 1294397944400559955}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8281373787972661877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4560062270552321102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60da27cc95d0337428adbf6fbfcde891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 0
+  collider: {fileID: 0}
+--- !u!65 &7338570282248705843
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4560062270552321102}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.7902578, y: 2.2601085, z: 0.38415992}
+  m_Center: {x: -0.0001924634, y: 1.1630621, z: -0.8003308}
 --- !u!1001 &1620197934626822328
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95,10 +132,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -305091885687274788, guid: f5d7fbfa321cf644a9af1689e3975fdb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f5d7fbfa321cf644a9af1689e3975fdb,
         type: 3}
       propertyPath: m_Name
       value: Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f5d7fbfa321cf644a9af1689e3975fdb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -140,5 +187,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.0195441, y: 2.9911819, z: 0.8727009}
-  m_Center: {x: 0.013430357, y: 1.6032803, z: -1.0648068}
+  m_Size: {x: 3.0195441, y: 2.9911819, z: 0.50444084}
+  m_Center: {x: 0.013430357, y: 1.6032803, z: -1.2489369}
