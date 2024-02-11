@@ -14,15 +14,16 @@ public class ArmorSO : ScriptableObject
     public Slot.SlotType slotType;
 
     // Armor bonuses
-    public Dictionary<string, float> armorStats;
     [SerializeField] private float armor;
+    [SerializeField] private float weight;
 
 
-    private void Awake()
+    public Dictionary <string, float> ArmorStats()
     {
-        armorStats = new()
+        return new()
         {
             {"armor", armor },
+            {"weight", weight },
         };
     }
 }

@@ -10,7 +10,10 @@ public class ProjectileSO : ScriptableObject
 
     public int stackSize;
 
-    public Dictionary<string, float> projectileStats;
+    public Sprite sprite_inventory;
+    public Sprite sprite_equip;
+
+
     [SerializeField] private float damage = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
@@ -18,7 +21,18 @@ public class ProjectileSO : ScriptableObject
     [SerializeField] private float splashDamage = 0;
     [SerializeField] private float splashRadius = 0;
     [SerializeField] private float weight = 0;
+    public Dictionary<string, float> ProjectileStats()
+    {
+        return new()
+        {
+            { "damage", damage },
+            { "penetration", penetration },
+            { "armorIgnore", armorIgnore },
+            { "projectileSpeed", projectileSpeed },
+            { "splashDamage", splashDamage },
+            { "splashRadius", splashRadius},
+            { "weight", weight},
 
-    public Sprite sprite_inventory;
-    public Sprite sprite_equip;
+        };
+    }
 }

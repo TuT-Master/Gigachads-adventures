@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (GetComponent<PlayerInventory>().playerInventoryOpen)
+            return;
         MyInput();
         Movement();
     }

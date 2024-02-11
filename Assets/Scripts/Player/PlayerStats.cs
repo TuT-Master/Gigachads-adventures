@@ -29,8 +29,8 @@ public class PlayerStats : MonoBehaviour
 
 
     private PlayerInventory playerInventory;
-    private List<Item> armors = new();
-    private List<Item> equipment = new();
+    private List<Item> armors;
+    private List<Item> equipment;
 
 
     private void Start()
@@ -57,8 +57,10 @@ public class PlayerStats : MonoBehaviour
         };
     }
 
-    private void Update()
+    public void UpdateEquipment()
     {
+        armors = new();
+        equipment = new();
         Dictionary<string, float> baseStats = new()
         {
             { "hp", hp },
@@ -98,6 +100,7 @@ public class PlayerStats : MonoBehaviour
             { "skillIssue", 0 },
         };
 
+
         // Updating Lists
         for (int i = 0; i < playerInventory.armorSlots.transform.childCount; i++)
             if (playerInventory.armorSlots.transform.GetChild(i).childCount > 0 && playerInventory.armorSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
@@ -107,7 +110,7 @@ public class PlayerStats : MonoBehaviour
                 equipment.Add(item);
 
         // Updating stats
-        if(armors.Count > 0)
+        if (armors.Count > 0)
             foreach (Item item in armors)
                 foreach (string key in item.armorStats.Keys)
                     bonusStats[key] += item.armorStats[key];
@@ -117,17 +120,9 @@ public class PlayerStats : MonoBehaviour
                     bonusStats[key] += item.armorStats[key];
 
         // Send all stats to PlayerStats
-
         foreach (string key in baseStats.Keys)
-        {
             playerStats[key] = baseStats[key] + bonusStats[key];
-            if(bonusStats[key] > 0)
-                Debug.Log(playerStats[key].ToString());
-        }
-    }
 
-    public void UpdateEquipment()
-    {
-
+        GetComponent<PlayerGFXManager>().UpdateGFX();
     }
 }

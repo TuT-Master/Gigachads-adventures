@@ -22,15 +22,14 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         canvasGroup.blocksRaycasts = true;
         transform.SetParent(parentAfterDrag);
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
-        if(GetComponent<Item>().slotType ==(
-            Slot.SlotType.Head |
-            Slot.SlotType.Torso |
-            Slot.SlotType.Legs |
-            Slot.SlotType.Gloves |
-            Slot.SlotType.HeadEquipment |
-            Slot.SlotType.TorsoEquipment |
-            Slot.SlotType.LegsEquipment |
-            Slot.SlotType.GlovesEquipment))
+        if(GetComponent<Item>().slotType == Slot.SlotType.Head |
+           GetComponent<Item>().slotType == Slot.SlotType.Torso |
+           GetComponent<Item>().slotType == Slot.SlotType.Legs |
+           GetComponent<Item>().slotType == Slot.SlotType.Gloves |
+           GetComponent<Item>().slotType == Slot.SlotType.HeadEquipment |
+           GetComponent<Item>().slotType == Slot.SlotType.TorsoEquipment |
+           GetComponent<Item>().slotType == Slot.SlotType.LegsEquipment |
+           GetComponent<Item>().slotType == Slot.SlotType.GlovesEquipment)
         {
             FindAnyObjectByType<PlayerStats>().UpdateEquipment();
         }

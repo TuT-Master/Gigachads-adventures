@@ -174,7 +174,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(Item item)
     {
-        ToggleInventory(!playerInventoryOpen);
+        ToggleInventory(true);
 
         bool done = false;
         int freeSpaceId = -1;
@@ -213,7 +213,8 @@ public class PlayerInventory : MonoBehaviour
         if (!done)
             Debug.Log("Item could not be placed - no free slot in backpack!");
 
-        ToggleInventory(!playerInventoryOpen);
+        Debug.Log(item.itemName + " added!");
+        ToggleInventory(false);
     }
 
 

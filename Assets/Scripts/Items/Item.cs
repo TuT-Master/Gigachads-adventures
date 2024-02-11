@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
     public Dictionary<string, float> stats;
+    public Dictionary<string, float> armorStats;
 
     public string itemName;
     public string description;
@@ -19,11 +20,10 @@ public class Item : MonoBehaviour
 
     public int amount;
 
-    public Dictionary<string, float> armorStats;
-
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
     public Sprite sprite_equip;
+
 
     private TextMeshProUGUI text;
 
@@ -35,7 +35,7 @@ public class Item : MonoBehaviour
         slotType = Slot.SlotType.WeaponMelee;
         sprite_inventory = weaponSO.sprite_inventory;
         sprite_hand = weaponSO.sprite_hand;
-        stats = weaponSO.stats;
+        stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         emitsLight = weaponSO.emitsLight;
     }
@@ -46,7 +46,7 @@ public class Item : MonoBehaviour
         slotType = Slot.SlotType.WeaponRanged;
         sprite_inventory = weaponSO.sprite_inventory;
         sprite_hand = weaponSO.sprite_hand;
-        stats = weaponSO.stats;
+        stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         stackSize = weaponSO.stackSize;
         emitsLight = weaponSO.emitsLight;
@@ -64,10 +64,11 @@ public class Item : MonoBehaviour
     public Item(ProjectileSO projectile)
     {
         slotType = Slot.SlotType.Ammo;
+        itemName = projectile.itemName;
         description = projectile.description;
         sprite_inventory = projectile.sprite_inventory;
         sprite_equip = projectile.sprite_equip;
-        stats = projectile.projectileStats;
+        stats = projectile.ProjectileStats();
         isStackable = true;
         stackSize = projectile.stackSize;
     }
@@ -75,7 +76,7 @@ public class Item : MonoBehaviour
     {
         itemName = armorSO.itemName;
         description = armorSO.description;
-        armorStats = armorSO.armorStats;
+        armorStats = armorSO.ArmorStats();
         slotType = armorSO.slotType;
         sprite_inventory = armorSO.sprite_inventory;
         sprite_equip = armorSO.sprite_equip;

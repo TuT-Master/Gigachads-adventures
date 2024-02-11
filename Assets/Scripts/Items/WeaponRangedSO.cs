@@ -17,7 +17,6 @@ public class WeaponRangedSO : ScriptableObject
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
 
-    [HideInInspector] public Dictionary<string, float> stats;
     [SerializeField] private float damage = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
@@ -35,11 +34,9 @@ public class WeaponRangedSO : ScriptableObject
     [SerializeField] private float AoE = 0;
     [SerializeField] private float twoHanded = 0;
     [SerializeField] private float weight = 0;
-
-
-    private void Awake()
+    public Dictionary<string, float> Stats()
     {
-        stats = new Dictionary<string, float>()
+        return new Dictionary<string, float>()
         {
             {"damage", damage},
             {"penetration", penetration},
