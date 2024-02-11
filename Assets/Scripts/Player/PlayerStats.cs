@@ -95,7 +95,7 @@ public class PlayerStats : MonoBehaviour
             { "accuracyBonus", 0 },
             { "penetrationBonus", 0 },
             { "armorIgnoreBonus", 0 },
-            { "skillIssue", skillIssue },
+            { "skillIssue", 0 },
         };
 
         // Updating Lists
@@ -124,5 +124,10 @@ public class PlayerStats : MonoBehaviour
             if(bonusStats[key] > 0)
                 Debug.Log(playerStats[key].ToString());
         }
+    }
+
+    public void UpdateEquipment()
+    {
+
     }
 }

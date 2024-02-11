@@ -43,16 +43,28 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (gameObject.transform.childCount == 0 && CanBePlaced(eventData.pointerDrag.GetComponent<Item>().slotType))
+        Item droppedItem = eventData.pointerDrag.GetComponent<Item>();
+        if (gameObject.transform.childCount == 0 && CanBePlaced(droppedItem.slotType))
         {
             GameObject dropped = eventData.pointerDrag;
             ItemUI item_DragHandler = dropped.GetComponent<ItemUI>();
             item_DragHandler.parentAfterDrag = transform;
         }
-        if (gameObject.transform.childCount == 1 && eventData.pointerDrag.GetComponent<Item>().isStackable && gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().isStackable)
+        else if (gameObject.transform.childCount == 1 &&
+            droppedItem.isStackable &&
+            gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().isStackable &&
+            droppedItem.slotType == slotType)
         {
-            gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount += eventData.pointerDrag.GetComponent<Item>().amount;
-            Destroy(eventData.pointerDrag);
+            if(droppedItem.amount + gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount <= gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize)
+            {
+                gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount += droppedItem.amount;
+                Destroy(eventData.pointerDrag);
+            }
+            else
+            {
+                droppedItem.amount -= (gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize - gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount);
+                gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount = gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize;
+            }
         }
     }
 

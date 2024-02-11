@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
@@ -67,6 +68,7 @@ public class Item : MonoBehaviour
         sprite_inventory = projectile.sprite_inventory;
         sprite_equip = projectile.sprite_equip;
         stats = projectile.projectileStats;
+        isStackable = true;
         stackSize = projectile.stackSize;
     }
     public Item(ArmorSO armorSO)
@@ -95,9 +97,10 @@ public class Item : MonoBehaviour
     }
 
 
-    private void Awake()
+    private void Start()
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
+        GetComponent<Image>().sprite = sprite_inventory;
     }
 
     private void Update()
