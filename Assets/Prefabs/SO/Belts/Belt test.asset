@@ -9,14 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48479f29a42fc849849b2f532cd7ed2, type: 3}
-  m_Name: FurGloves
+  m_Script: {fileID: 11500000, guid: 620533998f14dcf4ab0c176a7c43d10d, type: 3}
+  m_Name: Belt test
   m_EditorClassIdentifier: 
-  itemName: Fur gloves
-  description: Animal fingers sewed together
-  sprite_inventory: {fileID: 21300000, guid: 5706554d9fc204645ae1074e5f0b5388, type: 3}
+  itemName: Test belt
+  description: test belt
+  sprite_inventory: {fileID: 21300000, guid: f5bf8a673b7f5484f951974b8d43e558, type: 3}
   sprite_equipFront: {fileID: 0}
   sprite_equipBack: {fileID: 0}
-  slotType: 13
-  armor: 1
-  weight: 0
+  inventoryCapacity: 2
+  weight: 1

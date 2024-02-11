@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,8 +7,8 @@ using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
-    public Dictionary<string, float> stats;
-    public Dictionary<string, float> armorStats;
+    public Dictionary<string, float> stats = new();
+    public Dictionary<string, float> armorStats = new();
 
     public string itemName;
     public string description;
@@ -16,13 +17,17 @@ public class Item : MonoBehaviour
 
     public bool isStackable;
     public int stackSize;
+
     public bool emitsLight;
 
     public int amount;
 
+    public int inventoryCapacity;
+
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
     public Sprite sprite_equip;
+    public Sprite sprite_equipBack;
 
 
     private TextMeshProUGUI text;
@@ -79,7 +84,34 @@ public class Item : MonoBehaviour
         armorStats = armorSO.ArmorStats();
         slotType = armorSO.slotType;
         sprite_inventory = armorSO.sprite_inventory;
-        sprite_equip = armorSO.sprite_equip;
+        sprite_equip = armorSO.sprite_equipFront;
+        sprite_equipBack = armorSO.sprite_equipBack;
+    }
+    public Item(BackpackSO backpackSO)
+    {
+        itemName = backpackSO.itemName;
+        description = backpackSO.description;
+        sprite_equip = backpackSO.sprite_equipFront;
+        sprite_equipBack = backpackSO.sprite_equipBack;
+        sprite_inventory = backpackSO.sprite_inventory;
+        inventoryCapacity = backpackSO.inventoryCapacity;
+        isStackable = false;
+        stackSize = 1;
+        stats.Add("weight", backpackSO.weight);
+        slotType = Slot.SlotType.Backpack;
+    }
+    public Item(BeltSO beltSO)
+    {
+        itemName = beltSO.itemName;
+        description = beltSO.description;
+        sprite_equip = beltSO.sprite_equipFront;
+        sprite_equipBack = beltSO.sprite_equipBack;
+        sprite_inventory = beltSO.sprite_inventory;
+        inventoryCapacity = beltSO.inventoryCapacity;
+        isStackable = false;
+        stackSize = 1;
+        stats.Add("weight", beltSO.weight);
+        slotType = Slot.SlotType.Belt;
     }
     public void SetUpByItem(Item item)
     {
@@ -95,6 +127,8 @@ public class Item : MonoBehaviour
         sprite_inventory = item.sprite_inventory;
         sprite_hand = item.sprite_hand;
         sprite_equip = item.sprite_equip;
+        sprite_equipBack = item.sprite_equipBack;
+        inventoryCapacity = item.inventoryCapacity;
     }
 
 

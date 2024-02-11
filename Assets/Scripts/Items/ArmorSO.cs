@@ -9,7 +9,8 @@ public class ArmorSO : ScriptableObject
     public string description;
 
     public Sprite sprite_inventory;
-    public Sprite sprite_equip;
+    public Sprite sprite_equipFront;
+    public Sprite sprite_equipBack;
 
     public Slot.SlotType slotType;
 

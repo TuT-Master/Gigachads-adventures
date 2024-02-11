@@ -26,3 +26,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a762031ea8bea694789206638365315c, type: 2}
   projectiles:
   - {fileID: 11400000, guid: 0a9aa93304c54b84aacc6b88bbfae12d, type: 2}
+  backpacks:
+  - {fileID: 11400000, guid: 0693bacd256b3784983e977702758bc9, type: 2}
+  belts:
+  - {fileID: 11400000, guid: e620a85373dfb264c9fdd955b141bcc4, type: 2}

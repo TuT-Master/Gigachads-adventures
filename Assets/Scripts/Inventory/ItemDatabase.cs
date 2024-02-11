@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item database", menuName = "Scriptable objects/Item database")]
@@ -14,6 +15,10 @@ public class ItemDatabase : ScriptableObject
     public List<ConsumableSO> consumables;
 
     public List<ProjectileSO> projectiles;
+
+    public List<BackpackSO> backpacks;
+
+    public List<BeltSO> belts;
 
 
     public Item GetWeaponMelee(string weaponName)
@@ -35,6 +40,20 @@ public class ItemDatabase : ScriptableObject
         foreach(ArmorSO armor in armors)
             if (armor.itemName == armorName)
                 return new(armor);
+        return null;
+    }
+    public Item GetBackpack(string backpackName)
+    {
+        foreach (BackpackSO backpack in backpacks)
+            if (backpack.itemName == backpackName)
+                return new(backpack);
+        return null;
+    }
+    public Item GetBelt(string beltName)
+    {
+        foreach (BeltSO belt in belts)
+            if (belt.itemName == beltName)
+                return new(belt);
         return null;
     }
 
