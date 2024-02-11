@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventory : MonoBehaviour, IDataPersistance
 {
     public bool playerInventoryOpen;
 
@@ -23,6 +23,9 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField]
     private GameObject pocketsInventory;
     public int pocketsSize;
+
+
+    private Dictionary<int, Item> playerInventory;
 
 
     // Prefabs
@@ -276,5 +279,15 @@ public class PlayerInventory : MonoBehaviour
             if (toolbarSlots[toolbarId].transform.GetChild(0).gameObject.TryGetComponent(out Item item))
                 GetComponent<PlayerFight>().itemInHand = item;
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+
+    }
+
+    public void SaveData(ref GameData data)
+    {
+
     }
 }

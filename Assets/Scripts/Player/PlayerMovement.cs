@@ -99,10 +99,10 @@ public class PlayerMovement : MonoBehaviour
     void Movement()
     {
         // Movement
-        _rb.mass = playerStats.weight / 40;
+        _rb.mass = playerStats.playerStats["weight"] / 40;
         if(_rb.mass < 1)
             _rb.mass = 1;
-        _rb.AddForce(new Vector3(x, 0, y) * playerStats.speed, ForceMode.Force);
+        _rb.AddForce(new Vector3(x, 0, y) * playerStats.playerStats["speed"], ForceMode.Force);
 
         // Rotating towards cursor
 

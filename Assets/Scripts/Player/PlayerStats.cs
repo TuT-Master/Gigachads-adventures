@@ -1,32 +1,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour, IDataPersistance
 {
     public Dictionary<string, float> playerStats;
 
-    public float hp;
-    public float stamina;
-    public float mana;
-    public float hpMax;
-    public float staminaMax;
-    public float manaMax;
-    
-    public float armor;
-    public float evasion;
-
-    public float weight;
-    public float speed;
-
-    public int experience;
-    public int level;
-
-    public float accuracyBonus;
-    public float penetrationBonus;
-    public float armorIgnoreBonus;
-
-    public float skillIssue;
-
+    #region Stats setup
+    [SerializeField]
+    private float hp;
+    [SerializeField]
+    private float stamina;
+    [SerializeField]
+    private float mana;
+    [SerializeField]
+    private float hpMax;
+    [SerializeField]
+    private float staminaMax;
+    [SerializeField]
+    private float manaMax;
+    [SerializeField]
+    private float armor;
+    [SerializeField]
+    private float evasion;
+    [SerializeField]
+    private float weight;
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private int experience;
+    [SerializeField]
+    private int level;
+    [SerializeField]
+    private float accuracyBonus;
+    [SerializeField]
+    private float penetrationBonus;
+    [SerializeField]
+    private float armorIgnoreBonus;
+    [SerializeField]
+    private float skillIssue;
+    #endregion
 
     private PlayerInventory playerInventory;
     private List<Item> armors;
@@ -124,5 +136,19 @@ public class PlayerStats : MonoBehaviour
             playerStats[key] = baseStats[key] + bonusStats[key];
 
         GetComponent<PlayerGFXManager>().UpdateGFX();
+    }
+
+    public void LoadData(GameData data)
+    {
+        playerStats.Clear();
+        foreach(string key in data.playerStats.Keys)
+            playerStats.Add(key, data.playerStats[key]);
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.playerStats.Clear();
+        foreach(string key in playerStats.Keys)
+            data.playerStats.Add(key, playerStats[key]);
     }
 }
