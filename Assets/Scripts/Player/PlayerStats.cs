@@ -6,7 +6,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 {
     public Dictionary<string, float> playerStats;
 
-    #region Stats setup
+    [Header("Default stats setup")]
+    #region Default stats setup
     [SerializeField]
     private float hp;
     [SerializeField]
@@ -19,6 +20,12 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private float staminaMax;
     [SerializeField]
     private float manaMax;
+    [SerializeField]
+    private float hpRegen;
+    [SerializeField]
+    private float staminaRegen;
+    [SerializeField]
+    private float manaRegen;
     [SerializeField]
     private float armor;
     [SerializeField]
@@ -67,6 +74,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "hpMax", hpMax },
             { "staminaMax", staminaMax },
             { "manaMax", manaMax },
+            { "hpRegen", hpRegen },
+            { "staminaRegen", staminaRegen },
+            { "manaRegen", manaRegen },
             { "armor", armor },
             { "evasion", evasion },
             { "weight", weight },
@@ -83,6 +93,20 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         };
     }
 
+    void Update()
+    {
+        playerStats["hp"] += playerStats["hpRegen"] * Time.deltaTime * 10;
+        playerStats["stamina"] += playerStats["staminaRegen"] * Time.deltaTime * 10;
+        playerStats["mana"] += playerStats["manaRegen"] * Time.deltaTime * 10;
+
+        if (playerStats["hp"] >= playerStats["hpMax"])
+            playerStats["hp"] = playerStats["hpMax"];
+        if (playerStats["stamina"] >= playerStats["staminaMax"])
+            playerStats["stamina"] = playerStats["staminaMax"];
+        if (playerStats["mana"] >= playerStats["manaMax"])
+            playerStats["mana"] = playerStats["manaMax"];
+    }
+
     public void UpdateEquipment()
     {
         armors = new();
@@ -95,6 +119,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "hpMax", hpMax },
             { "staminaMax", staminaMax },
             { "manaMax", manaMax },
+            { "hpRegen", hpRegen },
+            { "staminaRegen", staminaRegen },
+            { "manaRegen", manaRegen },
             { "armor", armor },
             { "evasion", evasion },
             { "weight", weight },
@@ -117,6 +144,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "hpMax", 0 },
             { "staminaMax", 0 },
             { "manaMax", 0 },
+            { "hpRegen", 1 },
+            { "staminaRegen", 1 },
+            { "manaRegen", 1 },
             { "armor", 0 },
             { "evasion", 0 },
             { "weight", 0 },
