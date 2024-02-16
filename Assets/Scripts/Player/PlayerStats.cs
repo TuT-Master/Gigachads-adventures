@@ -154,7 +154,10 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         // Backpack
         if (backpackSlot.transform.childCount > 0)
             bonusStats["backpackSize"] = backpackSlot.transform.GetChild(0).GetComponent<Item>().inventoryCapacity;
+
         // Belt
+        if (beltSlot.transform.childCount > 0)
+            bonusStats["beltSize"] = beltSlot.transform.GetChild(0).GetComponent<Item>().inventoryCapacity;
 
         // Pockets
 
@@ -162,6 +165,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         // Send all stats to PlayerStats
         foreach (string key in baseStats.Keys)
             playerStats[key] = baseStats[key] + bonusStats[key];
+
 
         GetComponent<PlayerGFXManager>().UpdateGFX();
     }

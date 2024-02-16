@@ -15,4 +15,13 @@ public class BeltSO : ScriptableObject
     public int inventoryCapacity;
 
     public int weight;
+
+    public Dictionary<string, float> BeltStats()
+    {
+        return new()
+        {
+            {"backpackSize", inventoryCapacity },
+            {"weight", weight},
+        };
+    }
 }

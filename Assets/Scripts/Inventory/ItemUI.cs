@@ -29,7 +29,9 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
            GetComponent<Item>().slotType == Slot.SlotType.HeadEquipment |
            GetComponent<Item>().slotType == Slot.SlotType.TorsoEquipment |
            GetComponent<Item>().slotType == Slot.SlotType.LegsEquipment |
-           GetComponent<Item>().slotType == Slot.SlotType.GlovesEquipment)
+           GetComponent<Item>().slotType == Slot.SlotType.GlovesEquipment |
+           GetComponent<Item>().slotType == Slot.SlotType.Backpack|
+           GetComponent<Item>().slotType == Slot.SlotType.Belt)
         {
             FindAnyObjectByType<PlayerStats>().UpdateEquipment();
         }

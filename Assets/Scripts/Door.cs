@@ -21,7 +21,7 @@ public class Door : MonoBehaviour, IInteractable
     void Start()
     {
         canInteract = true;
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     public void Interact()

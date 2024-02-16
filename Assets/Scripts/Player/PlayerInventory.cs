@@ -26,7 +26,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
 
     private Dictionary<int, Item> playerInventory;
-
+    private PlayerStats playerStats;
 
     // Prefabs
     [SerializeField]
@@ -51,6 +51,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
     private void Start()
     {
+        playerStats = GetComponent<PlayerStats>();
         isItemCardOpen = false;
         toolbarId = 0;
         toolbarSlotsCount = 2;
@@ -77,7 +78,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     // !!-.-.-.- MEGA IMPORTANT -.-.-.-!!
     void UpdatePlayerStats()
     {
-        PlayerStats playerStats = GetComponent<PlayerStats>();
         backpackSize = (int)playerStats.playerStats["backpackSize"];
         beltSize = (int)playerStats.playerStats["beltSize"];
         pocketsSize = (int)playerStats.playerStats["pocketSize"];

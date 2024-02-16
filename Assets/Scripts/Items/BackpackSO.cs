@@ -15,4 +15,13 @@ public class BackpackSO : ScriptableObject
     public int inventoryCapacity;
 
     public int weight;
+
+    public Dictionary<string, float> BackpackStats()
+    {
+        return new()
+        {
+            {"backpackSize", inventoryCapacity },
+            {"weight", weight},
+        };
+    }
 }
