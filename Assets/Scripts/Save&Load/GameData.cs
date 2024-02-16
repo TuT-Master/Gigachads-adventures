@@ -28,6 +28,9 @@ public class GameData
             { "penetrationBonus", 0 },
             { "armorIgnoreBonus", 0 },
             { "skillIssue", 0 },
+            { "backpackSize", 8 },
+            { "beltSize", 0 },
+            { "pocketSize", 0 },
         };
         playerInventory = new();
     }

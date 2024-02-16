@@ -1108,6 +1108,11 @@ MonoBehaviour:
   penetrationBonus: 0
   armorIgnoreBonus: 0
   skillIssue: 0
+  backpackSize: 8
+  beltSize: 0
+  pocketSize: 0
+  backpackSlot: {fileID: 636288549}
+  beltSlot: {fileID: 832082770}
 --- !u!114 &220485078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2768,6 +2773,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 612656720}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &636288549 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,
+    type: 3}
+  m_PrefabInstance: {fileID: 956798915}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &643867487
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4152,6 +4163,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &832082770 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,
+    type: 3}
+  m_PrefabInstance: {fileID: 1074060877}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &892991715
 GameObject:
   m_ObjectHideFlags: 0

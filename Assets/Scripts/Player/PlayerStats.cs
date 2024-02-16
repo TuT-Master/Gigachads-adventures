@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerStats : MonoBehaviour, IDataPersistance
 {
@@ -38,12 +39,22 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private float armorIgnoreBonus;
     [SerializeField]
     private float skillIssue;
+    [SerializeField]
+    private float backpackSize;
+    [SerializeField]
+    private float beltSize;
+    [SerializeField]
+    private float pocketSize;
     #endregion
 
     private PlayerInventory playerInventory;
     private List<Item> armors;
     private List<Item> equipment;
 
+    [SerializeField]
+    private GameObject backpackSlot;
+    [SerializeField]
+    private GameObject beltSlot;
 
     private void Start()
     {
@@ -66,6 +77,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "penetrationBonus", penetrationBonus },
             { "armorIgnoreBonus", armorIgnoreBonus },
             { "skillIssue", skillIssue },
+            { "backpackSize", backpackSize },
+            { "beltSize", beltSize },
+            { "pocketSize", pocketSize },
         };
     }
 
@@ -91,6 +105,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "penetrationBonus", penetrationBonus },
             { "armorIgnoreBonus", armorIgnoreBonus },
             { "skillIssue", skillIssue },
+            { "backpackSize", backpackSize },
+            { "beltSize", beltSize },
+            { "pocketSize", pocketSize },
         };
         Dictionary<string, float> bonusStats = new()
         {
@@ -110,6 +127,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "penetrationBonus", 0 },
             { "armorIgnoreBonus", 0 },
             { "skillIssue", 0 },
+            { "backpackSize", 0 },
+            { "beltSize", 0 },
+            { "pocketSize", 0 },
         };
 
 
@@ -130,6 +150,14 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             foreach (Item item in equipment)
                 foreach (string key in item.armorStats.Keys)
                     bonusStats[key] += item.armorStats[key];
+
+        // Backpack
+        if (backpackSlot.transform.childCount > 0)
+            bonusStats["backpackSize"] = backpackSlot.transform.GetChild(0).GetComponent<Item>().inventoryCapacity;
+        // Belt
+
+        // Pockets
+
 
         // Send all stats to PlayerStats
         foreach (string key in baseStats.Keys)

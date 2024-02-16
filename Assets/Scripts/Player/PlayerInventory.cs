@@ -40,7 +40,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     // Toolbar
     [SerializeField] private GameObject[] allToolbarSlots;
     private List<GameObject> toolbarSlots = new();
-    private bool canScrollAgain;
     private int toolbarId;
     private int toolbarSlotsCount;
 
@@ -53,7 +52,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     private void Start()
     {
         isItemCardOpen = false;
-        canScrollAgain = true;
         toolbarId = 0;
         toolbarSlotsCount = 2;
         ToggleInventory(false);
@@ -65,12 +63,26 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         for (int i = 0; i < toolbarSlotsCount; i++)
             toolbarSlots.Add(allToolbarSlots[i]);
 
+
+        UpdatePlayerStats();
+
+
         MyInput();
         ActiveToolbarSlot();
         UpdateBackpack();
         UpdateBelt();
         UpdatePockets();
     }
+
+    // !!-.-.-.- MEGA IMPORTANT -.-.-.-!!
+    void UpdatePlayerStats()
+    {
+        PlayerStats playerStats = GetComponent<PlayerStats>();
+        backpackSize = (int)playerStats.playerStats["backpackSize"];
+        beltSize = (int)playerStats.playerStats["beltSize"];
+        pocketsSize = (int)playerStats.playerStats["pocketSize"];
+    }
+
 
     public void OpenItemCard(Item item)
     {

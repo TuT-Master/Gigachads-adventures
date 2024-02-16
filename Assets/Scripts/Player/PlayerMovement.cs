@@ -80,18 +80,9 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         if (turn)
-        {
             playerGFX.transform.localRotation = Quaternion.Euler(5, 0, 0);
-            playerGFX.transform.Find("Hair").localPosition = new Vector3(0, 0.55f, -0.001f);
-            playerGFX.transform.Find("Beard").localPosition = new Vector3(0, 0.55f, -0.001f);
-        }
         else
-        {
             playerGFX.transform.localRotation = Quaternion.Euler(-10, 0, 0);
-            playerGFX.transform.Find("Hair").localPosition = new Vector3(0, 0.55f, 0.001f);
-            playerGFX.transform.Find("Beard").localPosition = new Vector3(0, 0.55f, 0.001f);
-
-        }
 
         _rb.MoveRotation(Quaternion.Euler(0, angle, 0));
     }
@@ -103,8 +94,5 @@ public class PlayerMovement : MonoBehaviour
         if(_rb.mass < 1)
             _rb.mass = 1;
         _rb.AddForce(new Vector3(x, 0, y) * playerStats.playerStats["speed"], ForceMode.Force);
-
-        // Rotating towards cursor
-
     }
 }
