@@ -3,37 +3,101 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerToolbar : MonoBehaviour
 {
     [SerializeField]
     Animator animator;
     [SerializeField]
-    GameObject toolbarSlot1;
+    Image toolbarSlot1;
     [SerializeField]
-    GameObject toolbarSlot2;
+    Image toolbarSlot2;
     [SerializeField]
-    GameObject toolbarSlot3;
+    Image toolbarSlot3;
     [SerializeField]
-    GameObject toolbarSlot4;
+    Image toolbarSlot4;
+    [SerializeField]
+    Image toolbarSlot5;
     [SerializeField]
     private List<GameObject> toolbarSlots = new();
     private List<GameObject> activeToolbarSlots = new();
     private int toolbarId = 0;
 
-
+    private bool updateToolbar = true;
 
     void Update()
     {
         ToolbarSlots();
+        if(updateToolbar)
+            UpdateToolbarGFX();
         MyInput();
     }
 
     private void ToolbarSlots()
     {
+        activeToolbarSlots.Clear();
         foreach (var slot in toolbarSlots)
             if (slot.GetComponent<Slot>().isActive)
                 activeToolbarSlots.Add(slot);
+    }
+
+    void UpdateToolbarGFX()
+    {
+        Item item;
+        switch(activeToolbarSlots.Count)
+        {
+            case 2:
+                for(int i = 0; i < 5; i++)
+                {
+                    switch(i)
+                    {
+                        case 0:
+                            toolbarSlot1.sprite = null;
+                            if (activeToolbarSlots[toolbarId].transform.childCount > 0 &&
+                                activeToolbarSlots[toolbarId].transform.GetChild(0).TryGetComponent(out item))
+                                toolbarSlot1.sprite = item.sprite_inventory;
+                            break;
+                        case 1:
+                            toolbarSlot2.sprite = null;
+                            if (activeToolbarSlots[toolbarId].transform.childCount > 0 &&
+                                activeToolbarSlots[toolbarId].transform.GetChild(0).TryGetComponent(out item))
+                                toolbarSlot2.sprite = item.sprite_inventory;
+                            break;
+                        case 2:
+                            toolbarSlot3.sprite = null;
+                            if (activeToolbarSlots[toolbarId].transform.childCount > 0 &&
+                                activeToolbarSlots[toolbarId].transform.GetChild(0).TryGetComponent(out item))
+                                toolbarSlot3.sprite = item.sprite_inventory;
+                            break;
+                        case 3:
+                            toolbarSlot4.sprite = null;
+                            if (activeToolbarSlots[toolbarId].transform.childCount > 0 &&
+                                activeToolbarSlots[toolbarId].transform.GetChild(0).TryGetComponent(out item))
+                                toolbarSlot4.sprite = item.sprite_inventory;
+                            break;
+                        case 4:
+                            toolbarSlot5.sprite = null;
+                            if (activeToolbarSlots[toolbarId].transform.childCount > 0 &&
+                                activeToolbarSlots[toolbarId].transform.GetChild(0).TryGetComponent(out item))
+                                toolbarSlot5.sprite = item.sprite_inventory;
+                            break;
+                    }
+                }
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case >= 5:
+
+                break;
+            default:
+                Debug.Log("Tak co ti je??");
+                break;
+        }
     }
 
     void MyInput()
@@ -46,6 +110,7 @@ public class PlayerToolbar : MonoBehaviour
 
     void ScrollToolbar(bool up)
     {
+        updateToolbar = false;
         if (up)
         {
             if (toolbarId + 1 >= activeToolbarSlots.Count)
@@ -60,7 +125,7 @@ public class PlayerToolbar : MonoBehaviour
             else
                 toolbarId--;
         }
-        ToolbarAnimation(up);
+        StartCoroutine(ToolbarAnimation(up));
     }
 
     IEnumerator ToolbarAnimation(bool up)
@@ -69,13 +134,14 @@ public class PlayerToolbar : MonoBehaviour
         {
             animator.SetTrigger("ToolbarUP");
             yield return new WaitForSeconds(0.25f);
-            Debug.Log("Gatóv up");
+
         }
         else
         {
             animator.SetTrigger("ToolbarDOWN");
             yield return new WaitForSeconds(0.25f);
-            Debug.Log("Gatóv down");
+
         }
+        updateToolbar = true;
     }
 }

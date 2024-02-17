@@ -1256,10 +1256,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1476986667}
-  toolbarSlot1: {fileID: 1789149544}
-  toolbarSlot2: {fileID: 248756157}
-  toolbarSlot3: {fileID: 508063762}
-  toolbarSlot4: {fileID: 1411288314}
+  toolbarSlot1: {fileID: 1789149546}
+  toolbarSlot2: {fileID: 248756159}
+  toolbarSlot3: {fileID: 508063764}
+  toolbarSlot4: {fileID: 1411288316}
+  toolbarSlot5: {fileID: 1719224132}
   toolbarSlots:
   - {fileID: 1825636937}
   - {fileID: 1488527055}
