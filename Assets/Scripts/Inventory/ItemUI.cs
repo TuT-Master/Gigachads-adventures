@@ -6,12 +6,15 @@ using UnityEngine.EventSystems;
 public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] CanvasGroup canvasGroup;
+    [HideInInspector] public Transform parentBeforeDrag;
     [HideInInspector] public Transform parentAfterDrag;
+
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         FindAnyObjectByType<PlayerInventory>().CloseItemCard();
         canvasGroup.blocksRaycasts = false;
+        parentBeforeDrag = transform.parent;
         parentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
