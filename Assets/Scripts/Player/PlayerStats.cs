@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
@@ -200,13 +201,19 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         GetComponent<PlayerGFXManager>().UpdateGFX();
     }
 
+
+    IEnumerator UpdateGFXDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<PlayerGFXManager>().UpdateGFX();
+    }
     public void LoadData(GameData data)
     {
         playerStats.Clear();
         foreach(string key in data.playerStats.Keys)
             playerStats.Add(key, data.playerStats[key]);
+        StartCoroutine(UpdateGFXDelay());
     }
-
     public void SaveData(ref GameData data)
     {
         data.playerStats.Clear();

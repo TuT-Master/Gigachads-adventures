@@ -11,6 +11,8 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
     public GameObject armorSlots;
     public GameObject equipmentSlots;
+    public GameObject backpackSlot;
+    public GameObject beltSlot;
 
     [SerializeField]
     private GameObject inventoryCanvas;
@@ -297,30 +299,57 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
         // Inventory saving
         Dictionary<Transform, string> inventory = new();
+        // Backpack
         for(int i = 0; i < backpackInventory.transform.childCount; i++)
         {
             inventory.Add(backpackInventory.transform.GetChild(i), "");
             if(backpackInventory.transform.GetChild(i).childCount > 0 && backpackInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
                 inventory[backpackInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
         }
+        // Belt
         for (int i = 0; i < beltInventory.transform.childCount; i++)
         {
             inventory.Add(beltInventory.transform.GetChild(i), "");
             if (beltInventory.transform.GetChild(i).childCount > 0 && beltInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
                 inventory[beltInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
         }
+        // Pockets
         for (int i = 0; i < pocketsInventory.transform.childCount; i++)
         {
             inventory.Add(pocketsInventory.transform.GetChild(i), "");
             if (pocketsInventory.transform.GetChild(i).childCount > 0 && pocketsInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
                 inventory[pocketsInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
         }
+        // Hands
         inventory.Add(LeftHandSlot.transform, "");
         inventory.Add(RightHandSlot.transform, "");
         if (LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item _item))
             inventory[LeftHandSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
         if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out _item))
             inventory[RightHandSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
+        // Armor
+        for (int i = 0; i < armorSlots.transform.childCount; i++)
+        {
+            inventory.Add(armorSlots.transform.GetChild(i), "");
+            if (armorSlots.transform.GetChild(i).childCount > 0 && armorSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+                inventory[armorSlots.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+        }
+        // Equipment
+        for (int i = 0; i < equipmentSlots.transform.childCount; i++)
+        {
+            inventory.Add(equipmentSlots.transform.GetChild(i), "");
+            if (equipmentSlots.transform.GetChild(i).childCount > 0 && equipmentSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+                inventory[equipmentSlots.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+        }
+        // Backpack
+        inventory.Add(backpackSlot.transform, "");
+        if (backpackSlot.transform.childCount > 0 && backpackSlot.transform.GetChild(0).TryGetComponent(out _item))
+            inventory[backpackSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
+        // Belt
+        inventory.Add(beltSlot.transform, "");
+        if (beltSlot.transform.childCount > 0 && beltSlot.transform.GetChild(0).TryGetComponent(out _item))
+            inventory[beltSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
+
 
         data.playerInventory.Clear();
         foreach(Transform key in inventory.Keys)

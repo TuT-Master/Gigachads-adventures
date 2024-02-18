@@ -39,6 +39,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
 
+        // Drag
+        if (x == 0 && y == 0)
+            _rb.drag = 5;
+        else
+            _rb.drag = 1.5f;
+
         // Mouse
         Vector3 mouse = new();
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -1135,6 +1135,8 @@ MonoBehaviour:
   playerInventoryOpen: 0
   armorSlots: {fileID: 15150576}
   equipmentSlots: {fileID: 1795644236}
+  backpackSlot: {fileID: 636288549}
+  beltSlot: {fileID: 832082770}
   inventoryCanvas: {fileID: 556875289}
   backpackInventory: {fileID: 1924770780}
   backpackSize: 20
