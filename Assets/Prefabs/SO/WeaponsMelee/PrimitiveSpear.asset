@@ -28,5 +28,5 @@ MonoBehaviour:
   rangeX: 1.5
   rangeY: 1.5
   AoE: 0
-  twoHanded: 0
+  twoHanded: 1
   weight: 5

@@ -114,4 +114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e026191214d79204e87fa846cdd3c037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   image: {fileID: 1873023301266465875}
+  slotImages:
+  - {fileID: 21300000, guid: ffd4deab51e00f14fad7df0ec5639eca, type: 3}
+  - {fileID: 21300000, guid: d2468ab2b4f66fb4390db0f2efd1ab69, type: 3}
+  - {fileID: 21300000, guid: 9471be75b1cec2145ad3b3bfc0a61663, type: 3}
+  - {fileID: 21300000, guid: 6f29c1e4c5eb0d3438bb0f987517cd6b, type: 3}
+  - {fileID: 21300000, guid: 06583937891bcbe4c92fb2875bbddb1a, type: 3}
+  - {fileID: 21300000, guid: f944b737f4e466c4fa3b85234c85d62b, type: 3}
+  - {fileID: 21300000, guid: d42a3be0ffb569842a3a820b3488fd0f, type: 3}
+  - {fileID: 21300000, guid: 95a6e9b9c597b7a438c07229d358d43e, type: 3}
+  - {fileID: 21300000, guid: cc8424e58bccc5b44a034f395663e869, type: 3}
+  - {fileID: 21300000, guid: c361c455561f5ef499cf35efeb11e558, type: 3}
+  - {fileID: 21300000, guid: 423311968d12cea47bac700d5baeee5f, type: 3}
+  - {fileID: 21300000, guid: 16d059ee88c73cc44869f05771972ad0, type: 3}
+  - {fileID: 21300000, guid: 38e22fb130b38cf4da75db6c3f71a085, type: 3}
+  isActive: 0

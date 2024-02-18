@@ -24,11 +24,14 @@ public class Slot : MonoBehaviour, IDropHandler
         Gloves,
         GlovesEquipment,
         Belt,
-        Backpack
+        Backpack,
+        SecondHand,
+        Shield
     }
     public SlotType slotType;
 
     public Image image;
+    public List<Sprite> slotImages;
 
     public bool isActive;
 
@@ -41,17 +44,67 @@ public class Slot : MonoBehaviour, IDropHandler
             gameObject.SetActive(false);
     }
 
+    public void SetDefaultImage()
+    {
+        switch(slotType)
+        {
+            case SlotType.All:
+                image.sprite = slotImages[0];
+                break;
+            case SlotType.Head:
+                image.sprite = slotImages[3];
+                break;
+            case SlotType.HeadEquipment:
+                image.sprite = slotImages[7];
+                break;
+            case SlotType.Torso:
+                image.sprite = slotImages[4];
+                break;
+            case SlotType.TorsoEquipment:
+                image.sprite = slotImages[8];
+                break;
+            case SlotType.Legs:
+                image.sprite = slotImages[5];
+                break;
+            case SlotType.LegsEquipment:
+                image.sprite = slotImages[9];
+                break;
+            case SlotType.Gloves:
+                image.sprite = slotImages[6];
+                break;
+            case SlotType.GlovesEquipment:
+                image.sprite = slotImages[10];
+                break;
+            case SlotType.Belt:
+                image.sprite = slotImages[12];
+                break;
+            case SlotType.Backpack:
+                image.sprite = slotImages[11];
+                break;
+            case SlotType.Toolbar:
+                if (gameObject.name == "LeftHandSlot")
+                    image.sprite = slotImages[1];
+                else
+                    image.sprite = slotImages[0];
+                break;
+            case SlotType.SecondHand:
+                image.sprite = slotImages[2];
+                break;
+        }
+    }
+
     public void OnDrop(PointerEventData eventData)
     {
         Item droppedItem = eventData.pointerDrag.GetComponent<Item>();
-        if (transform.childCount == 0 && CanBePlaced(droppedItem.slotType))
+        if (transform.childCount == 0 && CanBePlaced(droppedItem))
         {
             // Placenutí do prázdného slotu
             GameObject dropped = eventData.pointerDrag;
             ItemUI item_DragHandler = dropped.GetComponent<ItemUI>();
             item_DragHandler.parentAfterDrag = transform;
+            image.sprite = slotImages[0];
         }
-        else if (transform.childCount == 1 && CanBePlaced(droppedItem.slotType))
+        else if (transform.childCount == 1 && CanBePlaced(droppedItem))
         {
             if (gameObject.transform.childCount == 1 &&
             droppedItem.isStackable &&
@@ -76,20 +129,27 @@ public class Slot : MonoBehaviour, IDropHandler
                 transform.GetChild(0).SetParent(eventData.pointerDrag.GetComponent<ItemUI>().parentBeforeDrag);
                 eventData.pointerDrag.GetComponent<ItemUI>().parentAfterDrag = transform;
             }
+            image.sprite = slotImages[0];
         }
     }
 
-    private bool CanBePlaced(SlotType itemSlotType)
+    private bool CanBePlaced(Item dropped)
     {
         if(slotType == SlotType.All)
             return true;
-        else if(slotType == SlotType.Toolbar && itemSlotType == SlotType.WeaponMelee)
+        else if(slotType == SlotType.Toolbar && dropped.slotType == SlotType.WeaponMelee)
             return true;
-        else if (slotType == SlotType.Toolbar && itemSlotType == SlotType.WeaponRanged)
+        else if (slotType == SlotType.Toolbar && dropped.slotType == SlotType.WeaponRanged)
             return true;
-        else if(slotType == SlotType.Toolbar && itemSlotType == SlotType.Consumable)
+        else if(slotType == SlotType.Toolbar && dropped.slotType == SlotType.Consumable)
             return true;
-        else if(slotType == itemSlotType)
+        else if(slotType == dropped.slotType)
+            return true;
+        else if(slotType == SlotType.SecondHand && dropped.slotType == SlotType.Shield && !FindAnyObjectByType<PlayerInventory>().TwoHandedWeaponInFirstSlot())
+            return true;
+        else if (slotType == SlotType.SecondHand && dropped.slotType == SlotType.WeaponMelee && dropped.stats["twoHanded"] == 0)
+            return true;
+        else if (slotType == SlotType.SecondHand && dropped.slotType == SlotType.Consumable && !FindAnyObjectByType<PlayerInventory>().TwoHandedWeaponInFirstSlot())
             return true;
         else
             return false;

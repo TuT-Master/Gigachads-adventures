@@ -53,11 +53,13 @@ public class PlayerToolbar : MonoBehaviour
             toolbarSlot3.gameObject.SetActive(true);
             toolbarSlot3.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_inventory;
             weaponSpriteRenderer.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_hand;
+            GetComponent<PlayerFight>().itemInHand = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>();
         }
         else
         {
             toolbarSlot3.gameObject.SetActive(false);
             weaponSpriteRenderer.sprite = null;
+            GetComponent<PlayerFight>().itemInHand = null;
         }
 
         // Active slot - 1

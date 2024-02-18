@@ -6,7 +6,7 @@ public class PlayerFight : MonoBehaviour
 {
     public Item itemInHand;
 
-    private Dictionary<string, float> stats;
+    private Dictionary<string, float> weaponStats;
 
     [HideInInspector]
     public bool canAttackAgain;
@@ -28,14 +28,23 @@ public class PlayerFight : MonoBehaviour
 
     void MyInput()
     {
-        
+        if(Input.GetMouseButton(0))
+        {
+            // LMB
+
+        }
+        else if (Input.GetMouseButton(1))
+        {
+            // RMB
+
+        }
     }
 
     void ActiveWeapon()
     {
         if (itemInHand == null) // No active weapon -> fists as weapon
         {
-            stats = new(){
+            weaponStats = new(){
                 {"damage", 2f},
                 {"penetration", 0f},
                 {"armorIgnore", 0f},
@@ -51,9 +60,7 @@ public class PlayerFight : MonoBehaviour
             return;
         }
         if (itemInHand.slotType == (Slot.SlotType.WeaponMelee | Slot.SlotType.WeaponRanged)) // itemInHand is some weapon
-        {
-            stats = itemInHand.stats;
-        }
+            weaponStats = itemInHand.stats;
         else if (itemInHand.slotType == Slot.SlotType.Consumable) // itemInHand is some consumable
         {
 

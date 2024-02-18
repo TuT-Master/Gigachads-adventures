@@ -148,6 +148,14 @@ public class Item : MonoBehaviour
             text.text = amount.ToString();
     }
 
+    public bool TwoHanded()
+    {
+        if(stats.ContainsKey("twoHanded"))
+            if (stats["twoHanded"] == 1)
+                return true;
+        return false;
+    }
+
     private IEnumerator DestroyItem()
     {
         yield return new WaitForEndOfFrame();

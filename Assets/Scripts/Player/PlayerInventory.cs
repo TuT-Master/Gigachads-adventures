@@ -67,6 +67,14 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         UpdatePockets();
     }
 
+    public bool TwoHandedWeaponInFirstSlot()
+    {
+        if (LeftHandSlot.transform.childCount > 0)
+            if (LeftHandSlot.transform.GetComponentInChildren<Item>().TwoHanded())
+                return true;
+        return false;
+    }
+
 
     // !!-.-.-.- MEGA IMPORTANT -.-.-.-!!
     void UpdatePlayerStats()

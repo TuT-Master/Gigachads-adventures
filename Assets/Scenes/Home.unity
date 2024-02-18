@@ -1200,7 +1200,7 @@ MonoBehaviour:
   armorIgnoreBonus: 0
   skillIssue: 0
   backpackSize: 8
-  beltSize: 0
+  beltSize: 1
   pocketSize: 0
   backpackSlot: {fileID: 636288549}
   beltSlot: {fileID: 832082770}
@@ -1270,7 +1270,6 @@ MonoBehaviour:
   weaponSpriteRenderer: {fileID: 1933346282}
   toolbarSlots:
   - {fileID: 4905618838372884872}
-  - {fileID: 4905618838619227636}
   - {fileID: 908321863}
   - {fileID: 522699785}
   - {fileID: 342015504}
@@ -2878,7 +2877,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 220485071}
   m_Lens:
-    FieldOfView: 35.983395
+    FieldOfView: 29.394958
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -2903,7 +2902,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541609717}
-  m_LocalRotation: {x: 0.2588191, y: -0, z: -0, w: 0.9659258}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 5.000001, z: -8.660254}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3610,6 +3609,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 9471be75b1cec2145ad3b3bfc0a61663,
         type: 3}
+    - target: {fileID: 1873023301266465875, guid: 46263f1146e6a4d439fbed09bfa30e62,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,
         type: 3}
       propertyPath: m_Name
@@ -3728,7 +3732,7 @@ PrefabInstance:
     - target: {fileID: 8248644224333491186, guid: 46263f1146e6a4d439fbed09bfa30e62,
         type: 3}
       propertyPath: slotType
-      value: 6
+      value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -6567,6 +6571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1238678050}
+  - component: {fileID: 1238678051}
   m_Layer: 8
   m_Name: WeaponRange
   m_TagString: Untagged
@@ -6589,6 +6594,29 @@ Transform:
   m_Father: {fileID: 220485071}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1238678051
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238678049}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.5}
 --- !u!1001 &1273742105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8944,7 +8972,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 35.983395
+  field of view: 29.394958
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
