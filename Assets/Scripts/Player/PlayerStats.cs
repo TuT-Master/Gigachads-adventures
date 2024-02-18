@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerStats : MonoBehaviour, IDataPersistance
 {
@@ -56,6 +55,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     #endregion
 
     private PlayerInventory playerInventory;
+    private PlayerMovement playerMovement;
+
     private List<Item> armors;
     private List<Item> equipment;
 
@@ -64,9 +65,15 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private GameObject beltSlot;
 
+    private bool canRegenerateHp;
+    private bool canRegenerateStamina;
+    private bool canRegenerateMana;
+
+
     private void Start()
     {
         playerInventory = GetComponent<PlayerInventory>();
+        playerMovement = GetComponent<PlayerMovement>();
         playerStats = new()
         {
             { "hp", hp },
@@ -96,10 +103,28 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     void Update()
     {
-        playerStats["hp"] += playerStats["hpRegen"] * Time.deltaTime * 10;
-        playerStats["stamina"] += playerStats["staminaRegen"] * Time.deltaTime * 10;
-        playerStats["mana"] += playerStats["manaRegen"] * Time.deltaTime * 10;
+        canRegenerateHp = true;
+        canRegenerateStamina = true;
+        canRegenerateMana = true;
 
+        // Checking whether can regen stats or not
+        if(playerMovement.sprint)
+        {
+            canRegenerateHp = false;
+            canRegenerateStamina = false;
+            canRegenerateMana = false;
+            playerStats["stamina"] -= 10 * Time.deltaTime;
+        }
+
+        // Regen stats
+        if(canRegenerateHp)
+            playerStats["hp"] += playerStats["hpRegen"] * Time.deltaTime * 2;
+        if(canRegenerateStamina)
+            playerStats["stamina"] += playerStats["staminaRegen"] * Time.deltaTime * 5;
+        if (canRegenerateMana)
+            playerStats["mana"] += playerStats["manaRegen"] * Time.deltaTime * 5;
+
+        // Stops regen at max values
         if (playerStats["hp"] >= playerStats["hpMax"])
             playerStats["hp"] = playerStats["hpMax"];
         if (playerStats["stamina"] >= playerStats["staminaMax"])

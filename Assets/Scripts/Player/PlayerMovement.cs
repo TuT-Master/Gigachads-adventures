@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
 {
     public Rigidbody _rb;
     public float angleRaw;
+    public bool sprint;
 
 
     [SerializeField]
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
     private PlayerStats playerStats;
     private float x, y;
     private bool turn;
+    private bool canSprint;
 
 
     void Start()
@@ -38,6 +40,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
         // WSAD
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
+
+        // Shift
+        if(Input.GetKey(KeyCode.LeftShift) && playerStats.playerStats["stamina"] >= 0 && canSprint && (x != 0 || y != 0))
+            sprint = true;
+        else
+            sprint = false;
+
+        // Check if player can sprint again
+        if (playerStats.playerStats["stamina"] / playerStats.playerStats["staminaMax"] < 0.25f && !sprint)
+            canSprint = false;
+        else
+            canSprint = true;
 
         // Drag
         if (x == 0 && y == 0)
@@ -99,7 +113,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
         _rb.mass = playerStats.playerStats["weight"] / 40;
         if(_rb.mass < 1)
             _rb.mass = 1;
-        _rb.AddForce(new Vector3(x, 0, y) * playerStats.playerStats["speed"], ForceMode.Force);
+        float moreSpeed = 2f;
+        if (sprint)
+            moreSpeed = 4f;
+        _rb.AddForce(new Vector3(x, 0, y) * playerStats.playerStats["speed"] * moreSpeed, ForceMode.Force);
     }
 
     public void LoadData(GameData data)
