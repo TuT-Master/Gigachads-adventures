@@ -17,9 +17,14 @@ public class PlayerToolbar : MonoBehaviour
     Image toolbarSlot4;
     [SerializeField]
     Image toolbarSlot5;
+
+    [SerializeField]
+    private SpriteRenderer weaponSpriteRenderer;
+
     [SerializeField]
     private List<GameObject> toolbarSlots = new();
     private List<GameObject> activeToolbarSlots = new();
+
     private int toolbarId = 0;
 
     private bool updateToolbar = true;
@@ -42,14 +47,18 @@ public class PlayerToolbar : MonoBehaviour
 
     void UpdateToolbarGFX()
     {
-        // Active slot
+        // Active slot + weapon in hand
         if (activeToolbarSlots[toolbarId].transform.childCount > 0 && activeToolbarSlots[toolbarId].GetComponentInChildren<Item>())
         {
             toolbarSlot3.gameObject.SetActive(true);
             toolbarSlot3.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_inventory;
+            weaponSpriteRenderer.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_hand;
         }
         else
+        {
             toolbarSlot3.gameObject.SetActive(false);
+            weaponSpriteRenderer.sprite = null;
+        }
 
         // Active slot - 1
         int id = toolbarId - 1;
