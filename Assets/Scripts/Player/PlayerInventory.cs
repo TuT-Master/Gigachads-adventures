@@ -29,6 +29,11 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     [SerializeField]
     private ItemDatabase itemDatabase;
 
+    [SerializeField]
+    private GameObject LeftHandSlot;
+    [SerializeField]
+    private GameObject RightHandSlot;
+
     // Prefabs
     [SerializeField]
     private GameObject itemPrefab;
@@ -298,6 +303,25 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             if(backpackInventory.transform.GetChild(i).childCount > 0 && backpackInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
                 inventory[backpackInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
         }
+        for (int i = 0; i < beltInventory.transform.childCount; i++)
+        {
+            inventory.Add(beltInventory.transform.GetChild(i), "");
+            if (beltInventory.transform.GetChild(i).childCount > 0 && beltInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+                inventory[beltInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+        }
+        for (int i = 0; i < pocketsInventory.transform.childCount; i++)
+        {
+            inventory.Add(pocketsInventory.transform.GetChild(i), "");
+            if (pocketsInventory.transform.GetChild(i).childCount > 0 && pocketsInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+                inventory[pocketsInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+        }
+        inventory.Add(LeftHandSlot.transform, "");
+        inventory.Add(RightHandSlot.transform, "");
+        if (LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item _item))
+            inventory[LeftHandSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
+        if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out _item))
+            inventory[RightHandSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
+
         data.playerInventory.Clear();
         foreach(Transform key in inventory.Keys)
             data.playerInventory.Add(key, inventory[key]);
