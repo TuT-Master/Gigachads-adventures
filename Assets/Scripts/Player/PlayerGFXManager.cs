@@ -35,10 +35,8 @@ public class PlayerGFXManager : MonoBehaviour
 
     public void UpdateGFX()
     {
-        Item item;
-
         // HeadArmor
-        if (headSlot.transform.childCount > 0 && headSlot.transform.GetChild(0).TryGetComponent(out item))
+        if (headSlot.transform.childCount > 0 && headSlot.transform.GetChild(0).TryGetComponent(out Item item))
         {
             hairObj.SetActive(false);
             headArmor.sprite = item.sprite_equip;

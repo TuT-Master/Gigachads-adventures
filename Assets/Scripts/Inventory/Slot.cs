@@ -51,28 +51,31 @@ public class Slot : MonoBehaviour, IDropHandler
             ItemUI item_DragHandler = dropped.GetComponent<ItemUI>();
             item_DragHandler.parentAfterDrag = transform;
         }
-        else if (gameObject.transform.childCount == 1 &&
+        else if (transform.childCount == 1 && CanBePlaced(droppedItem.slotType))
+        {
+            if (gameObject.transform.childCount == 1 &&
             droppedItem.isStackable &&
             transform.GetChild(0).gameObject.GetComponent<Item>().isStackable &&
-            droppedItem.slotType == slotType)
-        {
-            // Spojení stackable itemù
-            if(droppedItem.amount + gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount <= gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize)
+            droppedItem.itemName == transform.GetChild(0).gameObject.GetComponent<Item>().itemName)
             {
-                gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount += droppedItem.amount;
-                Destroy(eventData.pointerDrag);
+                // Spojení stackable itemù
+                if (droppedItem.amount + gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount <= gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize)
+                {
+                    gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount += droppedItem.amount;
+                    Destroy(eventData.pointerDrag);
+                }
+                else
+                {
+                    droppedItem.amount -= gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize - gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount;
+                    gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount = gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize;
+                }
             }
             else
             {
-                droppedItem.amount -= (gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize - gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount);
-                gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount = gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize;
+                // Prohození itemù
+                transform.GetChild(0).SetParent(eventData.pointerDrag.GetComponent<ItemUI>().parentBeforeDrag);
+                eventData.pointerDrag.GetComponent<ItemUI>().parentAfterDrag = transform;
             }
-        }
-        else if (transform.childCount > 0)
-        {
-            // Prohození itemù
-            transform.GetChild(0).SetParent(eventData.pointerDrag.GetComponent<ItemUI>().parentBeforeDrag);
-            eventData.pointerDrag.GetComponent<ItemUI>().parentAfterDrag = transform;
         }
     }
 
