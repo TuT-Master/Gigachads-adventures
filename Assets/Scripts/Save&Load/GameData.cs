@@ -1,11 +1,20 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class GameData
 {
+    // Player stats
     public SerializableDictionary<string, float> playerStats;
 
-    public SerializableDictionary<int, Item> playerInventory;
+    // Movement
+    public Vector3 playerPos;
+
+    // Player inventory
+    public int backpackSize;
+    public int beltSize;
+    public int pocketSize;
+    public SerializableDictionary<Transform, string> playerInventory;
 
     public GameData()
     {
@@ -36,5 +45,6 @@ public class GameData
             { "pocketSize", 0 },
         };
         playerInventory = new();
+        playerPos = Vector3.zero;
     }
 }

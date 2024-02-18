@@ -72,4 +72,32 @@ public class ItemDatabase : ScriptableObject
                 return new(projectile);
         return null;
     }
+
+    public Item GetItemByNameAndAmount(string name, int amount)
+    {
+        Item item = null;
+        foreach (WeaponMeleeSO weapon in weaponsMelee)
+            if (weapon.itemName == name)
+                item = new(weapon);
+        foreach (WeaponRangedSO weapon in weaponsRanged)
+            if (weapon.itemName == name)
+                item = new(weapon);
+        foreach (ArmorSO armor in armors)
+            if (armor.itemName == name)
+                item = new(armor);
+        foreach (BackpackSO backpack in backpacks)
+            if (backpack.itemName == name)
+                item = new(backpack);
+        foreach (BeltSO belt in belts)
+            if (belt.itemName == name)
+                item = new(belt);
+        foreach (ConsumableSO consumable in consumables)
+            if (consumable.itemName == name)
+                item = new(consumable);
+        foreach (ProjectileSO projectile in projectiles)
+            if (projectile.itemName == name)
+                item = new(projectile);
+        item.amount = amount;
+        return item;
+    }
 }

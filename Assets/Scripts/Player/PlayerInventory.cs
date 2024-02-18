@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,7 +12,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     public GameObject armorSlots;
     public GameObject equipmentSlots;
 
-
     [SerializeField]
     private GameObject inventoryCanvas;
     [SerializeField]
@@ -24,9 +24,10 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     private GameObject pocketsInventory;
     public int pocketsSize;
 
-
-    private Dictionary<int, Item> playerInventory;
     private PlayerStats playerStats;
+
+    [SerializeField]
+    private ItemDatabase itemDatabase;
 
     // Prefabs
     [SerializeField]
@@ -58,6 +59,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         UpdateBelt();
         UpdatePockets();
     }
+
 
     // !!-.-.-.- MEGA IMPORTANT -.-.-.-!!
     void UpdatePlayerStats()
@@ -215,7 +217,13 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         Debug.Log(item.itemName + " added!");
         ToggleInventory(false);
     }
-
+    public void AddItemToSlot(Item item, Transform slot)
+    {
+        ToggleInventory(true);
+        GameObject newItem = Instantiate(itemPrefab, slot);
+        newItem.GetComponent<Item>().SetUpByItem(item);
+        ToggleInventory(false);
+    }
 
     void MyInput()
     {
@@ -239,13 +247,59 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         }
     }
 
+    IEnumerator LoadingDelay(GameData data)
+    {
+        yield return new WaitForSeconds(0.1f);
+        foreach (Transform transform in data.playerInventory.Keys)
+            if (data.playerInventory[transform] != "")
+                AddItemToSlot(GetItemForLoading(data.playerInventory[transform]), transform);
+    }
+    Item GetItemForLoading(string item)
+    {
+        string name = "";
+        string amountString = "";
+        bool readingName = true;
+        foreach(char c in item)
+        {
+            if(readingName)
+            {
+                if (c == '-')
+                    readingName = false;
+                else
+                    name += c;
+            }
+            else
+            {
+                if(c != '-')
+                    amountString += c;
+            }
+        }
+        int.TryParse(amountString, out int amount);
+        return itemDatabase.GetItemByNameAndAmount(name, amount);
+    }
     public void LoadData(GameData data)
     {
-
+        backpackSize = data.backpackSize;
+        beltSize = data.beltSize;
+        pocketsSize = data.pocketSize;
+        StartCoroutine(LoadingDelay(data));
     }
-
     public void SaveData(ref GameData data)
     {
+        data.backpackSize = backpackSize;
+        data.beltSize = beltSize;
+        data.pocketSize = pocketsSize;
 
+        // Inventory saving
+        Dictionary<Transform, string> inventory = new();
+        for(int i = 0; i < backpackInventory.transform.childCount; i++)
+        {
+            inventory.Add(backpackInventory.transform.GetChild(i), "");
+            if(backpackInventory.transform.GetChild(i).childCount > 0 && backpackInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+                inventory[backpackInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+        }
+        data.playerInventory.Clear();
+        foreach(Transform key in inventory.Keys)
+            data.playerInventory.Add(key, inventory[key]);
     }
 }

@@ -1101,7 +1101,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &220485073
 MonoBehaviour:
@@ -1142,6 +1142,7 @@ MonoBehaviour:
   beltSize: 4
   pocketsInventory: {fileID: 732029706}
   pocketsSize: 4
+  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
   itemOnDaFloorPrefab: {fileID: 3286893216435271357, guid: 143cc917d5751514782ad7f381463690,
@@ -1223,7 +1224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2841296b1b1532942a2b8f3c2b0df004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 892991718}
+  _light: {fileID: 892991718}
 --- !u!114 &220485080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10405,7 +10406,7 @@ PrefabInstance:
     - target: {fileID: 8511633445276231879, guid: 334630e44d753aa4aa43e80530ad1d9b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.808
       objectReference: {fileID: 0}
     - target: {fileID: 8511633445276231879, guid: 334630e44d753aa4aa43e80530ad1d9b,
         type: 3}
@@ -10415,7 +10416,7 @@ PrefabInstance:
     - target: {fileID: 8511633445276231879, guid: 334630e44d753aa4aa43e80530ad1d9b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.269
       objectReference: {fileID: 0}
     - target: {fileID: 8511633445276231879, guid: 334630e44d753aa4aa43e80530ad1d9b,
         type: 3}

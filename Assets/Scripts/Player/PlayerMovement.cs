@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDataPersistance
 {
     public Rigidbody _rb;
     public float angleRaw;
@@ -94,5 +94,15 @@ public class PlayerMovement : MonoBehaviour
         if(_rb.mass < 1)
             _rb.mass = 1;
         _rb.AddForce(new Vector3(x, 0, y) * playerStats.playerStats["speed"], ForceMode.Force);
+    }
+
+    public void LoadData(GameData data)
+    {
+        transform.position = data.playerPos;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.playerPos = transform.position;
     }
 }
