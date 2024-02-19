@@ -19,9 +19,6 @@ public class PlayerToolbar : MonoBehaviour
     Image toolbarSlot5;
 
     [SerializeField]
-    private SpriteRenderer weaponSpriteRenderer;
-
-    [SerializeField]
     private List<GameObject> toolbarSlots = new();
     private List<GameObject> activeToolbarSlots = new();
 
@@ -40,6 +37,15 @@ public class PlayerToolbar : MonoBehaviour
         animateToolbar = false;
         if (activeToolbarSlots.Count > 1)
             animateToolbar = true;
+    }
+
+    public Item GetActiveConsumable()
+    {
+        Item item = null;
+        if (activeToolbarSlots.Count > 0)
+            if (activeToolbarSlots[toolbarId].transform.childCount > 0)
+                activeToolbarSlots[toolbarId].transform.GetChild(0).TryGetComponent(out item);
+        return item;
     }
 
     private void ToolbarSlots()
@@ -71,38 +77,30 @@ public class PlayerToolbar : MonoBehaviour
                 toolbarSlot4.gameObject.SetActive(false);
                 toolbarSlot5.gameObject.SetActive(false);
 
-                // Active slot + weapon in hand
+                // Active consumable slot
                 if (activeToolbarSlots[toolbarId].transform.childCount > 0 && activeToolbarSlots[toolbarId].GetComponentInChildren<Item>())
                 {
                     toolbarSlot3.gameObject.SetActive(true);
                     toolbarSlot3.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_inventory;
-                    weaponSpriteRenderer.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_hand;
-                    GetComponent<PlayerFight>().itemInHand = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>();
                 }
                 else
                 {
                     toolbarSlot3.sprite = null;
                     toolbarSlot3.gameObject.SetActive(false);
-                    weaponSpriteRenderer.sprite = null;
-                    GetComponent<PlayerFight>().itemInHand = null;
                 }
             }
             else
             {
-                // Active slot + weapon in hand
+                // Active consumable slot
                 if (activeToolbarSlots[toolbarId].transform.childCount > 0 && activeToolbarSlots[toolbarId].GetComponentInChildren<Item>())
                 {
                     toolbarSlot3.gameObject.SetActive(true);
                     toolbarSlot3.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_inventory;
-                    weaponSpriteRenderer.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_hand;
-                    GetComponent<PlayerFight>().itemInHand = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>();
                 }
                 else
                 {
                     toolbarSlot3.sprite = null;
                     toolbarSlot3.gameObject.SetActive(false);
-                    weaponSpriteRenderer.sprite = null;
-                    GetComponent<PlayerFight>().itemInHand = null;
                 }
                 // Active slot - 1
                 int id = toolbarId - 1;

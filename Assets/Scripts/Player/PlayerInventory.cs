@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,10 +32,13 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     [SerializeField]
     private ItemDatabase itemDatabase;
 
+    // Hands
     [SerializeField]
     private GameObject LeftHandSlot;
     [SerializeField]
     private GameObject RightHandSlot;
+    [SerializeField]
+    private SpriteRenderer weaponSpriteRenderer;
 
     // Prefabs
     [SerializeField]
@@ -65,6 +69,21 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         UpdateBackpack();
         UpdateBelt();
         UpdatePockets();
+        UpdateHands();
+    }
+
+    void UpdateHands()
+    {
+        if(LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item item))
+        {
+            weaponSpriteRenderer.sprite = item.sprite_hand;
+            GetComponent<PlayerFight>().itemInHand = item;
+        }
+        else
+        {
+            weaponSpriteRenderer.sprite = null;
+            GetComponent<PlayerFight>().itemInHand = null;
+        }
     }
 
     public bool TwoHandedWeaponInFirstSlot()

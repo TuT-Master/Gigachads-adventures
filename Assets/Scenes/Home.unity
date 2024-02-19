@@ -1148,6 +1148,7 @@ MonoBehaviour:
   itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
   LeftHandSlot: {fileID: 4905618838372884872}
   RightHandSlot: {fileID: 4905618838619227636}
+  weaponSpriteRenderer: {fileID: 1933346282}
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
   itemOnDaFloorPrefab: {fileID: 3286893216435271357, guid: 143cc917d5751514782ad7f381463690,
@@ -1267,7 +1268,6 @@ MonoBehaviour:
   toolbarSlot3: {fileID: 508063764}
   toolbarSlot4: {fileID: 1411288316}
   toolbarSlot5: {fileID: 1719224132}
-  weaponSpriteRenderer: {fileID: 1933346282}
   toolbarSlots:
   - {fileID: 908321863}
   - {fileID: 522699785}
@@ -2920,7 +2920,7 @@ GameObject:
   m_Component:
   - component: {fileID: 556875290}
   m_Layer: 5
-  m_Name: Inventory
+  m_Name: InventoryScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7050,7 +7050,7 @@ GameObject:
   - component: {fileID: 1340890293}
   - component: {fileID: 1340890292}
   - component: {fileID: 1340890296}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CheatSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
