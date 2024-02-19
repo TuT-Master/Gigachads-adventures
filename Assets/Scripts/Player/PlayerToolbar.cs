@@ -63,31 +63,47 @@ public class PlayerToolbar : MonoBehaviour
         }
         if (activeToolbarSlots.Count > 0)
         {
-            // Active slot + weapon in hand
-            if (activeToolbarSlots[toolbarId].transform.childCount > 0 && activeToolbarSlots[toolbarId].GetComponentInChildren<Item>())
-            {
-                toolbarSlot3.gameObject.SetActive(true);
-                toolbarSlot3.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_inventory;
-                weaponSpriteRenderer.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_hand;
-                GetComponent<PlayerFight>().itemInHand = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>();
-            }
-            else
-            {
-                toolbarSlot3.sprite = null;
-                toolbarSlot3.gameObject.SetActive(false);
-                weaponSpriteRenderer.sprite = null;
-                GetComponent<PlayerFight>().itemInHand = null;
-            }
-
             if(activeToolbarSlots.Count == 1)
             {
+                toolbarId = 0;
                 toolbarSlot1.gameObject.SetActive(false);
                 toolbarSlot2.gameObject.SetActive(false);
                 toolbarSlot4.gameObject.SetActive(false);
                 toolbarSlot5.gameObject.SetActive(false);
+
+                // Active slot + weapon in hand
+                if (activeToolbarSlots[toolbarId].transform.childCount > 0 && activeToolbarSlots[toolbarId].GetComponentInChildren<Item>())
+                {
+                    toolbarSlot3.gameObject.SetActive(true);
+                    toolbarSlot3.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_inventory;
+                    weaponSpriteRenderer.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_hand;
+                    GetComponent<PlayerFight>().itemInHand = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>();
+                }
+                else
+                {
+                    toolbarSlot3.sprite = null;
+                    toolbarSlot3.gameObject.SetActive(false);
+                    weaponSpriteRenderer.sprite = null;
+                    GetComponent<PlayerFight>().itemInHand = null;
+                }
             }
             else
             {
+                // Active slot + weapon in hand
+                if (activeToolbarSlots[toolbarId].transform.childCount > 0 && activeToolbarSlots[toolbarId].GetComponentInChildren<Item>())
+                {
+                    toolbarSlot3.gameObject.SetActive(true);
+                    toolbarSlot3.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_inventory;
+                    weaponSpriteRenderer.sprite = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>().sprite_hand;
+                    GetComponent<PlayerFight>().itemInHand = activeToolbarSlots[toolbarId].GetComponentInChildren<Item>();
+                }
+                else
+                {
+                    toolbarSlot3.sprite = null;
+                    toolbarSlot3.gameObject.SetActive(false);
+                    weaponSpriteRenderer.sprite = null;
+                    GetComponent<PlayerFight>().itemInHand = null;
+                }
                 // Active slot - 1
                 int id = toolbarId - 1;
                 if (id < 0)
@@ -98,10 +114,7 @@ public class PlayerToolbar : MonoBehaviour
                     toolbarSlot2.sprite = activeToolbarSlots[id].GetComponentInChildren<Item>().sprite_inventory;
                 }
                 else
-                {
-                    toolbarSlot2.sprite = null;
                     toolbarSlot2.gameObject.SetActive(false);
-                }
 
                 // Active slot + 1
                 id = toolbarId + 1;
@@ -113,10 +126,8 @@ public class PlayerToolbar : MonoBehaviour
                     toolbarSlot4.sprite = activeToolbarSlots[id].GetComponentInChildren<Item>().sprite_inventory;
                 }
                 else
-                {
-                    toolbarSlot4.sprite = null;
-                    toolbarSlot4.gameObject.SetActive(false);
-                }
+                    toolbarSlot2.gameObject.SetActive(false);
+
                 // Active slot - 2
                 id = toolbarId - 2;
                 if (id == -1)
@@ -129,10 +140,7 @@ public class PlayerToolbar : MonoBehaviour
                     toolbarSlot1.sprite = activeToolbarSlots[id].GetComponentInChildren<Item>().sprite_inventory;
                 }
                 else
-                {
-                    toolbarSlot1.sprite = null;
-                    toolbarSlot1.gameObject.SetActive(false);
-                }
+                    toolbarSlot2.gameObject.SetActive(false);
 
                 // Active slot + 2
                 id = toolbarId + 2;
@@ -146,10 +154,7 @@ public class PlayerToolbar : MonoBehaviour
                     toolbarSlot5.sprite = activeToolbarSlots[id].GetComponentInChildren<Item>().sprite_inventory;
                 }
                 else
-                {
-                    toolbarSlot5.sprite = null;
-                    toolbarSlot5.gameObject.SetActive(false);
-                }
+                    toolbarSlot2.gameObject.SetActive(false);
             }
         }
     }
