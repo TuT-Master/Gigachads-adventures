@@ -30,3 +30,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0693bacd256b3784983e977702758bc9, type: 2}
   belts:
   - {fileID: 11400000, guid: e620a85373dfb264c9fdd955b141bcc4, type: 2}
+  - {fileID: 11400000, guid: b446ed242e47b5743ac422ecac076f1f, type: 2}

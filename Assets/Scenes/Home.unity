@@ -1200,7 +1200,7 @@ MonoBehaviour:
   armorIgnoreBonus: 0
   skillIssue: 0
   backpackSize: 8
-  beltSize: 1
+  beltSize: 0
   pocketSize: 0
   backpackSlot: {fileID: 636288549}
   beltSlot: {fileID: 832082770}
@@ -1269,7 +1269,6 @@ MonoBehaviour:
   toolbarSlot5: {fileID: 1719224132}
   weaponSpriteRenderer: {fileID: 1933346282}
   toolbarSlots:
-  - {fileID: 4905618838372884872}
   - {fileID: 908321863}
   - {fileID: 522699785}
   - {fileID: 342015504}
