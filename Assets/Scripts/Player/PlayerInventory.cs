@@ -265,19 +265,18 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             ToggleInventory(!playerInventoryOpen);
     }
 
-    public void ToggleInventory(bool open)
+    public void ToggleInventory(bool toggle)
     {
-        if(open)
+        playerInventoryOpen = toggle;
+        if (toggle)
         {
             inventoryCanvas.SetActive(true);
             Time.timeScale = 0f;
-            playerInventoryOpen = true;
         }
         else
         {
             inventoryCanvas.SetActive(false);
             Time.timeScale = 1f;
-            playerInventoryOpen = false;
         }
     }
 
