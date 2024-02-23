@@ -52,10 +52,13 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     private GameObject itemCard;
     private bool isItemCardOpen;
 
+    private HUDmanager hudManager;
+
 
     private void Start()
     {
         playerStats = GetComponent<PlayerStats>();
+        hudManager = GetComponent<HUDmanager>();
         isItemCardOpen = false;
         ToggleInventory(false);
     }
@@ -262,7 +265,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     void MyInput()
     {
         if (Input.GetButtonDown("Toggle inventory"))
-            ToggleInventory(!playerInventoryOpen);
+            hudManager.ToggleInventoryScreen(!playerInventoryOpen);
     }
 
     public void ToggleInventory(bool toggle)
