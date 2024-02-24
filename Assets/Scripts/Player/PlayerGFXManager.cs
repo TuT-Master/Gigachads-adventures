@@ -11,6 +11,20 @@ public class PlayerGFXManager : MonoBehaviour
     [SerializeField]
     private GameObject torsoObj;
     [SerializeField]
+    private GameObject headArmorObj;
+    [SerializeField]
+    private GameObject headEquipmentObj;
+    [SerializeField]
+    private GameObject torsoArmorObj;
+    [SerializeField]
+    private GameObject torsoEquipmentObj;
+    [SerializeField]
+    private GameObject weaponObj;
+
+
+
+
+    [SerializeField]
     private SpriteRenderer headArmor;
     [SerializeField]
     private SpriteRenderer headEquipment;
@@ -24,13 +38,42 @@ public class PlayerGFXManager : MonoBehaviour
     private GameObject torsoSlot;
     private GameObject torsoEquipmentSlot;
 
+    private PlayerMovement playerMovement;
+
 
     void Start()
     {
+        playerMovement = GetComponent<PlayerMovement>();
         headSlot = GetComponent<PlayerInventory>().armorSlots.transform.Find("Head").gameObject;
         headEquipmentSlot = GetComponent<PlayerInventory>().equipmentSlots.transform.Find("HeadEquipment").gameObject;
         torsoSlot = GetComponent<PlayerInventory>().armorSlots.transform.Find("Torso").gameObject;
         torsoEquipmentSlot = GetComponent<PlayerInventory>().equipmentSlots.transform.Find("TorsoEquipment").gameObject;
+    }
+
+    private void Update()
+    {
+        if(!playerMovement.turn)
+        {
+            Debug.Log("Èumí dopøedu");
+            hairObj.transform.localPosition = new(0, 0.55f, 0.001f);
+            beardObj.transform.localPosition = new(0, 0.55f, 0.001f);
+            headArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
+            headEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
+            torsoArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
+            torsoEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
+            weaponObj.transform.localPosition = new(0, 0.55f, 0.003f);
+        }
+        else
+        {
+            Debug.Log("Èumí dozadu");
+            hairObj.transform.localPosition = new(0, 0.55f, -0.001f);
+            beardObj.transform.localPosition = new(0, 0.55f, -0.001f);
+            headArmorObj.transform.localPosition = new(0, 0.55f, -0.001f);
+            headEquipmentObj.transform.localPosition = new(0, 0.55f, -0.002f);
+            torsoArmorObj.transform.localPosition = new(0, 0.55f, -0.001f);
+            torsoEquipmentObj.transform.localPosition = new(0, 0.55f, -0.002f);
+            weaponObj.transform.localPosition = new(0, 0.55f, -0.003f);
+        }
     }
 
     public void UpdateGFX()

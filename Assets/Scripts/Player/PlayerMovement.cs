@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
     public Rigidbody _rb;
     public float angleRaw;
     public bool sprint;
+    public bool turn;
 
 
     [SerializeField]
@@ -17,7 +18,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
     private GameObject playerGFX;
     private PlayerStats playerStats;
     private float x, y;
-    private bool turn;
     private bool canSprint;
 
 
@@ -71,14 +71,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
         #region Rotating player towards mouse cursor
         if (angle is >= (-90) and < 0)
         {
-            // vlevo naho�e
+            // vlevo nahoře
             if (angle < -35)
                 angle = -35;
             turn = true;
         }
         else if (angle is <= 90 and >= 0)
         {
-            // vpravo naho�e
+            // vpravo nahoře
             if (angle > 35)
                 angle = 35;
             turn = true;
