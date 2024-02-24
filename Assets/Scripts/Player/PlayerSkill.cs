@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerSkill : MonoBehaviour
 {
@@ -13,11 +14,22 @@ public class PlayerSkill : MonoBehaviour
     private List<GameObject> tabs;
 
     private PlayerInventory playerInventory;
+    private PlayerStats playerStats;
     private HUDmanager hudManager;
+
+    [Header("Stat tab")]
+    [SerializeField]
+    private TextMeshProUGUI hpAmount;
+    [SerializeField]
+    private TextMeshProUGUI staminaAmount;
+    [SerializeField]
+    private TextMeshProUGUI manaAmount;
+
 
     void Start()
     {
         playerInventory = GetComponent<PlayerInventory>();
+        playerStats = GetComponent<PlayerStats>();
         hudManager = GetComponent<HUDmanager>();
         skillScreenOpen = false;
         OpenTab(0);
@@ -65,6 +77,9 @@ public class PlayerSkill : MonoBehaviour
             case 0:
                 // Stat tab
                 Debug.Log("Stat tab opened!");
+                hpAmount.text = Mathf.Round(playerStats.playerStats["hp"]).ToString() + " / " + playerStats.playerStats["hpMax"].ToString();
+                staminaAmount.text = Mathf.Round(playerStats.playerStats["stamina"]).ToString() + " / " + playerStats.playerStats["staminaMax"].ToString();
+                manaAmount.text = Mathf.Round(playerStats.playerStats["mana"]).ToString() + " / " + playerStats.playerStats["manaMax"].ToString();
                 break;
             case 1:
                 // Melee tab
