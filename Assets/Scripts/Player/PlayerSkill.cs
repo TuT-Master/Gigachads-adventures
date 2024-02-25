@@ -76,24 +76,20 @@ public class PlayerSkill : MonoBehaviour
         {
             case 0:
                 // Stat tab
-                Debug.Log("Stat tab opened!");
                 hpAmount.text = Mathf.Round(playerStats.playerStats["hp"]).ToString() + " / " + playerStats.playerStats["hpMax"].ToString();
                 staminaAmount.text = Mathf.Round(playerStats.playerStats["stamina"]).ToString() + " / " + playerStats.playerStats["staminaMax"].ToString();
                 manaAmount.text = Mathf.Round(playerStats.playerStats["mana"]).ToString() + " / " + playerStats.playerStats["manaMax"].ToString();
                 break;
             case 1:
                 // Melee tab
-                Debug.Log("Melee tab opened!");
 
                 break;
             case 2:
                 // Ranged tab
-                Debug.Log("Range tab opened!");
 
                 break;
             case 3:
                 // Magic tab
-                Debug.Log("Magic tab opened!");
 
                 break;
         }
