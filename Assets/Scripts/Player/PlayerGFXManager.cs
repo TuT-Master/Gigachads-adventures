@@ -54,7 +54,7 @@ public class PlayerGFXManager : MonoBehaviour
     {
         if(!playerMovement.turn)
         {
-            Debug.Log("Èumí dopøedu");
+            // Looking towards player camera
             hairObj.transform.localPosition = new(0, 0.55f, 0.001f);
             beardObj.transform.localPosition = new(0, 0.55f, 0.001f);
             headArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
@@ -65,7 +65,6 @@ public class PlayerGFXManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Èumí dozadu");
             hairObj.transform.localPosition = new(0, 0.55f, -0.001f);
             beardObj.transform.localPosition = new(0, 0.55f, -0.001f);
             headArmorObj.transform.localPosition = new(0, 0.55f, -0.001f);

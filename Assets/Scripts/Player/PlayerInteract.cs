@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    [SerializeField]
-    private CapsuleCollider interactCollider;
-
     private List<IInteractable> interactablesInRange = new();
 
     private void Update()
