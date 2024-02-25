@@ -79,13 +79,11 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     {
         if(LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item item))
         {
-            Debug.Log("Item in hand: " + item.itemName);
             weaponSpriteRenderer.sprite = item.sprite_hand;
             GetComponent<PlayerFight>().itemInHand = item;
         }
         else
         {
-            Debug.Log("No item i hand!");
             weaponSpriteRenderer.sprite = null;
             GetComponent<PlayerFight>().itemInHand = null;
         }

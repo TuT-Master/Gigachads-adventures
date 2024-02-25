@@ -20,6 +20,8 @@ public class Item : MonoBehaviour
 
     public bool emitsLight;
 
+    public bool fullAuto;
+
     public int amount;
 
     public int inventoryCapacity;
@@ -55,6 +57,7 @@ public class Item : MonoBehaviour
         isStackable = weaponSO.isStackable;
         stackSize = weaponSO.stackSize;
         emitsLight = weaponSO.emitsLight;
+        fullAuto = weaponSO.fullAuto;
     }
     public Item(ConsumableSO consumableSO)
     {

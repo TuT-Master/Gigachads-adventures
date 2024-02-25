@@ -23,8 +23,7 @@ public class PlayerFight : MonoBehaviour
                 {"rangeY", 0.75f},
                 {"AoE", 0f},
                 {"twoHanded", 0f},
-                {"weight", 0f},
-            };
+                {"weight", 0f}};
 
 
     private void Start()
@@ -39,30 +38,32 @@ public class PlayerFight : MonoBehaviour
         MyInput();
     }
 
-    void RotateCollider()
-    {
-        weaponRange.gameObject.transform.rotation = Quaternion.Euler(0, GetComponent<PlayerMovement>().angleRaw, 0);
-    }
-
     void MyInput()
     {
-        if(Input.GetMouseButton(0))
+        // LMB
+        if(itemInHand != null && Input.GetMouseButton(0))
         {
-            // LMB
-            if (itemInHand != null)
+            if(itemInHand.fullAuto && itemInHand.slotType != Slot.SlotType.WeaponRanged)
             {
+                // Full-auto weapons (only ranged weapons)
+                RangedAttack();
+            }
+            else if (!itemInHand.fullAuto && Input.GetMouseButtonDown(0))
+            {
+                // Semi-auto weapons
                 if (itemInHand.slotType == Slot.SlotType.WeaponMelee)
                     MeleeAttack();
                 else if (itemInHand.slotType != Slot.SlotType.WeaponRanged)
                     RangedAttack();
             }
-            else
-                FistsAttack();
         }
-        else if (Input.GetMouseButton(1))
-        {
-            // RMB
+        if (itemInHand == null && Input.GetMouseButtonDown(0))
+            FistsAttack();
 
+        // RMB
+        if (Input.GetMouseButton(1))
+        {
+            // Consume equiped consumable?
         }
     }
 
@@ -70,28 +71,35 @@ public class PlayerFight : MonoBehaviour
     {
         if (!canAttackAgain)
             return;
-
+        canAttackAgain = false;
         if (enemyList.Count > 0)
         {
             enemyList[0].HurtEnemy(fistsStats["damage"]);
         }
+
+        StartCoroutine(CanAttackAgain(fistsStats["attackSpeed"]));
     }
+
     void MeleeAttack()
     {
         if(!canAttackAgain)
             return;
-
-        if(enemyList.Count > 0)
+        canAttackAgain = false;
+        if (enemyList.Count > 0)
         {
             enemyList[0].HurtEnemy(itemInHand.stats["damage"]);
         }
+
+        StartCoroutine(CanAttackAgain(itemInHand.stats["attackSpeed"]));
     }
 
     void RangedAttack()
     {
         if (!canAttackAgain)
             return;
+        canAttackAgain = false;
 
+        StartCoroutine(CanAttackAgain(itemInHand.stats["attackSpeed"]));
     }
 
     IEnumerator CanAttackAgain(float atcSpeed)
@@ -106,14 +114,14 @@ public class PlayerFight : MonoBehaviour
         {
             weaponRange.height = fistsStats["rangeX"] * 2;
             weaponRange.radius = fistsStats["rangeY"] * 0.5f;
-            weaponRange.center = new Vector3(0, 0, (weaponRange.height - 1) * 0.5f);
+            weaponRange.center = new Vector3(0, 0, weaponRange.height * 0.5f);
             return;
         }
         if (itemInHand.slotType == (Slot.SlotType.WeaponMelee | Slot.SlotType.WeaponRanged)) // itemInHand is some weapon
         {
             weaponRange.height = itemInHand.stats["rangeX"] * 2;
             weaponRange.radius = itemInHand.stats["rangeY"] * 0.5f;
-            weaponRange.center = new Vector3(0, 0, (weaponRange.height - 1) * 0.5f);
+            weaponRange.center = new Vector3(0, 0, weaponRange.height * 0.5f);
         }
         else if (itemInHand.slotType == Slot.SlotType.Consumable) // itemInHand is some consumable
         {
@@ -122,6 +130,7 @@ public class PlayerFight : MonoBehaviour
     }
 
 
+    void RotateCollider() { weaponRange.gameObject.transform.rotation = Quaternion.Euler(0, GetComponent<PlayerMovement>().angleRaw, 0); }
     private void OnTriggerEnter(Collider other)
     {
         var enemy = other.GetComponentInParent<IInteractableEnemy>();
