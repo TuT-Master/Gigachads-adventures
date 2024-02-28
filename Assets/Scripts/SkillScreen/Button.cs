@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,13 +22,13 @@ public class Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     [SerializeField]
     private Sprite sprite_select;
 
-    private Image image;
+    private SVGImage image;
     private PlayerSkill playerSkill;
 
 
     void Start()
     {
-        image = GetComponent<Image>();
+        image = GetComponent<SVGImage>();
         playerSkill = FindAnyObjectByType<PlayerSkill>();
 
         image.sprite = sprite_idle;
