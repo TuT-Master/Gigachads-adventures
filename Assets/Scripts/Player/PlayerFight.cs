@@ -8,6 +8,8 @@ public class PlayerFight : MonoBehaviour
 
     [HideInInspector]
     public bool canAttackAgain;
+    [HideInInspector]
+    public bool reloading;
 
     [SerializeField]
     private CapsuleCollider weaponRange;
@@ -29,6 +31,7 @@ public class PlayerFight : MonoBehaviour
     private void Start()
     {
         canAttackAgain = true;
+        reloading = false;
     }
 
     private void Update()
@@ -77,7 +80,7 @@ public class PlayerFight : MonoBehaviour
             enemyList[0].HurtEnemy(fistsStats["damage"]);
         }
 
-        StartCoroutine(CanAttackAgain(fistsStats["attackSpeed"]));
+        StartCoroutine(CanAttackAgain());
     }
 
     void MeleeAttack()
@@ -90,7 +93,7 @@ public class PlayerFight : MonoBehaviour
             enemyList[0].HurtEnemy(itemInHand.stats["damage"]);
         }
 
-        StartCoroutine(CanAttackAgain(itemInHand.stats["attackSpeed"]));
+        StartCoroutine(CanAttackAgain());
     }
 
     void RangedAttack()
@@ -99,13 +102,65 @@ public class PlayerFight : MonoBehaviour
             return;
         canAttackAgain = false;
 
-        StartCoroutine(CanAttackAgain(itemInHand.stats["attackSpeed"]));
+        if (itemInHand.stats["currentMagazine"] > 0)
+            StartCoroutine(CanAttackAgain());
+        else
+            StartCoroutine(Reload());
     }
 
-    IEnumerator CanAttackAgain(float atcSpeed)
+    IEnumerator CanAttackAgain()
     {
-        yield return new WaitForSeconds(1 / atcSpeed);
+        yield return new WaitForSeconds(1 / itemInHand.stats["attackSpeed"]);
         canAttackAgain = true;
+    }
+    IEnumerator Reload()
+    {
+        if (itemInHand.stats["currentMagazine"] < itemInHand.stats["magazineSize"])
+        {
+            reloading = true;
+
+            PlayerInventory inventory = GetComponent<PlayerInventory>();
+
+            // Choose right ammo
+            List<Item> items = inventory.HasItem(itemInHand.ammo[0].itemName);
+
+
+            List<Item> chosenItems = new();
+            bool done = false;
+            int ammoCounter = 0;
+            foreach (Item item in items)
+            {
+                if(!done)
+                {
+                    if (item.amount >= itemInHand.stats["magazineSize"])
+                    {
+                        chosenItems.Add(item);
+                        done = true;
+                    }
+                    else if (item.amount < itemInHand.stats["magazineSize"] && !done)
+                    {
+                        chosenItems.Add(item);
+                        ammoCounter += item.amount;
+                        if(ammoCounter >= itemInHand.stats["magazineSize"])
+                            done = true;
+                    }
+                }
+            }
+            if (!done)
+                canAttackAgain = false;
+            else
+            {
+                if (itemInHand.stats["magazineSize"] == 1)
+                    yield return new WaitForSeconds(1 / itemInHand.stats["attackSpeed"]);
+                else
+                    yield return new WaitForSeconds(itemInHand.stats["reloadTime"]);
+
+                canAttackAgain = true;
+            }
+            reloading = false;
+        }
+        else
+            Debug.Log("No need to reload. Your ammo magazine is full!");
     }
 
     void ActiveWeapon()

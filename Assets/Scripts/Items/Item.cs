@@ -31,6 +31,7 @@ public class Item : MonoBehaviour
     public Sprite sprite_equip;
     public Sprite sprite_equipBack;
 
+    public List<ProjectileSO> ammo;
 
     private TextMeshProUGUI text;
 
@@ -58,6 +59,7 @@ public class Item : MonoBehaviour
         stackSize = weaponSO.stackSize;
         emitsLight = weaponSO.emitsLight;
         fullAuto = weaponSO.fullAuto;
+        ammo = weaponSO.ammo;
     }
     public Item(ConsumableSO consumableSO)
     {

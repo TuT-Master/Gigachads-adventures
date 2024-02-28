@@ -150,6 +150,15 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         isItemCardOpen = false;
     }
 
+    public List<Item> HasItem(string name)
+    {
+        List<Item> items = new();
+        for(int i = 0; i < backpackInventory.transform.childCount; i++)
+            if (backpackInventory.transform.GetChild(i).childCount > 0)
+                if(backpackInventory.transform.GetChild(i).GetChild(0).GetComponent<Item>().itemName == name)
+                    items.Add(backpackInventory.transform.GetChild(i).GetChild(0).GetComponent<Item>());
+        return items;
+    }
 
     void UpdateBackpack()
     {

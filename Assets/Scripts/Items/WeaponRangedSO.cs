@@ -58,4 +58,6 @@ public class WeaponRangedSO : ScriptableObject
             {"weight", weight},
         };
     }
+
+    public List<ProjectileSO> ammo;
 }
