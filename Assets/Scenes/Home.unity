@@ -6466,7 +6466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 3
-  sprite_idle: {fileID: 3286163911610860551, guid: 03526e2578c0fae429b18b8d908370f1,
+  sprite_idle: {fileID: 3286163911610860551, guid: 46aab58c78d95cd42b0f429f1c36a477,
     type: 3}
   sprite_select: {fileID: 21300000, guid: 9b5aeb2a3cb86824cae4eac4a738e43c, type: 3}
 --- !u!114 &1163005122
@@ -6481,7 +6481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8b96895a0ec4ba685178a052544251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 8d66e65c66e29504199ed664979682cd, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -6489,7 +6489,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3286163911610860551, guid: 03526e2578c0fae429b18b8d908370f1,
+  m_Sprite: {fileID: 3286163911610860551, guid: 46aab58c78d95cd42b0f429f1c36a477,
     type: 3}
   m_PreserveAspect: 0
 --- !u!1001 &1163946985
