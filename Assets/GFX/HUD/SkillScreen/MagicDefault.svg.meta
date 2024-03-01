@@ -39,16 +39,16 @@ ScriptedImporter:
   spriteData:
     TessellationDetail: 0
     SpriteRect:
-      name: MagicDefaultSprite
+      name: 
       originalName: 
-      pivot: {x: 0.5003609, y: 0.49999788}
+      pivot: {x: 0, y: 0}
       alignment: 0
       border: {x: 0, y: 0, z: 0, w: 0}
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 480
-        height: 482
-      spriteID: ee76ac8ad7c8a0543ab34b7f87b43c89
+        width: 0
+        height: 0
+      spriteID: b02e35bc15f34554989ad18d73915245
     PhysicsOutlines: []
