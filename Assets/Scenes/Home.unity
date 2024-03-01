@@ -6475,7 +6475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 3
-  sprite_idle: {fileID: 3286163911610860551, guid: 46aab58c78d95cd42b0f429f1c36a477,
+  sprite_idle: {fileID: 3286163911610860551, guid: 3424edab49997a748b5e572b333da768,
     type: 3}
   sprite_select: {fileID: 21300000, guid: 9b5aeb2a3cb86824cae4eac4a738e43c, type: 3}
 --- !u!114 &1163005122

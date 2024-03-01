@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 46aab58c78d95cd42b0f429f1c36a477
+guid: 3424edab49997a748b5e572b333da768
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -8,7 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: a57477913897c46af95d590f580878bd, type: 3}
-  svgType: 1
+  svgType: 0
   texturedSpriteMeshType: 0
   svgPixelsPerUnit: 100
   gradientResolution: 64
@@ -17,9 +17,9 @@ ScriptedImporter:
   generatePhysicsShape: 0
   viewportOptions: 0
   preserveViewport: 0
-  advancedMode: 1
-  predefinedResolutionIndex: 3
-  targetResolution: 480
+  advancedMode: 0
+  predefinedResolutionIndex: 1
+  targetResolution: 1080
   resolutionMultiplier: 1
   stepDistance: 10
   samplingStepDistance: 100
@@ -28,7 +28,7 @@ ScriptedImporter:
   maxTangentAngleEnabled: 0
   maxTangentAngle: 5
   keepTextureAspectRatio: 1
-  textureSize: 64
+  textureSize: 256
   textureWidth: 256
   textureHeight: 256
   wrapMode: 0
@@ -39,16 +39,16 @@ ScriptedImporter:
   spriteData:
     TessellationDetail: 0
     SpriteRect:
-      name: MagicDefault3Sprite
+      name: 
       originalName: 
-      pivot: {x: 0.50035447, y: 0.49999776}
+      pivot: {x: 0, y: 0}
       alignment: 0
       border: {x: 0, y: 0, z: 0, w: 0}
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 488
-        height: 490
-      spriteID: 1e6bf9a0f1e53374c923af60d78a1044
+        width: 0
+        height: 0
+      spriteID: b02e35bc15f34554989ad18d73915245
     PhysicsOutlines: []
