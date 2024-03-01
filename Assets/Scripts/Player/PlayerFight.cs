@@ -13,6 +13,13 @@ public class PlayerFight : MonoBehaviour
 
     [SerializeField]
     private CapsuleCollider weaponRange;
+    [SerializeField]
+    private Animator animator;
+    [SerializeField]
+    private GameObject projectilePrefab;
+    [SerializeField]
+    private Transform projectileSpawnPoint;
+
     private List<IInteractableEnemy> enemyList = new();
     private Dictionary<string, float> fistsStats = new(){
                 {"damage", 2f},
@@ -44,19 +51,19 @@ public class PlayerFight : MonoBehaviour
     void MyInput()
     {
         // LMB
-        if(itemInHand != null && Input.GetMouseButton(0))
+        if(itemInHand != null && Input.GetMouseButtonDown(0))
         {
-            if(itemInHand.fullAuto && itemInHand.slotType != Slot.SlotType.WeaponRanged)
+            if (itemInHand.fullAuto && Input.GetMouseButton(0))
             {
                 // Full-auto weapons (only ranged weapons)
                 RangedAttack();
             }
-            else if (!itemInHand.fullAuto && Input.GetMouseButtonDown(0))
+            else if (!itemInHand.fullAuto)
             {
                 // Semi-auto weapons
                 if (itemInHand.slotType == Slot.SlotType.WeaponMelee)
                     MeleeAttack();
-                else if (itemInHand.slotType != Slot.SlotType.WeaponRanged)
+                else if (itemInHand.slotType == Slot.SlotType.WeaponRanged)
                     RangedAttack();
             }
         }
@@ -68,6 +75,10 @@ public class PlayerFight : MonoBehaviour
         {
             // Consume equiped consumable?
         }
+
+        // Reload
+        if (Input.GetKeyDown(KeyCode.R) && itemInHand != null && itemInHand.slotType == Slot.SlotType.WeaponRanged && !reloading)
+            StartCoroutine(Reload());
     }
 
     void FistsAttack()
@@ -102,6 +113,12 @@ public class PlayerFight : MonoBehaviour
             return;
         canAttackAgain = false;
 
+        Debug.Log("Firing!");
+        itemInHand.stats["currentMagazine"]--;
+        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, GetComponent<PlayerMovement>().angleRaw, 0));
+        projectile.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(new(0, 0, 0)), ForceMode.VelocityChange);
+        projectile.GetComponent<Projectile>().item = new(itemInHand.ammo[0]);
+
         if (itemInHand.stats["currentMagazine"] > 0)
             StartCoroutine(CanAttackAgain());
         else
@@ -110,21 +127,26 @@ public class PlayerFight : MonoBehaviour
 
     IEnumerator CanAttackAgain()
     {
-        yield return new WaitForSeconds(1 / itemInHand.stats["attackSpeed"]);
+        if (itemInHand != null)
+            yield return new WaitForSeconds(1 / itemInHand.stats["attackSpeed"]);
+        else
+            yield return new WaitForSeconds(1 / fistsStats["attackSpeed"]);
         canAttackAgain = true;
     }
+
     IEnumerator Reload()
     {
         if (itemInHand.stats["currentMagazine"] < itemInHand.stats["magazineSize"])
         {
             reloading = true;
-
             PlayerInventory inventory = GetComponent<PlayerInventory>();
 
-            // Choose right ammo
+
+            // TODO - Choose right ammo
+
             List<Item> items = inventory.HasItem(itemInHand.ammo[0].itemName);
 
-
+            // Find ammo Items in inventory
             List<Item> chosenItems = new();
             bool done = false;
             int ammoCounter = 0;
@@ -147,13 +169,43 @@ public class PlayerFight : MonoBehaviour
                 }
             }
             if (!done)
+            {
                 canAttackAgain = false;
+                Debug.Log("No ammo left!");
+            }
             else
             {
+                // Wait for reload
                 if (itemInHand.stats["magazineSize"] == 1)
+                {
+                    animator.SetFloat("SpeedMultiplier", 1 / itemInHand.stats["attackSpeed"]);
+                    animator.SetTrigger("Reload");
                     yield return new WaitForSeconds(1 / itemInHand.stats["attackSpeed"]);
+                }
                 else
+                {
+                    animator.SetFloat("SpeedMultiplier", itemInHand.stats["reloadTime"]);
+                    animator.SetTrigger("Reload");
                     yield return new WaitForSeconds(itemInHand.stats["reloadTime"]);
+                }
+
+                // Reload
+                for(int i = 0; i < chosenItems.Count; i++)
+                {
+                    if (itemInHand.stats["currentMagazine"] < itemInHand.stats["magazineSize"])
+                    {
+                        if (chosenItems[i].amount >= itemInHand.stats["magazineSize"] - itemInHand.stats["currentMagazine"])
+                        {
+                            chosenItems[i].amount -= (int)(itemInHand.stats["magazineSize"] - itemInHand.stats["currentMagazine"]);
+                            itemInHand.stats["currentMagazine"] = itemInHand.stats["magazineSize"];
+                        }
+                        else
+                        {
+                            itemInHand.stats["currentMagazine"] += chosenItems[i].amount;
+                            chosenItems[i].amount = 0;
+                        }
+                    }
+                }
 
                 canAttackAgain = true;
             }

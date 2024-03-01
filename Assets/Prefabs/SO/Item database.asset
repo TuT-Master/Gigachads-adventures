@@ -17,6 +17,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6c20bbdce8e2d1046af11c7176596bd1, type: 2}
   weaponsRanged:
   - {fileID: 11400000, guid: 1b43d55501f0f5643bd26850ffd048ef, type: 2}
+  - {fileID: 11400000, guid: 248de275aa212584ea2e9778379fc2ca, type: 2}
   armors:
   - {fileID: 11400000, guid: 6a4d07a578e6de94e86b5e904f7305e8, type: 2}
   - {fileID: 11400000, guid: 482c5cd403d4b5e4bbc435a5cf84c105, type: 2}
