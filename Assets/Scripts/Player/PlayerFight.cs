@@ -17,6 +17,8 @@ public class PlayerFight : MonoBehaviour
     [SerializeField]
     private Animator animator;
     [SerializeField]
+    private RectTransform reloadState;
+    [SerializeField]
     private GameObject projectilePrefab;
     [SerializeField]
     private Transform projectileSpawnPoint;
@@ -106,9 +108,15 @@ public class PlayerFight : MonoBehaviour
         if(!canAttackAgain)
             return;
         canAttackAgain = false;
+
         if (enemyList.Count > 0)
         {
-            enemyList[0].HurtEnemy(itemInHand.stats["damage"]);
+            if (itemInHand.stats["AoE"] == 0)
+                enemyList[0].HurtEnemy(itemInHand.stats["damage"]);
+            else
+            {
+                // AoE attack
+            }
         }
 
         StartCoroutine(CanAttackAgain());
@@ -125,15 +133,16 @@ public class PlayerFight : MonoBehaviour
         {
             Debug.Log("Firing!");
             itemInHand.stats["currentMagazine"]--;
+            Debug.Log(itemInHand.stats["currentMagazine"].ToString() + " / " + itemInHand.stats["magazineSize"].ToString());
+
+            // Resize reloadState bar
+            reloadState.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 300f * itemInHand.stats["currentMagazine"] / itemInHand.stats["magazineSize"]);
 
             float angle = GetComponent<PlayerMovement>().angleRaw + UnityEngine.Random.Range(-itemInHand.stats["spread"], itemInHand.stats["spread"]);
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, angle, 0));
 
             projectile.GetComponent<Projectile>().item = new(itemInHand.ammo[0]);
-            Vector3 victor = projectile.GetComponent<Projectile>().item.stats["projectileSpeed"] * new Vector3(VectorFromAngle(angle).z, 0, VectorFromAngle(angle).x);
-            
-            Debug.Log(angle.ToString());
-            Debug.Log(victor.ToString());
+            Vector3 victor = projectile.GetComponent<Projectile>().item.stats["projectileSpeed"] * new Vector3(VectorFromAngle(angle).z, 0.05f, VectorFromAngle(angle).x);
 
             projectile.GetComponent<Rigidbody>().mass = projectile.GetComponent<Projectile>().item.stats["weight"];
             projectile.GetComponent<Rigidbody>().AddForce(victor * 10f, ForceMode.Force);
@@ -145,6 +154,11 @@ public class PlayerFight : MonoBehaviour
         else
         {
             Debug.Log("No ammo!");
+
+            // Resize reloadState bar
+            reloadState.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
+
+
             if (itemInHand.stats["magazineSize"] == 1)
                 StartCoroutine(Reload());
             else

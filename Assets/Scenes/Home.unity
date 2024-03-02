@@ -1182,6 +1182,7 @@ MonoBehaviour:
   reloading: 0
   weaponRange: {fileID: 1238678051}
   animator: {fileID: 1699388459}
+  reloadState: {fileID: 1699388456}
   projectilePrefab: {fileID: 1800586049}
   projectileSpawnPoint: {fileID: 2138501397}
 --- !u!114 &220485077
@@ -13581,7 +13582,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138501396}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -0.6}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
