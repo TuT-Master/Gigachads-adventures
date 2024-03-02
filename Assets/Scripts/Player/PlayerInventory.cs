@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour, IDataPersistance
 {
@@ -302,24 +303,30 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     {
         string name = "";
         string amountString = "";
-        bool readingName = true;
+        string currentMagazineString = "";
+
+        int stage = 0;
         foreach(char c in item)
         {
-            if(readingName)
-            {
-                if (c == '-')
-                    readingName = false;
-                else
-                    name += c;
-            }
-            else
-            {
-                if(c != '-')
-                    amountString += c;
-            }
+            if (c == '-')
+                stage++;
+            else if (c == '/')
+                stage++;
+            else if(stage == 0)
+                name += c;
+            else if (stage == 1)
+                amountString += c;
+            else if (stage == 2)
+                currentMagazineString += c;
         }
+
         int.TryParse(amountString, out int amount);
-        return itemDatabase.GetItemByNameAndAmount(name, amount);
+        Item loadedItem = itemDatabase.GetItemByNameAndAmount(name, amount);
+
+        if(int.TryParse(currentMagazineString, out int currentMagazine))
+            loadedItem.stats["currentMagazine"] = currentMagazine;
+
+        return loadedItem;
     }
     public void LoadData(GameData data)
     {
@@ -336,56 +343,92 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
         // Inventory saving
         Dictionary<Transform, string> inventory = new();
-        // Backpack
+        // Backpack inventory
         for(int i = 0; i < backpackInventory.transform.childCount; i++)
         {
             inventory.Add(backpackInventory.transform.GetChild(i), "");
             if(backpackInventory.transform.GetChild(i).childCount > 0 && backpackInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+            {
                 inventory[backpackInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+                if (item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
+                    inventory[backpackInventory.transform.GetChild(i)] += "/" + item.stats["currentMagazine"].ToString();
+            }
         }
-        // Belt
+        // Belt inventory
         for (int i = 0; i < beltInventory.transform.childCount; i++)
         {
             inventory.Add(beltInventory.transform.GetChild(i), "");
             if (beltInventory.transform.GetChild(i).childCount > 0 && beltInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+            {
                 inventory[beltInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+                if (item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
+                    inventory[beltInventory.transform.GetChild(i)] += "/" + item.stats["currentMagazine"].ToString();
+            }
         }
-        // Pockets
+        // Pocket inventory
         for (int i = 0; i < pocketsInventory.transform.childCount; i++)
         {
             inventory.Add(pocketsInventory.transform.GetChild(i), "");
             if (pocketsInventory.transform.GetChild(i).childCount > 0 && pocketsInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+            {
                 inventory[pocketsInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+                if (item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
+                    inventory[pocketsInventory.transform.GetChild(i)] += "/" + item.stats["currentMagazine"].ToString();
+            }
         }
-        // Hands
+        // Hand slots
         inventory.Add(LeftHandSlot.transform, "");
         inventory.Add(RightHandSlot.transform, "");
         if (LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item _item))
+        {
             inventory[LeftHandSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
+            if (_item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
+                inventory[LeftHandSlot.transform] += "/" + _item.stats["currentMagazine"].ToString();
+        }
         if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out _item))
+        {
             inventory[RightHandSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
-        // Armor
+            if (_item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
+                inventory[RightHandSlot.transform] += "/" + _item.stats["currentMagazine"].ToString();
+        }
+        // Armor slots
         for (int i = 0; i < armorSlots.transform.childCount; i++)
         {
             inventory.Add(armorSlots.transform.GetChild(i), "");
             if (armorSlots.transform.GetChild(i).childCount > 0 && armorSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+            {
                 inventory[armorSlots.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+                if (item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
+                    inventory[armorSlots.transform.GetChild(i)] += "/" + item.stats["currentMagazine"].ToString();
+            }
         }
-        // Equipment
+        // Equipment slots
         for (int i = 0; i < equipmentSlots.transform.childCount; i++)
         {
             inventory.Add(equipmentSlots.transform.GetChild(i), "");
             if (equipmentSlots.transform.GetChild(i).childCount > 0 && equipmentSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+            {
                 inventory[equipmentSlots.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
+                if (item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
+                    inventory[equipmentSlots.transform.GetChild(i)] += "/" + item.stats["currentMagazine"].ToString();
+            }
         }
-        // Backpack
+        // Backpack slot
         inventory.Add(backpackSlot.transform, "");
         if (backpackSlot.transform.childCount > 0 && backpackSlot.transform.GetChild(0).TryGetComponent(out _item))
+        {
             inventory[backpackSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
-        // Belt
+            if (_item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
+                inventory[backpackSlot.transform] += "/" + _item.stats["currentMagazine"].ToString();
+        }
+        // Belt slot
         inventory.Add(beltSlot.transform, "");
         if (beltSlot.transform.childCount > 0 && beltSlot.transform.GetChild(0).TryGetComponent(out _item))
+        {
             inventory[beltSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
+            if (_item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
+                inventory[beltSlot.transform] += "/" + _item.stats["currentMagazine"].ToString();
+        }
 
 
         data.playerInventory.Clear();

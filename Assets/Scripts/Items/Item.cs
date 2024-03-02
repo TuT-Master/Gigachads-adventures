@@ -25,7 +25,7 @@ public class Item : MonoBehaviour
     public int amount;
 
     public int inventoryCapacity;
-
+    
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
     public Sprite sprite_equip;
