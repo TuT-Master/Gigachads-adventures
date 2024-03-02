@@ -33,7 +33,7 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
     public void StunEnemy(float seconds)
     {
-        GetComponent<EnemyMovement>().Stun(seconds);
+        StartCoroutine(GetComponent<EnemyMovement>().Stun(seconds));
         isStunned = true;
     }
 }

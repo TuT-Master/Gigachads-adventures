@@ -13,11 +13,11 @@ public class PlayerFight : MonoBehaviour
     public bool reloading;
 
     [SerializeField]
+    private GameObject freeRotation;
+    [SerializeField]
     private CapsuleCollider weaponRange;
     [SerializeField]
     private Animator animator;
-    [SerializeField]
-    private RectTransform reloadState;
     [SerializeField]
     private GameObject projectilePrefab;
     [SerializeField]
@@ -47,7 +47,7 @@ public class PlayerFight : MonoBehaviour
     private void Update()
     {
         ActiveWeapon();
-        RotateCollider();
+        FreeRotation();
         MyInput();
     }
 
@@ -135,8 +135,6 @@ public class PlayerFight : MonoBehaviour
             itemInHand.stats["currentMagazine"]--;
             Debug.Log(itemInHand.stats["currentMagazine"].ToString() + " / " + itemInHand.stats["magazineSize"].ToString());
 
-            // Resize reloadState bar
-            reloadState.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 300f * itemInHand.stats["currentMagazine"] / itemInHand.stats["magazineSize"]);
 
             float angle = GetComponent<PlayerMovement>().angleRaw + UnityEngine.Random.Range(-itemInHand.stats["spread"], itemInHand.stats["spread"]);
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, angle, 0));
@@ -154,9 +152,6 @@ public class PlayerFight : MonoBehaviour
         else
         {
             Debug.Log("No ammo!");
-
-            // Resize reloadState bar
-            reloadState.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0f);
 
 
             if (itemInHand.stats["magazineSize"] == 1)
@@ -286,7 +281,7 @@ public class PlayerFight : MonoBehaviour
     }
 
 
-    void RotateCollider() { weaponRange.gameObject.transform.rotation = Quaternion.Euler(0, GetComponent<PlayerMovement>().angleRaw, 0); }
+    void FreeRotation() { freeRotation.transform.rotation = Quaternion.Euler(0, GetComponent<PlayerMovement>().angleRaw, 0); }
     private void OnTriggerEnter(Collider other)
     {
         var enemy = other.GetComponentInParent<IInteractableEnemy>();
