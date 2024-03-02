@@ -134,6 +134,7 @@ public class Item : MonoBehaviour
         sprite_equip = item.sprite_equip;
         sprite_equipBack = item.sprite_equipBack;
         inventoryCapacity = item.inventoryCapacity;
+        fullAuto = item.fullAuto;
         ammo = item.ammo;
     }
 

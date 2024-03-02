@@ -50,25 +50,31 @@ public class PlayerFight : MonoBehaviour
 
     void MyInput()
     {
+        if (GetComponent<PlayerInventory>().playerInventoryOpen | GetComponent<PlayerSkill>().skillScreenOpen)
+            return;
         // LMB
-        if(itemInHand != null && Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0))
         {
-            if (itemInHand.fullAuto && Input.GetMouseButton(0))
+            // Semi-auto weapons
+            if (itemInHand != null)
             {
-                // Full-auto weapons (only ranged weapons)
-                RangedAttack();
-            }
-            else if (!itemInHand.fullAuto)
-            {
-                // Semi-auto weapons
                 if (itemInHand.slotType == Slot.SlotType.WeaponMelee)
                     MeleeAttack();
                 else if (itemInHand.slotType == Slot.SlotType.WeaponRanged)
                     RangedAttack();
             }
+            else
+                FistsAttack();
         }
-        if (itemInHand == null && Input.GetMouseButtonDown(0))
-            FistsAttack();
+        else if (Input.GetMouseButton(0))
+        {
+            // Full-auto weapons (only ranged weapons)
+            if (itemInHand != null && itemInHand.fullAuto && canAttackAgain)
+            {
+                Debug.Log("Full-auto range attack!");
+                RangedAttack();
+            }
+        }
 
         // RMB
         if (Input.GetMouseButton(1))
@@ -113,24 +119,37 @@ public class PlayerFight : MonoBehaviour
             return;
         canAttackAgain = false;
 
-        Debug.Log("Firing!");
-        itemInHand.stats["currentMagazine"]--;
-        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, GetComponent<PlayerMovement>().angleRaw, 0));
-        projectile.GetComponent<Rigidbody>().AddForce(Vector3.Normalize(new(0, 0, 0)), ForceMode.VelocityChange);
-        projectile.GetComponent<Projectile>().item = new(itemInHand.ammo[0]);
 
         if (itemInHand.stats["currentMagazine"] > 0)
+        {
+            Debug.Log("Firing!");
+            itemInHand.stats["currentMagazine"]--;
+
+            float angle = GetComponent<PlayerMovement>().angleRaw/* + Random.Range(-itemInHand.stats["spread"], itemInHand.stats["spread"])*/;
+            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, angle, 0));
+
+            projectile.GetComponent<Projectile>().item = new(itemInHand.ammo[0]);
+
+            Vector3 victor = projectile.GetComponent<Projectile>().item.stats["projectileSpeed"] * Vector3.Normalize(new(Mathf.Cos(angle), 0, Mathf.Sin(angle)));
+            projectile.GetComponent<Rigidbody>().AddForce(victor, ForceMode.VelocityChange);
+
+
             StartCoroutine(CanAttackAgain());
+        }
         else
-            StartCoroutine(Reload());
+        {
+            Debug.Log("No ammo!");
+            if (itemInHand.stats["magazineSize"] == 1)
+                StartCoroutine(Reload());
+        }
     }
 
     IEnumerator CanAttackAgain()
     {
         if (itemInHand != null)
-            yield return new WaitForSeconds(1 / itemInHand.stats["attackSpeed"]);
+            yield return new WaitForSeconds(itemInHand.stats["attackSpeed"]);
         else
-            yield return new WaitForSeconds(1 / fistsStats["attackSpeed"]);
+            yield return new WaitForSeconds(fistsStats["attackSpeed"]);
         canAttackAgain = true;
     }
 
@@ -178,13 +197,13 @@ public class PlayerFight : MonoBehaviour
                 // Wait for reload
                 if (itemInHand.stats["magazineSize"] == 1)
                 {
-                    animator.SetFloat("SpeedMultiplier", 1 / itemInHand.stats["attackSpeed"]);
+                    animator.SetFloat("SpeedMultiplier", itemInHand.stats["attackSpeed"]);
                     animator.SetTrigger("Reload");
                     yield return new WaitForSeconds(1 / itemInHand.stats["attackSpeed"]);
                 }
                 else
                 {
-                    animator.SetFloat("SpeedMultiplier", itemInHand.stats["reloadTime"]);
+                    animator.SetFloat("SpeedMultiplier", 1 / itemInHand.stats["reloadTime"]);
                     animator.SetTrigger("Reload");
                     yield return new WaitForSeconds(itemInHand.stats["reloadTime"]);
                 }
