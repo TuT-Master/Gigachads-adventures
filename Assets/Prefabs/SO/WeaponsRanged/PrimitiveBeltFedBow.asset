@@ -28,8 +28,8 @@ MonoBehaviour:
   staminaCost: 2
   manaCost: 0
   currentMagazine: 0
-  magazineSize: 5
-  reloadTime: 2
+  magazineSize: 10
+  reloadTime: 3
   spread: 5
   splashDamage: 0
   splashRadius: 0

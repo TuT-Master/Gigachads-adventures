@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -125,14 +126,19 @@ public class PlayerFight : MonoBehaviour
             Debug.Log("Firing!");
             itemInHand.stats["currentMagazine"]--;
 
-            float angle = GetComponent<PlayerMovement>().angleRaw/* + Random.Range(-itemInHand.stats["spread"], itemInHand.stats["spread"])*/;
+            float angle = GetComponent<PlayerMovement>().angleRaw + UnityEngine.Random.Range(-itemInHand.stats["spread"], itemInHand.stats["spread"]);
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, angle, 0));
 
             projectile.GetComponent<Projectile>().item = new(itemInHand.ammo[0]);
+            Vector3 victor = projectile.GetComponent<Projectile>().item.stats["projectileSpeed"] * new Vector3(VectorFromAngle(angle).z, 0, VectorFromAngle(angle).x);
+            
+            Debug.Log(angle.ToString());
+            Debug.Log(victor.ToString());
 
-            Vector3 victor = projectile.GetComponent<Projectile>().item.stats["projectileSpeed"] * Vector3.Normalize(new(Mathf.Cos(angle), 0, Mathf.Sin(angle)));
-            projectile.GetComponent<Rigidbody>().AddForce(victor, ForceMode.VelocityChange);
+            projectile.GetComponent<Rigidbody>().mass = projectile.GetComponent<Projectile>().item.stats["weight"];
+            projectile.GetComponent<Rigidbody>().AddForce(victor * 10f, ForceMode.Force);
 
+            projectile.GetComponent<Projectile>().alive = true;
 
             StartCoroutine(CanAttackAgain());
         }
@@ -141,7 +147,15 @@ public class PlayerFight : MonoBehaviour
             Debug.Log("No ammo!");
             if (itemInHand.stats["magazineSize"] == 1)
                 StartCoroutine(Reload());
+            else
+                canAttackAgain = true;
         }
+    }
+
+    Vector3 VectorFromAngle(float angle)
+    {
+        angle = (angle + 90) * (float)Math.PI / 180;
+        return new((float)Math.Sin(angle), 0, -(float)Math.Cos(angle));
     }
 
     IEnumerator CanAttackAgain()
@@ -187,6 +201,8 @@ public class PlayerFight : MonoBehaviour
                     }
                 }
             }
+            if (ammoCounter > 0)
+                done = true;
             if (!done)
             {
                 canAttackAgain = false;

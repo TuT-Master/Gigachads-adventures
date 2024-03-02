@@ -6,10 +6,14 @@ public class Projectile : MonoBehaviour
 {
     public Item item;
 
+    public bool alive = false;
+
 
     private void OnTriggerEnter(Collider other)
     {
-        /*
+        if (!alive)
+            return;
+
         if (other.gameObject.layer == 10)
         {
             Debug.Log("Hitting an enemy!");
@@ -29,6 +33,6 @@ public class Projectile : MonoBehaviour
             }
             else
                 Destroy(gameObject);
-        }*/
+        }
     }
 }
