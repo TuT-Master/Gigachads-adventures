@@ -13,7 +13,6 @@ public class PlayerSkill : MonoBehaviour
     [SerializeField]
     private List<GameObject> tabs;
 
-    private PlayerInventory playerInventory;
     private PlayerStats playerStats;
     private HUDmanager hudManager;
 
@@ -25,10 +24,40 @@ public class PlayerSkill : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI manaAmount;
 
+    // One handed dexterity
+    Dictionary<string, float> whipStats = new()
+    {
+        {"bleedingChance", 0},
+        {"range", 0},
+        {"stunChance", 0}
+    };
+    Dictionary<string, float> daggerStats = new()
+    {
+        {"armorIngore", 0},
+        {"attackSpeed", 0}
+    };
+    Dictionary<string, float> swordStats = new()
+    {
+        {"attackSpeed", 0},
+        {"penetration", 0},
+        {"bleedChance", 0}
+    };
+    Dictionary<string, float> rapierStats = new()
+    {
+        {"critChance", 0},
+        {"range", 0}
+    };
+    Dictionary<string, float> oneHandedDexterityStats = new()
+    {
+        {"notConsumeStaminaChance", 0},
+        {"staminaConsumtionReduction", 0},
+        {"evade", 0},
+        {"critChance", 0}
+    };
+
 
     void Start()
     {
-        playerInventory = GetComponent<PlayerInventory>();
         playerStats = GetComponent<PlayerStats>();
         hudManager = GetComponent<HUDmanager>();
         skillScreenOpen = false;
