@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour, IDataPersistance
 {
     public Dictionary<string, float> playerStats;
+    public Dictionary<string, float> bonusStats;
 
     [Header("Default stats setup")]
     #region Default stats setup
@@ -98,6 +99,10 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "backpackSize", backpackSize },
             { "beltSize", beltSize },
             { "pocketSize", pocketSize },
+        };
+        bonusStats = new()
+        {
+
         };
     }
 

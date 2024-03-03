@@ -55,8 +55,17 @@ public class PlayerFight : MonoBehaviour
     {
         if (GetComponent<PlayerInventory>().playerInventoryOpen | GetComponent<PlayerSkill>().skillScreenOpen)
             return;
+
+        // Adjust height of projectile spawn point
+        if(Input.GetAxis("Adjust projectile height") > 0)
+            projectileSpawnPoint.localPosition = new(0, 0.5f, 0.6f);
+        else if(Input.GetAxis("Adjust projectile height") < 0)
+            projectileSpawnPoint.localPosition = new(0, 0.1f, 0.6f);
+        else
+            projectileSpawnPoint.localPosition = new(0, 0.25f, 0.6f);
+
         // LMB
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             // Semi-auto weapons
             if (itemInHand != null)
