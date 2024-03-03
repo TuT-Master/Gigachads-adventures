@@ -10222,7 +10222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 1
-  sprite_idle: {fileID: 3286163911610860551, guid: c6090e4e09c96f14084936e3bf59a050,
+  sprite_idle: {fileID: 3286163911610860551, guid: 983eff56da561f24ba177da71cc551ff,
     type: 3}
   sprite_select: {fileID: 3286163911610860551, guid: cd5a0c95669ba55419dddcfcf60876e9,
     type: 3}
@@ -10246,7 +10246,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 28986dcb947f0f842b57a24615662626, type: 3}
+  m_Sprite: {fileID: 3286163911610860551, guid: 983eff56da561f24ba177da71cc551ff,
+    type: 3}
   m_PreserveAspect: 0
 --- !u!1 &1719224130
 GameObject:
@@ -12051,7 +12052,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
+  m_CellSize: {x: 59, y: 61}
   m_Spacing: {x: 1, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
