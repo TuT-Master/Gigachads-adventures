@@ -21,7 +21,7 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         canvasGroup.blocksRaycasts = false;
         parentBeforeDrag = transform.parent;
         parentAfterDrag = transform.parent;
-        transform.SetParent(transform.root);
+        transform.SetParent(transform.root.Find("UI"));
         transform.SetAsLastSibling();
     }
 

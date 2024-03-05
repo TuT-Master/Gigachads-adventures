@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 5720839755617397147}
+  parentBeforeDrag: {fileID: 0}
   parentAfterDrag: {fileID: 0}
 --- !u!114 &7387779997689524326
 MonoBehaviour:
@@ -122,11 +123,16 @@ MonoBehaviour:
   description: 
   slotType: 0
   isStackable: 0
+  stackSize: 0
   emitsLight: 0
+  fullAuto: 0
   amount: 2
+  inventoryCapacity: 0
   sprite_inventory: {fileID: 0}
   sprite_hand: {fileID: 0}
   sprite_equip: {fileID: 0}
+  sprite_equipBack: {fileID: 0}
+  ammo: []
 --- !u!1 &6599278895345260592
 GameObject:
   m_ObjectHideFlags: 0
