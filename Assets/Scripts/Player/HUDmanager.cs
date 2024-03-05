@@ -6,6 +6,8 @@ public class HUDmanager : MonoBehaviour
 {
     private PlayerInventory inventory;
     private PlayerSkill skill;
+    [SerializeField]
+    private SkillDescription skillDescription;
 
 
     private void Start()
@@ -16,12 +18,14 @@ public class HUDmanager : MonoBehaviour
 
     public void ToggleInventoryScreen(bool toggle)
     {
+        skillDescription.HideSkillDetails();
         skill.ToggleSkillScreen(false);
         inventory.ToggleInventory(toggle);
     }
 
     public void ToggleSkillScreen(bool toggle)
     {
+        skillDescription.HideSkillDetails();
         inventory.ToggleInventory(false);
         skill.ToggleSkillScreen(toggle);
     }
