@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class SkillDescription : MonoBehaviour
 {
+    private Skill skill;
+
     private TextMeshProUGUI skillName;
     private TextMeshProUGUI skillDescription;
     private TextMeshProUGUI skillStats;
@@ -19,11 +21,17 @@ public class SkillDescription : MonoBehaviour
 
     public void ShowSkillDetails(Skill skill)
     {
+        this.skill = skill;
         Debug.Log("Show details");
     }
 
     public void HideSkillDetails()
     {
         Debug.Log("Hide details");
+    }
+
+    public void UpgradeSkill()
+    {
+        Debug.Log("Upgrading skill /" + skill.skillName + "/ to level " + skill.levelOfSkill.ToString());
     }
 }

@@ -9,10 +9,8 @@ public class Skill : MonoBehaviour
     public string skillName;
 
     // Levels of skill
-    [SerializeField]
-    private int levelOfSkill = 0;
-    [SerializeField]
-    private int MaxlevelsOfSkill = 0;
+    public int levelOfSkill = 0;
+    public int MaxlevelsOfSkill = 0;
     public bool maxLevel;
     public bool clicked;
 
