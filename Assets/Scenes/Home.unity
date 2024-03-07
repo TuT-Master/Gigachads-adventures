@@ -14654,12 +14654,12 @@ PrefabInstance:
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: MaxlevelsOfSkill
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: damage.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
@@ -14674,7 +14674,7 @@ PrefabInstance:
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: penetration.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
