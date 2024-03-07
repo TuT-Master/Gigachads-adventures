@@ -8,6 +8,9 @@ public class PlayerSkill : MonoBehaviour
     [SerializeField]
     private GameObject skillScreen;
 
+    [SerializeField]
+    private SkillDescription skillDescription;
+
     public bool skillScreenOpen;
 
     [SerializeField]
@@ -51,6 +54,7 @@ public class PlayerSkill : MonoBehaviour
     public void MagicButtonClicked() { OpenTab(3); }
     private void OpenTab(int tabId)
     {
+        skillDescription.HideSkillDetails();
         for (int i = 0; i < tabs.Count; i++)
         {
             if (i == tabId)

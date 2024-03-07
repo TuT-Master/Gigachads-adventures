@@ -1322,6 +1322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillScreen: {fileID: 1813809444}
+  skillDescription: {fileID: 1488603244}
   skillScreenOpen: 0
   tabs:
   - {fileID: 397380054}
@@ -9570,6 +9571,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46cb5b301bff54846adbcdb71d57a479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillName: {fileID: 1602479380}
+  skillDescription: {fileID: 1678097678}
+  skillStats: {fileID: 1047376675}
 --- !u!1001 &1501891110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14629,6 +14633,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
+      propertyPath: skillName
+      value: Your mom gay
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: description
+      value: Makes you pancake
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
       propertyPath: skillLocked
       value: 
       objectReference: {fileID: 7371675611502727958}
@@ -14637,6 +14651,41 @@ PrefabInstance:
       propertyPath: skillUnlocked
       value: 
       objectReference: {fileID: 7371675611502727960}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: MaxlevelsOfSkill
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: damage.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: damage.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: damage.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: penetration.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: penetration.Array.data[0]
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: penetration.Array.data[1]
+      value: -2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
