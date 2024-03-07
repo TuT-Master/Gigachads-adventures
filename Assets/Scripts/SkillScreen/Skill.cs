@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VectorGraphics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,8 @@ using UnityEngine.UI;
 public class Skill : MonoBehaviour
 {
     public string skillName;
+
+    public string description;
 
     // Levels of skill
     public int levelOfSkill = 0;
@@ -44,9 +47,9 @@ public class Skill : MonoBehaviour
 
     // Images for skill
     [SerializeField]
-    private Image skillLocked;
+    private SVGImage skillLocked;
     [SerializeField]
-    private Image skillUnlocked;
+    private SVGImage skillUnlocked;
 
     private SkillDescription skillDescription;
 
@@ -76,20 +79,27 @@ public class Skill : MonoBehaviour
         {
             levelOfSkill++;
 
-            bonusStats = new()
+
+            Dictionary<string, float[]> newBonusStats = new()
             {
-                {"damage", damage[levelOfSkill - 1] },
-                {"penetration", penetration[levelOfSkill - 1] },
-                {"armorIngore", armorIgnore[levelOfSkill - 1] },
-                {"bleedingChance", bleedingChance[levelOfSkill - 1] },
-                {"stunChance", stunChance[levelOfSkill - 1] },
-                {"range", range[levelOfSkill - 1] },
-                {"attackSpeed", attackSpeed[levelOfSkill - 1] },
-                {"critChance", critChance[levelOfSkill - 1] },
-                {"notConsumeStaminaChance", notConsumeStaminaChance[levelOfSkill - 1] },
-                {"staminaConsumtionReduction", staminaConsumtionReduction[levelOfSkill - 1] },
-                {"evade", evade[levelOfSkill - 1] },
+                {"damage", damage },
+                {"penetration", penetration },
+                {"armorIngore", armorIgnore },
+                {"bleedingChance", bleedingChance },
+                {"stunChance", stunChance },
+                {"range", range },
+                {"attackSpeed", attackSpeed },
+                {"critChance", critChance },
+                {"notConsumeStaminaChance", notConsumeStaminaChance },
+                {"staminaConsumtionReduction", staminaConsumtionReduction },
+                {"evade", evade },
             };
+
+            bonusStats.Clear();
+            foreach(string key in  newBonusStats.Keys)
+                if (newBonusStats[key].Length > 0)
+                    bonusStats.Add(key, newBonusStats[key][levelOfSkill - 1]);
+
 
             // TODO - change sprites
 

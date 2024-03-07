@@ -7,31 +7,41 @@ public class SkillDescription : MonoBehaviour
 {
     private Skill skill;
 
+    [SerializeField]
     private TextMeshProUGUI skillName;
+    [SerializeField]
     private TextMeshProUGUI skillDescription;
+    [SerializeField]
     private TextMeshProUGUI skillStats;
 
-
-    void Start()
-    {
-        skillName = transform.Find("SkillName").GetComponent<TextMeshProUGUI>();
-        skillDescription = transform.Find("SkillDescription").GetComponent<TextMeshProUGUI>();
-        skillStats = transform.Find("SkillStats").GetComponent<TextMeshProUGUI>();
-    }
 
     public void ShowSkillDetails(Skill skill)
     {
         this.skill = skill;
-        Debug.Log("Show details");
+        skillName.text = skill.skillName;
+        skillDescription.text = skill.description;
+        string fokinText = "";
+        foreach (string key in skill.bonusStats.Keys)
+        {
+            if (skill.bonusStats[key] > 0)
+                fokinText += key + ": + " + skill.bonusStats[key].ToString() + "%\n";
+            else if (skill.bonusStats[key] < 0)
+                fokinText += key + ": - " + Mathf.Abs(skill.bonusStats[key]).ToString() + "%\n";
+        }
+        skillStats.text = fokinText;
     }
 
     public void HideSkillDetails()
     {
-        Debug.Log("Hide details");
+        skillName.text = "";
+        skillDescription.text = "";
+        skillStats.text = "";
     }
 
     public void UpgradeSkill()
     {
+        skill.UpgradeSkill();
+        ShowSkillDetails(skill);
         Debug.Log("Upgrading skill /" + skill.skillName + "/ to level " + skill.levelOfSkill.ToString());
     }
 }

@@ -13,5 +13,7 @@ public class UpgradeSkillButton : MonoBehaviour
     private void Update()
     {
         // TODO - check if player has any free skill points, if not --> disable this button
+
+        // TODO - check if skill is not at max level, of not --> disable this button
     }
 }
