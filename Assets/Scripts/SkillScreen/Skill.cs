@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VectorGraphics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,9 +45,9 @@ public class Skill : MonoBehaviour
 
     // Images for skill
     [SerializeField]
-    private Image skillLocked;
+    private SVGImage skillLocked;
     [SerializeField]
-    private Image skillUnlocked;
+    private SVGImage skillUnlocked;
 
     private SkillDescription skillDescription;
 

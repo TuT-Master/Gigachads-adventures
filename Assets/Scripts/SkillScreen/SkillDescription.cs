@@ -32,6 +32,6 @@ public class SkillDescription : MonoBehaviour
 
     public void UpgradeSkill()
     {
-        Debug.Log("Upgrading skill /" + skill.skillName + "/ to level " + skill.levelOfSkill.ToString());
+        Debug.Log("Upgrading skill /" + skill.skillName + "/ to level " + (skill.levelOfSkill + 1).ToString());
     }
 }
