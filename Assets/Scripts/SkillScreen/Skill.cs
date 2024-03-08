@@ -11,6 +11,8 @@ public class Skill : MonoBehaviour
 
     public string description;
 
+    public bool activeSkill;
+
     // Levels of skill
     public int levelOfSkill = 0;
     [HideInInspector] public int MaxlevelsOfSkill = 1;
@@ -28,6 +30,12 @@ public class Skill : MonoBehaviour
     float[] armorIgnore;
     [SerializeField]
     float[] bleedingChance;
+    [SerializeField]
+    float[] bleedingDamage;
+    [SerializeField]
+    float[] poisonChance;
+    [SerializeField]
+    float[] poisonDamage;
     [SerializeField]
     float[] stunChance;
     [SerializeField]
@@ -74,6 +82,9 @@ public class Skill : MonoBehaviour
             penetration,
             armorIgnore,
             bleedingChance,
+            bleedingDamage,
+            poisonChance,
+            poisonDamage,
             stunChance,
             range,
             attackSpeed,
@@ -91,6 +102,9 @@ public class Skill : MonoBehaviour
             {"penetration", 0 },
             {"armorIngore", 0 },
             {"bleedingChance", 0 },
+            {"bleedingDamage", 0 },
+            {"poisonChance", 0 },
+            {"poisonDamage", 0 },
             {"stunChance", 0 },
             {"range", 0 },
             {"attackSpeed", 0 },
@@ -114,6 +128,9 @@ public class Skill : MonoBehaviour
                 {"penetration", penetration },
                 {"armorIngore", armorIgnore },
                 {"bleedingChance", bleedingChance },
+                {"bleedingDamage", bleedingDamage },
+                {"poisonChance", poisonChance },
+                {"poisonDamage", poisonDamage },
                 {"stunChance", stunChance },
                 {"range", range },
                 {"attackSpeed", attackSpeed },
