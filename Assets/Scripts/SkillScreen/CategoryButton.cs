@@ -47,6 +47,12 @@ public class CategoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void OnPointerDown(PointerEventData eventData)
     {
         clicked = true;
+        foreach (CategoryButton button in FindObjectsOfType<CategoryButton>())
+            if (button != this)
+            {
+                button.clicked = false;
+                button.OnPointerExit(null);
+            }
         switch (buttonType)
         {
             case ButtonType.Melee:
@@ -66,12 +72,6 @@ public class CategoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        foreach (CategoryButton button in FindObjectsOfType<CategoryButton>())
-            if (button != this)
-            {
-                button.clicked = false;
-                button.OnPointerExit(null);
-            }
         image.sprite = sprite_select;
     }
 
