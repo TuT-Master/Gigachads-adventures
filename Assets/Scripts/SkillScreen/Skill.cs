@@ -67,7 +67,7 @@ public class Skill : MonoBehaviour
         skillUnlockedAmountImage.type = Image.Type.Filled;
         skillUnlockedAmountImage.fillMethod = Image.FillMethod.Vertical;
         skillUnlockedAmountImage.fillAmount = 0f;
-        skillDescription = transform.parent.parent.Find("SkillDescription").GetComponent<SkillDescription>();
+        skillDescription = FindAnyObjectByType<SkillDescription>();
         List<float[]> floats = new()
         {
             damage,
