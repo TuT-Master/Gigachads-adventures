@@ -12002,8 +12002,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clicked: 0
   buttonType: 1
-  sprite_idle: {fileID: 21300000, guid: 28986dcb947f0f842b57a24615662626, type: 3}
-  sprite_select: {fileID: 3286163911610860551, guid: cd5a0c95669ba55419dddcfcf60876e9,
+  sprite_idle: {fileID: 3286163911610860551, guid: 8210616b03ad7ad4b879712ec88e4d38,
+    type: 3}
+  sprite_select: {fileID: 3286163911610860551, guid: e9d57fb2fcd51a448a94d906a392d271,
     type: 3}
 --- !u!114 &1710146125
 MonoBehaviour:
