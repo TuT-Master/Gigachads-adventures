@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillName: 
+  description: 
   levelOfSkill: 0
   MaxlevelsOfSkill: 1
   maxLevel: 0
@@ -68,6 +69,7 @@ MonoBehaviour:
   notConsumeStaminaChance: []
   staminaConsumtionReduction: []
   evade: []
+  skillUnlockedAmountImage: {fileID: 5532748971415127509}
   skillLocked: {fileID: 0}
   skillUnlocked: {fileID: 0}
 --- !u!114 &5066627898884717616
@@ -141,7 +143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 716196615743948820}
   - component: {fileID: 4767131856303744856}
-  - component: {fileID: 8908058947770126981}
+  - component: {fileID: 5532748971415127509}
   m_Layer: 5
   m_Name: ImageUnlocked
   m_TagString: Untagged
@@ -164,10 +166,10 @@ RectTransform:
   m_Father: {fileID: 2888565117573770486}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 32}
+  m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4767131856303744856
 CanvasRenderer:
@@ -177,7 +179,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5410846921645501087}
   m_CullTransparentMesh: 1
---- !u!114 &8908058947770126981
+--- !u!114 &5532748971415127509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,7 +188,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5410846921645501087}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef8b96895a0ec4ba685178a052544251, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -198,7 +200,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6898546566695031945
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4164550668425423550}
   - component: {fileID: 2456843228184383493}
-  - component: {fileID: 5927391508391011938}
+  - component: {fileID: 1959836820762310413}
   m_Layer: 5
   m_Name: ImageLocked
   m_TagString: Untagged
@@ -235,7 +245,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2456843228184383493
 CanvasRenderer:
@@ -245,7 +255,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6898546566695031945}
   m_CullTransparentMesh: 1
---- !u!114 &5927391508391011938
+--- !u!114 &1959836820762310413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,7 +264,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6898546566695031945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef8b96895a0ec4ba685178a052544251, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -266,4 +276,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

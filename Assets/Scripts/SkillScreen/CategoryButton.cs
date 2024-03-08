@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class CategoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+    [HideInInspector] public bool clicked;
+
     private enum ButtonType
     {
         Stat,
@@ -32,11 +34,20 @@ public class CategoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         playerSkill = FindAnyObjectByType<PlayerSkill>();
 
         image.sprite = sprite_idle;
+
+        clicked = false;
+    }
+
+    void Update()
+    {
+        if (clicked)
+            image.sprite = sprite_select;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        switch(buttonType)
+        clicked = true;
+        switch (buttonType)
         {
             case ButtonType.Melee:
                 playerSkill.MeleeButtonClicked();
@@ -55,6 +66,12 @@ public class CategoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        foreach (CategoryButton button in FindObjectsOfType<CategoryButton>())
+            if (button != this)
+            {
+                button.clicked = false;
+                button.OnPointerExit(null);
+            }
         image.sprite = sprite_select;
     }
 

@@ -13,9 +13,9 @@ public class Skill : MonoBehaviour
 
     // Levels of skill
     public int levelOfSkill = 0;
-    public int MaxlevelsOfSkill = 0;
-    public bool maxLevel;
-    public bool clicked;
+    [HideInInspector] public int MaxlevelsOfSkill = 1;
+    [HideInInspector] public bool maxLevel;
+    [HideInInspector] public bool clicked;
 
     #region Bonus stats
     public Dictionary<string, float> bonusStats;
@@ -47,16 +47,44 @@ public class Skill : MonoBehaviour
 
     // Images for skill
     [SerializeField]
-    private SVGImage skillLocked;
+    private Image skillUnlockedAmountImage;
     [SerializeField]
-    private SVGImage skillUnlocked;
+    private Sprite skillLocked;
+    [SerializeField]
+    private Sprite skillUnlocked;
+
+    // Other variables for images
+    private float fillAmount = 0f;
 
     private SkillDescription skillDescription;
 
 
+
     private void Start()
     {
+        transform.Find("ImageLocked").GetComponent<Image>().sprite = skillLocked;
+        skillUnlockedAmountImage.sprite = skillUnlocked;
+        skillUnlockedAmountImage.type = Image.Type.Filled;
+        skillUnlockedAmountImage.fillMethod = Image.FillMethod.Vertical;
+        skillUnlockedAmountImage.fillAmount = 0f;
         skillDescription = transform.parent.parent.Find("SkillDescription").GetComponent<SkillDescription>();
+        List<float[]> floats = new()
+        {
+            damage,
+            penetration,
+            armorIgnore,
+            bleedingChance,
+            stunChance,
+            range,
+            attackSpeed,
+            critChance,
+            notConsumeStaminaChance,
+            staminaConsumtionReduction,
+            evade,
+        };
+        foreach (float[] f in floats)
+            if (f.Length > MaxlevelsOfSkill)
+                MaxlevelsOfSkill = f.Length;
         bonusStats = new()
         {
             {"damage", 0 },
@@ -100,14 +128,16 @@ public class Skill : MonoBehaviour
                 if (newBonusStats[key].Length > 0)
                     bonusStats.Add(key, newBonusStats[key][levelOfSkill - 1]);
 
-
-            // TODO - change sprites
+            // Fill
+            fillAmount = (float)levelOfSkill / (float)MaxlevelsOfSkill;
+            Debug.Log(fillAmount);
+            skillUnlockedAmountImage.fillAmount = fillAmount;
 
             if (levelOfSkill == MaxlevelsOfSkill)
                 maxLevel = true;
         }
         else
-            Debug.Log("Skill is at its max level!");
+            Debug.Log("Skill is at max level!");
     }
 
 

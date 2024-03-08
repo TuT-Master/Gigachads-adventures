@@ -3397,6 +3397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54211e01780c16a4289377d41a630f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clicked: 0
   buttonType: 0
   sprite_idle: {fileID: 21300000, guid: 198d19933815bd9448286b3fb389d3a1, type: 3}
   sprite_select: {fileID: 21300000, guid: 0bd5b03d78887f046b4058f142c76583, type: 3}
@@ -6936,6 +6937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54211e01780c16a4289377d41a630f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clicked: 0
   buttonType: 3
   sprite_idle: {fileID: 3286163911610860551, guid: 3424edab49997a748b5e572b333da768,
     type: 3}
@@ -9453,6 +9455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54211e01780c16a4289377d41a630f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clicked: 0
   buttonType: 2
   sprite_idle: {fileID: 21300000, guid: e0aac49dcec9fe54097051b97c3b30d6, type: 3}
   sprite_select: {fileID: 21300000, guid: cdea7e10a80eac64b949b2dd4190748c, type: 3}
@@ -10952,6 +10955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54211e01780c16a4289377d41a630f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clicked: 0
   buttonType: 1
   sprite_idle: {fileID: 21300000, guid: 28986dcb947f0f842b57a24615662626, type: 3}
   sprite_select: {fileID: 3286163911610860551, guid: cd5a0c95669ba55419dddcfcf60876e9,
@@ -14558,12 +14562,12 @@ PrefabInstance:
     - target: {fileID: 2888565117573770486, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 2888565117573770486, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 2888565117573770486, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
@@ -14632,85 +14636,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
-      propertyPath: skillName
-      value: Your mom gay
-      objectReference: {fileID: 0}
-    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
-        type: 3}
-      propertyPath: description
-      value: Makes you pancake
-      objectReference: {fileID: 0}
-    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
-        type: 3}
       propertyPath: skillLocked
       value: 
-      objectReference: {fileID: 7371675611502727958}
+      objectReference: {fileID: 21300000, guid: 59e88c2ef22c0f14788516d49dddde1b,
+        type: 3}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: skillUnlocked
       value: 
-      objectReference: {fileID: 7371675611502727960}
-    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+      objectReference: {fileID: 21300000, guid: f5bf8a673b7f5484f951974b8d43e558,
         type: 3}
-      propertyPath: MaxlevelsOfSkill
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: damage.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
-        type: 3}
-      propertyPath: damage.Array.data[0]
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
-        type: 3}
-      propertyPath: damage.Array.data[1]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
-        type: 3}
-      propertyPath: penetration.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
-        type: 3}
-      propertyPath: penetration.Array.data[0]
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
-        type: 3}
-      propertyPath: penetration.Array.data[1]
-      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fba86ece889fee744898d23b51d26e19, type: 3}
---- !u!114 &7371675611502727958 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5927391508391011938, guid: fba86ece889fee744898d23b51d26e19,
-    type: 3}
-  m_PrefabInstance: {fileID: 7371675611502727956}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef8b96895a0ec4ba685178a052544251, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7371675611502727960 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8908058947770126981, guid: fba86ece889fee744898d23b51d26e19,
-    type: 3}
-  m_PrefabInstance: {fileID: 7371675611502727956}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef8b96895a0ec4ba685178a052544251, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

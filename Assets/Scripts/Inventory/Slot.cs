@@ -93,6 +93,20 @@ public class Slot : MonoBehaviour, IDropHandler
         }
     }
 
+    public bool HasItem(out Item item)
+    {
+        if(transform.childCount > 0)
+        {
+            item = transform.GetComponentInChildren<Item>();
+            return true;
+        }
+        else
+        {
+            item = null;
+            return false;
+        }
+    }
+
     public void OnDrop(PointerEventData eventData)
     {
         Item droppedItem = eventData.pointerDrag.GetComponent<Item>();

@@ -48,7 +48,7 @@ public class PlayerSkill : MonoBehaviour
             skillScreen.SetActive(false);
         }
     }
-    public void StatButtonClicked() { OpenTab(0); }
+    public void StatButtonClicked(){ OpenTab(0); }
     public void MeleeButtonClicked() { OpenTab(1); }
     public void RangedButtonClicked() { OpenTab(2); }
     public void MagicButtonClicked() { OpenTab(3); }
