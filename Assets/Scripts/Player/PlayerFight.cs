@@ -49,6 +49,7 @@ public class PlayerFight : MonoBehaviour
         ActiveWeapon();
         FreeRotation();
         MyInput();
+        animator.gameObject.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
     }
 
     void MyInput()
