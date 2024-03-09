@@ -35,8 +35,8 @@ public class PlayerFight : MonoBehaviour
                 {"rangeY", 0.75f},
                 {"AoE", 0f},
                 {"twoHanded", 0f},
-                {"weight", 0f}};
-
+                {"weight", 0f}
+    };
 
     private void Start()
     {
@@ -53,7 +53,7 @@ public class PlayerFight : MonoBehaviour
 
     void MyInput()
     {
-        if (GetComponent<PlayerInventory>().playerInventoryOpen | GetComponent<PlayerSkill>().skillScreenOpen)
+        if (GetComponent<PlayerInventory>().playerInventoryOpen | GetComponent<PlayerSkill>().skillScreenOpen | reloading)
             return;
 
         // Adjust height of projectile spawn point
@@ -95,8 +95,9 @@ public class PlayerFight : MonoBehaviour
         }
 
         // Reload
-        if (Input.GetKeyDown(KeyCode.R) && itemInHand != null && itemInHand.slotType == Slot.SlotType.WeaponRanged && !reloading)
-            StartCoroutine(Reload());
+        if (itemInHand != null && itemInHand.slotType == Slot.SlotType.WeaponRanged && !reloading)
+            if (Input.GetKeyDown(KeyCode.R) | itemInHand.stats["currentMagazine"] == 0)
+                StartCoroutine(Reload());
     }
 
     void FistsAttack()
@@ -241,9 +242,10 @@ public class PlayerFight : MonoBehaviour
                     animator.SetTrigger("Reload");
                     yield return new WaitForSeconds(itemInHand.stats["reloadTime"]);
                 }
+                Debug.Log("Reloaded!");
 
                 // Reload
-                for(int i = 0; i < chosenItems.Count; i++)
+                for (int i = 0; i < chosenItems.Count; i++)
                 {
                     if (itemInHand.stats["currentMagazine"] < itemInHand.stats["magazineSize"])
                     {
