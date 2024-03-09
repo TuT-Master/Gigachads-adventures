@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca43089e27a08f945b859ca8e9efff38, type: 3}
+  m_Name: DungeonDatabase
+  m_EditorClassIdentifier: 
+  floorMousePointer: {fileID: 6134437696355652041, guid: 5646348160c444e4c9726b456d5c3913,
+    type: 3}
+  floors:
+  - {fileID: 7056237436050294319, guid: f80f36f039c3e65439d1f4ab595186c5, type: 3}
+  walls:
+  - {fileID: 6760052826874073628, guid: c7fd5884133fb5e43ac994c308eb3135, type: 3}
+  doors:
+  - {fileID: 5326635467952911954, guid: 96d19cfec6d6a084db3296ab7b16ab5e, type: 3}
