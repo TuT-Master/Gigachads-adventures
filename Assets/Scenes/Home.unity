@@ -3699,8 +3699,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clicked: 0
   buttonType: 0
-  sprite_idle: {fileID: 21300000, guid: 198d19933815bd9448286b3fb389d3a1, type: 3}
-  sprite_select: {fileID: 21300000, guid: 0bd5b03d78887f046b4058f142c76583, type: 3}
+  sprite_idle: {fileID: 3286163911610860551, guid: 5ce3e5e27bc640d4d8baaef204bf1c60,
+    type: 3}
+  sprite_select: {fileID: 3286163911610860551, guid: 04b2308a444c88847bd1ddf1c98455ac,
+    type: 3}
 --- !u!114 &582107808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8013,7 +8015,7 @@ MonoBehaviour:
   buttonType: 3
   sprite_idle: {fileID: 3286163911610860551, guid: 3424edab49997a748b5e572b333da768,
     type: 3}
-  sprite_select: {fileID: 3286163911610860551, guid: ae482f250a09e41408e7abdd1028cd93,
+  sprite_select: {fileID: 3286163911610860551, guid: 6ebacd1ca1ca8b9448f56b92dbed0668,
     type: 3}
 --- !u!114 &1163005122
 MonoBehaviour:
