@@ -83,7 +83,6 @@ public class DungeonGenerator : MonoBehaviour
         int sizeX = (int)(roomSize.x - 1) / 2;
         int sizeY = (int)(roomSize.y - 1) / 2;
 
-
         Dictionary<Vector2, Cell> tempBoard = board;
         bool canBePlaced = true;
         for(int i = -sizeY; i <= sizeY; i++)
@@ -149,15 +148,15 @@ public class DungeonGenerator : MonoBehaviour
                 int rndOffset = rnd.Next(1, maxRoomOffset);
                 List<Vector2> directions = new()
                     {
-                        new(0, rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2),
-                        new(0, -(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2)),
-                        new(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2, 0),
-                        new(-(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2), 0)
+                        new(0, rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2) + ((newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2)),
+                        new(0, -(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2) + ((newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2))),
+                        new(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1 / 2) + ((newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2), 0),
+                        new(-(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1 / 2) + ((newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2)), 0)
                     };
                 List<Vector2> directions3Dcorrection = new()
                     {
-                        new((previousRoom.GetComponent<DungeonRoom>().size.x - newRoom.GetComponent<DungeonRoom>().size.x) / 2, rndOffset),
-                        new((previousRoom.GetComponent<DungeonRoom>().size.x - newRoom.GetComponent<DungeonRoom>().size.x) / 2, -(rndOffset)),
+                        new((previousRoom.GetComponent<DungeonRoom>().size.x - newRoom.GetComponent<DungeonRoom>().size.x) / 2, 0),
+                        new((previousRoom.GetComponent<DungeonRoom>().size.x - newRoom.GetComponent<DungeonRoom>().size.x) / 2, 0),
                         new(0, (previousRoom.GetComponent<DungeonRoom>().size.y - newRoom.GetComponent<DungeonRoom>().size.y) / 2),
                         new(0, (previousRoom.GetComponent<DungeonRoom>().size.y - newRoom.GetComponent<DungeonRoom>().size.y) / 2)
                     };
@@ -165,11 +164,13 @@ public class DungeonGenerator : MonoBehaviour
                 Vector2 dirCorrection = new();
                 bool dirChosen = false;
                 Vector2 centrePos = new(previousRoom.GetComponent<DungeonRoom>().boardPos.x, previousRoom.GetComponent<DungeonRoom>().boardPos.y);
+                
                 while (!dirChosen)
                 {
                     // Check if there is enough space for the room
                     if (directions.Count > 0)
                     {
+                        rnd = new();
                         int dirTry = rnd.Next(0, directions.Count);
                         dir = directions[dirTry];
                         dirCorrection = directions3Dcorrection[dirTry];
@@ -189,15 +190,15 @@ public class DungeonGenerator : MonoBehaviour
                 // If no direction selected -> go back and try it with previous room
                 if(!dirChosen)
                 {
-
+                    Debug.Log("Going back to " + previousRoom.name);
                 }
 
                 // Place the room
                 if(newRoom != null)
                 {
                     newRoom.transform.position = previousRoom.transform.position + new Vector3(dir.x * 3, 0, dir.y * 3);
-                    newRoom.GetComponent<DungeonRoom>().boardPos = new(newRoom.transform.position.x / 3, newRoom.transform.position.z / 3);
                     newRoom.transform.position += new Vector3(dirCorrection.x * 3, 0, dirCorrection.y * 3);
+                    newRoom.GetComponent<DungeonRoom>().boardPos = new(newRoom.transform.position.x / 3, newRoom.transform.position.z / 3);
                 }
             }
 
