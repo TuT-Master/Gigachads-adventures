@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3424edab49997a748b5e572b333da768
+guid: 6ebacd1ca1ca8b9448f56b92dbed0668
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -39,16 +39,16 @@ ScriptedImporter:
   spriteData:
     TessellationDetail: 0
     SpriteRect:
-      name: 
+      name: MagicActive 1Sprite
       originalName: 
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5008339}
       alignment: 0
       border: {x: 0, y: 0, z: 0, w: 0}
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 0
-        height: 0
-      spriteID: 590913ed5e011aa4c8682832238241cb
+        width: 237
+        height: 238
+      spriteID: 6bdf5d712afa5234aa3abb968bfd32b9
     PhysicsOutlines: []
