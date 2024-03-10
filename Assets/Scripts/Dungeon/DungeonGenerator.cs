@@ -148,9 +148,13 @@ public class DungeonGenerator : MonoBehaviour
                 int rndOffset = rnd.Next(1, maxRoomOffset);
                 List<Vector2> directions = new()
                     {
+                        // Right
                         new(0, rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2) + ((newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2)),
+                        // Left
                         new(0, -(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2) + ((newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2))),
+                        // Up
                         new(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1 / 2) + ((newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2), 0),
+                        // Down
                         new(-(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1 / 2) + ((newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2)), 0)
                     };
                 List<Vector2> directions3Dcorrection = new()
@@ -197,8 +201,8 @@ public class DungeonGenerator : MonoBehaviour
                 if(newRoom != null)
                 {
                     newRoom.transform.position = previousRoom.transform.position + new Vector3(dir.x * 3, 0, dir.y * 3);
-                    newRoom.transform.position += new Vector3(dirCorrection.x * 3, 0, dirCorrection.y * 3);
                     newRoom.GetComponent<DungeonRoom>().boardPos = new(newRoom.transform.position.x / 3, newRoom.transform.position.z / 3);
+                    newRoom.transform.position += new Vector3(dirCorrection.x * 3, 0, dirCorrection.y * 3);
                 }
             }
 
