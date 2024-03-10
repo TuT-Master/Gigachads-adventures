@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,6 +25,12 @@ public class DungeonRoom : MonoBehaviour
         doorWalls.Add(transform.Find("DoorWalls").GetChild(2).gameObject);
         doorWalls.Add(transform.Find("DoorWalls").GetChild(0).gameObject);
         doorWalls.Add(transform.Find("DoorWalls").GetChild(1).gameObject);
+
+        for(int i = 0; i < doors.Count; i++)
+        {
+            doors[i].SetActive(false);
+            doorWalls[i].SetActive(true);
+        }
     }
 }
 
@@ -84,7 +91,7 @@ public class DungeonGenerator : MonoBehaviour
             for(int j = -sizeX; j <= sizeX; j++)
             {
                 Vector2 id = new(x + j, y + i);
-                if (tempBoard.ContainsKey(id) && tempBoard[id] == Cell.None)
+                if (board.ContainsKey(id) && board[id] == Cell.None)
                     tempBoard[id] = Cell.Room;
                 else
                     canBePlaced = false;
@@ -145,12 +152,20 @@ public class DungeonGenerator : MonoBehaviour
                 int rndOffset = rnd.Next(1, maxRoomOffset);
                 List<Vector2> directions = new()
                     {
-                        new((previousRoom.GetComponent<DungeonRoom>().size.x - newRoom.GetComponent<DungeonRoom>().size.x) / 2, rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2),
-                        new((previousRoom.GetComponent<DungeonRoom>().size.x - newRoom.GetComponent<DungeonRoom>().size.x) / 2, -(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2)),
-                        new(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2, (previousRoom.GetComponent<DungeonRoom>().size.y - newRoom.GetComponent<DungeonRoom>().size.y) / 2),
-                        new(-(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2), (previousRoom.GetComponent<DungeonRoom>().size.y - newRoom.GetComponent<DungeonRoom>().size.y) / 2)
+                        new(0, rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2),
+                        new(0, -(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.x - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.x - 1) / 2)),
+                        new(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2, 0),
+                        new(-(rndOffset + (previousRoom.GetComponent<DungeonRoom>().size.y - 1) / 2 + (newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2), 0)
+                    };
+                List<Vector2> directions3Dcorrection = new()
+                    {
+                        new((previousRoom.GetComponent<DungeonRoom>().size.x - newRoom.GetComponent<DungeonRoom>().size.x) / 2, rndOffset),
+                        new((previousRoom.GetComponent<DungeonRoom>().size.x - newRoom.GetComponent<DungeonRoom>().size.x) / 2, -(rndOffset)),
+                        new(0, (previousRoom.GetComponent<DungeonRoom>().size.y - newRoom.GetComponent<DungeonRoom>().size.y) / 2),
+                        new(0, (previousRoom.GetComponent<DungeonRoom>().size.y - newRoom.GetComponent<DungeonRoom>().size.y) / 2)
                     };
                 Vector2 dir = new();
+                Vector2 dirCorrection = new();
                 bool dirChosen = false;
                 Vector2 centrePos = new(previousRoom.GetComponent<DungeonRoom>().boardPos.x, previousRoom.GetComponent<DungeonRoom>().boardPos.y);
                 while (!dirChosen)
@@ -160,12 +175,14 @@ public class DungeonGenerator : MonoBehaviour
                     {
                         int dirTry = rnd.Next(0, directions.Count);
                         dir = directions[dirTry];
+                        dirCorrection = directions3Dcorrection[dirTry];
                         if (TryAddRoom(centrePos + dir, newRoom.GetComponent<DungeonRoom>().size))
                             dirChosen = true;
                         else
                         {
                             Debug.Log("Trying to replace the room");
                             directions.Remove(dir);
+                            directions3Dcorrection.Remove(dirCorrection);
                         }
                     }
                     else
@@ -183,6 +200,7 @@ public class DungeonGenerator : MonoBehaviour
                 {
                     newRoom.transform.position = previousRoom.transform.position + new Vector3(dir.x * 3, 0, dir.y * 3);
                     newRoom.GetComponent<DungeonRoom>().boardPos = new(newRoom.transform.position.x / 3, newRoom.transform.position.z / 3);
+                    newRoom.transform.position += new Vector3(dirCorrection.x * 3, 0, dirCorrection.y * 3);
                 }
             }
 
