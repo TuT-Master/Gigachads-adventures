@@ -123,8 +123,6 @@ public class DungeonGenerator : MonoBehaviour
         GameObject previousRoom = null;
         while (roomWIP != maxRoomCount)
         {
-            Debug.Log("Generating room-" + roomWIP);
-
             // Generate new room
             GameObject newRoom = GenerateRoom(new(RandomOddInt(5, 11), RandomOddInt(5, 11)));
             
@@ -133,8 +131,7 @@ public class DungeonGenerator : MonoBehaviour
             if (roomWIP == 0)
             {
                 // Starting room
-                System.Random random = new();
-                Vector2 startPos = new(random.Next((int)newRoom.GetComponent<DungeonRoom>().size.x, dungeonMaxSize - (int)newRoom.GetComponent<DungeonRoom>().size.x), (newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2);
+                Vector2 startPos = new(dungeonMaxSize / 2, (newRoom.GetComponent<DungeonRoom>().size.y - 1) / 2);
                 if(TryAddRoom(startPos, newRoom.GetComponent<DungeonRoom>().size))
                 {
                     newRoom.transform.position = new(startPos.x * 3, 0, startPos.y * 3);
@@ -180,7 +177,7 @@ public class DungeonGenerator : MonoBehaviour
                             dirChosen = true;
                         else
                         {
-                            Debug.Log("Trying to replace the room");
+                            Debug.Log("Trying to replace the room-" + roomWIP);
                             directions.Remove(dir);
                             directions3Dcorrection.Remove(dirCorrection);
                         }
