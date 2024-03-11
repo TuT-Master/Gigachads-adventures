@@ -117,10 +117,10 @@ public class DungeonGenerator : MonoBehaviour
 
 
         // Placing rooms
-        int roomWIP = 0;
         GameObject previousRoom = null;
         Vector2 startPos = new();
-        while (roomWIP != maxRoomCount)
+        int currentRoom = 0;
+        while (currentRoom < maxRoomCount)
         {
             // Generate new room
             Vector2 roomSize = new(RandomOddInt(5, 11), RandomOddInt(5, 11));
@@ -128,15 +128,18 @@ public class DungeonGenerator : MonoBehaviour
             
 
             // Try to place room
-            if (roomWIP == 0)
+            if (currentRoom == 0)
             {
                 // Starting room
                 startPos = new(dungeonMaxSize / 2, (roomSize.y + 1) / 2);
                 AddRoom(startPos, roomSize, out newRoom);
                 newRoom.GetComponent<DungeonRoom>().boardPos = startPos;
+
+                newRoom.GetComponent<DungeonRoom>().previousRoom = previousRoom;
+                previousRoom = newRoom;
+
                 newRoom.SetActive(false);
                 rooms.Add(newRoom);
-                roomWIP++;
             }
             else
             {
@@ -158,6 +161,7 @@ public class DungeonGenerator : MonoBehaviour
                     };
                 Vector2 dir = new();
                 bool done = false;
+                Debug.Log("Trying place room-" + currentRoom);
                 while (!done)
                 {
                     // Check if there is enough space for the room
@@ -170,10 +174,16 @@ public class DungeonGenerator : MonoBehaviour
                         {
                             done = true;
                             AddRoom(startPos + dir, roomSize, out newRoom);
+
+                            Debug.Log("Placing " + newRoom.name);
+
                             newRoom.GetComponent<DungeonRoom>().boardPos = startPos + dir;
+
+                            newRoom.GetComponent<DungeonRoom>().previousRoom = previousRoom;
+                            previousRoom = newRoom;
+
                             newRoom.SetActive(false);
                             rooms.Add(newRoom);
-                            roomWIP++;
                         }
                         else
                             directions.Remove(dir);
@@ -181,21 +191,37 @@ public class DungeonGenerator : MonoBehaviour
                     else
                     {
                         // If no direction selected -> go back and try it with previous room
-                        newRoom = previousRoom;
                         Debug.Log("Going back to " + previousRoom.name);
-                        if (newRoom.GetComponent<DungeonRoom>().boardPos == new Vector2(dungeonMaxSize / 2, (roomSize.y + 1) / 2))
+
+                        newRoom = previousRoom;
+                        previousRoom = newRoom.GetComponent<DungeonRoom>().previousRoom;
+
+                        break;
+
+                        if (previousRoom == newRoom)
                         {
-                            Debug.Log("Could not place all of the rooms!");
+                            Debug.Log("previousRoom == newRoom");
                             done = true;
                         }
-                        if (!done)
-                            break;
+
+                        if (previousRoom == null)
+                            previousRoom = newRoom;
+
+                        directions = new()
+                        {
+                            // Right
+                            new(0, rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x + roomSize.x) / 2)),
+                            // Left
+                            new(0, -(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x + roomSize.x) / 2))),
+                            // Up
+                            new(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.y + roomSize.y) / 2), 0),
+                            // Down
+                            new(-(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.y + roomSize.y) / 2)), 0)
+                        };
                     }
                 }
             }
-
-            newRoom.GetComponent<DungeonRoom>().previousRoom = previousRoom;
-            previousRoom = newRoom;
+            currentRoom++;
         }
         FindObjectOfType<DungeonMap>().DrawMap(board);
     }
