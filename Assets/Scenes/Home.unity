@@ -10568,7 +10568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   age: 0
-  maxRoomCount: 5
+  maxRoomCount: 15
   maxRoomOffset: 3
   objDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}
 --- !u!1001 &1454651675
