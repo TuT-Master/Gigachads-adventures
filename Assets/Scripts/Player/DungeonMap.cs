@@ -14,6 +14,8 @@ public class DungeonMap : MonoBehaviour
     private GameObject mapContentArea;
     [SerializeField]
     private GameObject tilePrefab;
+    [SerializeField]
+    private GameObject roomPrefab;
 
     private GameObject[,] tileMap;
 
@@ -30,6 +32,11 @@ public class DungeonMap : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.M))
             hudmanager.ToggleMap(!mapOpened);
+    }
+
+    public void BuildMap(Dictionary<Vector2, DungeonGenerator.Cell> board)
+    {
+
     }
 
     public void DrawMap(Dictionary<Vector2, DungeonGenerator.Cell> board)

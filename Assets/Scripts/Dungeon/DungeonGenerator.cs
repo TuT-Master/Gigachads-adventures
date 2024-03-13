@@ -4,36 +4,6 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-
-public class DungeonRoom : MonoBehaviour
-{
-    public GameObject previousRoom;
-    public Vector2 boardPos;
-    public Vector2 size;
-    public bool[] entrances = new bool[4];  // Up, Right, Down, Left
-    public List<GameObject> doors = new();  // Up, Right, Down, Left
-    public List<GameObject> doorWalls = new();  // Up, Right, Down, Left
-
-    public void GetDoors()
-    {
-        doors.Add(transform.Find("Doors").GetChild(3).gameObject);
-        doors.Add(transform.Find("Doors").GetChild(2).gameObject);
-        doors.Add(transform.Find("Doors").GetChild(0).gameObject);
-        doors.Add(transform.Find("Doors").GetChild(1).gameObject);
-
-        doorWalls.Add(transform.Find("DoorWalls").GetChild(3).gameObject);
-        doorWalls.Add(transform.Find("DoorWalls").GetChild(2).gameObject);
-        doorWalls.Add(transform.Find("DoorWalls").GetChild(0).gameObject);
-        doorWalls.Add(transform.Find("DoorWalls").GetChild(1).gameObject);
-
-        for(int i = 0; i < doors.Count; i++)
-        {
-            doors[i].SetActive(false);
-            doorWalls[i].SetActive(true);
-        }
-    }
-}
-
 public class DungeonGenerator : MonoBehaviour
 {
     public enum Cell
@@ -93,9 +63,12 @@ public class DungeonGenerator : MonoBehaviour
         return true;
     }
 
-    void AddRoom(Vector2 startPos, Vector2 roomSize, out GameObject newRoom)
+    void AddRoom(Vector2 startPos, Vector2 roomSize, GameObject previousRoom, out GameObject newRoom)
     {
+        // Get new room
         newRoom = GenerateRoom(roomSize);
+
+        // Add room to board
         int x = (int)startPos.x;
         int y = (int)startPos.y;
         int sizeX = (int)(roomSize.x - 1) / 2;
@@ -104,6 +77,44 @@ public class DungeonGenerator : MonoBehaviour
         for(int i = -sizeY; i <= sizeY; i++)
             for (int j = -sizeX; j <= sizeX; j++)
                 board[new(x + j, y + i)] = Cell.Room;
+
+        // Add hallway to board
+        if(previousRoom != null)
+        {
+            int prevX = (int)previousRoom.GetComponent<DungeonRoom>().boardPos.x;
+            int prevY = (int)previousRoom.GetComponent<DungeonRoom>().boardPos.y;
+
+            if(prevX - x != 0)
+            {
+                if(x > prevX)
+                {
+                    for (int i = prevX; i < x; i++)
+                        if (board[new(i, prevY)] == Cell.None)
+                            board[new(i, prevY)] = Cell.Hallway;
+                }
+                else
+                {
+                    for (int i = x; i < prevX; i++)
+                        if (board[new(i, prevY)] == Cell.None)
+                            board[new(i, prevY)] = Cell.Hallway;
+                }
+            }
+            else if(prevY - y != 0)
+            {
+                if(y > prevY)
+                {
+                    for (int i = prevY; i < y; i++)
+                        if (board[new(prevX, i)] == Cell.None)
+                            board[new(prevX, i)] = Cell.Hallway;
+                }
+                else
+                {
+                    for (int i = y; i < prevY; i++)
+                        if (board[new(prevX, i)] == Cell.None)
+                            board[new(prevX, i)] = Cell.Hallway;
+                }
+            }
+        }
     }
 
     public void GenerateDungeon(int maxRoomCount)
@@ -111,12 +122,10 @@ public class DungeonGenerator : MonoBehaviour
         // Set max dungeon size depending on age and difficulty level
         int dungeonMaxSize = boardSize;
 
-
         // Creating dungeon board
         for (int i = 0; i < dungeonMaxSize; i++)
             for (int j = 0; j < dungeonMaxSize; j++)
                 board.Add(new Vector2(j, dungeonMaxSize - 1 - i), Cell.None);
-
 
         // Placing rooms
         GameObject previousRoom = null;
@@ -134,7 +143,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 // Starting room
                 startPos = new(dungeonMaxSize / 2, (roomSize.y + 1) / 2);
-                AddRoom(startPos, roomSize, out newRoom);
+                AddRoom(startPos, roomSize, previousRoom, out newRoom);
                 newRoom.GetComponent<DungeonRoom>().boardPos = startPos;
 
                 newRoom.GetComponent<DungeonRoom>().previousRoom = previousRoom;
@@ -193,9 +202,7 @@ public class DungeonGenerator : MonoBehaviour
                         dir = directions[dirTry];
                         if (CanPlaceRoom(startPos + dir, roomSize))
                         {
-                            AddRoom(startPos + dir, roomSize, out newRoom);
-
-                            Debug.Log("Placing " + newRoom.name);
+                            AddRoom(startPos + dir, roomSize, previousRoom, out newRoom);
 
                             newRoom.GetComponent<DungeonRoom>().boardPos = startPos + dir;
 
@@ -214,14 +221,9 @@ public class DungeonGenerator : MonoBehaviour
                     {
                         // If no direction selected -> go back and try it with previous room
                         if (startPos == new Vector2(dungeonMaxSize / 2, (roomSize.y + 1) / 2))
-                        {
-                            Debug.Log("Konec");
                             currentRoom = maxRoomCount;
-                        }
                         else
                         {
-                            Debug.Log("Going back to " + previousRoom.name);
-
                             newRoom = previousRoom;
                             previousRoom = newRoom.GetComponent<DungeonRoom>().previousRoom;
                         }
