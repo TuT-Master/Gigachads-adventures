@@ -33,6 +33,8 @@ public class DungeonGenerator : MonoBehaviour
     private void Start()
     {
         GenerateDungeon(maxRoomCount);
+        rooms[0].gameObject.SetActive(true);
+        FindAnyObjectByType<PlayerMovement>().transform.position = rooms[0].GetComponent<DungeonRoom>().doors[2].transform.position;
     }
 
     int RandomOddInt(int min, int max)

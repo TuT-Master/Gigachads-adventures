@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
 
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
         playerStats = GetComponent<PlayerStats>();
         _rb = GetComponent<Rigidbody>();
     }
