@@ -7,7 +7,9 @@ public class Door : MonoBehaviour, IInteractable
 {
     public int doorId;
 
+    [HideInInspector]
     public bool canInteract;
+    public bool baseDoors;
 
     public GameObject room;
     public GameObject leadToRoom;
@@ -30,7 +32,10 @@ public class Door : MonoBehaviour, IInteractable
         if (canInteract)
         {
             canInteract = false;
-            StartCoroutine(UseDoors());
+            if(baseDoors)
+                StartCoroutine(UseDoorsInBase());
+            else
+                StartCoroutine(UseDoorsInDungeon());
         }
         else
         {
@@ -38,7 +43,7 @@ public class Door : MonoBehaviour, IInteractable
         }
     }
 
-    private IEnumerator UseDoors()
+    private IEnumerator UseDoorsInDungeon()
     {
         animator.SetTrigger("OpenDoor");
         yield return new WaitForSeconds(1);
@@ -47,6 +52,14 @@ public class Door : MonoBehaviour, IInteractable
         // Move player to new room and start it
         leadToRoom.GetComponent<DungeonRoom>().StartRoom();
         FindAnyObjectByType<PlayerMovement>().gameObject.transform.position = leadToRoom.GetComponent<DungeonRoom>().doors[(doorId + 2) % 4].transform.position;
+        FindAnyObjectByType<PlayerInteract>().RemoveInteractable(this);
+    }
+    private IEnumerator UseDoorsInBase()
+    {
+        animator.SetTrigger("OpenDoor");
+        yield return new WaitForSeconds(1);
+
+        FindAnyObjectByType<DungeonManager>().LoadScene(sceneName);
         FindAnyObjectByType<PlayerInteract>().RemoveInteractable(this);
     }
 

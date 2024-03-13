@@ -27,6 +27,7 @@ public class DataPersistanceManager : MonoBehaviour
 
     private void Start()
     {
+        DontDestroyOnLoad(gameObject);
         dataHandler = new FileDataHandler(Application.persistentDataPath, playerDataFileName);
         dataPersistanceObjects = FindAllDataPersistanceObjects();
         StartCoroutine(LoadGame());
