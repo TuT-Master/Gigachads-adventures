@@ -45,6 +45,8 @@ public class DungeonGenerator : MonoBehaviour
 
     public int age;
 
+    public int boardSize;
+
     public int maxRoomCount;
 
     public int maxRoomOffset;
@@ -107,7 +109,7 @@ public class DungeonGenerator : MonoBehaviour
     public void GenerateDungeon(int maxRoomCount)
     {
         // Set max dungeon size depending on age and difficulty level
-        int dungeonMaxSize = 50;
+        int dungeonMaxSize = boardSize;
 
 
         // Creating dungeon board

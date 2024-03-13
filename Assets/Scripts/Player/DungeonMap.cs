@@ -36,6 +36,8 @@ public class DungeonMap : MonoBehaviour
     {
         int size = (int)Mathf.Sqrt(board.Count);
         tileMap = new GameObject[size, size];
+        mapContentArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size * tilePrefab.GetComponent<RectTransform>().sizeDelta.x);
+        mapContentArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size * tilePrefab.GetComponent<RectTransform>().sizeDelta.y);
         for (int y = 0; y < size; y++)
         {
             for (int x = 0; x < size; x++)
@@ -50,7 +52,7 @@ public class DungeonMap : MonoBehaviour
                     newTile.GetComponent<Image>().color = new(0, 0, 255);
                 tileMap[(int)id.x, (int)id.y] = newTile;
 
-                newTile.transform.localPosition = new(id.x * 16 - 860, id.y * 16 - 440, 0);
+                newTile.transform.localPosition = new(id.x * tilePrefab.GetComponent<RectTransform>().sizeDelta.x, id.y * tilePrefab.GetComponent<RectTransform>().sizeDelta.y, 0);
             }
         }
     }
