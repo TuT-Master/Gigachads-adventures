@@ -79,6 +79,8 @@ public class DungeonGenerator : MonoBehaviour
                 board[new(x + j, y + i)] = Cell.Room;
 
         // Add hallway to board
+        // Apply doors to rooms (Up, Right, Down, Left)
+        bool[] entrances = new bool[4] {false, false, false, false};
         if(previousRoom != null)
         {
             int prevX = (int)previousRoom.GetComponent<DungeonRoom>().boardPos.x;
@@ -91,12 +93,16 @@ public class DungeonGenerator : MonoBehaviour
                     for (int i = prevX; i < x; i++)
                         if (board[new(i, prevY)] == Cell.None)
                             board[new(i, prevY)] = Cell.Hallway;
+                    newRoom.GetComponent<DungeonRoom>().AddDoors(3);
+                    previousRoom.GetComponent<DungeonRoom>().AddDoors(1);
                 }
                 else
                 {
                     for (int i = x; i < prevX; i++)
                         if (board[new(i, prevY)] == Cell.None)
                             board[new(i, prevY)] = Cell.Hallway;
+                    newRoom.GetComponent<DungeonRoom>().AddDoors(1);
+                    previousRoom.GetComponent<DungeonRoom>().AddDoors(3);
                 }
             }
             else if(prevY - y != 0)
@@ -106,14 +112,20 @@ public class DungeonGenerator : MonoBehaviour
                     for (int i = prevY; i < y; i++)
                         if (board[new(prevX, i)] == Cell.None)
                             board[new(prevX, i)] = Cell.Hallway;
+                    newRoom.GetComponent<DungeonRoom>().AddDoors(2);
+                    previousRoom.GetComponent<DungeonRoom>().AddDoors(0);
                 }
                 else
                 {
                     for (int i = y; i < prevY; i++)
                         if (board[new(prevX, i)] == Cell.None)
                             board[new(prevX, i)] = Cell.Hallway;
+                    newRoom.GetComponent<DungeonRoom>().AddDoors(0);
+                    previousRoom.GetComponent<DungeonRoom>().AddDoors(2);
                 }
             }
+
+
         }
     }
 

@@ -29,4 +29,11 @@ public class DungeonRoom : MonoBehaviour
             doorWalls[i].SetActive(true);
         }
     }
+
+    public void AddDoors(int doorId)
+    {
+        entrances[doorId] = true;
+        doors[doorId].SetActive(entrances[doorId]);
+        doorWalls[doorId].SetActive(!entrances[doorId]);
+    }
 }
