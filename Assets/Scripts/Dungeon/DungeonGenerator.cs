@@ -140,15 +140,17 @@ public class DungeonGenerator : MonoBehaviour
 
                 newRoom.SetActive(false);
                 rooms.Add(newRoom);
+                currentRoom++;
             }
             else
             {
-                startPos = previousRoom.GetComponent<DungeonRoom>().boardPos;
-
-                // Choose direction
                 System.Random rnd = new();
                 int rndOffset = rnd.Next(1, maxRoomOffset);
-                List<Vector2> directions = new()
+                List<Vector2> directions = new();
+                if (previousRoom != null)
+                {
+                    startPos = previousRoom.GetComponent<DungeonRoom>().boardPos;
+                    directions = new()
                     {
                         // Right
                         new(0, rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x + roomSize.x) / 2)),
@@ -159,9 +161,26 @@ public class DungeonGenerator : MonoBehaviour
                         // Down
                         new(-(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.y + roomSize.y) / 2)), 0)
                     };
+                }
+                else
+                {
+                    startPos = new(dungeonMaxSize / 2, (roomSize.y + 1) / 2);
+                    directions = new()
+                    {
+                        // Right
+                        new(0, rndOffset + ((rooms[0].GetComponent<DungeonRoom>().size.x + roomSize.x) / 2)),
+                        // Left
+                        new(0, -(rndOffset + ((rooms[0].GetComponent<DungeonRoom>().size.x + roomSize.x) / 2))),
+                        // Up
+                        new(rndOffset + ((rooms[0].GetComponent<DungeonRoom>().size.y + roomSize.y) / 2), 0),
+                        // Down
+                        new(-(rndOffset + ((rooms[0].GetComponent<DungeonRoom>().size.y + roomSize.y) / 2)), 0)
+                    };
+                }
+
+                // Choose direction
                 Vector2 dir = new();
                 bool done = false;
-                Debug.Log("Trying place room-" + currentRoom);
                 while (!done)
                 {
                     // Check if there is enough space for the room
@@ -172,7 +191,6 @@ public class DungeonGenerator : MonoBehaviour
                         dir = directions[dirTry];
                         if (CanPlaceRoom(startPos + dir, roomSize))
                         {
-                            done = true;
                             AddRoom(startPos + dir, roomSize, out newRoom);
 
                             Debug.Log("Placing " + newRoom.name);
@@ -184,6 +202,8 @@ public class DungeonGenerator : MonoBehaviour
 
                             newRoom.SetActive(false);
                             rooms.Add(newRoom);
+                            currentRoom++;
+                            done = true;
                         }
                         else
                             directions.Remove(dir);
@@ -191,37 +211,22 @@ public class DungeonGenerator : MonoBehaviour
                     else
                     {
                         // If no direction selected -> go back and try it with previous room
-                        Debug.Log("Going back to " + previousRoom.name);
-
-                        newRoom = previousRoom;
-                        previousRoom = newRoom.GetComponent<DungeonRoom>().previousRoom;
-
-                        break;
-
-                        if (previousRoom == newRoom)
+                        if (startPos == new Vector2(dungeonMaxSize / 2, (roomSize.y + 1) / 2))
                         {
-                            Debug.Log("previousRoom == newRoom");
-                            done = true;
+                            Debug.Log("Konec");
+                            currentRoom = maxRoomCount;
                         }
-
-                        if (previousRoom == null)
-                            previousRoom = newRoom;
-
-                        directions = new()
+                        else
                         {
-                            // Right
-                            new(0, rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x + roomSize.x) / 2)),
-                            // Left
-                            new(0, -(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x + roomSize.x) / 2))),
-                            // Up
-                            new(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.y + roomSize.y) / 2), 0),
-                            // Down
-                            new(-(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.y + roomSize.y) / 2)), 0)
-                        };
+                            Debug.Log("Going back to " + previousRoom.name);
+
+                            newRoom = previousRoom;
+                            previousRoom = newRoom.GetComponent<DungeonRoom>().previousRoom;
+                        }
+                        done = true;
                     }
                 }
             }
-            currentRoom++;
         }
         FindObjectOfType<DungeonMap>().DrawMap(board);
     }
