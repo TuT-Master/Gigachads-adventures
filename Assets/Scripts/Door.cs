@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    public int currentRoomId;
+    public int doorId;
 
     public bool canInteract;
-    public bool leadToRoom;
 
-    public int leadToRoomId;
+    public GameObject room;
+    public GameObject leadToRoom;
 
     public string sceneName;
 
@@ -28,14 +29,25 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (canInteract)
         {
-            animator.SetTrigger("OpenDoor");
-
             canInteract = false;
+            StartCoroutine(UseDoors());
         }
         else
         {
             Debug.Log("Locked!");
         }
+    }
+
+    private IEnumerator UseDoors()
+    {
+        animator.SetTrigger("OpenDoor");
+        yield return new WaitForSeconds(1);
+        
+        room.SetActive(false);
+        // Move player to new room and start it
+        leadToRoom.GetComponent<DungeonRoom>().StartRoom();
+        FindAnyObjectByType<PlayerMovement>().gameObject.transform.position = leadToRoom.GetComponent<DungeonRoom>().doors[(doorId + 2) % 4].transform.position;
+        FindAnyObjectByType<PlayerInteract>().RemoveInteractable(this);
     }
 
     public bool CanInteract() { return true; }

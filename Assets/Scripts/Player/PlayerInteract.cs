@@ -17,6 +17,11 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
+    public void RemoveInteractable(IInteractable interactable)
+    {
+        if (interactablesInRange.Contains(interactable))
+            interactablesInRange.Remove(interactable);
+    }
 
     private void OnTriggerEnter(Collider other)
     {

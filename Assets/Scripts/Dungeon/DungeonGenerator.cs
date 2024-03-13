@@ -93,16 +93,16 @@ public class DungeonGenerator : MonoBehaviour
                     for (int i = prevX; i < x; i++)
                         if (board[new(i, prevY)] == Cell.None)
                             board[new(i, prevY)] = Cell.Hallway;
-                    newRoom.GetComponent<DungeonRoom>().AddDoors(3);
-                    previousRoom.GetComponent<DungeonRoom>().AddDoors(1);
+                    newRoom.GetComponent<DungeonRoom>().AddDoors(3, previousRoom);
+                    previousRoom.GetComponent<DungeonRoom>().AddDoors(1, newRoom);
                 }
                 else
                 {
                     for (int i = x; i < prevX; i++)
                         if (board[new(i, prevY)] == Cell.None)
                             board[new(i, prevY)] = Cell.Hallway;
-                    newRoom.GetComponent<DungeonRoom>().AddDoors(1);
-                    previousRoom.GetComponent<DungeonRoom>().AddDoors(3);
+                    newRoom.GetComponent<DungeonRoom>().AddDoors(1, previousRoom);
+                    previousRoom.GetComponent<DungeonRoom>().AddDoors(3, newRoom);
                 }
             }
             else if(prevY - y != 0)
@@ -112,16 +112,16 @@ public class DungeonGenerator : MonoBehaviour
                     for (int i = prevY; i < y; i++)
                         if (board[new(prevX, i)] == Cell.None)
                             board[new(prevX, i)] = Cell.Hallway;
-                    newRoom.GetComponent<DungeonRoom>().AddDoors(2);
-                    previousRoom.GetComponent<DungeonRoom>().AddDoors(0);
+                    newRoom.GetComponent<DungeonRoom>().AddDoors(2, previousRoom);
+                    previousRoom.GetComponent<DungeonRoom>().AddDoors(0, newRoom);
                 }
                 else
                 {
                     for (int i = y; i < prevY; i++)
                         if (board[new(prevX, i)] == Cell.None)
                             board[new(prevX, i)] = Cell.Hallway;
-                    newRoom.GetComponent<DungeonRoom>().AddDoors(0);
-                    previousRoom.GetComponent<DungeonRoom>().AddDoors(2);
+                    newRoom.GetComponent<DungeonRoom>().AddDoors(0, previousRoom);
+                    previousRoom.GetComponent<DungeonRoom>().AddDoors(2, newRoom);
                 }
             }
 
@@ -154,7 +154,7 @@ public class DungeonGenerator : MonoBehaviour
             if (currentRoom == 0)
             {
                 // Starting room
-                startPos = new(dungeonMaxSize / 2, (roomSize.y + 1) / 2);
+                startPos = new(dungeonMaxSize / 2, ((roomSize.y + 1) / 2) + 2);
                 AddRoom(startPos, roomSize, previousRoom, out newRoom);
                 newRoom.GetComponent<DungeonRoom>().boardPos = startPos;
 
@@ -187,7 +187,7 @@ public class DungeonGenerator : MonoBehaviour
                 }
                 else
                 {
-                    startPos = new(dungeonMaxSize / 2, (roomSize.y + 1) / 2);
+                    startPos = new(dungeonMaxSize / 2, ((roomSize.y + 1) / 2) + 2);
                     directions = new()
                     {
                         // Right
@@ -232,7 +232,7 @@ public class DungeonGenerator : MonoBehaviour
                     else
                     {
                         // If no direction selected -> go back and try it with previous room
-                        if (startPos == new Vector2(dungeonMaxSize / 2, (roomSize.y + 1) / 2))
+                        if (startPos == new Vector2(dungeonMaxSize / 2, ((roomSize.y + 1) / 2) + 2))
                             currentRoom = maxRoomCount;
                         else
                         {
@@ -252,6 +252,7 @@ public class DungeonGenerator : MonoBehaviour
         GameObject newRoom = new("Room-" + rooms.Count.ToString());
         newRoom.AddComponent<DungeonRoom>();
         newRoom.GetComponent<DungeonRoom>().size = size;
+        newRoom.GetComponent<DungeonRoom>().roomID = rooms.Count;
 
         GameObject doors = new("Doors");
         doors.transform.SetParent(newRoom.transform);
