@@ -21,7 +21,7 @@ public class DungeonGenerator : MonoBehaviour
 
     public int maxRoomOffset;
 
-    private List<GameObject> rooms = new();
+    [HideInInspector] public List<GameObject> rooms = new();
 
     Dictionary<Vector2, Cell> board = new();
 
@@ -246,7 +246,8 @@ public class DungeonGenerator : MonoBehaviour
                 }
             }
         }
-        FindObjectOfType<DungeonMap>().DrawMap(board);
+        //FindObjectOfType<DungeonMap>().DrawMap(board);
+        FindObjectOfType<DungeonMap>().BuildMap(board, rooms);
     }
 
     public GameObject GenerateRoom(Vector2 size /* !Has to be odd numbers! */)

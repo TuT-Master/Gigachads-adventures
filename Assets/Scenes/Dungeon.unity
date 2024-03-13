@@ -272,4 +272,5 @@ MonoBehaviour:
   boardSize: 50
   maxRoomCount: 20
   maxRoomOffset: 3
+  rooms: []
   objDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}

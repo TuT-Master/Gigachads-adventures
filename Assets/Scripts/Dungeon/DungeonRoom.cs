@@ -46,6 +46,8 @@ public class DungeonRoom : MonoBehaviour
 
     public void StartRoom()
     {
+        if (TryGetComponent(out DungeonRoomUI dungeonRoomUI))
+            return;
         // Short loading screen
 
 

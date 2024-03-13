@@ -5,17 +5,22 @@ using UnityEngine;
 public class DungeonRoomUI : MonoBehaviour
 {
     private DungeonRoom room;
+    [SerializeField] private GameObject[] doors;
 
 
-    void Start()
+    public void SetRoomUp(DungeonRoom room)
     {
-        room = GetComponent<DungeonRoom>();
+        this.room = room;
+
         GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, room.size.x * 30);
         GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, room.size.y * 30);
-    }
 
-    void Update()
-    {
-        
+        for (int i = 0; i < 4; i++)
+        {
+            if (room.entrances[i])
+                doors[i].SetActive(true);
+            else
+                doors[i].SetActive(false);
+        }
     }
 }

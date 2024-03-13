@@ -14,12 +14,16 @@ public class DungeonMap : MonoBehaviour
     private GameObject mapContentArea;
     [SerializeField]
     private GameObject tilePrefab;
-    [SerializeField]
-    private GameObject roomPrefab;
 
     private GameObject[,] tileMap;
 
     private HUDmanager hudmanager;
+
+
+
+    // New map
+    private GameObject[] rooms;
+    [SerializeField] private GameObject roomPrefab;
 
 
     void Start()
@@ -34,9 +38,17 @@ public class DungeonMap : MonoBehaviour
             hudmanager.ToggleMap(!mapOpened);
     }
 
-    public void BuildMap(Dictionary<Vector2, DungeonGenerator.Cell> board)
+    public void BuildMap(Dictionary<Vector2, DungeonGenerator.Cell> board, List<GameObject> boardRooms)
     {
-
+        rooms = new GameObject[boardRooms.Count];
+        mapContentArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, MathF.Sqrt(board.Count) * 30);
+        mapContentArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MathF.Sqrt(board.Count) * 30);
+        for (int i = 0; i < boardRooms.Count; i++)
+        {
+            roomPrefab.GetComponent<DungeonRoomUI>().SetRoomUp(boardRooms[i].GetComponent<DungeonRoom>());
+            rooms[i] = Instantiate(roomPrefab, mapContentArea.transform);
+            rooms[i].transform.localPosition = new Vector3(boardRooms[i].GetComponent<DungeonRoom>().boardPos.x * 30, boardRooms[i].GetComponent<DungeonRoom>().boardPos.y * 30, 0);
+        }
     }
 
     public void DrawMap(Dictionary<Vector2, DungeonGenerator.Cell> board)
