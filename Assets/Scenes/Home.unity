@@ -1213,7 +1213,7 @@ GameObject:
   - component: {fileID: 220485085}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1478,6 +1478,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011799553e0763a419fd7800d93edd03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  categoryButtons:
+  - {fileID: 582107807}
+  - {fileID: 1710146124}
+  - {fileID: 1484632265}
+  - {fileID: 1163005121}
   skillScreen: {fileID: 1813809444}
   skillDescription: {fileID: 1488603244}
   skillScreenOpen: 0
@@ -3726,7 +3731,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 198d19933815bd9448286b3fb389d3a1, type: 3}
+  m_Sprite: {fileID: 3286163911610860551, guid: 5ce3e5e27bc640d4d8baaef204bf1c60,
+    type: 3}
   m_PreserveAspect: 0
 --- !u!1 &596171879
 GameObject:
@@ -12863,7 +12869,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 28986dcb947f0f842b57a24615662626, type: 3}
+  m_Sprite: {fileID: 3286163911610860551, guid: 8210616b03ad7ad4b879712ec88e4d38,
+    type: 3}
   m_PreserveAspect: 0
 --- !u!1 &1719224130
 GameObject:
