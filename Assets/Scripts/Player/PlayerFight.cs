@@ -12,12 +12,17 @@ public class PlayerFight : MonoBehaviour
     [HideInInspector]
     public bool reloading;
 
+    [Header("Colliders")]
     [SerializeField]
     private GameObject freeRotation;
     [SerializeField]
     private CapsuleCollider weaponRange;
+
+    [Header("Animation")]
     [SerializeField]
     private Animator animator;
+
+    [Header("Projectile")]
     [SerializeField]
     private GameObject projectilePrefab;
     [SerializeField]
