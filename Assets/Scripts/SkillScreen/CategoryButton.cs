@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class CategoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     [HideInInspector] public bool clicked;
+    private bool pointerHover;
 
     private enum ButtonType
     {
@@ -34,14 +35,14 @@ public class CategoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         playerSkill = FindAnyObjectByType<PlayerSkill>();
 
         image.sprite = sprite_idle;
-
-        clicked = false;
     }
 
     void Update()
     {
-        if (clicked)
+        if (clicked | pointerHover)
             image.sprite = sprite_select;
+        else
+            image.sprite = sprite_idle;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -72,11 +73,11 @@ public class CategoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        image.sprite = sprite_select;
+        pointerHover = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        image.sprite = sprite_idle;
+        pointerHover = false;
     }
 }

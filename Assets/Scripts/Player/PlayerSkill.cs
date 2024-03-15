@@ -6,6 +6,9 @@ using TMPro;
 public class PlayerSkill : MonoBehaviour
 {
     [SerializeField]
+    private CategoryButton[] categoryButtons;
+
+    [SerializeField]
     private GameObject skillScreen;
 
     [SerializeField]
@@ -41,6 +44,8 @@ public class PlayerSkill : MonoBehaviour
             Time.timeScale = 0f;
             skillScreen.SetActive(true);
             OpenTab(0);
+            categoryButtons[0].clicked = true;
+            categoryButtons[1].clicked = categoryButtons[2].clicked = categoryButtons[3].clicked = false;
         }
         else
         {
@@ -55,12 +60,24 @@ public class PlayerSkill : MonoBehaviour
     private void OpenTab(int tabId)
     {
         skillDescription.HideSkillDetails();
+
+        if (tabId == 0)
+            skillDescription.gameObject.SetActive(false);
+        else
+            skillDescription.gameObject.SetActive(true);
+
         for (int i = 0; i < tabs.Count; i++)
         {
             if (i == tabId)
+            {
+                categoryButtons[i].clicked = true;
                 tabs[i].SetActive(true);
+            }
             else
+            {
+                categoryButtons[i].clicked = false;
                 tabs[i].SetActive(false);
+            }
         }
     }
 }
