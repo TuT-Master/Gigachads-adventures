@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class SkillDescription : MonoBehaviour
 {
-    private Skill skill;
+    [HideInInspector]
+    public Skill skill;
+    private Skill tempSkill;
 
     [SerializeField]
     private TextMeshProUGUI skillName;
@@ -17,7 +19,7 @@ public class SkillDescription : MonoBehaviour
 
     public void ShowSkillDetails(Skill skill)
     {
-        this.skill = skill;
+        tempSkill = skill;
         skillName.text = skill.skillName;
         skillDescription.text = skill.description;
         string fokinText = "";
@@ -31,11 +33,34 @@ public class SkillDescription : MonoBehaviour
         skillStats.text = fokinText;
     }
 
+    public void ShowChosenSkillDetails()
+    {
+        if(skill == null)
+            return;
+
+        string fokinText = "";
+        foreach (string key in skill.bonusStats.Keys)
+        {
+            if (skill.bonusStats[key] > 0)
+                fokinText += key + ": + " + skill.bonusStats[key].ToString() + "%\n";
+            else if (skill.bonusStats[key] < 0)
+                fokinText += key + ": - " + Mathf.Abs(skill.bonusStats[key]).ToString() + "%\n";
+        }
+        skillStats.text = fokinText;
+        skillName.text = skill.skillName;
+        skillDescription.text = skill.description;
+    }
+
     public void HideSkillDetails()
     {
-        skillName.text = "";
-        skillDescription.text = "";
-        skillStats.text = "";
+        if (skill != null)
+            ShowChosenSkillDetails();
+        else
+        {
+            skillName.text = "";
+            skillDescription.text = "";
+            skillStats.text = "";
+        }
     }
 
     public void UpgradeSkill()

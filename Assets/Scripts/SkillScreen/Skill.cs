@@ -17,7 +17,6 @@ public class Skill : MonoBehaviour
     public int levelOfSkill = 0;
     [HideInInspector] public int MaxlevelsOfSkill = 1;
     [HideInInspector] public bool maxLevel;
-    [HideInInspector] public bool clicked;
 
     #region Bonus stats
     public Dictionary<string, float> bonusStats;
@@ -146,7 +145,7 @@ public class Skill : MonoBehaviour
                     bonusStats.Add(key, newBonusStats[key][levelOfSkill - 1]);
 
             // Fill
-            fillAmount = (float)levelOfSkill / (float)MaxlevelsOfSkill;
+            fillAmount = levelOfSkill / MaxlevelsOfSkill;
             Debug.Log(fillAmount);
             skillUnlockedAmountImage.fillAmount = fillAmount;
 
@@ -160,13 +159,12 @@ public class Skill : MonoBehaviour
 
     public void OnPointerDown()
     {
-        clicked = true;
+        skillDescription.skill = this;
         // TODO - Zvýraznit vybraný skill
     }
     public void OnPointerExit()
     {
-        if (!clicked)
-            skillDescription.HideSkillDetails();
+        skillDescription.HideSkillDetails();
     }
     public void OnPointerEnter() { skillDescription.ShowSkillDetails(this); }
 }
