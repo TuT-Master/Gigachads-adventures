@@ -117,7 +117,7 @@ MonoBehaviour:
   slotType: 0
   image: {fileID: 1873023301266465875}
   slotImages:
-  - {fileID: 21300000, guid: ffd4deab51e00f14fad7df0ec5639eca, type: 3}
+  - {fileID: 3286163911610860551, guid: c08fc9affcd0e7f4882c7d293fad6fdd, type: 3}
   - {fileID: 21300000, guid: d2468ab2b4f66fb4390db0f2efd1ab69, type: 3}
   - {fileID: 21300000, guid: 9471be75b1cec2145ad3b3bfc0a61663, type: 3}
   - {fileID: 21300000, guid: 6f29c1e4c5eb0d3438bb0f987517cd6b, type: 3}
