@@ -3195,7 +3195,7 @@ PrefabInstance:
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: stunChance.Array.size
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
@@ -10720,12 +10720,32 @@ PrefabInstance:
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: range.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: range.Array.data[0]
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: penetration.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: penetration.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: penetration.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: penetration.Array.data[2]
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14829,7 +14849,7 @@ PrefabInstance:
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: stunChance.Array.size
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
@@ -14844,6 +14864,26 @@ PrefabInstance:
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: stunChance.Array.data[2]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: bleedingDamage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: bleedingDamage.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: bleedingDamage.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: bleedingDamage.Array.data[2]
       value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -16179,8 +16219,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
-      propertyPath: bleedingChance.Array.size
+      propertyPath: critChance.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: critChance.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: critChance.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: critChance.Array.data[2]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: bleedingChance.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
@@ -17329,8 +17389,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
-      propertyPath: bleedingChance.Array.size
+      propertyPath: attackSpeed.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: attackSpeed.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: attackSpeed.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: attackSpeed.Array.data[2]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: bleedingChance.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
@@ -18518,12 +18598,22 @@ PrefabInstance:
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: range.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
       propertyPath: range.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: range.Array.data[1]
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: range.Array.data[2]
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
