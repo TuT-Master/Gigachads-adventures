@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class EnemyStats : MonoBehaviour, IInteractableEnemy
 {
-    [SerializeField]
-    private float hp;
-    [SerializeField]
-    private float armor;
-    [SerializeField]
-    private float evasion;
+    [SerializeField] private float hp;
+    [SerializeField] private float armor;
+    [SerializeField] private float evasion;
 
     public bool isStunned;
 
