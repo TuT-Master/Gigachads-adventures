@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -30,12 +31,12 @@ public class Slot : MonoBehaviour, IDropHandler
     }
     public SlotType slotType;
 
-    public Image image;
+    public SVGImage image;
     public List<Sprite> slotImages;
 
     public bool isActive;
 
-
+    void Start() { SetDefaultImage(); }
     void Update()
     {
         if (isActive)
