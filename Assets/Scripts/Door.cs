@@ -20,10 +20,12 @@ public class Door : MonoBehaviour, IInteractable
 
     private Animator animator;
 
+    private bool opened;
 
     void Start()
     {
         canInteract = true;
+        opened = false;
         animator = GetComponentInChildren<Animator>();
     }
 
@@ -31,11 +33,7 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (canInteract)
         {
-            canInteract = false;
-            if(baseDoors)
-                StartCoroutine(UseDoorsInBase());
-            else
-                StartCoroutine(UseDoorsInDungeon());
+            StartCoroutine(UseDoors());
         }
         else
         {
@@ -43,24 +41,29 @@ public class Door : MonoBehaviour, IInteractable
         }
     }
 
-    private IEnumerator UseDoorsInDungeon()
+    private IEnumerator UseDoors()
     {
-        animator.SetTrigger("OpenDoor");
+        if (!opened)
+            animator.SetTrigger("OpenDoor");
+        opened = true;
+
+        // Play some sound for opening the doors
+
+
+
         yield return new WaitForSeconds(1);
         
-        room.SetActive(false);
-        // Move player to new room and start it
-        leadToRoom.GetComponent<DungeonRoom>().StartRoom();
-        FindAnyObjectByType<PlayerMovement>().gameObject.transform.position = leadToRoom.GetComponent<DungeonRoom>().doors[(doorId + 2) % 4].transform.position;
-        FindAnyObjectByType<PlayerInteract>().RemoveInteractable(this);
-    }
-    private IEnumerator UseDoorsInBase()
-    {
-        animator.SetTrigger("OpenDoor");
-        yield return new WaitForSeconds(1);
-
-        FindAnyObjectByType<DungeonManager>().LoadScene(sceneName);
-        FindAnyObjectByType<PlayerInteract>().RemoveInteractable(this);
+        if(baseDoors)
+        {
+            FindAnyObjectByType<DungeonManager>().LoadScene(sceneName);
+        }
+        else
+        {
+            room.SetActive(false);
+            // Move player to new room and start it
+            leadToRoom.GetComponent<DungeonRoom>().StartRoom();
+            FindAnyObjectByType<PlayerMovement>().gameObject.transform.position = leadToRoom.GetComponent<DungeonRoom>().doors[(doorId + 2) % 4].transform.position;
+        }
     }
 
     public bool CanInteract() { return true; }

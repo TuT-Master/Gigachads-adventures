@@ -160,6 +160,7 @@ public class DungeonGenerator : MonoBehaviour
                 // Starting room
                 startPos = new(dungeonMaxSize / 2, ((roomSize.y + 1) / 2) + 2);
                 AddRoom(startPos, roomSize, previousRoom, out newRoom);
+                PopulateRoom(newRoom);
                 newRoom.GetComponent<DungeonRoom>().boardPos = startPos;
 
                 newRoom.GetComponent<DungeonRoom>().previousRoom = previousRoom;
@@ -220,6 +221,7 @@ public class DungeonGenerator : MonoBehaviour
                         if (CanPlaceRoom(startPos + dir, roomSize))
                         {
                             AddRoom(startPos + dir, roomSize, previousRoom, out newRoom);
+                            PopulateRoom(newRoom);
 
                             newRoom.GetComponent<DungeonRoom>().boardPos = startPos + dir;
 
@@ -254,8 +256,6 @@ public class DungeonGenerator : MonoBehaviour
         FindObjectOfType<DungeonMap>().BuildMap(board, rooms);
 
         // Populate rooms
-        for (int i = 0; i < rooms.Count; i++)
-            PopulateRoom(i);
     }
 
     public GameObject GenerateRoom(Vector2 size /* !Has to be odd numbers! */)
@@ -327,12 +327,13 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
         newRoom.GetComponent<DungeonRoom>().GetDoors();
+
+
         return newRoom;
     }
 
-    void PopulateRoom(int roomId)
+    void PopulateRoom(GameObject room)
     {
-        GameObject room = rooms[roomId];
 
         // Add obstacles
 
@@ -349,9 +350,8 @@ public class DungeonGenerator : MonoBehaviour
         // Add NavMeshSurface component
         for (int i = 1; i < NavMesh.GetSettingsCount(); i++)
         {
-            NavMeshSurface surface = room.transform.Find("Floor").AddComponent<NavMeshSurface>();
+            NavMeshSurface surface = room.AddComponent<NavMeshSurface>();
             surface.agentTypeID = NavMesh.GetSettingsByIndex(i).agentTypeID;
-            surface.navMeshData = new(NavMesh.GetSettingsByIndex(i).agentTypeID);
             surface.BuildNavMesh();
         }
     }

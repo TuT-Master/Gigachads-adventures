@@ -67,16 +67,16 @@ public class DungeonRoom : MonoBehaviour
     {
         if (TryGetComponent(out DungeonRoomUI dungeonRoomUI))
             return;
-
         // Short loading screen
 
 
         // Wake everything and everybody up
         gameObject.SetActive(true);
-        cleared = false;
 
 
-        for (int i = 0; i < 4; i++)
-            doors[i].GetComponent<Door>().canInteract = cleared;
+
+        if(!cleared)
+            for (int i = 0; i < 4; i++)
+                doors[i].GetComponent<Door>().canInteract = cleared;
     }
 }
