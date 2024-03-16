@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class DungeonRoom : MonoBehaviour
 {
-    public enum RoomType
-    {
-        Basic,
-        Boss,
-        Resource,
-        Loot,
-        Start
-    }
     public int roomID;
-    public RoomType roomType;
+
     public GameObject previousRoom;
+
     public Vector2 boardPos;
     public Vector2 size;
+
     public bool[] entrances = new bool[4];  // Up, Right, Down, Left
     public List<GameObject> doors = new();  // Up, Right, Down, Left
     public List<GameObject> doorWalls = new();  // Up, Right, Down, Left
-    public List<IInteractableEnemy> enemies = new();
+
+    public Dictionary<Vector2, GameObject> population;
+
+    public int enemiesCount;
+
     public bool cleared;
+
 
 
     public void GetDoors()
@@ -54,29 +53,34 @@ public class DungeonRoom : MonoBehaviour
 
     private void Update()
     {
-        if (enemies.Count == 0 && !cleared)
+        if (enemiesCount > 0)
+        {
+            enemiesCount = 0;
+            cleared = false;
+            foreach (GameObject obj in population.Values)
+                if (obj != null && obj.TryGetComponent(out EnemyStats enemy))
+                    enemiesCount++;
+        }
+        if (enemiesCount == 0 && !cleared)
         {
             // Short message that the room is cleared
             Debug.Log("Room cleared!");
 
             cleared = true;
         }
+        for (int i = 0; i < 4; i++)
+            doors[i].GetComponent<Door>().canInteract = cleared;
     }
 
     public void StartRoom()
     {
         if (TryGetComponent(out DungeonRoomUI dungeonRoomUI))
             return;
+
         // Short loading screen
 
 
         // Wake everything and everybody up
         gameObject.SetActive(true);
-
-
-
-        if(!cleared)
-            for (int i = 0; i < 4; i++)
-                doors[i].GetComponent<Door>().canInteract = cleared;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Profiling;
@@ -128,8 +129,6 @@ public class DungeonGenerator : MonoBehaviour
                     previousRoom.GetComponent<DungeonRoom>().AddDoors(2, newRoom);
                 }
             }
-
-
         }
     }
 
@@ -160,11 +159,9 @@ public class DungeonGenerator : MonoBehaviour
                 // Starting room
                 startPos = new(dungeonMaxSize / 2, ((roomSize.y + 1) / 2) + 2);
                 AddRoom(startPos, roomSize, previousRoom, out newRoom);
-                PopulateRoom(newRoom);
                 newRoom.GetComponent<DungeonRoom>().boardPos = startPos;
 
                 newRoom.GetComponent<DungeonRoom>().previousRoom = previousRoom;
-                newRoom.GetComponent<DungeonRoom>().roomType = DungeonRoom.RoomType.Start;
 
                 previousRoom = newRoom;
                 newRoom.SetActive(false);
@@ -221,7 +218,6 @@ public class DungeonGenerator : MonoBehaviour
                         if (CanPlaceRoom(startPos + dir, roomSize))
                         {
                             AddRoom(startPos + dir, roomSize, previousRoom, out newRoom);
-                            PopulateRoom(newRoom);
 
                             newRoom.GetComponent<DungeonRoom>().boardPos = startPos + dir;
 
@@ -328,26 +324,75 @@ public class DungeonGenerator : MonoBehaviour
         }
         newRoom.GetComponent<DungeonRoom>().GetDoors();
 
+        // Populate
+        PopulateRoom(newRoom);
+
 
         return newRoom;
     }
 
     void PopulateRoom(GameObject room)
     {
+        Dictionary<Vector2, GameObject> pop = new();
+
 
         // Add obstacles
+        System.Random random;
+        for (int y = 0; y < room.GetComponent<DungeonRoom>().size.y * 3; y++)
+        {
+            for (int x = 0; x < room.GetComponent<DungeonRoom>().size.x * 3; x++)
+            {
+                random = new();
+                switch (random.Next(0, 100))
+                {
+                    case 0 | 1:
+                        pop.Add(new(x, y), objDatabase.obstacles[0]);
+                        break;
+                    case 2 | 3:
+                        pop.Add(new(x, y), objDatabase.resources[0]);
+                        break;
+                    case 4 | 5:
+                        pop.Add(new(x, y), objDatabase.lootBoxes[0]);
+                        break;
+                    case 99:
+                        if(rooms.Count > 0)
+                            pop.Add(new(x, y), objDatabase.meleeEnemies[0]);
+                        break;
+                    default:
+                        pop.Add(new(x, y), null);
+                        break;
+                }
+            }
+        }
 
         // Add collectable resources
-        // Choose smaller areas (random count in range) in room to generate several resource nodes near each other
 
 
         // Add loot boxes
 
 
-        // Populate room
+        // Populate room with enemies
 
 
-        // Add NavMeshSurface component
+
+
+
+        // Spawn population
+        GameObject population = new("Population");
+        population.transform.parent = room.transform;
+        room.GetComponent<DungeonRoom>().enemiesCount = 0;
+        room.GetComponent<DungeonRoom>().population = pop;
+        foreach (Vector2 id in room.GetComponent<DungeonRoom>().population.Keys)
+        {
+            if (pop[id] != null)
+            {
+                Instantiate(pop[id], new Vector3(id.x, 0, id.y), Quaternion.identity, population.transform);
+                if (pop[id].TryGetComponent(out EnemyStats enemy))
+                    room.GetComponent<DungeonRoom>().enemiesCount++;
+            }
+        }
+
+        // Build NavMeshSurface
         for (int i = 1; i < NavMesh.GetSettingsCount(); i++)
         {
             NavMeshSurface surface = room.AddComponent<NavMeshSurface>();

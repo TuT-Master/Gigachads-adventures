@@ -1,13 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
+    private NavMeshAgent agent;
+
+    [Header("Stats")]
     [SerializeField]
     private float speed;
     [SerializeField]
     private float weight;
+
+
+    private void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
+
+    private void Update()
+    {
+        agent.destination = FindAnyObjectByType<PlayerMovement>().transform.position;
+        agent.speed = speed;
+    }
 
     public IEnumerator Stun(float seconds)
     {

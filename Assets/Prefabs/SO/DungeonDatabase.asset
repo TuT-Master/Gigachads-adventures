@@ -20,3 +20,11 @@ MonoBehaviour:
   - {fileID: 6760052826874073628, guid: c7fd5884133fb5e43ac994c308eb3135, type: 3}
   doors:
   - {fileID: 5326635467952911954, guid: 96d19cfec6d6a084db3296ab7b16ab5e, type: 3}
+  obstacles:
+  - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
+  resources:
+  - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
+  lootBoxes:
+  - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
+  meleeEnemies:
+  - {fileID: 8809413063290618312, guid: 0e35d70fe23ab1a49ba2fcb8ad36a3f8, type: 3}

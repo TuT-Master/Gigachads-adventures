@@ -12,7 +12,8 @@ public class PlayerInteract : MonoBehaviour
         if (Input.GetButtonDown("Interact") && interactablesInRange.Count > 0)
         {
             interactablesInRange[0].Interact();
-            RemoveInteractable(interactablesInRange[0]);
+            if (!interactablesInRange[0].CanInteract())
+                RemoveInteractable(interactablesInRange[0]);
         }
     }
 
@@ -32,7 +33,6 @@ public class PlayerInteract : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         var interactable = other.GetComponentInParent<IInteractable>();
-        if (interactablesInRange.Contains(interactable))
-            interactablesInRange.Remove(interactable);
+        RemoveInteractable(interactable);
     }
 }

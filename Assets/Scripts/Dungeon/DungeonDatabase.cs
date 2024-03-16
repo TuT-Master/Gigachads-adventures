@@ -12,4 +12,12 @@ public class DungeonDatabase : ScriptableObject
     public List<GameObject> walls;
 
     public List<GameObject> doors;
+
+    public List<GameObject> obstacles;
+
+    public List<GameObject> resources;
+
+    public List<GameObject> lootBoxes;
+
+    public List<GameObject> meleeEnemies;
 }

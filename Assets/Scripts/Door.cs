@@ -43,6 +43,7 @@ public class Door : MonoBehaviour, IInteractable
 
     private IEnumerator UseDoors()
     {
+        canInteract = false;
         if (!opened)
             animator.SetTrigger("OpenDoor");
         opened = true;
@@ -66,5 +67,5 @@ public class Door : MonoBehaviour, IInteractable
         }
     }
 
-    public bool CanInteract() { return true; }
+    public bool CanInteract() { return canInteract; }
 }
