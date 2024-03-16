@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class DungeonRoom : MonoBehaviour
 {
+    public enum RoomType
+    {
+        Basic,
+        Boss,
+        Resource,
+        Loot,
+        Start
+    }
     public int roomID;
+    public RoomType roomType;
     public GameObject previousRoom;
     public Vector2 boardPos;
     public Vector2 size;
     public bool[] entrances = new bool[4];  // Up, Right, Down, Left
     public List<GameObject> doors = new();  // Up, Right, Down, Left
     public List<GameObject> doorWalls = new();  // Up, Right, Down, Left
-
+    public List<IInteractableEnemy> enemies = new();
     public bool cleared;
 
 
@@ -43,18 +52,29 @@ public class DungeonRoom : MonoBehaviour
         doorWalls[doorId].SetActive(!entrances[doorId]);
     }
 
+    private void Update()
+    {
+        if (enemies.Count == 0 && !cleared)
+        {
+            // Short message that the room is cleared
+            Debug.Log("Room cleared!");
+
+            cleared = true;
+        }
+    }
 
     public void StartRoom()
     {
         if (TryGetComponent(out DungeonRoomUI dungeonRoomUI))
             return;
+
         // Short loading screen
 
 
         // Wake everything and everybody up
         gameObject.SetActive(true);
+        cleared = false;
 
-        cleared = true;
 
         for (int i = 0; i < 4; i++)
             doors[i].GetComponent<Door>().canInteract = cleared;

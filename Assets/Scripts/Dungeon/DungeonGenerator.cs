@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Profiling;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -162,8 +163,9 @@ public class DungeonGenerator : MonoBehaviour
                 newRoom.GetComponent<DungeonRoom>().boardPos = startPos;
 
                 newRoom.GetComponent<DungeonRoom>().previousRoom = previousRoom;
-                previousRoom = newRoom;
+                newRoom.GetComponent<DungeonRoom>().roomType = DungeonRoom.RoomType.Start;
 
+                previousRoom = newRoom;
                 newRoom.SetActive(false);
                 rooms.Add(newRoom);
                 currentRoom++;
@@ -247,8 +249,13 @@ public class DungeonGenerator : MonoBehaviour
                 }
             }
         }
-        //FindObjectOfType<DungeonMap>().DrawMap(board);
+
+        // Draw map
         FindObjectOfType<DungeonMap>().BuildMap(board, rooms);
+
+        // Populate rooms
+        for (int i = 0; i < rooms.Count; i++)
+            PopulateRoom(i);
     }
 
     public GameObject GenerateRoom(Vector2 size /* !Has to be odd numbers! */)
@@ -267,6 +274,9 @@ public class DungeonGenerator : MonoBehaviour
 
         GameObject doorWalls = new("DoorWalls");
         doorWalls.transform.SetParent(newRoom.transform);
+
+        GameObject walls = new("Walls");
+        walls.transform.SetParent(newRoom.transform);
 
         // Empty room
         Instantiate(objDatabase.floorMousePointer, new(0, 0, 0), Quaternion.identity, floor.transform);
@@ -306,32 +316,43 @@ public class DungeonGenerator : MonoBehaviour
                 {
                     // Walls
                     if (x == 0)
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, -90, 0), newRoom.transform);
+                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, -90, 0), walls.transform);
                     if (x == size.x - 1)
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 90, 0), newRoom.transform);
+                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 90, 0), walls.transform);
                     if (y == 0)
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), newRoom.transform);
+                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), walls.transform);
                     if (y == size.y - 1)
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 0, 0), newRoom.transform);
+                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 0, 0), walls.transform);
                 }
             }
         }
         newRoom.GetComponent<DungeonRoom>().GetDoors();
+        return newRoom;
+    }
+
+    void PopulateRoom(int roomId)
+    {
+        GameObject room = rooms[roomId];
+
+        // Add obstacles
+
+        // Add collectable resources
+        // Choose smaller areas (random count in range) in room to generate several resource nodes near each other
+
+
+        // Add loot boxes
 
 
         // Populate room
 
 
         // Add NavMeshSurface component
-        for(int i = 1; i < NavMesh.GetSettingsCount(); i++)
+        for (int i = 1; i < NavMesh.GetSettingsCount(); i++)
         {
-            NavMeshSurface surface = newRoom.AddComponent<NavMeshSurface>();
+            NavMeshSurface surface = room.transform.Find("Floor").AddComponent<NavMeshSurface>();
             surface.agentTypeID = NavMesh.GetSettingsByIndex(i).agentTypeID;
             surface.navMeshData = new(NavMesh.GetSettingsByIndex(i).agentTypeID);
             surface.BuildNavMesh();
         }
-
-
-        return newRoom;
     }
 }
