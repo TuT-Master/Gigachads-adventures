@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -29,11 +30,10 @@ public class DungeonGenerator : MonoBehaviour
     private DungeonDatabase objDatabase;
 
 
-
     private void Start()
     {
         GenerateDungeon(maxRoomCount);
-        rooms[0].gameObject.SetActive(true);
+        rooms[0].SetActive(true);
         FindAnyObjectByType<PlayerMovement>().transform.position = rooms[0].GetComponent<DungeonRoom>().doors[2].transform.position;
     }
 
@@ -253,9 +253,13 @@ public class DungeonGenerator : MonoBehaviour
     public GameObject GenerateRoom(Vector2 size /* !Has to be odd numbers! */)
     {
         GameObject newRoom = new("Room-" + rooms.Count.ToString());
+        // Add DungeonRoom component
         newRoom.AddComponent<DungeonRoom>();
         newRoom.GetComponent<DungeonRoom>().size = size;
         newRoom.GetComponent<DungeonRoom>().roomID = rooms.Count;
+
+        GameObject floor = new("Floor");
+        floor.transform.SetParent(newRoom.transform);
 
         GameObject doors = new("Doors");
         doors.transform.SetParent(newRoom.transform);
@@ -264,12 +268,12 @@ public class DungeonGenerator : MonoBehaviour
         doorWalls.transform.SetParent(newRoom.transform);
 
         // Empty room
-        Instantiate(objDatabase.floorMousePointer, new(0, 0, 0), Quaternion.identity, newRoom.transform);
+        Instantiate(objDatabase.floorMousePointer, new(0, 0, 0), Quaternion.identity, floor.transform);
         for (int y = 0; y < size.y; y++)
         {
             for (int x = 0; x < size.x; x++)
             {
-                Instantiate(objDatabase.floors[0], new(x * 3, 0, y * 3), Quaternion.identity, newRoom.transform);
+                Instantiate(objDatabase.floors[0], new(x * 3, 0, y * 3), Quaternion.identity, floor.transform);
                 // Doors
                 if(x == (size.x - 1) / 2)
                 {
@@ -313,7 +317,18 @@ public class DungeonGenerator : MonoBehaviour
         }
         newRoom.GetComponent<DungeonRoom>().GetDoors();
 
+
         // Populate room
+
+
+        // Add NavMeshSurface component
+        for(int i = 1; i < NavMesh.GetSettingsCount(); i++)
+        {
+            NavMeshSurface surface = newRoom.AddComponent<NavMeshSurface>();
+            surface.agentTypeID = NavMesh.GetSettingsByIndex(i).agentTypeID;
+            surface.navMeshData = new(NavMesh.GetSettingsByIndex(i).agentTypeID);
+            surface.BuildNavMesh();
+        }
 
 
         return newRoom;
