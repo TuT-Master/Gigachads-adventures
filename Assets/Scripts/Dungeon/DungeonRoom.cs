@@ -15,9 +15,8 @@ public class DungeonRoom : MonoBehaviour
     public List<GameObject> doors = new();  // Up, Right, Down, Left
     public List<GameObject> doorWalls = new();  // Up, Right, Down, Left
 
-    public Dictionary<Vector2, GameObject> population;
-
-    public int enemiesCount;
+    public List<GameObject> population = new();
+    public List<IInteractableEnemy> enemies = new();
 
     public bool cleared;
 
@@ -53,18 +52,22 @@ public class DungeonRoom : MonoBehaviour
 
     private void Update()
     {
-        if (enemiesCount > 0)
+        population = new();
+        for (int i = 0; i < transform.Find("Population").childCount; i++)
+            population.Add(transform.Find("Population").GetChild(i).gameObject);
+
+        if (enemies.Count > 0)
         {
-            enemiesCount = 0;
             cleared = false;
-            foreach (GameObject obj in population.Values)
-                if (obj != null && obj.TryGetComponent(out EnemyStats enemy))
-                    enemiesCount++;
+            enemies = new();
+            foreach (GameObject obj in population)
+                if (obj.TryGetComponent(out EnemyStats enemy))
+                    enemies.Add(enemy);
         }
-        if (enemiesCount == 0 && !cleared)
+        if (enemies.Count == 0 && !cleared)
         {
             // Short message that the room is cleared
-            Debug.Log("Room cleared!");
+            Debug.Log(gameObject.name + " cleared!");
 
             cleared = true;
         }
