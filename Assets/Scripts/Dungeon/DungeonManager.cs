@@ -7,9 +7,20 @@ public class DungeonManager : MonoBehaviour
 {
     private GameObject player;
 
+    private DungeonGenerator dungeonGenerator;
+
+    
+
+
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        if(FindAnyObjectByType<DungeonGenerator>() != null)
+            dungeonGenerator = FindAnyObjectByType<DungeonGenerator>();
     }
 
     public void LoadScene(string sceneName)

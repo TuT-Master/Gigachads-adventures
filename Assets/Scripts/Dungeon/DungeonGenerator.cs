@@ -250,8 +250,6 @@ public class DungeonGenerator : MonoBehaviour
 
         // Draw map
         FindObjectOfType<DungeonMap>().BuildMap(board, rooms);
-
-        // Populate rooms
     }
 
     public GameObject GenerateRoom(Vector2 size /* !Has to be odd numbers! */)
@@ -355,6 +353,7 @@ public class DungeonGenerator : MonoBehaviour
                         pop.Add(new(x, y), objDatabase.lootBoxes[0]);
                         break;
                     case 99:
+                        // Enemy
                         if(rooms.Count > 0)
                             pop.Add(new(x, y), objDatabase.meleeEnemies[0]);
                         break;
@@ -365,30 +364,16 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
 
-        // Add collectable resources
-
-
-        // Add loot boxes
-
-
-        // Populate room with enemies
-
-
-
-
-
         // Spawn population
         GameObject population = new("Population");
         population.transform.parent = room.transform;
-        room.GetComponent<DungeonRoom>().enemiesCount = 0;
-        room.GetComponent<DungeonRoom>().population = pop;
-        foreach (Vector2 id in room.GetComponent<DungeonRoom>().population.Keys)
+        foreach (Vector2 id in pop.Keys)
         {
             if (pop[id] != null)
             {
                 Instantiate(pop[id], new Vector3(id.x, 0, id.y), Quaternion.identity, population.transform);
-                if (pop[id].TryGetComponent(out EnemyStats enemy))
-                    room.GetComponent<DungeonRoom>().enemiesCount++;
+                if (pop[id] != null && pop[id].TryGetComponent(out EnemyStats enemy))
+                    room.GetComponent<DungeonRoom>().enemies.Add(enemy);
             }
         }
 
