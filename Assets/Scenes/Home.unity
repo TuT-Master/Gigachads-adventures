@@ -718,7 +718,8 @@ GameObject:
   - component: {fileID: 70545656}
   - component: {fileID: 70545659}
   - component: {fileID: 70545658}
-  m_Layer: 0
+  - component: {fileID: 70545660}
+  m_Layer: 13
   m_Name: "Podlo\u017Eka"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -790,6 +791,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70545655}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!135 &70545660
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70545655}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 8192
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 8183
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1001 &105260558
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1704,6 +1726,7 @@ MonoBehaviour:
   backpackSize: 8
   beltSize: 0
   pocketSize: 0
+  dungeonManager: {fileID: 1754936369}
   backpackSlot: {fileID: 636288549}
   beltSlot: {fileID: 832082770}
 --- !u!114 &220485078
@@ -5061,7 +5084,7 @@ GameObject:
   m_Component:
   - component: {fileID: 658569085}
   - component: {fileID: 658569086}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5093,16 +5116,16 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 2624
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.6
   m_Height: 0.5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -10518,7 +10541,7 @@ CapsuleCollider:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 7159
+    m_Bits: 15351
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0

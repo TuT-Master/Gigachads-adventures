@@ -9,7 +9,9 @@ public class DungeonManager : MonoBehaviour
 
     private DungeonGenerator dungeonGenerator;
 
-    
+    private AsyncOperation operation;
+
+
 
 
     private void Start()
@@ -25,6 +27,8 @@ public class DungeonManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        if (operation != null && operation.progress > 0)
+            return;
         // Load Scene
         StartCoroutine(LoadSceneAsync(sceneName));
     }
@@ -32,7 +36,7 @@ public class DungeonManager : MonoBehaviour
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         // Load new Scene
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        operation = SceneManager.LoadSceneAsync(sceneName);
 
         // Activate loading screen GameObject.SetActive(true);
 
@@ -44,6 +48,5 @@ public class DungeonManager : MonoBehaviour
 
             yield return null;
         }
-
     }
 }
