@@ -366,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attitude: 0
   canAttackAgain: 0
-  damage: 2
+  damage: 69
   penetration: 0
   armorIgnore: 0
 --- !u!114 &8842026836342983176

@@ -117,6 +117,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             dead = true;
             FindAnyObjectByType<DungeonManager>().LoadScene("Home");
         }
+
         // Checking whether can regen stats or not
         if(CanRegenStats())
         {

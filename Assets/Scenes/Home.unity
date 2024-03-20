@@ -1726,7 +1726,6 @@ MonoBehaviour:
   backpackSize: 8
   beltSize: 0
   pocketSize: 0
-  dungeonManager: {fileID: 1754936369}
   backpackSlot: {fileID: 636288549}
   beltSlot: {fileID: 832082770}
 --- !u!114 &220485078
