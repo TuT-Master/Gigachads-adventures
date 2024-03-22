@@ -69,7 +69,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private bool canRegenerateStamina;
     private bool canRegenerateMana;
     private bool getsDamage;
-    private bool dead;
+    public bool dead;
 
 
     private void Start()
@@ -115,7 +115,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         {
             // Kill player and increase skill issue
             dead = true;
-            FindAnyObjectByType<DungeonManager>().LoadScene("Home");
+            FindAnyObjectByType<VirtualSceneManager>().LoadScene("Home");
         }
 
         // Checking whether can regen stats or not
