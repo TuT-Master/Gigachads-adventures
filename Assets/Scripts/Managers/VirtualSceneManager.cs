@@ -24,6 +24,7 @@ public class VirtualSceneManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        FindAnyObjectByType<PlayerStats>().playerStats["skillPoints"]++;
         GameObject newScene = null;
         foreach (GameObject go in sceneList)
         {
@@ -35,5 +36,8 @@ public class VirtualSceneManager : MonoBehaviour
 
         if(newScene != null)
             newScene.SetActive(true);
+
+        if(newScene.name == "Home")
+            FindAnyObjectByType<PlayerMovement>().transform.position = newScene.transform.position;
     }
 }

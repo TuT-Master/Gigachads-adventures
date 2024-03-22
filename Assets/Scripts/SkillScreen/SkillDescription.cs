@@ -16,6 +16,33 @@ public class SkillDescription : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI skillStats;
 
+    [SerializeField]
+    private GameObject upgradeButton;
+    [SerializeField]
+    private GameObject cannotUpgradeSkill;
+
+    private bool upgradeButtonVisible;
+
+    [SerializeField]
+    private PlayerStats playerStats;
+
+
+    private void Update()
+    {
+        if (skill == null)
+            return;
+
+        if(skill.maxLevel || playerStats.playerStats["skillPoints"] <= 0)
+        {
+            upgradeButton.SetActive(false);
+            cannotUpgradeSkill.SetActive(true);
+        }
+        else
+        {
+            upgradeButton.SetActive(true);
+            cannotUpgradeSkill.SetActive(false);
+        }
+    }
 
     public void ShowSkillDetails(Skill skill)
     {
@@ -35,9 +62,6 @@ public class SkillDescription : MonoBehaviour
 
     public void ShowChosenSkillDetails()
     {
-        if(skill == null)
-            return;
-
         string fokinText = "";
         foreach (string key in skill.bonusStats.Keys)
         {
@@ -67,6 +91,9 @@ public class SkillDescription : MonoBehaviour
     {
         skill.UpgradeSkill();
         ShowSkillDetails(skill);
+
+        FindAnyObjectByType<PlayerStats>().playerStats["skillPoints"]--;
+
         Debug.Log("Upgrading skill /" + skill.skillName + "/ to level " + skill.levelOfSkill.ToString());
     }
 }

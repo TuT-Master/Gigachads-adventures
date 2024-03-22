@@ -39,6 +39,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private int level;
     [SerializeField]
+    private int skillPoints;
+    [SerializeField]
     private float accuracyBonus;
     [SerializeField]
     private float penetrationBonus;
@@ -94,6 +96,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "speed", speed },
             { "experience", experience },
             { "level", level },
+            { "skillPoints", skillPoints },
             { "accuracyBonus", accuracyBonus },
             { "penetrationBonus", penetrationBonus },
             { "armorIgnoreBonus", armorIgnoreBonus },
@@ -111,6 +114,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     void Update()
     {
+        Debug.Log(playerStats["skillPoints"]);
         if (playerStats["hp"] <= 0 && !dead)
         {
             // Kill player and increase skill issue
@@ -205,6 +209,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "speed", speed },
             { "experience", experience },
             { "level", level },
+            { "skillPoints", skillPoints },
             { "accuracyBonus", accuracyBonus },
             { "penetrationBonus", penetrationBonus },
             { "armorIgnoreBonus", armorIgnoreBonus },
@@ -230,6 +235,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "speed", 0 },
             { "experience", 0 },
             { "level", 0 },
+            { "skillPoints", 0 },
             { "accuracyBonus", 0 },
             { "penetrationBonus", 0 },
             { "armorIgnoreBonus", 0 },

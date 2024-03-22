@@ -20,6 +20,6 @@ public class Home : MonoBehaviour
 
     private void OnDisable()
     {
-
+        // Save game
     }
 }
