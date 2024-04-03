@@ -7,6 +7,8 @@ public class HUDmanager : MonoBehaviour
     private PlayerInventory inventory;
     private PlayerSkill skill;
     private DungeonMap map;
+    private PlayerOtherInventoryScreen playerOtherInventory;
+
     [SerializeField]
     private SkillDescription skillDescription;
 
@@ -16,6 +18,7 @@ public class HUDmanager : MonoBehaviour
         inventory = GetComponent<PlayerInventory>();
         skill = GetComponent<PlayerSkill>();
         map = GetComponent<DungeonMap>();
+        playerOtherInventory = GetComponent<PlayerOtherInventoryScreen>();
     }
 
     public void ToggleInventoryScreen(bool toggle)
@@ -23,6 +26,7 @@ public class HUDmanager : MonoBehaviour
         skillDescription.HideSkillDetails();
         skill.ToggleSkillScreen(false);
         map.ToggleMap(false);
+        playerOtherInventory.ToggleOtherInventoryScreen(false);
         inventory.ToggleInventory(toggle);
     }
 
@@ -31,6 +35,7 @@ public class HUDmanager : MonoBehaviour
         skillDescription.HideSkillDetails();
         inventory.ToggleInventory(false);
         map.ToggleMap(false);
+        playerOtherInventory.ToggleOtherInventoryScreen(false);
         skill.ToggleSkillScreen(toggle);
     }
 
@@ -39,6 +44,16 @@ public class HUDmanager : MonoBehaviour
         skillDescription.HideSkillDetails();
         inventory.ToggleInventory(false);
         skill.ToggleSkillScreen(false);
+        playerOtherInventory.ToggleOtherInventoryScreen(false);
         map.ToggleMap(toggle);
+    }
+
+    public void ToggleOtherInventoryScreen(bool toggle)
+    {
+        skillDescription.HideSkillDetails();
+        inventory.ToggleInventory(false);
+        skill.ToggleSkillScreen(false);
+        map.ToggleMap(false);
+        playerOtherInventory.ToggleOtherInventoryScreen(toggle);
     }
 }
