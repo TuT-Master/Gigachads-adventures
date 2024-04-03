@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Profiling;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -25,6 +23,9 @@ public class DungeonGenerator : MonoBehaviour
 
     public int maxRoomOffset;
 
+    [SerializeField]
+    private Transform dungeonScene;
+
     [HideInInspector] public List<GameObject> rooms = new();
 
     Dictionary<Vector2, Cell> board = new();
@@ -33,7 +34,7 @@ public class DungeonGenerator : MonoBehaviour
     private DungeonDatabase objDatabase;
 
 
-    private void Start()
+    public void BuildDungeon()
     {
         GenerateDungeon(maxRoomCount);
         rooms[0].SetActive(true);
@@ -134,6 +135,10 @@ public class DungeonGenerator : MonoBehaviour
 
     public void GenerateDungeon(int maxRoomCount)
     {
+        rooms.Clear();
+        board.Clear();
+        FindObjectOfType<DungeonMap>().ClearMap();
+
         // Set max dungeon size depending on age and difficulty level
         int dungeonMaxSize = boardSize;
 
@@ -255,6 +260,7 @@ public class DungeonGenerator : MonoBehaviour
     public GameObject GenerateRoom(Vector2 size /* !Has to be odd numbers! */)
     {
         GameObject newRoom = new("Room-" + rooms.Count.ToString());
+        newRoom.transform.SetParent(dungeonScene);
         // Add DungeonRoom component
         newRoom.AddComponent<DungeonRoom>();
         newRoom.GetComponent<DungeonRoom>().size = size;

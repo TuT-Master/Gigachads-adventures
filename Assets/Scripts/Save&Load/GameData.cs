@@ -36,6 +36,7 @@ public class GameData
             { "speed", 1 },
             { "experience", 0 },
             { "level", 0 },
+            { "skillPoints", 0 },
             { "accuracyBonus", 0 },
             { "penetrationBonus", 0 },
             { "armorIgnoreBonus", 0 },
@@ -45,6 +46,6 @@ public class GameData
             { "pocketSize", 0 },
         };
         playerInventory = new();
-        playerPos = Vector3.zero;
+        playerPos = new Vector3(-50, 0, -50);
     }
 }

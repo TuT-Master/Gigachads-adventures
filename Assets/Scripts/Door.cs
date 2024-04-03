@@ -17,10 +17,10 @@ public class Door : MonoBehaviour, IInteractable
     public string sceneName;
 
 
-
-    private Animator animator;
-
-    private bool opened;
+    [HideInInspector]
+    public Animator animator;
+    [HideInInspector]
+    public bool opened;
 
     void Start()
     {
@@ -45,18 +45,23 @@ public class Door : MonoBehaviour, IInteractable
     {
         canInteract = false;
         if (!opened)
+        {
             animator.SetTrigger("OpenDoor");
+            yield return new WaitForSeconds(1);
+        }
+        else
+            yield return new WaitForSeconds(0.25f);
+
         opened = true;
 
         // Play some sound for opening the doors
 
 
 
-        yield return new WaitForSeconds(1);
         
         if(baseDoors)
         {
-            FindAnyObjectByType<DungeonManager>().LoadScene(sceneName);
+            FindAnyObjectByType<VirtualSceneManager>().LoadScene(sceneName);
         }
         else
         {

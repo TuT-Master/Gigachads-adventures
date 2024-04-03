@@ -39,6 +39,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private int level;
     [SerializeField]
+    private int skillPoints;
+    [SerializeField]
     private float accuracyBonus;
     [SerializeField]
     private float penetrationBonus;
@@ -68,12 +70,15 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private bool canRegenerateHp;
     private bool canRegenerateStamina;
     private bool canRegenerateMana;
+    private bool getsDamage;
+    public bool dead;
 
 
     private void Start()
     {
         playerInventory = GetComponent<PlayerInventory>();
         playerMovement = GetComponent<PlayerMovement>();
+
         playerStats = new()
         {
             { "hp", hp },
@@ -91,6 +96,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "speed", speed },
             { "experience", experience },
             { "level", level },
+            { "skillPoints", skillPoints },
             { "accuracyBonus", accuracyBonus },
             { "penetrationBonus", penetrationBonus },
             { "armorIgnoreBonus", armorIgnoreBonus },
@@ -99,25 +105,42 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "beltSize", beltSize },
             { "pocketSize", pocketSize },
         };
+
+        canRegenerateHp = true;
+        canRegenerateStamina = true;
+        canRegenerateMana = true;
+        dead = false;
     }
 
     void Update()
     {
-        canRegenerateHp = true;
-        canRegenerateStamina = true;
-        canRegenerateMana = true;
+        Debug.Log(playerStats["skillPoints"]);
+        if (playerStats["hp"] <= 0 && !dead)
+        {
+            // Kill player and increase skill issue
+            dead = true;
+            FindAnyObjectByType<VirtualSceneManager>().LoadScene("Home");
+        }
 
         // Checking whether can regen stats or not
-        if(playerMovement.sprint)
+        if(CanRegenStats())
+        {
+            canRegenerateHp = true;
+            canRegenerateStamina = true;
+            canRegenerateMana = true;
+        }
+        else
         {
             canRegenerateHp = false;
             canRegenerateStamina = false;
             canRegenerateMana = false;
-            playerStats["stamina"] -= 10 * Time.deltaTime;
         }
 
+        if (playerMovement.sprint)
+            playerStats["stamina"] -= 10 * Time.deltaTime;
+
         // Regen stats
-        if(canRegenerateHp)
+        if (canRegenerateHp)
             playerStats["hp"] += playerStats["hpRegen"] * Time.deltaTime * 2;
         if(canRegenerateStamina)
             playerStats["stamina"] += playerStats["staminaRegen"] * Time.deltaTime * 5;
@@ -131,6 +154,38 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             playerStats["stamina"] = playerStats["staminaMax"];
         if (playerStats["mana"] >= playerStats["manaMax"])
             playerStats["mana"] = playerStats["manaMax"];
+    }
+
+    private bool CanRegenStats()
+    {
+        if (playerMovement.sprint || getsDamage || !GetComponent<PlayerFight>().canAttackAgain)
+            return false;
+        return true;
+    }
+
+    public void DealDamage(float damage, float penetration, float armorIgnore)
+    {
+        canRegenerateHp = false;
+        canRegenerateStamina = false;
+        canRegenerateMana = false;
+
+        float finalDamage = damage;
+        if (finalDamage > 0)
+        {
+            getsDamage = true;
+            StartCoroutine(StatRegen());
+        }
+
+        playerStats["hp"] -= finalDamage;
+    }
+
+    IEnumerator StatRegen()
+    {
+        StopCoroutine(StatRegen());
+
+        yield return new WaitForSeconds(3);
+
+        getsDamage = false;
     }
 
     public void UpdateEquipment()
@@ -154,6 +209,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "speed", speed },
             { "experience", experience },
             { "level", level },
+            { "skillPoints", skillPoints },
             { "accuracyBonus", accuracyBonus },
             { "penetrationBonus", penetrationBonus },
             { "armorIgnoreBonus", armorIgnoreBonus },
@@ -179,6 +235,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "speed", 0 },
             { "experience", 0 },
             { "level", 0 },
+            { "skillPoints", 0 },
             { "accuracyBonus", 0 },
             { "penetrationBonus", 0 },
             { "armorIgnoreBonus", 0 },

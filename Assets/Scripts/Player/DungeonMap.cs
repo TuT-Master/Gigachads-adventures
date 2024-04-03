@@ -51,6 +51,18 @@ public class DungeonMap : MonoBehaviour
         }
     }
 
+    public void ClearMap()
+    {
+        if(rooms == null)
+            return;
+
+        for (int i = 0;i < rooms.Length;i++)
+        {
+            Destroy(rooms[i]);
+        }
+        rooms = null;
+    }
+
     public void DrawMap(Dictionary<Vector2, DungeonGenerator.Cell> board)
     {
         int size = (int)Mathf.Sqrt(board.Count);

@@ -14,8 +14,12 @@ public class EnemyMovement : MonoBehaviour
     private float weight;
 
 
+    private float defaultSpeed;
+
+
     private void Start()
     {
+        defaultSpeed = speed;
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -32,5 +36,15 @@ public class EnemyMovement : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         speed = defaultSpeed;
         GetComponent<EnemyStats>().isStunned = false;
+    }
+
+    public void StopMovement()
+    {
+        speed = 0f;
+    }
+
+    public void ResumeMovement()
+    {
+        speed = defaultSpeed;
     }
 }
