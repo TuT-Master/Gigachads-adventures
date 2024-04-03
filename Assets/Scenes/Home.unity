@@ -335,6 +335,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
+      propertyPath: skillUnlocked
+      value: 
+      objectReference: {fileID: 3286163911610860551, guid: 89ee2c172cbcee54ea6fa1afa888c918,
+        type: 3}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
       propertyPath: bleedingChance.Array.size
       value: 0
       objectReference: {fileID: 0}
