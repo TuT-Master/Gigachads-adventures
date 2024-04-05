@@ -21,6 +21,28 @@ public class HUDmanager : MonoBehaviour
         playerOtherInventory = GetComponent<PlayerOtherInventoryScreen>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && AnyScreenOpen())
+            CloseEverything();
+    }
+    private bool AnyScreenOpen()
+    {
+        if(inventory.playerInventoryOpen || skill.skillScreenOpen || map.mapOpened || playerOtherInventory.isOpened)
+            return true;
+        else
+            return false;
+    }
+    private void CloseEverything()
+    {
+        skillDescription.HideSkillDetails();
+        skill.ToggleSkillScreen(false);
+        map.ToggleMap(false);
+        playerOtherInventory.ToggleOtherInventoryScreen(false);
+        inventory.ToggleInventory(false);
+    }
+
+
     public void ToggleInventoryScreen(bool toggle)
     {
         skillDescription.HideSkillDetails();

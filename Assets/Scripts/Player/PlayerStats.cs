@@ -114,7 +114,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     void Update()
     {
-        Debug.Log(playerStats["skillPoints"]);
         if (playerStats["hp"] <= 0 && !dead)
         {
             // Kill player and increase skill issue

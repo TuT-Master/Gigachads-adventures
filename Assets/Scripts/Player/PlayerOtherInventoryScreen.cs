@@ -4,29 +4,26 @@ using UnityEngine;
 
 public class PlayerOtherInventoryScreen : MonoBehaviour
 {
-    HUDmanager hudManager;
+    public OtherInventory currentInventory;
+
+    public bool isOpened;
+
 
     [SerializeField]
     private GameObject otherInventoryScreen;
 
     private bool shouldSaveInventory;
 
+
     void Start()
     {
-        hudManager = GetComponent<HUDmanager>();
         ToggleOtherInventoryScreen(false);
         shouldSaveInventory = false;
     }
 
-    void Update()
+    public void UpdateInventory(OtherInventory otherInventory)
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Interact"))
-            hudManager.ToggleOtherInventoryScreen(false);
-    }
-
-    public void UpdateInventory(Dictionary<int, Item> otherInventory)
-    {
-
+        currentInventory = otherInventory;
     }
 
     void SaveInventory()
@@ -39,10 +36,14 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         otherInventoryScreen.SetActive(toggle);
         if (toggle)
             shouldSaveInventory = true;
-        if(shouldSaveInventory)
+        if (!toggle && shouldSaveInventory)
         {
             SaveInventory();
             shouldSaveInventory = false;
+            currentInventory.isOpened = false;
+            currentInventory = null;
         }
+
+        isOpened = toggle;
     }
 }

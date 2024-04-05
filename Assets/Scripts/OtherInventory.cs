@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OtherInventory : MonoBehaviour, IInteractable
 {
-    public bool isLocked;
+    public bool isLocked = false;
 
     public bool isOpened;
 
@@ -21,11 +21,12 @@ public class OtherInventory : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        isOpened = !isOpened;
         HUDmanager hudManager = FindAnyObjectByType<HUDmanager>();
-        hudManager.ToggleOtherInventoryScreen(true);
+        hudManager.ToggleOtherInventoryScreen(isOpened);
 
         PlayerOtherInventoryScreen otherInventoryScreen = FindAnyObjectByType<PlayerOtherInventoryScreen>();
-        otherInventoryScreen.UpdateInventory(inventory);
+        otherInventoryScreen.UpdateInventory(this);
     }
 
     public bool CanInteract() { return !isLocked; }
