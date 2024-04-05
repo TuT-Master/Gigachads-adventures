@@ -16,8 +16,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
     [SerializeField]
     private GameObject inventoryCanvas;
-    [SerializeField]
-    private GameObject backpackInventory;
+    public GameObject backpackInventory;
     public int backpackSize;
     [SerializeField]
     private GameObject beltInventory;
