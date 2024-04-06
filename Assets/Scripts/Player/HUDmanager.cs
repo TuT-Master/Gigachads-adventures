@@ -26,7 +26,7 @@ public class HUDmanager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && AnyScreenOpen())
             CloseEverything();
     }
-    private bool AnyScreenOpen()
+    public bool AnyScreenOpen()
     {
         if(inventory.playerInventoryOpen || skill.skillScreenOpen || map.mapOpened || playerOtherInventory.isOpened)
             return true;

@@ -40,10 +40,10 @@ public class PlayerSkill : MonoBehaviour
     public void ToggleSkillScreen(bool toggle)
     {
         skillScreenOpen = toggle;
+        skillScreen.SetActive(skillScreenOpen);
         if (skillScreenOpen)
         {
             Time.timeScale = 0f;
-            skillScreen.SetActive(true);
             OpenTab(0);
             categoryButtons[0].clicked = true;
             categoryButtons[1].clicked = categoryButtons[2].clicked = categoryButtons[3].clicked = false;
@@ -51,7 +51,6 @@ public class PlayerSkill : MonoBehaviour
         else
         {
             Time.timeScale = 1f;
-            skillScreen.SetActive(false);
         }
     }
     public void StatButtonClicked(){ OpenTab(0); }

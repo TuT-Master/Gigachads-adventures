@@ -52,18 +52,19 @@ public class PlayerFight : MonoBehaviour
     private void Update()
     {
         ActiveWeapon();
-        FreeRotation();
         MyInput();
         animator.gameObject.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
     }
 
     void MyInput()
     {
-        if (GetComponent<PlayerInventory>().playerInventoryOpen | GetComponent<PlayerSkill>().skillScreenOpen | reloading)
+        if (GetComponent<HUDmanager>().AnyScreenOpen() | reloading)
             return;
 
+        FreeRotation();
+
         // Adjust height of projectile spawn point
-        if(Input.GetAxis("Adjust projectile height") > 0)
+        if (Input.GetAxis("Adjust projectile height") > 0)
             projectileSpawnPoint.localPosition = new(0, 0.5f, 0.6f);
         else if(Input.GetAxis("Adjust projectile height") < 0)
             projectileSpawnPoint.localPosition = new(0, 0.1f, 0.6f);

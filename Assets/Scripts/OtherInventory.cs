@@ -26,7 +26,7 @@ public class OtherInventory : MonoBehaviour, IInteractable
         hudManager.ToggleOtherInventoryScreen(isOpened);
 
         PlayerOtherInventoryScreen otherInventoryScreen = FindAnyObjectByType<PlayerOtherInventoryScreen>();
-        otherInventoryScreen.UpdateInventory(this);
+        otherInventoryScreen.UpdateOtherInventory(this);
     }
 
     public bool CanInteract() { return !isLocked; }
