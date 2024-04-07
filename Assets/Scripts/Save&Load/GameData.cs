@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -15,6 +16,11 @@ public class GameData
     public int beltSize;
     public int pocketSize;
     public SerializableDictionary<Transform, string> playerInventory;
+
+    // Other inventories
+    public SerializableDictionary<string, SerializableDictionary<int, string>> otherInventories;
+
+
 
     public GameData()
     {
@@ -47,5 +53,7 @@ public class GameData
         };
         playerInventory = new();
         playerPos = new Vector3(-50, 0, -50);
+
+        otherInventories = new();
     }
 }

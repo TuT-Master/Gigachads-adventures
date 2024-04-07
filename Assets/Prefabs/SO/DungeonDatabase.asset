@@ -25,6 +25,6 @@ MonoBehaviour:
   resources:
   - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
   lootBoxes:
-  - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
+  - {fileID: 5857961823447582917, guid: 3b6631833aacfa049b825d89a4b37ac8, type: 3}
   meleeEnemies:
   - {fileID: 8809413063290618312, guid: 0e35d70fe23ab1a49ba2fcb8ad36a3f8, type: 3}
