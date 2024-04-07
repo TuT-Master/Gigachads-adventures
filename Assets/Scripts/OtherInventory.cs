@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 {
-    public string otherInventoryGUID = "";
-    [ContextMenu("Generate GUID for inventory")]
-    public void GenerateGUID() { otherInventoryGUID = System.Guid.NewGuid().ToString(); }
-
     public bool isLocked = false;
 
     public bool isOpened;
@@ -20,9 +16,14 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     public int inventorySize = 8;
 
 
+    private ItemDatabase itemDatabase;
+
+
+
     void Start()
     {
-        if(inventory == null)
+        itemDatabase = FindAnyObjectByType<ItemDatabase>();
+        if(!isTemp)
         {
             isLocked = false;
             isOpened = false;
@@ -30,8 +31,6 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
             for(int i = 0; i < inventorySize; i++)
                 inventory.Add(i, null);
         }
-        if(otherInventoryGUID == "")
-            GenerateGUID();
     }
 
     public void SetUpInventory(Dictionary<int, Item> inventory, bool locked)
@@ -54,14 +53,55 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
     public bool CanInteract() { return !isLocked; }
 
-    public void LoadData(GameData data)
+
+    Item GetItemForLoading(string item)
     {
-        if(isTemp)
-            return;
+        string name = "";
+        string amountString = "";
+        string currentMagazineString = "";
 
+        int stage = 0;
+        foreach (char c in item)
+        {
+            if (c == '-')
+                stage++;
+            else if (c == '/')
+                stage++;
+            else if (stage == 0)
+                name += c;
+            else if (stage == 1)
+                amountString += c;
+            else if (stage == 2)
+                currentMagazineString += c;
+        }
 
+        int.TryParse(amountString, out int amount);
+        Item loadedItem = itemDatabase.GetItemByNameAndAmount(name, amount);
+
+        if (int.TryParse(currentMagazineString, out int currentMagazine))
+            loadedItem.stats["currentMagazine"] = currentMagazine;
+
+        return loadedItem;
     }
 
+    public void LoadData(GameData data)
+    {
+        if(isTemp || !data.otherInventories.ContainsKey(transform))
+            return;
+
+        inventory = new();
+        for (int i = 0; i < data.otherInventories[transform].Count; i++)
+        {
+            if (data.otherInventories[transform][i] != "")
+                inventory.Add(i, GetItemForLoading(data.otherInventories[transform][i]));
+            else
+                inventory.Add(i, null);
+        }
+
+        isLocked = false;
+        isOpened = false;
+        inventorySize = inventory.Count;
+    }
     public void SaveData(ref GameData data)
     {
         if (isTemp)
@@ -71,11 +111,15 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         for (int i = 0; i < inventorySize; i++)
         {
             if (inventory[i] != null)
+            {
                 items.Add(i, inventory[i].itemName + "-" + inventory[i].amount.ToString());
+                if (inventory[i].stats.ContainsKey("currentMagazine"))
+                    items[i] += "/" + inventory[i].stats["currentMagazine"].ToString();
+            }
             else
                 items.Add(i, "");
         }
 
-        data.otherInventories.Add(otherInventoryGUID, items);
+        data.otherInventories.Add(transform, items);
     }
 }

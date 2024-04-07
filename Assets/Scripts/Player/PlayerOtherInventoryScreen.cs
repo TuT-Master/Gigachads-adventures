@@ -95,7 +95,6 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
 
     public void ToggleOtherInventoryScreen(bool toggle)
     {
-        otherInventoryScreen.SetActive(toggle);
         if (toggle)
         {
             Time.timeScale = 0f;
@@ -109,6 +108,7 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             otherInventory = null;
             Time.timeScale = 1f;
         }
+        otherInventoryScreen.SetActive(toggle);
 
         isOpened = toggle;
     }

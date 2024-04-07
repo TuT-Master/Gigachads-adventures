@@ -18,7 +18,7 @@ public class GameData
     public SerializableDictionary<Transform, string> playerInventory;
 
     // Other inventories
-    public SerializableDictionary<string, SerializableDictionary<int, string>> otherInventories;
+    public SerializableDictionary<Transform, SerializableDictionary<int, string>> otherInventories;
 
 
 
