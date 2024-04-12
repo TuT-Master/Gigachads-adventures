@@ -113,13 +113,15 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
             if (inventory[i] != null)
             {
                 items.Add(i, inventory[i].itemName + "-" + inventory[i].amount.ToString());
-                if (inventory[i].stats.ContainsKey("currentMagazine"))
+                if (inventory[i].stats != null && inventory[i].stats.ContainsKey("currentMagazine"))
                     items[i] += "/" + inventory[i].stats["currentMagazine"].ToString();
             }
             else
                 items.Add(i, "");
         }
 
+        if(data.otherInventories.ContainsKey(transform))
+            data.otherInventories.Remove(transform);
         data.otherInventories.Add(transform, items);
     }
 }
