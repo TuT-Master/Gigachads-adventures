@@ -15,14 +15,13 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
     public int inventorySize = 8;
 
-
+    [SerializeField]
     private ItemDatabase itemDatabase;
 
 
 
     void Start()
     {
-        itemDatabase = FindAnyObjectByType<ItemDatabase>();
         if(!isTemp)
         {
             isLocked = false;
@@ -96,6 +95,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
                 inventory.Add(i, GetItemForLoading(data.otherInventories[transform][i]));
             else
                 inventory.Add(i, null);
+            Debug.Log(inventory[i]);
         }
 
         isLocked = false;
