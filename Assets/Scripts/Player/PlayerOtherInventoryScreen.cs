@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerOtherInventoryScreen : MonoBehaviour
@@ -18,8 +19,6 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
 
     private PlayerInventory playerInventory;
 
-    private bool shouldSaveInventory;
-
     [SerializeField]
     private GameObject itemPrefab;
 
@@ -28,7 +27,6 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
     void Start()
     {
         ToggleOtherInventoryScreen(false);
-        shouldSaveInventory = false;
         playerInventory = GetComponent<PlayerInventory>();
     }
 
@@ -89,8 +87,6 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             else
                 otherInventory.inventory[i] = null;
         }
-
-        shouldSaveInventory = false;
     }
 
     public void ToggleOtherInventoryScreen(bool toggle)
@@ -98,18 +94,17 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         if (toggle)
         {
             Time.timeScale = 0f;
-            shouldSaveInventory = true;
             UpdatePlayerInventory();
         }
-        if (!toggle && shouldSaveInventory && otherInventory.isOpened)
+        if (!toggle && otherInventory != null && otherInventory.isOpened)
         {
             SaveInventory();
             otherInventory.isOpened = false;
             otherInventory = null;
             Time.timeScale = 1f;
         }
-        otherInventoryScreen.SetActive(toggle);
 
+        otherInventoryScreen.SetActive(toggle);
         isOpened = toggle;
     }
 }
