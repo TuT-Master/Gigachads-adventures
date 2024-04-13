@@ -100,6 +100,7 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         {
             SaveInventory();
             otherInventory.isOpened = false;
+            UpdateOtherInventory(otherInventory);
             otherInventory = null;
             Time.timeScale = 1f;
         }

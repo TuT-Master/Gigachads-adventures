@@ -35,7 +35,10 @@ public class Item : MonoBehaviour
 
     private TextMeshProUGUI text;
 
-
+    public Item()
+    {
+        amount = 1;
+    }
     public Item(WeaponMeleeSO weaponSO)
     {
         itemName = weaponSO.itemName;
