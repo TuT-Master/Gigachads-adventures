@@ -280,15 +280,10 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     {
         playerInventoryOpen = toggle;
         if (toggle)
-        {
-            inventoryCanvas.SetActive(true);
             Time.timeScale = 0f;
-        }
         else
-        {
-            inventoryCanvas.SetActive(false);
             Time.timeScale = 1f;
-        }
+        inventoryCanvas.SetActive(toggle);
     }
 
     IEnumerator LoadingDelay(GameData data)
@@ -305,18 +300,21 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         string currentMagazineString = "";
 
         int stage = 0;
-        foreach(char c in item)
+        foreach (char c in item)
         {
             if (c == '-')
                 stage++;
             else if (c == '/')
                 stage++;
-            else if(stage == 0)
-                name += c;
-            else if (stage == 1)
-                amountString += c;
-            else if (stage == 2)
-                currentMagazineString += c;
+            else
+            {
+                if (stage == 0)
+                    name += c;
+                else if (stage == 1)
+                    amountString += c;
+                else if (stage == 2)
+                    currentMagazineString += c;
+            }
         }
 
         int.TryParse(amountString, out int amount);

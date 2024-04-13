@@ -2666,6 +2666,7 @@ MonoBehaviour:
   - {fileID: 1741102898}
   - {fileID: 1735888781}
   - {fileID: 211502519}
+  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
 --- !u!1001 &232833306

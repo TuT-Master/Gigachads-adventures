@@ -20,6 +20,9 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
     private PlayerInventory playerInventory;
 
     [SerializeField]
+    private ItemDatabase itemDatabase;
+
+    [SerializeField]
     private GameObject itemPrefab;
 
 
@@ -39,6 +42,16 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             {
                 otherInventorySlots[i].transform.GetComponent<Slot>().isActive = true;
                 otherInventorySlots[i].SetActive(true);
+                try
+                {
+                    if(otherInventorySlots[i].transform.childCount == 0)
+                    {
+                        var newItem = itemPrefab;
+                        newItem.GetComponent<Item>().SetUpByItem(itemDatabase.GetItemByNameAndAmount(otherInventory.inventory[i].itemName, otherInventory.inventory[i].amount));
+                        Instantiate(newItem, otherInventorySlots[i].transform);
+                    }
+                }
+                catch { }
             }
             else
             {
@@ -67,7 +80,7 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         }
     }
 
-    void SaveInventory()
+    public void SaveInventory()
     {
         // Player inventory
         for(int i = 0; i < playerInventorySlots.Count; i++)
@@ -82,10 +95,13 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         // Other inventory
         for(int i = 0; i < otherInventorySlots.Count; i++)
         {
-            if (otherInventorySlots[i].transform.childCount > 0 && otherInventorySlots[i].transform.GetChild(0).TryGetComponent(out Item item))
-                otherInventory.inventory[i] = item;
-            else
-                otherInventory.inventory[i] = null;
+            if (otherInventorySlots[i].GetComponent<Slot>().isActive)
+            {
+                if (otherInventorySlots[i].transform.childCount > 0 && otherInventorySlots[i].transform.GetChild(0).TryGetComponent(out Item item))
+                    otherInventory.inventory[i] = item;
+                else
+                    otherInventory.inventory[i] = null;
+            }
         }
     }
 
@@ -100,7 +116,6 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         {
             SaveInventory();
             otherInventory.isOpened = false;
-            UpdateOtherInventory(otherInventory);
             otherInventory = null;
             Time.timeScale = 1f;
         }

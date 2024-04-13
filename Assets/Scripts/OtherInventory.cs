@@ -33,11 +33,13 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     public void Interact()
     {
         isOpened = !isOpened;
-        HUDmanager hudManager = FindAnyObjectByType<HUDmanager>();
-        hudManager.ToggleOtherInventoryScreen(isOpened);
 
-        PlayerOtherInventoryScreen otherInventoryScreen = FindAnyObjectByType<PlayerOtherInventoryScreen>();
-        otherInventoryScreen.UpdateOtherInventory(this);
+        if(isOpened)
+            FindAnyObjectByType<PlayerOtherInventoryScreen>().UpdateOtherInventory(this);
+        else
+            FindAnyObjectByType<PlayerOtherInventoryScreen>().SaveInventory();
+
+        FindAnyObjectByType<HUDmanager>().ToggleOtherInventoryScreen(isOpened);
     }
 
     public bool CanInteract() { return !isLocked; }
@@ -84,8 +86,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         }
 
         int.TryParse(amountString, out int amount);
-        Item loadedItem = new();
-        loadedItem.SetUpByItem(itemDatabase.GetItemByNameAndAmount(name, amount));
+        Item loadedItem = itemDatabase.GetItemByNameAndAmount(name, amount);
 
         if (int.TryParse(currentMagazineString, out int currentMagazine))
             loadedItem.stats["currentMagazine"] = currentMagazine;
