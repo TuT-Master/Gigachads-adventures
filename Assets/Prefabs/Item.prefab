@@ -119,20 +119,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44d708e68801394289eb7b4f44bca60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Primitive club
-  description: 
-  slotType: 0
+  itemName: Primitive belt fed bow
+  description: Just like a primitive bow but with arrow belt. Let the FUN begins!
+  slotType: 2
   isStackable: 0
-  stackSize: 0
+  stackSize: 1
   emitsLight: 0
-  fullAuto: 0
-  amount: 2
+  fullAuto: 1
+  amount: 1
   inventoryCapacity: 0
   sprite_inventory: {fileID: 0}
   sprite_hand: {fileID: 0}
   sprite_equip: {fileID: 0}
   sprite_equipBack: {fileID: 0}
-  ammo: []
+  ammo:
+  - {fileID: 11400000, guid: 0a9aa93304c54b84aacc6b88bbfae12d, type: 2}
 --- !u!1 &6599278895345260592
 GameObject:
   m_ObjectHideFlags: 0

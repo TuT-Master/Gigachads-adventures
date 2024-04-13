@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour, IDataPersistance
 {
@@ -116,7 +115,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         }
         else
         {
-            itemCard = Instantiate(itemCardPrefab, Vector3.zero, Quaternion.identity, inventoryCanvas.transform);
+            itemCard = Instantiate(itemCardPrefab, Vector3.zero, Quaternion.identity, inventoryCanvas.transform.parent);
             Vector3 itemPos = item.gameObject.transform.position;
             if(itemPos.x > 1300)
                 itemPos = new(itemPos.x - 570, itemPos.y);
@@ -131,16 +130,26 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
             isItemCardOpen = true;
             // TODO - set up itemCard by item
+            
+            
             // ItemCard GFX
             //itemCard.transform.GetChild(0).GetComponent<Image>().sprite = 
+            
+            
             // Item image
             itemCard.transform.GetChild(1).GetComponent<Image>().sprite = item.sprite_inventory;
+            
+            
             // Item name
             itemCard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = item.itemName;
+            
+            
             // Item description
             itemCard.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = item.description;
-            // Item's stats
-            //itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = stats
+            
+            
+            // Item stats
+            itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = item.stats["currentMagazine"].ToString();
         }
     }
     public void CloseItemCard()

@@ -47,7 +47,7 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
                     if(otherInventorySlots[i].transform.childCount == 0)
                     {
                         var newItem = itemPrefab;
-                        newItem.GetComponent<Item>().SetUpByItem(itemDatabase.GetItemByNameAndAmount(otherInventory.inventory[i].itemName, otherInventory.inventory[i].amount));
+                        newItem.GetComponent<Item>().SetUpByItem(inventory.inventory[i]);
                         Instantiate(newItem, otherInventorySlots[i].transform);
                     }
                 }

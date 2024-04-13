@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 {
@@ -34,12 +32,24 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     {
         isOpened = !isOpened;
 
+        CreateInventoryIfNull();
+
         if(isOpened)
             FindAnyObjectByType<PlayerOtherInventoryScreen>().UpdateOtherInventory(this);
         else
             FindAnyObjectByType<PlayerOtherInventoryScreen>().SaveInventory();
 
         FindAnyObjectByType<HUDmanager>().ToggleOtherInventoryScreen(isOpened);
+    }
+
+    private void CreateInventoryIfNull()
+    {
+        if(inventory == null)
+        {
+            inventory = new();
+            for (int i = 0; i < inventorySize; i++)
+                inventory.Add(i, null);
+        }
     }
 
     public bool CanInteract() { return !isLocked; }
@@ -90,6 +100,8 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
         if (int.TryParse(currentMagazineString, out int currentMagazine))
             loadedItem.stats["currentMagazine"] = currentMagazine;
+        else
+            loadedItem.stats["currentMagazine"] = 0;
 
         return loadedItem;
     }
@@ -99,6 +111,8 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         if(isTemp || !data.otherInventories.ContainsKey(transform))
             return;
 
+        CreateInventoryIfNull();
+
         // Loading data
         StartCoroutine(LoadingDelay(data));
     }
@@ -106,6 +120,8 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     {
         if (isTemp)
             return;
+
+        CreateInventoryIfNull();
 
         SerializableDictionary<int, string> items = new();
         for (int i = 0; i < inventorySize; i++)
