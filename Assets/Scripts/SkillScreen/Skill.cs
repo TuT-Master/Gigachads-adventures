@@ -18,11 +18,13 @@ public class Skill : MonoBehaviour
     [HideInInspector] public int MaxlevelsOfSkill = 1;
     [HideInInspector] public bool maxLevel;
 
-    #region Bonus stats
     public Dictionary<string, float> bonusStats;
+    #region Bonus stats
     [Header("Bonus stats")]
     [SerializeField]
     float[] damage;
+    [SerializeField]
+    float[] accuracyBonus;
     [SerializeField]
     float[] penetration;
     [SerializeField]
@@ -98,6 +100,7 @@ public class Skill : MonoBehaviour
         bonusStats = new()
         {
             {"damage", 0 },
+            {"accuracyBonus", 0 },
             {"penetration", 0 },
             {"armorIngore", 0 },
             {"bleedingChance", 0 },
@@ -124,6 +127,7 @@ public class Skill : MonoBehaviour
             Dictionary<string, float[]> newBonusStats = new()
             {
                 {"damage", damage },
+                {"accuracyBonus", accuracyBonus },
                 {"penetration", penetration },
                 {"armorIngore", armorIgnore },
                 {"bleedingChance", bleedingChance },
@@ -139,10 +143,16 @@ public class Skill : MonoBehaviour
                 {"evade", evade },
             };
 
-            bonusStats.Clear();
-            foreach(string key in  newBonusStats.Keys)
+            foreach (string key in  newBonusStats.Keys)
+            {
                 if (newBonusStats[key].Length > 0)
-                    bonusStats.Add(key, newBonusStats[key][levelOfSkill - 1]);
+                {
+                    if (bonusStats.ContainsKey(key))
+                        bonusStats[key] = newBonusStats[key][levelOfSkill - 1];
+                    else
+                        bonusStats.Add(key, newBonusStats[key][levelOfSkill - 1]);
+                }
+            }
 
             // Fill
             fillAmount = levelOfSkill / MaxlevelsOfSkill;

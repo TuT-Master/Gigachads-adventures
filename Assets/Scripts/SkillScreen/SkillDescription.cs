@@ -92,7 +92,9 @@ public class SkillDescription : MonoBehaviour
         skill.UpgradeSkill();
         ShowSkillDetails(skill);
 
-        FindAnyObjectByType<PlayerStats>().playerStats["skillPoints"]--;
+        PlayerStats playerStats = FindAnyObjectByType<PlayerStats>();
+        playerStats.playerStats["skillPoints"]--;
+        playerStats.UpdateStats();
 
         Debug.Log("Upgrading skill /" + skill.skillName + "/ to level " + skill.levelOfSkill.ToString());
     }

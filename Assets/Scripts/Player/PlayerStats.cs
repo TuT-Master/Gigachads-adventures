@@ -6,7 +6,27 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 {
     public Dictionary<string, float> playerStats;
 
-    [Header("Default stats setup")]
+    public Dictionary<string, float> playerBonusStats = new()
+        {
+            {"damage", 0 },
+            {"accuracyBonus", 0 },
+            {"penetration", 0 },
+            {"armorIngore", 0 },
+            {"bleedingChance", 0 },
+            {"bleedingDamage", 0 },
+            {"poisonChance", 0 },
+            {"poisonDamage", 0 },
+            {"stunChance", 0 },
+            {"range", 0 },
+            {"attackSpeed", 0 },
+            {"critChance", 0 },
+            {"notConsumeStaminaChance", 0 },
+            {"staminaConsumtionReduction", 0 },
+            {"evade", 0 },
+        };
+
+
+    [Header("Player default stats")]
     #region Default stats setup
     [SerializeField]
     private float hp;
@@ -41,12 +61,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private int skillPoints;
     [SerializeField]
-    private float accuracyBonus;
-    [SerializeField]
-    private float penetrationBonus;
-    [SerializeField]
-    private float armorIgnoreBonus;
-    [SerializeField]
     private float skillIssue;
     [SerializeField]
     private float backpackSize;
@@ -79,6 +93,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         playerInventory = GetComponent<PlayerInventory>();
         playerMovement = GetComponent<PlayerMovement>();
 
+
         playerStats = new()
         {
             { "hp", hp },
@@ -97,14 +112,13 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "experience", experience },
             { "level", level },
             { "skillPoints", skillPoints },
-            { "accuracyBonus", accuracyBonus },
-            { "penetrationBonus", penetrationBonus },
-            { "armorIgnoreBonus", armorIgnoreBonus },
             { "skillIssue", skillIssue },
             { "backpackSize", backpackSize },
             { "beltSize", beltSize },
             { "pocketSize", pocketSize },
         };
+        UpdateStats();
+
 
         canRegenerateHp = true;
         canRegenerateStamina = true;
@@ -209,9 +223,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "experience", experience },
             { "level", level },
             { "skillPoints", skillPoints },
-            { "accuracyBonus", accuracyBonus },
-            { "penetrationBonus", penetrationBonus },
-            { "armorIgnoreBonus", armorIgnoreBonus },
             { "skillIssue", skillIssue },
             { "backpackSize", backpackSize },
             { "beltSize", beltSize },
@@ -235,9 +246,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "experience", 0 },
             { "level", 0 },
             { "skillPoints", 0 },
-            { "accuracyBonus", 0 },
-            { "penetrationBonus", 0 },
-            { "armorIgnoreBonus", 0 },
             { "skillIssue", 0 },
             { "backpackSize", 0 },
             { "beltSize", 0 },
@@ -281,7 +289,17 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
         GetComponent<PlayerGFXManager>().UpdateGFX();
     }
+    public void UpdateStats()
+    {
+        foreach(Skill skill in FindObjectsByType<Skill>(FindObjectsSortMode.None))
+            foreach (string key in skill.bonusStats.Keys)
+                playerBonusStats[key] += skill.bonusStats[key];
 
+        foreach(string key in playerBonusStats.Keys)
+        {
+            Debug.Log(key + ": " + playerBonusStats[key]);
+        }
+    }
 
     IEnumerator UpdateGFXDelay()
     {

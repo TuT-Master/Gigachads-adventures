@@ -100,7 +100,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
         if (int.TryParse(currentMagazineString, out int currentMagazine))
             loadedItem.stats["currentMagazine"] = currentMagazine;
-        else
+        else if (loadedItem.stats != null && loadedItem.stats.ContainsKey("currentMagazine"))
             loadedItem.stats["currentMagazine"] = 0;
 
         return loadedItem;
