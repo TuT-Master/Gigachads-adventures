@@ -146,10 +146,13 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             
             // Item description
             itemCard.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = item.description;
-            
-            
+
+
             // Item stats
-            itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = item.stats["currentMagazine"].ToString();
+            if (item.slotType == Slot.SlotType.WeaponRanged)
+                itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = item.stats["currentMagazine"].ToString();
+            else
+                itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Not a ranged weapon you moron";
         }
     }
     public void CloseItemCard()
