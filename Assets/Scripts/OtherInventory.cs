@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using UnityEngine;
 
 public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
@@ -15,23 +14,11 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
     public int inventorySize = 8;
 
-
+    [SerializeField]
     private ItemDatabase itemDatabase;
 
 
 
-    void Start()
-    {
-        itemDatabase = FindAnyObjectByType<ItemDatabase>();
-        if(!isTemp)
-        {
-            isLocked = false;
-            isOpened = false;
-            inventory = new();
-            for(int i = 0; i < inventorySize; i++)
-                inventory.Add(i, null);
-        }
-    }
 
     public void SetUpInventory(Dictionary<int, Item> inventory, bool locked)
     {
@@ -44,16 +31,46 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     public void Interact()
     {
         isOpened = !isOpened;
-        HUDmanager hudManager = FindAnyObjectByType<HUDmanager>();
-        hudManager.ToggleOtherInventoryScreen(isOpened);
 
-        PlayerOtherInventoryScreen otherInventoryScreen = FindAnyObjectByType<PlayerOtherInventoryScreen>();
-        otherInventoryScreen.UpdateOtherInventory(this);
+        CreateInventoryIfNull();
+
+        if(isOpened)
+            FindAnyObjectByType<PlayerOtherInventoryScreen>().UpdateOtherInventory(this);
+        else
+            FindAnyObjectByType<PlayerOtherInventoryScreen>().SaveInventory();
+
+        FindAnyObjectByType<HUDmanager>().ToggleOtherInventoryScreen(isOpened);
+    }
+
+    private void CreateInventoryIfNull()
+    {
+        if(inventory == null)
+        {
+            inventory = new();
+            for (int i = 0; i < inventorySize; i++)
+                inventory.Add(i, null);
+        }
     }
 
     public bool CanInteract() { return !isLocked; }
 
+    private IEnumerator LoadingDelay(GameData data)
+    {
+        yield return new WaitForSeconds(0.1f);
+        inventory = new();
+        // Loading data from file
+        for (int i = 0; i < data.otherInventories[transform].Count; i++)
+        {
+            if (data.otherInventories[transform][i] != "")
+                inventory.Add(i, GetItemForLoading(data.otherInventories[transform][i]));
+            else
+                inventory.Add(i, null);
+        }
 
+        isLocked = false;
+        isOpened = false;
+        inventorySize = inventory.Count;
+    }
     Item GetItemForLoading(string item)
     {
         string name = "";
@@ -67,12 +84,15 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
                 stage++;
             else if (c == '/')
                 stage++;
-            else if (stage == 0)
-                name += c;
-            else if (stage == 1)
-                amountString += c;
-            else if (stage == 2)
-                currentMagazineString += c;
+            else
+            {
+                if (stage == 0)
+                    name += c;
+                else if (stage == 1)
+                    amountString += c;
+                else if (stage == 2)
+                    currentMagazineString += c;
+            }
         }
 
         int.TryParse(amountString, out int amount);
@@ -80,6 +100,8 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
         if (int.TryParse(currentMagazineString, out int currentMagazine))
             loadedItem.stats["currentMagazine"] = currentMagazine;
+        else if (loadedItem.stats != null && loadedItem.stats.ContainsKey("currentMagazine"))
+            loadedItem.stats["currentMagazine"] = 0;
 
         return loadedItem;
     }
@@ -89,23 +111,17 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         if(isTemp || !data.otherInventories.ContainsKey(transform))
             return;
 
-        inventory = new();
-        for (int i = 0; i < data.otherInventories[transform].Count; i++)
-        {
-            if (data.otherInventories[transform][i] != "")
-                inventory.Add(i, GetItemForLoading(data.otherInventories[transform][i]));
-            else
-                inventory.Add(i, null);
-        }
+        CreateInventoryIfNull();
 
-        isLocked = false;
-        isOpened = false;
-        inventorySize = inventory.Count;
+        // Loading data
+        StartCoroutine(LoadingDelay(data));
     }
     public void SaveData(ref GameData data)
     {
         if (isTemp)
             return;
+
+        CreateInventoryIfNull();
 
         SerializableDictionary<int, string> items = new();
         for (int i = 0; i < inventorySize; i++)

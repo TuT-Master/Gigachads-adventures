@@ -20,6 +20,9 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
     private PlayerInventory playerInventory;
 
     [SerializeField]
+    private ItemDatabase itemDatabase;
+
+    [SerializeField]
     private GameObject itemPrefab;
 
 
@@ -39,6 +42,15 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             {
                 otherInventorySlots[i].transform.GetComponent<Slot>().isActive = true;
                 otherInventorySlots[i].SetActive(true);
+                try
+                {
+                    if(otherInventorySlots[i].transform.childCount == 0 && otherInventory.inventory[i].amount > 0)
+                    {
+                        var newItem = Instantiate(itemPrefab, otherInventorySlots[i].transform);
+                        newItem.GetComponent<Item>().SetUpByItem(otherInventory.inventory[i]);
+                    }
+                }
+                catch { }
             }
             else
             {
@@ -58,16 +70,15 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             if (playerInventorySlots[i].transform.childCount > 0)
                 Destroy(playerInventorySlots[i].transform.GetChild(0).gameObject);
 
-            if (playerInventory.backpackInventory.transform.Find(i.ToString()).childCount > 0 && playerInventory.backpackInventory.transform.Find(i.ToString()).GetChild(0).TryGetComponent(out Item itemInSlot))
+            if (playerInventory.backpackInventory.transform.GetChild(i).childCount > 0 && playerInventory.backpackInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item itemInSlot))
             {
-                var newItem = itemPrefab;
+                var newItem = Instantiate(itemPrefab, playerInventorySlots[i].transform);
                 newItem.GetComponent<Item>().SetUpByItem(itemInSlot);
-                Instantiate(newItem, playerInventorySlots[i].transform);
             }
         }
     }
 
-    void SaveInventory()
+    public void SaveInventory()
     {
         // Player inventory
         for(int i = 0; i < playerInventorySlots.Count; i++)
@@ -76,16 +87,19 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
                 Destroy(playerInventory.backpackInventory.transform.GetChild(i).GetChild(0).gameObject);
 
             if (playerInventorySlots[i].transform.childCount > 0)
-                Instantiate(playerInventorySlots[i].transform.GetChild(0).gameObject, playerInventory.backpackInventory.transform.GetChild(i));
+                playerInventorySlots[i].transform.GetChild(0).SetParent(playerInventory.backpackInventory.transform.GetChild(i));
         }
 
         // Other inventory
         for(int i = 0; i < otherInventorySlots.Count; i++)
         {
-            if (otherInventorySlots[i].transform.childCount > 0 && otherInventorySlots[i].transform.GetChild(0).TryGetComponent(out Item item))
-                otherInventory.inventory[i] = item;
-            else
-                otherInventory.inventory[i] = null;
+            if (otherInventorySlots[i].GetComponent<Slot>().isActive)
+            {
+                if (otherInventorySlots[i].transform.childCount > 0 && otherInventorySlots[i].transform.GetChild(0).TryGetComponent(out Item item))
+                    otherInventory.inventory[i] = item;
+                else
+                    otherInventory.inventory[i] = null;
+            }
         }
     }
 

@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
-    public Dictionary<string, float> stats = new();
-    public Dictionary<string, float> armorStats = new();
+    public Dictionary<string, float> stats;
+    public Dictionary<string, float> armorStats;
 
     public string itemName;
     public string description;
@@ -102,7 +102,7 @@ public class Item : MonoBehaviour
         inventoryCapacity = backpackSO.inventoryCapacity;
         isStackable = false;
         stackSize = 1;
-        stats.Add("weight", backpackSO.weight);
+        stats = backpackSO.BackpackStats();
         slotType = Slot.SlotType.Backpack;
     }
     public Item(BeltSO beltSO)
@@ -115,7 +115,7 @@ public class Item : MonoBehaviour
         inventoryCapacity = beltSO.inventoryCapacity;
         isStackable = false;
         stackSize = 1;
-        stats.Add("weight", beltSO.weight);
+        stats = beltSO.BeltStats();
         slotType = Slot.SlotType.Belt;
     }
     public void SetUpByItem(Item item)
