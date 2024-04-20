@@ -36,8 +36,11 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
     public void UpdateOtherInventory(OtherInventory inventory)
     {
         otherInventory = inventory;
-        for(int i = 0; i < otherInventorySlots.Count; i++)
+        for (int i = 0; i < otherInventorySlots.Count; i++)
         {
+            if (otherInventorySlots[i].transform.childCount > 0)
+                Destroy(otherInventorySlots[i].transform.GetChild(0).gameObject);
+
             if (i < otherInventory.inventory.Count)
             {
                 otherInventorySlots[i].transform.GetComponent<Slot>().isActive = true;
@@ -91,14 +94,15 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         }
 
         // Other inventory
-        for(int i = 0; i < otherInventorySlots.Count; i++)
+        otherInventory.inventory = new();
+        for (int i = 0; i < otherInventorySlots.Count; i++)
         {
             if (otherInventorySlots[i].GetComponent<Slot>().isActive)
             {
                 if (otherInventorySlots[i].transform.childCount > 0 && otherInventorySlots[i].transform.GetChild(0).TryGetComponent(out Item item))
-                    otherInventory.inventory[i] = item;
+                    otherInventory.inventory.Add(i, item);
                 else
-                    otherInventory.inventory[i] = null;
+                    otherInventory.inventory.Add(i, null);
             }
         }
     }

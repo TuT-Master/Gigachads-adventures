@@ -39,10 +39,16 @@ public class Slot : MonoBehaviour, IDropHandler
     void Start() { SetDefaultImage(); }
     void Update()
     {
+        // isActive?
         if (isActive)
             gameObject.SetActive(true);
         else
             gameObject.SetActive(false);
+        // setting slot image
+        if(transform.childCount > 0)
+            image.sprite = slotImages[0];
+        else
+            SetDefaultImage();
     }
 
     public void SetDefaultImage()
@@ -117,16 +123,15 @@ public class Slot : MonoBehaviour, IDropHandler
             GameObject dropped = eventData.pointerDrag;
             ItemUI item_DragHandler = dropped.GetComponent<ItemUI>();
             item_DragHandler.parentAfterDrag = transform;
-            image.sprite = slotImages[0];
         }
         else if (transform.childCount == 1 && CanBePlaced(droppedItem))
         {
+            // Spojení stackable itemù
             if (gameObject.transform.childCount == 1 &&
             droppedItem.isStackable &&
             transform.GetChild(0).gameObject.GetComponent<Item>().isStackable &&
             droppedItem.itemName == transform.GetChild(0).gameObject.GetComponent<Item>().itemName)
             {
-                // Spojení stackable itemù
                 if (droppedItem.amount + gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount <= gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize)
                 {
                     gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount += droppedItem.amount;
@@ -138,13 +143,12 @@ public class Slot : MonoBehaviour, IDropHandler
                     gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount = gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize;
                 }
             }
+            // Prohození itemù
             else
             {
-                // Prohození itemù
                 transform.GetChild(0).SetParent(eventData.pointerDrag.GetComponent<ItemUI>().parentBeforeDrag);
                 eventData.pointerDrag.GetComponent<ItemUI>().parentAfterDrag = transform;
             }
-            image.sprite = slotImages[0];
         }
     }
 
