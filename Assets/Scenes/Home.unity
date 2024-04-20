@@ -335,6 +335,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
+      propertyPath: activeSkill
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
       propertyPath: skillLocked
       value: 
       objectReference: {fileID: 3286163911610860551, guid: 2146b5792b5a50c438c7967aaf956232,
@@ -347,8 +352,28 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
+      propertyPath: poisonChance.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
       propertyPath: bleedingChance.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: poisonChance.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: poisonChance.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
+        type: 3}
+      propertyPath: poisonChance.Array.data[2]
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8482769079121056903, guid: fba86ece889fee744898d23b51d26e19,
         type: 3}
@@ -2440,9 +2465,6 @@ MonoBehaviour:
   experience: 0
   level: 0
   skillPoints: 0
-  accuracyBonus: 0
-  penetrationBonus: 0
-  armorIgnoreBonus: 0
   skillIssue: 0
   backpackSize: 8
   beltSize: 0

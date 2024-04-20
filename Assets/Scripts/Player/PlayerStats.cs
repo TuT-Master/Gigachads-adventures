@@ -295,7 +295,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             foreach (string key in skill.bonusStats.Keys)
                 playerBonusStats[key] += skill.bonusStats[key];
 
-        foreach(string key in playerBonusStats.Keys)
+        foreach (string key in playerBonusStats.Keys)
         {
             Debug.Log(key + ": " + playerBonusStats[key]);
         }

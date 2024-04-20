@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 {
@@ -19,7 +20,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
 
 
-
+    // Setting up inventory in dungeon
     public void SetUpInventory(Dictionary<int, Item> inventory, bool locked)
     {
         this.inventory = inventory;
@@ -34,8 +35,8 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
         CreateInventoryIfNull();
 
-        if(isOpened)
-            FindAnyObjectByType<PlayerOtherInventoryScreen>().UpdateOtherInventory(this);
+        if (isOpened)
+            FindAnyObjectByType<PlayerOtherInventoryScreen>().UpdateOtherInventory(gameObject);
         else
             FindAnyObjectByType<PlayerOtherInventoryScreen>().SaveInventory();
 
@@ -46,6 +47,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     {
         if(inventory == null)
         {
+            Debug.Log("Creating inventory of " + gameObject.name);
             inventory = new();
             for (int i = 0; i < inventorySize; i++)
                 inventory.Add(i, null);
