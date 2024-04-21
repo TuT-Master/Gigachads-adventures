@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using static UnityEditor.Progress;
 
 public class PlayerOtherInventoryScreen : MonoBehaviour
 {
-    [HideInInspector]
-    public OtherInventory otherInventory;
+    public Dictionary<int, Item> otherInventory = new();
+    private GameObject otherInventoryObj;
 
     public bool isOpened;
 
@@ -37,22 +38,23 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
 
     public void UpdateOtherInventory(GameObject inventory)
     {
-        otherInventory = inventory.GetComponent<OtherInventory>();
+        otherInventoryObj = inventory;
+        otherInventory = inventory.GetComponent<OtherInventory>().inventory;
 
         for (int i = 0; i < otherInventorySlots.Count; i++)
         {
             if (otherInventorySlots[i].transform.childCount > 0)
                 Destroy(otherInventorySlots[i].transform.GetChild(0).gameObject);
 
-            if (i < otherInventory.inventory.Count)
+            if (i < otherInventory.Count)
             {
                 otherInventorySlots[i].transform.GetComponent<Slot>().isActive = true;
                 otherInventorySlots[i].SetActive(true);
 
-                if (otherInventory.inventory[i] != null)
+                if (otherInventory[i] != null)
                 {
                     var newItem = Instantiate(itemPrefab, otherInventorySlots[i].transform);
-                    newItem.GetComponent<Item>().SetUpByItem(otherInventory.inventory[i]);
+                    newItem.GetComponent<Item>().SetUpByItem(otherInventory[i]);
                 }
             }
             else
@@ -94,17 +96,19 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         }
 
         // Other inventory
-        otherInventory.inventory.Clear();
         for (int i = 0; i < otherInventorySlots.Count; i++)
         {
             if (otherInventorySlots[i].GetComponent<Slot>().isActive)
             {
                 if (otherInventorySlots[i].transform.childCount > 0 && otherInventorySlots[i].transform.GetChild(0).TryGetComponent(out Item item))
-                    otherInventory.inventory[i] = item;
+                    otherInventory[i] = item;
                 else
-                    otherInventory.inventory[i] = null;
+                    otherInventory[i] = null;
             }
         }
+        otherInventoryObj.GetComponent<OtherInventory>().SetUpInventory(otherInventory, otherInventoryObj.GetComponent<OtherInventory>().isLocked);
+
+        otherInventory = null;
     }
 
     public void ToggleOtherInventoryScreen(bool toggle)
@@ -114,11 +118,10 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             UpdatePlayerInventory();
             Time.timeScale = 0f;
         }
-        if (!toggle && otherInventory != null && otherInventory.isOpened)
+        if (!toggle && otherInventory != null && otherInventoryObj.GetComponent<OtherInventory>().isOpened)
         {
             SaveInventory();
-            otherInventory.isOpened = false;
-            otherInventory = null;
+            otherInventoryObj.GetComponent<OtherInventory>().isOpened = false;
             Time.timeScale = 1f;
         }
 

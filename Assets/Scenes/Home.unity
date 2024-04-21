@@ -2635,7 +2635,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3838514465eff2140a168e9711832171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  otherInventory: {fileID: 0}
   isOpened: 0
   otherInventoryScreen: {fileID: 908943664}
   playerInventorySlots:

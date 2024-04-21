@@ -20,13 +20,22 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
 
 
-    // Setting up inventory in dungeon
     public void SetUpInventory(Dictionary<int, Item> inventory, bool locked)
     {
         this.inventory = inventory;
         inventorySize = inventory.Count;
         isLocked = locked;
         isOpened = false;
+    }
+
+    public List<Item> items;
+    void Update()
+    {
+        if (inventory == null)
+            return;
+        items = new();
+        foreach (Item item in inventory.Values)
+            items.Add(item);
     }
 
     public void Interact()
@@ -104,6 +113,8 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
             loadedItem.stats["currentMagazine"] = currentMagazine;
         else if (loadedItem.stats != null && loadedItem.stats.ContainsKey("currentMagazine"))
             loadedItem.stats["currentMagazine"] = 0;
+
+        Debug.Log(loadedItem);
 
         return loadedItem;
     }
