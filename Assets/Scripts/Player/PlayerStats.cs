@@ -85,7 +85,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private bool canRegenerateStamina;
     private bool canRegenerateMana;
     private bool getsDamage;
-    public bool dead;
 
 
     private void Start()
@@ -123,16 +122,22 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         canRegenerateHp = true;
         canRegenerateStamina = true;
         canRegenerateMana = true;
-        dead = false;
     }
 
     void Update()
     {
-        if (playerStats["hp"] <= 0 && !dead)
+        if (playerStats["hp"] <= 0)
         {
             // Kill player and increase skill issue
-            dead = true;
+            playerStats["skillIssue"]++;
+
+            // Teleport player home
             FindAnyObjectByType<VirtualSceneManager>().LoadScene("Home");
+
+            // Refill stats
+            playerStats["hp"] = playerStats["hpMax"];
+            playerStats["stamina"] = playerStats["staminaMax"];
+            playerStats["mana"] = playerStats["manaMax"];
         }
 
         // Checking whether can regen stats or not

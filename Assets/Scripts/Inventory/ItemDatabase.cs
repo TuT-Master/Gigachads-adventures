@@ -20,6 +20,8 @@ public class ItemDatabase : ScriptableObject
 
     public List<BeltSO> belts;
 
+    public List<ShieldSO> shields;
+
 
     public Item GetWeaponMelee(string weaponName)
     {
@@ -73,9 +75,18 @@ public class ItemDatabase : ScriptableObject
         return null;
     }
 
+    public Item GetShield(string shieldName)
+    {
+        foreach (ShieldSO shield in shields)
+            if (shield.itemName == shieldName)
+                return new(shield);
+        return null;
+    }
+
     public Item GetItemByNameAndAmount(string name, int amount)
     {
         Item item = null;
+
         foreach (WeaponMeleeSO weapon in weaponsMelee)
             if (weapon.itemName == name)
                 item = new(weapon);
@@ -97,6 +108,10 @@ public class ItemDatabase : ScriptableObject
         foreach (ProjectileSO projectile in projectiles)
             if (projectile.itemName == name)
                 item = new(projectile);
+        foreach (ShieldSO shield in shields)
+            if (shield.itemName == name)
+                item = new(shield);
+
         item.amount = amount;
         return item;
     }

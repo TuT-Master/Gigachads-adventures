@@ -24,7 +24,6 @@ public class VirtualSceneManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        FindAnyObjectByType<PlayerStats>().playerStats["skillPoints"]++;
         GameObject newScene = null;
         foreach (GameObject go in sceneList)
         {

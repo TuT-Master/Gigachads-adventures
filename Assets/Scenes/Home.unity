@@ -2429,8 +2429,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemInHand: {fileID: 0}
+  secondaryItemInHand: {fileID: 0}
   canAttackAgain: 0
   reloading: 0
+  defending: 0
   freeRotation: {fileID: 920902996}
   weaponRange: {fileID: 1238678051}
   animator: {fileID: 1185886369}
@@ -2471,7 +2473,6 @@ MonoBehaviour:
   pocketSize: 0
   backpackSlot: {fileID: 636288549}
   beltSlot: {fileID: 832082770}
-  dead: 0
 --- !u!114 &220485078
 MonoBehaviour:
   m_ObjectHideFlags: 0

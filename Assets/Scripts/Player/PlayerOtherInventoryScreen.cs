@@ -38,9 +38,12 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
 
     public void UpdateOtherInventory(GameObject inventory)
     {
+        Debug.Log("Zde");
         otherInventoryObj = inventory;
+        Debug.Log("Zde");
         otherInventory = inventory.GetComponent<OtherInventory>().inventory;
 
+        Debug.Log("Zde");
         for (int i = 0; i < otherInventorySlots.Count; i++)
         {
             if (otherInventorySlots[i].transform.childCount > 0)
@@ -118,7 +121,7 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             UpdatePlayerInventory();
             Time.timeScale = 0f;
         }
-        if (!toggle && otherInventory != null && otherInventoryObj.GetComponent<OtherInventory>().isOpened)
+        if (!toggle && otherInventory != null && otherInventoryObj != null && otherInventoryObj.GetComponent<OtherInventory>().isOpened)
         {
             SaveInventory();
             otherInventoryObj.GetComponent<OtherInventory>().isOpened = false;

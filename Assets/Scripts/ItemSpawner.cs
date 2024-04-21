@@ -19,7 +19,7 @@ public class ItemSpawner : MonoBehaviour, IInteractable
     public void Interact()
     {
         Item item;
-        switch (Random.Range(0, 7))
+        switch (Random.Range(0, 8))
         {
             case 0:
                 item = itemDatabase.GetWeaponMelee(itemDatabase.weaponsMelee[Random.Range(0, itemDatabase.weaponsMelee.Count)].itemName);
@@ -53,6 +53,11 @@ public class ItemSpawner : MonoBehaviour, IInteractable
                 break;
             case 6:
                 item = itemDatabase.GetBelt(itemDatabase.belts[Random.Range(0, itemDatabase.belts.Count)].itemName);
+                item.amount = Random.Range(1, item.stackSize);
+                playerInventory.AddItem(item);
+                break;
+            case 7:
+                item = itemDatabase.GetShield(itemDatabase.belts[Random.Range(0, itemDatabase.belts.Count)].itemName);
                 item.amount = Random.Range(1, item.stackSize);
                 playerInventory.AddItem(item);
                 break;

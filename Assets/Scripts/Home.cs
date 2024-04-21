@@ -10,7 +10,6 @@ public class Home : MonoBehaviour
 
     private void OnEnable()
     {
-        FindAnyObjectByType<PlayerStats>().dead = false;
         foreach (Door door in doors)
         {
             door.canInteract = true;

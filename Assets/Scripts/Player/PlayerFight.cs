@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class PlayerFight : MonoBehaviour
 {
+    [HideInInspector]
     public Item itemInHand;
+    [HideInInspector]
+    public Item secondaryItemInHand;
 
     [HideInInspector]
     public bool canAttackAgain;
     [HideInInspector]
     public bool reloading;
+    [HideInInspector]
+    public bool defending;
 
     [Header("Colliders")]
     [SerializeField]
@@ -71,7 +76,7 @@ public class PlayerFight : MonoBehaviour
         else
             projectileSpawnPoint.localPosition = new(0, 0.25f, 0.6f);
 
-        // LMB
+        // LMB - Attack
         if (Input.GetMouseButtonDown(0))
         {
             // Semi-auto weapons
@@ -95,16 +100,64 @@ public class PlayerFight : MonoBehaviour
             }
         }
 
-        // RMB
+        // RMB - Defending
         if (Input.GetMouseButton(1))
         {
-            // Consume equiped consumable?
+            Defend();
         }
+        else
+        defending = false;
 
         // Reload
         if (itemInHand != null && itemInHand.slotType == Slot.SlotType.WeaponRanged && !reloading)
             if (Input.GetKeyDown(KeyCode.R) | itemInHand.stats["currentMagazine"] == 0)
                 StartCoroutine(Reload());
+    }
+
+    void Defend()
+    {
+        defending = true;
+        // Using secondary item for defense
+        if (secondaryItemInHand != null)
+        {
+            // Shield
+            if(secondaryItemInHand.slotType == Slot.SlotType.Shield)
+            {
+
+            }
+        }
+        // Using primary item for defense
+        else
+        {
+            if(itemInHand != null)
+            {
+                // Two handed MELEE weapon
+                if(itemInHand.TwoHanded() && itemInHand.slotType == Slot.SlotType.WeaponMelee)
+                {
+
+                }
+                // Two handed RANGED weapon
+                else if (itemInHand.TwoHanded() && itemInHand.slotType == Slot.SlotType.WeaponRanged)
+                {
+
+                }
+                // One handed MELEE weapon
+                else if (!itemInHand.TwoHanded() && itemInHand.slotType == Slot.SlotType.WeaponMelee)
+                {
+
+                }
+                // One handed RANGED weapon
+                else if (!itemInHand.TwoHanded() && itemInHand.slotType == Slot.SlotType.WeaponRanged)
+                {
+
+                }
+            }
+            // Fists
+            else
+            {
+
+            }
+        }
     }
 
     void FistsAttack()

@@ -118,6 +118,18 @@ public class Item : MonoBehaviour
         stats = beltSO.BeltStats();
         slotType = Slot.SlotType.Belt;
     }
+    public Item(ShieldSO shieldSO)
+    {
+        itemName = shieldSO.itemName;
+        description = shieldSO.description;
+        sprite_equip = shieldSO.sprite_equipFront;
+        sprite_equipBack = shieldSO.sprite_equipBack;
+        sprite_inventory = shieldSO.sprite_inventory;
+        isStackable = false;
+        stackSize = 1;
+        stats = shieldSO.Stats();
+        slotType = Slot.SlotType.Shield;
+    }
     public void SetUpByItem(Item item)
     {
         stats = item.stats;
