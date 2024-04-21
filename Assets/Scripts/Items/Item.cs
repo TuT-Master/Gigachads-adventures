@@ -14,6 +14,33 @@ public class Item : MonoBehaviour
     public string description;
 
     public Slot.SlotType slotType;
+    public enum WeaponType
+    {
+        NotAWeapon,
+        // Melle ONE HANDED
+        // Dexterity
+        Whip,
+        Dagger,
+        Sword,
+        Rapier,
+        // Strenght
+        Axe,
+        Mace,
+        Hammer_oneHanded,
+        // Melle TWO HANDED
+        // Dexterity
+        QuarterStaff,
+        Spear,
+        Longsword,
+        // Strenght
+        Halbert,
+        Hammer_twoHanded,
+        Zweihander,
+
+        // Range
+
+    }
+    public WeaponType weaponType;
 
     public bool isStackable;
     public int stackSize;
@@ -46,6 +73,7 @@ public class Item : MonoBehaviour
         stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         emitsLight = weaponSO.emitsLight;
+        weaponType = weaponSO.weaponType;
     }
     public Item(WeaponRangedSO weaponSO)
     {
@@ -60,6 +88,7 @@ public class Item : MonoBehaviour
         emitsLight = weaponSO.emitsLight;
         fullAuto = weaponSO.fullAuto;
         ammo = weaponSO.ammo;
+        weaponType = weaponSO.weaponType;
     }
     public Item(ConsumableSO consumableSO)
     {
@@ -148,6 +177,7 @@ public class Item : MonoBehaviour
         inventoryCapacity = item.inventoryCapacity;
         fullAuto = item.fullAuto;
         ammo = item.ammo;
+        weaponType = item.weaponType;
     }
 
 

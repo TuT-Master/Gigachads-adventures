@@ -19,4 +19,4 @@ MonoBehaviour:
   sprite_equipBack: {fileID: 0}
   slotType: 9
   armor: 1
-  weight: 0
+  weight: 5

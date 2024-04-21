@@ -127,32 +127,117 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                 itemPos = new(itemPos.x, itemPos.y - 250);
             itemCard.transform.position = itemPos;
 
-
             isItemCardOpen = true;
-            // TODO - set up itemCard by item
-            
             
             // ItemCard GFX
             //itemCard.transform.GetChild(0).GetComponent<Image>().sprite = 
             
-            
             // Item image
             itemCard.transform.GetChild(1).GetComponent<Image>().sprite = item.sprite_inventory;
-            
             
             // Item name
             itemCard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = item.itemName;
             
-            
             // Item description
             itemCard.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = item.description;
 
-
             // Item stats
-            if (item.slotType == Slot.SlotType.WeaponRanged)
-                itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = item.stats["currentMagazine"].ToString();
+            string stats = "";
+            // Melle weapon
+            if (item.slotType == Slot.SlotType.WeaponMelee)
+            {
+                if (item.TwoHanded())
+                {
+                    stats = "Two handed ";
+                    if (item.weaponType == Item.WeaponType.QuarterStaff)
+                        stats += "quarter staff";
+                    else if (item.weaponType == Item.WeaponType.Spear)
+                        stats += "spear";
+                    else if (item.weaponType == Item.WeaponType.Longsword)
+                        stats += "longsword";
+                    else if (item.weaponType == Item.WeaponType.Halbert)
+                        stats += "halbert";
+                    else if (item.weaponType == Item.WeaponType.Hammer_twoHanded)
+                        stats += "hammer";
+                    else if (item.weaponType == Item.WeaponType.Zweihander)
+                        stats += "zweihander";
+                }
+                else
+                {
+                    stats = "One handed ";
+                    if (item.weaponType == Item.WeaponType.Whip)
+                        stats += "whip";
+                    else if (item.weaponType == Item.WeaponType.Dagger)
+                        stats += "dagger";
+                    else if (item.weaponType == Item.WeaponType.Sword)
+                        stats += "sword";
+                    else if (item.weaponType == Item.WeaponType.Rapier)
+                        stats += "rapier";
+                    else if (item.weaponType == Item.WeaponType.Axe)
+                        stats += "axe";
+                    else if (item.weaponType == Item.WeaponType.Mace)
+                        stats += "mace";
+                    else if (item.weaponType == Item.WeaponType.Hammer_oneHanded)
+                        stats += "hammer";
+                }
+
+                stats += "\nDamage: " + item.stats["damage"].ToString() + "\n";
+                stats += "Penetration: " + item.stats["penetration"].ToString() + "\n";
+                stats += "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%\n";
+
+                stats += "Weight: " + item.stats["weight"].ToString() + " Kg\n";
+            }
+            // Ranged weapon
+            else if (item.slotType == Slot.SlotType.WeaponRanged)
+            {
+                stats = "Damage: " + item.stats["damage"].ToString() + "\n";
+                stats += "Penetration: " + item.stats["penetration"].ToString() + "\n";
+                stats += "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%\n";
+                stats += "Magazine: " + item.stats["currentMagazine"].ToString() + "/" + item.stats["magazineSize"].ToString() + "\n";
+
+                stats += "Weight: " + item.stats["weight"].ToString() + " Kg\n";
+            }
+            // Armor
+            else if (item.slotType == Slot.SlotType.Head | item.slotType == Slot.SlotType.Torso | item.slotType == Slot.SlotType.Legs | item.slotType == Slot.SlotType.Gloves)
+            {
+                stats = "Armor: " + item.armorStats["armor"].ToString() + "\n";
+
+                stats += "Weight: " + item.armorStats["weight"].ToString() + " Kg\n";
+            }
+            // Equipable
+            else if (item.slotType == Slot.SlotType.HeadEquipment | item.slotType == Slot.SlotType.TorsoEquipment | item.slotType == Slot.SlotType.LegsEquipment | item.slotType == Slot.SlotType.GlovesEquipment)
+            {
+
+            }
+            // Consumable
+            else if (item.slotType == Slot.SlotType.Consumable)
+            {
+
+            }
+            // Projectile
+            else if (item.slotType == Slot.SlotType.Ammo)
+            {
+
+            }
+            // Shield
+            else if (item.slotType == Slot.SlotType.Shield)
+            {
+
+            }
+            // Backpack/Belt
+            else if (item.slotType == Slot.SlotType.Backpack | item.slotType == Slot.SlotType.Belt)
+            {
+
+            }
+            // Material
+            else if (item.slotType == Slot.SlotType.Material)
+            {
+
+            }
             else
-                itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Not a ranged weapon you moron";
+                stats = "Tak na tohle jsem zapomnìl.";
+
+            itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = stats;
         }
     }
     public void CloseItemCard()

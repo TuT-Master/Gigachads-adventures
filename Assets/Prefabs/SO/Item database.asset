@@ -32,3 +32,5 @@ MonoBehaviour:
   belts:
   - {fileID: 11400000, guid: e620a85373dfb264c9fdd955b141bcc4, type: 2}
   - {fileID: 11400000, guid: b446ed242e47b5743ac422ecac076f1f, type: 2}
+  shields:
+  - {fileID: 11400000, guid: 8d76da3b562db6c4ba8b43c5b9662185, type: 2}

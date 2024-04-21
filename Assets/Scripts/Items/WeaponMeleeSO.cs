@@ -13,6 +13,10 @@ public class WeaponMeleeSO : ScriptableObject
     public bool isStackable;
     public bool emitsLight;
 
+    [SerializeField]
+    bool twoHanded;
+    public Item.WeaponType weaponType;
+
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
 
@@ -25,11 +29,13 @@ public class WeaponMeleeSO : ScriptableObject
     [SerializeField] private float rangeX = 1;
     [SerializeField] private float rangeY = 1;
     [SerializeField] private float AoE = 0;
-    [SerializeField] private float twoHanded = 0;
     [SerializeField] private float weight = 0;
 
     public Dictionary<string, float> Stats()
     {
+        float twoHand = 0f;
+        if(twoHanded)
+            twoHand = 1f;
         return new Dictionary<string, float>()
         {
             {"damage", damage},
@@ -41,7 +47,7 @@ public class WeaponMeleeSO : ScriptableObject
             {"rangeX", rangeX},
             {"rangeY", rangeY},
             {"AoE", AoE},
-            {"twoHanded", twoHanded},
+            {"twoHanded", twoHand},
             {"weight", weight},
         };
     }

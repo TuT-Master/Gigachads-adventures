@@ -15,6 +15,8 @@ MonoBehaviour:
   itemName: Fur leggins
   description: Who doesn't want to wear some animal legs?
   sprite_inventory: {fileID: 21300000, guid: a7c143bb837c64844abc4a3b4225f55b, type: 3}
-  sprite_equip: {fileID: 0}
+  sprite_equipFront: {fileID: 0}
+  sprite_equipBack: {fileID: 0}
   slotType: 11
   armor: 1
+  weight: 5

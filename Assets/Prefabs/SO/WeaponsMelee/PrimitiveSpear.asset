@@ -17,6 +17,8 @@ MonoBehaviour:
   amount: 0
   isStackable: 0
   emitsLight: 0
+  twoHanded: 1
+  weaponType: 9
   sprite_inventory: {fileID: 21300000, guid: b67bddba2f24f734aa90028e507815f2, type: 3}
   sprite_hand: {fileID: 21300000, guid: e57d2b8c696d2a74a810dbd2e4df4129, type: 3}
   damage: 3
@@ -28,5 +30,4 @@ MonoBehaviour:
   rangeX: 1.5
   rangeY: 1.5
   AoE: 0
-  twoHanded: 1
   weight: 5

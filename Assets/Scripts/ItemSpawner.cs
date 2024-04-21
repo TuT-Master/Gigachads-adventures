@@ -57,7 +57,7 @@ public class ItemSpawner : MonoBehaviour, IInteractable
                 playerInventory.AddItem(item);
                 break;
             case 7:
-                item = itemDatabase.GetShield(itemDatabase.belts[Random.Range(0, itemDatabase.belts.Count)].itemName);
+                item = itemDatabase.GetShield(itemDatabase.shields[Random.Range(0, itemDatabase.shields.Count)].itemName);
                 item.amount = Random.Range(1, item.stackSize);
                 playerInventory.AddItem(item);
                 break;
