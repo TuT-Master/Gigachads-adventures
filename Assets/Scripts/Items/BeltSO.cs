@@ -14,7 +14,7 @@ public class BeltSO : ScriptableObject
 
     public int inventoryCapacity;
 
-    public int weight;
+    public float weight;
 
     public Dictionary<string, float> BeltStats()
     {

@@ -18,3 +18,4 @@ MonoBehaviour:
   sprite_hand: {fileID: 0}
   isStackable: 1
   stackSize: 69
+  weight: 0.5

@@ -75,6 +75,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     private List<Item> armors;
     private List<Item> equipment;
+    private List<Item> backpackInventory;
 
     [SerializeField]
     private GameObject backpackSlot;
@@ -172,6 +173,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             playerStats["stamina"] = playerStats["staminaMax"];
         if (playerStats["mana"] >= playerStats["manaMax"])
             playerStats["mana"] = playerStats["manaMax"];
+
+        UpdateEquipment();
     }
 
     private bool CanRegenStats()
@@ -210,6 +213,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     {
         armors = new();
         equipment = new();
+        backpackInventory = new();
         Dictionary<string, float> baseStats = new()
         {
             { "hp", hp },
@@ -263,14 +267,19 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             if (playerInventory.armorSlots.transform.GetChild(i).childCount > 0 && playerInventory.armorSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
                 armors.Add(item);
         for (int i = 0; i < playerInventory.equipmentSlots.transform.childCount; i++)
-            if (playerInventory.equipmentSlots.transform.GetChild(i).childCount > 0 && playerInventory.equipmentSlots.transform.GetChild(i).TryGetComponent(out Item item))
+            if (playerInventory.equipmentSlots.transform.GetChild(i).childCount > 0 && playerInventory.equipmentSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
                 equipment.Add(item);
+        for (int i = 0; i < playerInventory.backpackInventory.transform.childCount; i++)
+            if (playerInventory.backpackInventory.transform.GetChild(i).childCount > 0 && playerInventory.backpackInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+                backpackInventory.Add(item);
 
-        // Updating stats
+        // Armor
         if (armors.Count > 0)
             foreach (Item item in armors)
                 foreach (string key in item.armorStats.Keys)
                     bonusStats[key] += item.armorStats[key];
+
+        // Equipment
         if (equipment.Count > 0)
             foreach (Item item in equipment)
                 foreach (string key in item.armorStats.Keys)
@@ -278,11 +287,29 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
         // Backpack
         if (backpackSlot.transform.childCount > 0)
+        {
             bonusStats["backpackSize"] = backpackSlot.transform.GetChild(0).GetComponent<Item>().inventoryCapacity;
+            bonusStats["weight"] += backpackSlot.transform.GetChild(0).GetComponent<Item>().stats["weight"];
+        }
+
+        // Backpack inventory
+        if (backpackInventory.Count > 0)
+        {
+            foreach (Item item in backpackInventory)
+            {
+                if(item.stats != null)
+                    bonusStats["weight"] += item.stats["weight"] * item.amount;
+                else
+                    bonusStats["weight"] += item.armorStats["weight"] * item.amount;
+            }
+        }
 
         // Belt
         if (beltSlot.transform.childCount > 0)
+        {
             bonusStats["beltSize"] = beltSlot.transform.GetChild(0).GetComponent<Item>().inventoryCapacity;
+            bonusStats["weight"] += beltSlot.transform.GetChild(0).GetComponent<Item>().stats["weight"];
+        }
 
         // Pockets
 

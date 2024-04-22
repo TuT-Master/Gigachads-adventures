@@ -14,7 +14,7 @@ public class BackpackSO : ScriptableObject
 
     public int inventoryCapacity;
 
-    public int weight;
+    public float weight;
 
     public Dictionary<string, float> BackpackStats()
     {

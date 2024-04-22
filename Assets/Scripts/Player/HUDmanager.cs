@@ -40,42 +40,31 @@ public class HUDmanager : MonoBehaviour
         map.ToggleMap(false);
         playerOtherInventory.ToggleOtherInventoryScreen(false);
         inventory.ToggleInventory(false);
+        inventory.CloseItemCard();
     }
 
 
     public void ToggleInventoryScreen(bool toggle)
     {
-        skillDescription.HideSkillDetails();
-        skill.ToggleSkillScreen(false);
-        map.ToggleMap(false);
-        playerOtherInventory.ToggleOtherInventoryScreen(false);
+        CloseEverything();
         inventory.ToggleInventory(toggle);
     }
 
     public void ToggleSkillScreen(bool toggle)
     {
-        skillDescription.HideSkillDetails();
-        inventory.ToggleInventory(false);
-        map.ToggleMap(false);
-        playerOtherInventory.ToggleOtherInventoryScreen(false);
+        CloseEverything();
         skill.ToggleSkillScreen(toggle);
     }
 
     public void ToggleMap(bool toggle)
     {
-        skillDescription.HideSkillDetails();
-        inventory.ToggleInventory(false);
-        skill.ToggleSkillScreen(false);
-        playerOtherInventory.ToggleOtherInventoryScreen(false);
+        CloseEverything();
         map.ToggleMap(toggle);
     }
 
     public void ToggleOtherInventoryScreen(bool toggle)
     {
-        skillDescription.HideSkillDetails();
-        inventory.ToggleInventory(false);
-        skill.ToggleSkillScreen(false);
-        map.ToggleMap(false);
+        CloseEverything();
         playerOtherInventory.ToggleOtherInventoryScreen(toggle);
     }
 }

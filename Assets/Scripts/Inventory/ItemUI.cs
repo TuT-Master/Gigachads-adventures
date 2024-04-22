@@ -30,19 +30,6 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         canvasGroup.blocksRaycasts = true;
         transform.SetParent(parentAfterDrag);
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
-        if(GetComponent<Item>().slotType == Slot.SlotType.Head |
-           GetComponent<Item>().slotType == Slot.SlotType.Torso |
-           GetComponent<Item>().slotType == Slot.SlotType.Legs |
-           GetComponent<Item>().slotType == Slot.SlotType.Gloves |
-           GetComponent<Item>().slotType == Slot.SlotType.HeadEquipment |
-           GetComponent<Item>().slotType == Slot.SlotType.TorsoEquipment |
-           GetComponent<Item>().slotType == Slot.SlotType.LegsEquipment |
-           GetComponent<Item>().slotType == Slot.SlotType.GlovesEquipment |
-           GetComponent<Item>().slotType == Slot.SlotType.Backpack|
-           GetComponent<Item>().slotType == Slot.SlotType.Belt)
-        {
-            FindAnyObjectByType<PlayerStats>().UpdateEquipment();
-        }
     }
 
     public void OnDrag(PointerEventData eventData) { transform.position = Input.mousePosition; }

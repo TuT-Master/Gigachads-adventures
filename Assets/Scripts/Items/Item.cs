@@ -99,6 +99,7 @@ public class Item : MonoBehaviour
         sprite_hand = consumableSO.sprite_hand;
         isStackable = consumableSO.isStackable;
         stackSize = consumableSO.stackSize;
+        stats = consumableSO.Stats();
     }
     public Item(ProjectileSO projectile)
     {
@@ -116,6 +117,7 @@ public class Item : MonoBehaviour
         itemName = armorSO.itemName;
         description = armorSO.description;
         armorStats = armorSO.ArmorStats();
+        amount = 1;
         slotType = armorSO.slotType;
         sprite_inventory = armorSO.sprite_inventory;
         sprite_equip = armorSO.sprite_equipFront;

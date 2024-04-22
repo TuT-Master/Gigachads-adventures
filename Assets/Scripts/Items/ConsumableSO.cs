@@ -13,4 +13,13 @@ public class ConsumableSO : ScriptableObject
 
     public bool isStackable;
     public int stackSize;
+
+    [SerializeField] private float weight = 0;
+    public Dictionary<string, float> Stats()
+    {
+        return new()
+        {
+            { "weight", weight},
+        };
+    }
 }

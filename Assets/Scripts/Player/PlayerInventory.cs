@@ -142,67 +142,67 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             itemCard.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = item.description;
 
             // Item stats
-            string stats = "";
+            string[] row = new string[12]; // 12 rows
             // Melle weapon
             if (item.slotType == Slot.SlotType.WeaponMelee)
             {
                 if (item.TwoHanded())
                 {
-                    stats = "Two handed ";
+                    row[0] = "Two handed ";
                     if (item.weaponType == Item.WeaponType.QuarterStaff)
-                        stats += "quarter staff";
+                        row[0] += "quarter staff";
                     else if (item.weaponType == Item.WeaponType.Spear)
-                        stats += "spear";
+                        row[0] += "spear";
                     else if (item.weaponType == Item.WeaponType.Longsword)
-                        stats += "longsword";
+                        row[0] += "longsword";
                     else if (item.weaponType == Item.WeaponType.Halbert)
-                        stats += "halbert";
+                        row[0] += "halbert";
                     else if (item.weaponType == Item.WeaponType.Hammer_twoHanded)
-                        stats += "hammer";
+                        row[0] += "hammer";
                     else if (item.weaponType == Item.WeaponType.Zweihander)
-                        stats += "zweihander";
+                        row[0] += "zweihander";
                 }
                 else
                 {
-                    stats = "One handed ";
+                    row[0] = "One handed ";
                     if (item.weaponType == Item.WeaponType.Whip)
-                        stats += "whip";
+                        row[0] += "whip";
                     else if (item.weaponType == Item.WeaponType.Dagger)
-                        stats += "dagger";
+                        row[0] += "dagger";
                     else if (item.weaponType == Item.WeaponType.Sword)
-                        stats += "sword";
+                        row[0] += "sword";
                     else if (item.weaponType == Item.WeaponType.Rapier)
-                        stats += "rapier";
+                        row[0] += "rapier";
                     else if (item.weaponType == Item.WeaponType.Axe)
-                        stats += "axe";
+                        row[0] += "axe";
                     else if (item.weaponType == Item.WeaponType.Mace)
-                        stats += "mace";
+                        row[0] += "mace";
                     else if (item.weaponType == Item.WeaponType.Hammer_oneHanded)
-                        stats += "hammer";
+                        row[0] += "hammer";
                 }
 
-                stats += "\nDamage: " + item.stats["damage"].ToString() + "\n";
-                stats += "Penetration: " + item.stats["penetration"].ToString() + "\n";
-                stats += "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%\n";
+                row[1] = "Damage: " + item.stats["damage"].ToString();
+                row[2] = "Penetration: " + item.stats["penetration"].ToString();
+                row[3] = "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%";
 
-                stats += "Weight: " + item.stats["weight"].ToString() + " Kg\n";
+                row[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
             // Ranged weapon
             else if (item.slotType == Slot.SlotType.WeaponRanged)
             {
-                stats = "Damage: " + item.stats["damage"].ToString() + "\n";
-                stats += "Penetration: " + item.stats["penetration"].ToString() + "\n";
-                stats += "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%\n";
-                stats += "Magazine: " + item.stats["currentMagazine"].ToString() + "/" + item.stats["magazineSize"].ToString() + "\n";
+                row[1] = "Damage: " + item.stats["damage"].ToString();
+                row[2] = "Penetration: " + item.stats["penetration"].ToString();
+                row[3] = "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%";
+                row[4] = "Magazine: " + item.stats["currentMagazine"].ToString() + "/" + item.stats["magazineSize"].ToString();
 
-                stats += "Weight: " + item.stats["weight"].ToString() + " Kg\n";
+                row[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
             // Armor
             else if (item.slotType == Slot.SlotType.Head | item.slotType == Slot.SlotType.Torso | item.slotType == Slot.SlotType.Legs | item.slotType == Slot.SlotType.Gloves)
             {
-                stats = "Armor: " + item.armorStats["armor"].ToString() + "\n";
+                row[1] = "Armor: " + item.armorStats["armor"].ToString();
 
-                stats += "Weight: " + item.armorStats["weight"].ToString() + " Kg\n";
+                row[11] = "Weight: " + (item.armorStats["weight"] * item.amount).ToString() + " Kg";
             }
             // Equipable
             else if (item.slotType == Slot.SlotType.HeadEquipment | item.slotType == Slot.SlotType.TorsoEquipment | item.slotType == Slot.SlotType.LegsEquipment | item.slotType == Slot.SlotType.GlovesEquipment)
@@ -212,22 +212,35 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             // Consumable
             else if (item.slotType == Slot.SlotType.Consumable)
             {
-
+                row[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
             // Projectile
             else if (item.slotType == Slot.SlotType.Ammo)
             {
+                row[1] = "Damage: " + item.stats["damage"].ToString();
+                row[2] = "Penetration: " + item.stats["penetration"].ToString();
+                row[3] = "Armor ignore: " + item.stats["armorIgnore"].ToString();
+                if (item.stats["splashDamage"] > 0)
+                {
+                    row[4] = "Splash damage: " + item.stats["splashDamage"].ToString();
+                    row[5] = "Splash radius: " + item.stats["splashRadius"].ToString();
+                }
 
+                row[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
             // Shield
             else if (item.slotType == Slot.SlotType.Shield)
             {
+                row[1] = "Defense: " + item.stats["defense"].ToString();
 
+                row[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
             // Backpack/Belt
             else if (item.slotType == Slot.SlotType.Backpack | item.slotType == Slot.SlotType.Belt)
             {
+                row[1] = "Inventory slots: +" + item.stats["backpackSize"].ToString();
 
+                row[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
             // Material
             else if (item.slotType == Slot.SlotType.Material)
@@ -235,9 +248,16 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
             }
             else
-                stats = "Tak na tohle jsem zapomnìl.";
+                row[1] = "Tak na tohle jsem zapomnìl.";
 
-            itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = stats;
+            string text = "";
+            for (int i = 0; i < row.Length; i++)
+            {
+                if (row[i] != null)
+                    text += row[i];
+                text += "\n";
+            }
+            itemCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = text;
         }
     }
     public void CloseItemCard()

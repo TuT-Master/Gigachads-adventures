@@ -23,4 +23,4 @@ MonoBehaviour:
   projectileSpeed: 5
   splashDamage: 0
   splashRadius: 0
-  weight: 0.25
+  weight: 0.1

@@ -19,6 +19,8 @@ MonoBehaviour:
   stackSize: 1
   emitsLight: 0
   fullAuto: 0
+  twoHanded: 1
+  weaponType: 0
   sprite_inventory: {fileID: 21300000, guid: b6e4a533793f08149b816b8761fa6da6, type: 3}
   sprite_hand: {fileID: 21300000, guid: e9becedac4198a745ac83c62ff07e6b4, type: 3}
   damage: 3
@@ -36,7 +38,6 @@ MonoBehaviour:
   rangeX: 1
   rangeY: 1
   AoE: 0
-  twoHanded: 1
-  weight: 5
+  weight: 3
   ammo:
   - {fileID: 11400000, guid: 0a9aa93304c54b84aacc6b88bbfae12d, type: 2}
