@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c34a8f114a3c3f4d9815ed7b479078e, type: 3}
   m_Name: PrimitiveArrow
   m_EditorClassIdentifier: 
-  itemName: Primitive Arrow
+  itemName: Primitive arrow
   description: Small sharpened stick
-  stackSize: 69
+  stackSize: 420
   sprite_inventory: {fileID: 21300000, guid: 0495eae253a96044da6f028339bec17a, type: 3}
   sprite_equip: {fileID: 21300000, guid: 02290baebff8daf4bb1415cec7e342e0, type: 3}
   damage: 1
@@ -23,4 +23,4 @@ MonoBehaviour:
   projectileSpeed: 5
   splashDamage: 0
   splashRadius: 0
-  weight: 0.1
+  weight: 0.025

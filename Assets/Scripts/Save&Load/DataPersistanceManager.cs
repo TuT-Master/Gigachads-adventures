@@ -36,6 +36,10 @@ public class DataPersistanceManager : MonoBehaviour
     public void NewGame()
     {
         gameData = new GameData();
+        GameObject playerInventory = FindAnyObjectByType<PlayerInventory>().backpackInventory;
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(0), "Primitive club-1");
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(1), "Primitive bow-1");
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(2), "Primitive arrow-20");
         dataHandler.SaveData(gameData);
     }
 

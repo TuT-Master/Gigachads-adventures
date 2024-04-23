@@ -132,6 +132,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             // Kill player and increase skill issue
             playerStats["skillIssue"]++;
 
+            // Empty player inventory
+
+
             // Teleport player home
             FindAnyObjectByType<VirtualSceneManager>().LoadScene("Home");
 

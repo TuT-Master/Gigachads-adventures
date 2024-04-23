@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
 
     void Update()
     {
-        if (GetComponent<PlayerInventory>().playerInventoryOpen | GetComponent<PlayerSkill>().skillScreenOpen | GetComponent<DungeonMap>().mapOpened)
+        if (GetComponent<HUDmanager>().AnyScreenOpen())
             return;
         MyInput();
         Movement();
