@@ -124,7 +124,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         canRegenerateStamina = true;
         canRegenerateMana = true;
     }
-
     void Update()
     {
         if (playerStats["hp"] <= 0)
@@ -158,17 +157,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             canRegenerateMana = false;
         }
 
-        if (playerMovement.sprint)
-            playerStats["stamina"] -= 10 * Time.deltaTime;
-
-        // Regen stats
-        if (canRegenerateHp)
-            playerStats["hp"] += playerStats["hpRegen"] * Time.deltaTime * 2;
-        if(canRegenerateStamina)
-            playerStats["stamina"] += playerStats["staminaRegen"] * Time.deltaTime * 5;
-        if (canRegenerateMana)
-            playerStats["mana"] += playerStats["manaRegen"] * Time.deltaTime * 5;
-
         // Stops regen at max values
         if (playerStats["hp"] >= playerStats["hpMax"])
             playerStats["hp"] = playerStats["hpMax"];
@@ -178,7 +166,22 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             playerStats["mana"] = playerStats["manaMax"];
 
         UpdateEquipment();
+        GetComponent<PlayerGFXManager>().UpdateGFX();
     }
+    void FixedUpdate()
+    {
+        // Sprint
+        if (playerMovement.sprint)
+            playerStats["stamina"] -= 10 * Time.fixedDeltaTime;
+        // Regen stats
+        if (canRegenerateHp)
+            playerStats["hp"] += playerStats["hpRegen"] * Time.fixedDeltaTime * 2;
+        if (canRegenerateStamina)
+            playerStats["stamina"] += playerStats["staminaRegen"] * Time.fixedDeltaTime * 5;
+        if (canRegenerateMana)
+            playerStats["mana"] += playerStats["manaRegen"] * Time.fixedDeltaTime * 5;
+    }
+
 
     private bool CanRegenStats()
     {
@@ -186,7 +189,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             return false;
         return true;
     }
-
     public void DealDamage(float damage, float penetration, float armorIgnore)
     {
         canRegenerateHp = false;
@@ -202,7 +204,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
         playerStats["hp"] -= finalDamage;
     }
-
     IEnumerator StatRegen()
     {
         StopCoroutine(StatRegen());
@@ -219,9 +220,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         backpackInventory = new();
         Dictionary<string, float> baseStats = new()
         {
-            { "hp", hp },
-            { "stamina", stamina },
-            { "mana", mana },
+            { "hp", playerStats["hp"] },
+            { "stamina", playerStats["stamina"] },
+            { "mana", playerStats["mana"] },
             { "hpMax", hpMax },
             { "staminaMax", staminaMax },
             { "manaMax", manaMax },
@@ -320,9 +321,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         // Send all stats to PlayerStats
         foreach (string key in baseStats.Keys)
             playerStats[key] = baseStats[key] + bonusStats[key];
-
-
-        GetComponent<PlayerGFXManager>().UpdateGFX();
     }
     public void UpdateStats()
     {

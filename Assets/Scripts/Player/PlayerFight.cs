@@ -213,7 +213,7 @@ public class PlayerFight : MonoBehaviour
             Vector3 victor = projectile.GetComponent<Projectile>().item.stats["projectileSpeed"] * new Vector3(VectorFromAngle(angle).z, 0.05f, VectorFromAngle(angle).x);
 
             projectile.GetComponent<Rigidbody>().mass = projectile.GetComponent<Projectile>().item.stats["weight"];
-            projectile.GetComponent<Rigidbody>().AddForce(victor * 10f, ForceMode.Force);
+            projectile.GetComponent<Rigidbody>().AddForce(victor, ForceMode.Force);
 
             projectile.GetComponent<Projectile>().alive = true;
 

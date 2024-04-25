@@ -32,6 +32,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
         if (GetComponent<HUDmanager>().AnyScreenOpen())
             return;
         MyInput();
+    }
+
+    void FixedUpdate()
+    {
         Movement();
     }
 
@@ -110,13 +114,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
     void Movement()
     {
         // Movement
-        _rb.mass = playerStats.playerStats["weight"] / 40;
+        _rb.mass = (playerStats.playerStats["weight"] - 80) / 40;
         if(_rb.mass < 1)
             _rb.mass = 1;
         float moreSpeed = 2f;
         if (sprint)
             moreSpeed = 4f;
-        _rb.AddForce(new Vector3(x, 0, y) * playerStats.playerStats["speed"] * moreSpeed, ForceMode.Force);
+        _rb.AddForce(moreSpeed * playerStats.playerStats["speed"] * new Vector3(x, 0, y), ForceMode.Force);
     }
 
     public void LoadData(GameData data)

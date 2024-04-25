@@ -20,7 +20,7 @@ MonoBehaviour:
   damage: 1
   penetration: 1
   armorIgnore: 0
-  projectileSpeed: 5
+  projectileSpeed: 10
   splashDamage: 0
   splashRadius: 0
   weight: 0.025

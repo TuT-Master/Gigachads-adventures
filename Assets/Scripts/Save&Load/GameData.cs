@@ -37,7 +37,7 @@ public class GameData
             { "manaRegen", 1 },
             { "armor", 0 },
             { "evasion", 0 },
-            { "weight", 0 },
+            { "weight", 80 },
             { "speed", 1 },
             { "experience", 0 },
             { "level", 0 },
