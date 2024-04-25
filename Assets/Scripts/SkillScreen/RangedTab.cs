@@ -5,14 +5,4 @@ using UnityEngine;
 public class RangedTab : MonoBehaviour
 {
 
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }

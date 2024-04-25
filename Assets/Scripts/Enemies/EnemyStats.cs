@@ -10,7 +10,7 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
     public bool isStunned;
 
-    void Update()
+    void FixedUpdate()
     {
         if (hp <= 0)
         {

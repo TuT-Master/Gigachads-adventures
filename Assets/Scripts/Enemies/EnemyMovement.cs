@@ -23,7 +23,7 @@ public class EnemyMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         agent.destination = FindAnyObjectByType<PlayerMovement>().transform.position;
         agent.speed = speed;

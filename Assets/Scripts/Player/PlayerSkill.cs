@@ -49,9 +49,7 @@ public class PlayerSkill : MonoBehaviour
             categoryButtons[1].clicked = categoryButtons[2].clicked = categoryButtons[3].clicked = false;
         }
         else
-        {
             Time.timeScale = 1f;
-        }
     }
     public void StatButtonClicked(){ OpenTab(0); }
     public void MeleeButtonClicked() { OpenTab(1); }
@@ -59,6 +57,7 @@ public class PlayerSkill : MonoBehaviour
     public void MagicButtonClicked() { OpenTab(3); }
     private void OpenTab(int tabId)
     {
+
         skillDescription.HideSkillDetails();
 
         if (tabId == 0)
