@@ -15,8 +15,9 @@ public class WeaponRangedSO : ScriptableObject
     public bool emitsLight;
     public bool fullAuto;
 
-    [SerializeField]
-    bool twoHanded;
+    public bool twoHanded;
+    public bool AoE;
+
     public Item.WeaponType weaponType;
 
     public Sprite sprite_inventory;
@@ -36,14 +37,9 @@ public class WeaponRangedSO : ScriptableObject
     [SerializeField] private float splashRadius = 0;
     [SerializeField] private float rangeX = 1;
     [SerializeField] private float rangeY = 1;
-    [SerializeField] private float AoE = 0;
     [SerializeField] private float weight = 0;
     public Dictionary<string, float> Stats()
     {
-        float twoHand = 0f;
-        if(twoHanded)
-            twoHand = 1f;
-
         return new Dictionary<string, float>()
         {
             {"damage", damage},
@@ -60,8 +56,6 @@ public class WeaponRangedSO : ScriptableObject
             {"splashRadius", splashRadius},
             {"rangeX", rangeX},
             {"rangeY", rangeY},
-            {"AoE", AoE},
-            {"twoHanded", twoHand},
             {"weight", weight},
         };
     }

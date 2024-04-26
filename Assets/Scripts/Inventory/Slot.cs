@@ -166,7 +166,7 @@ public class Slot : MonoBehaviour, IDropHandler
             return true;
         else if(slotType == SlotType.SecondHand && dropped.slotType == SlotType.Shield && !FindAnyObjectByType<PlayerInventory>().TwoHandedWeaponInFirstSlot())
             return true;
-        else if (slotType == SlotType.SecondHand && dropped.slotType == SlotType.WeaponMelee && dropped.stats["twoHanded"] == 0)
+        else if (slotType == SlotType.SecondHand && dropped.slotType == SlotType.WeaponMelee && dropped.twoHanded)
             return true;
         else if (slotType == SlotType.SecondHand && dropped.slotType == SlotType.Consumable && !FindAnyObjectByType<PlayerInventory>().TwoHandedWeaponInFirstSlot())
             return true;

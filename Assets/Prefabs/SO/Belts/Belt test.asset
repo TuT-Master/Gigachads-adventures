@@ -18,4 +18,4 @@ MonoBehaviour:
   sprite_equipFront: {fileID: 0}
   sprite_equipBack: {fileID: 0}
   inventoryCapacity: 2
-  weight: 0.25
+  weight: 0.5

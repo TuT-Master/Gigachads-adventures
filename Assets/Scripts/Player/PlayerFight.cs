@@ -58,6 +58,7 @@ public class PlayerFight : MonoBehaviour
     {
         ActiveWeapon();
         MyInput();
+        FreeRotation();
         animator.gameObject.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
     }
 
@@ -65,8 +66,6 @@ public class PlayerFight : MonoBehaviour
     {
         if (GetComponent<HUDmanager>().AnyScreenOpen() | reloading)
             return;
-
-        FreeRotation();
 
         // Adjust height of projectile spawn point
         if (Input.GetAxis("Adjust projectile height") > 0)
@@ -201,10 +200,7 @@ public class PlayerFight : MonoBehaviour
 
         if (itemInHand.stats["currentMagazine"] > 0)
         {
-            Debug.Log("Firing!");
             itemInHand.stats["currentMagazine"]--;
-            Debug.Log(itemInHand.stats["currentMagazine"].ToString() + " / " + itemInHand.stats["magazineSize"].ToString());
-
 
             float angle = GetComponent<PlayerMovement>().angleRaw + UnityEngine.Random.Range(-itemInHand.stats["spread"], itemInHand.stats["spread"]);
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, angle, 0));
@@ -222,7 +218,6 @@ public class PlayerFight : MonoBehaviour
         else
         {
             Debug.Log("No ammo!");
-
 
             if (itemInHand.stats["magazineSize"] == 1)
                 StartCoroutine(Reload());
@@ -254,7 +249,7 @@ public class PlayerFight : MonoBehaviour
             PlayerInventory inventory = GetComponent<PlayerInventory>();
 
 
-            // TODO - Choose right ammo
+            // TODO - Choose ammo
 
             List<Item> items = inventory.HasItem(itemInHand.ammo[0].itemName);
 
@@ -283,10 +278,7 @@ public class PlayerFight : MonoBehaviour
             if (ammoCounter > 0)
                 done = true;
             if (!done)
-            {
                 canAttackAgain = false;
-                Debug.Log("No ammo left!");
-            }
             else
             {
                 // Wait for reload

@@ -52,7 +52,10 @@ public class Item : MonoBehaviour
     public int amount;
 
     public int inventoryCapacity;
-    
+
+    public bool twoHanded;
+    public bool AoE;
+
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
     public Sprite sprite_equip;
@@ -74,6 +77,8 @@ public class Item : MonoBehaviour
         isStackable = weaponSO.isStackable;
         emitsLight = weaponSO.emitsLight;
         weaponType = weaponSO.weaponType;
+        twoHanded = weaponSO.twoHanded;
+        AoE = weaponSO.AoE;
     }
     public Item(WeaponRangedSO weaponSO)
     {
@@ -89,6 +94,8 @@ public class Item : MonoBehaviour
         fullAuto = weaponSO.fullAuto;
         ammo = weaponSO.ammo;
         weaponType = weaponSO.weaponType;
+        twoHanded = weaponSO.twoHanded;
+        AoE = weaponSO.AoE;
     }
     public Item(ConsumableSO consumableSO)
     {
@@ -180,6 +187,8 @@ public class Item : MonoBehaviour
         fullAuto = item.fullAuto;
         ammo = item.ammo;
         weaponType = item.weaponType;
+        twoHanded = item.twoHanded;
+        AoE = item.AoE;
     }
 
 
