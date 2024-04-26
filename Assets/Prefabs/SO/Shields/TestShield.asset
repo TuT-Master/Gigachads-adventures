@@ -20,5 +20,5 @@ MonoBehaviour:
   sprite_inventory: {fileID: 0}
   sprite_equipFront: {fileID: 0}
   sprite_equipBack: {fileID: 0}
-  defense: 5
+  defense: 50
   weight: 20

@@ -6,7 +6,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 {
     public Dictionary<string, float> playerStats;
 
-    public Dictionary<string, float> playerBonusStats = new()
+    public Dictionary<string, float> playerSkillBonusStats = new()
         {
             {"damage", 0 },
             {"accuracyBonus", 0 },
@@ -51,6 +51,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private float evasion;
     [SerializeField]
+    private float defense;
+    [SerializeField]
     private float weight;
     [SerializeField]
     private float speed;
@@ -72,6 +74,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     private PlayerInventory playerInventory;
     private PlayerMovement playerMovement;
+    private PlayerFight playerFight;
 
     private List<Item> armors;
     private List<Item> equipment;
@@ -85,6 +88,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private bool canRegenerateHp;
     private bool canRegenerateStamina;
     private bool canRegenerateMana;
+
     private bool getsDamage;
 
 
@@ -92,6 +96,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     {
         playerInventory = GetComponent<PlayerInventory>();
         playerMovement = GetComponent<PlayerMovement>();
+        playerFight = GetComponent<PlayerFight>();
 
 
         playerStats = new()
@@ -107,6 +112,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "manaRegen", manaRegen },
             { "armor", armor },
             { "evasion", evasion },
+            { "defense", defense },
             { "weight", weight },
             { "speed", speed },
             { "experience", experience },
@@ -185,24 +191,43 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     private bool CanRegenStats()
     {
-        if (playerMovement.sprint || getsDamage || !GetComponent<PlayerFight>().canAttackAgain)
+        if (playerMovement.sprint || getsDamage || !GetComponent<PlayerFight>().canAttackAgain || playerFight.defending)
             return false;
         return true;
     }
     public void DealDamage(float damage, float penetration, float armorIgnore)
     {
-        canRegenerateHp = false;
-        canRegenerateStamina = false;
-        canRegenerateMana = false;
-
         float finalDamage = damage;
+        float armor = playerStats["armor"];
+
+        if (armorIgnore > 0)
+            armor *= armorIgnore;
+
+        if (armor - penetration > 0)
+            finalDamage -= armor - penetration;
+
+        if (playerStats["defense"] > 0)
+            finalDamage *= playerStats["defense"] / 100;
+
         if (finalDamage > 0)
         {
+            if(playerFight.defending)
+            {
+                finalDamage *= 0.5f;
+                playerStats["stamina"] -= 10;
+            }
+            Debug.Log("Got hit for " + finalDamage + " hp!");
             getsDamage = true;
+            playerStats["hp"] -= finalDamage;
+
+            canRegenerateHp = false;
+            canRegenerateStamina = false;
+            canRegenerateMana = false;
+
             StartCoroutine(StatRegen());
         }
-
-        playerStats["hp"] -= finalDamage;
+        else
+            Debug.Log("Completely blocked incoming damage");
     }
     IEnumerator StatRegen()
     {
@@ -231,6 +256,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "manaRegen", manaRegen },
             { "armor", armor },
             { "evasion", evasion },
+            { "defense", defense },
             { "weight", weight },
             { "speed", speed },
             { "experience", experience },
@@ -254,6 +280,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "manaRegen", 1 },
             { "armor", 0 },
             { "evasion", 0 },
+            { "defense", 0 },
             { "weight", 0 },
             { "speed", 0 },
             { "experience", 0 },
@@ -318,6 +345,12 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         // Pockets
 
 
+        // Defense
+        if (playerFight.secondaryItemInHand != null && playerFight.secondaryItemInHand.stats.ContainsKey("defense"))
+            bonusStats["defense"] += playerFight.secondaryItemInHand.stats["defense"];
+        else if (playerFight.itemInHand != null && playerFight.itemInHand.stats.ContainsKey("defense"))
+            bonusStats["defense"] += playerFight.itemInHand.stats["defense"];
+
         // Send all stats to PlayerStats
         foreach (string key in baseStats.Keys)
             playerStats[key] = baseStats[key] + bonusStats[key];
@@ -326,12 +359,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     {
         foreach(Skill skill in FindObjectsByType<Skill>(FindObjectsSortMode.None))
             foreach (string key in skill.bonusStats.Keys)
-                playerBonusStats[key] += skill.bonusStats[key];
-
-        foreach (string key in playerBonusStats.Keys)
-        {
-            Debug.Log(key + ": " + playerBonusStats[key]);
-        }
+                playerSkillBonusStats[key] += skill.bonusStats[key];
     }
 
     IEnumerator UpdateGFXDelay()

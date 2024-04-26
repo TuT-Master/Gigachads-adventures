@@ -7,6 +7,6 @@ public interface IInteractable
 public interface IInteractableEnemy
 {
     public bool CanInteract();
-    public void HurtEnemy(float damage);
+    public void HurtEnemy(float damage, float penetration, float armorIgnore);
     public void StunEnemy(float seconds);
 }

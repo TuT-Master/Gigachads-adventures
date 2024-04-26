@@ -75,6 +75,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
     void UpdateHands()
     {
+        // Left hand
         if(LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item item))
         {
             weaponSpriteRenderer.sprite = item.sprite_hand;
@@ -84,6 +85,18 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         {
             weaponSpriteRenderer.sprite = null;
             GetComponent<PlayerFight>().itemInHand = null;
+        }
+
+        // Right hand
+        if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out item))
+        {
+            //weaponSpriteRenderer.sprite = item.sprite_hand;
+            GetComponent<PlayerFight>().secondaryItemInHand = item;
+        }
+        else
+        {
+            //weaponSpriteRenderer.sprite = null;
+            GetComponent<PlayerFight>().secondaryItemInHand = null;
         }
     }
 

@@ -43,13 +43,16 @@ public class PlayerFight : MonoBehaviour
                 {"manaCost", 0f},
                 {"rangeX", 0.75f},
                 {"rangeY", 0.75f},
-                {"AoE", 0f},
-                {"twoHanded", 0f},
+                {"defense", 10f },
                 {"weight", 0f}
     };
 
+    private PlayerStats playerStats;
+
+
     private void Start()
     {
+        playerStats = GetComponent<PlayerStats>();
         canAttackAgain = true;
         reloading = false;
     }
@@ -102,10 +105,16 @@ public class PlayerFight : MonoBehaviour
         // RMB - Defending
         if (Input.GetMouseButton(1))
         {
+            if(!defending)
+                playerStats.playerStats["speed"] /= 2;
             Defend();
         }
         else
-        defending = false;
+        {
+            if (defending)
+                playerStats.playerStats["speed"] *= 2;
+            defending = false;
+        }
 
         // Reload
         if (itemInHand != null && itemInHand.slotType == Slot.SlotType.WeaponRanged && !reloading)
@@ -115,48 +124,11 @@ public class PlayerFight : MonoBehaviour
 
     void Defend()
     {
+        Debug.Log("Defending");
         defending = true;
-        // Using secondary item for defense
-        if (secondaryItemInHand != null)
-        {
-            // Shield
-            if(secondaryItemInHand.slotType == Slot.SlotType.Shield)
-            {
+        // Decrease stamina
+        playerStats.playerStats["stamina"] -= Time.deltaTime * 2;
 
-            }
-        }
-        // Using primary item for defense
-        else
-        {
-            if(itemInHand != null)
-            {
-                // Two handed MELEE weapon
-                if(itemInHand.TwoHanded() && itemInHand.slotType == Slot.SlotType.WeaponMelee)
-                {
-
-                }
-                // Two handed RANGED weapon
-                else if (itemInHand.TwoHanded() && itemInHand.slotType == Slot.SlotType.WeaponRanged)
-                {
-
-                }
-                // One handed MELEE weapon
-                else if (!itemInHand.TwoHanded() && itemInHand.slotType == Slot.SlotType.WeaponMelee)
-                {
-
-                }
-                // One handed RANGED weapon
-                else if (!itemInHand.TwoHanded() && itemInHand.slotType == Slot.SlotType.WeaponRanged)
-                {
-
-                }
-            }
-            // Fists
-            else
-            {
-
-            }
-        }
     }
 
     void FistsAttack()
@@ -165,9 +137,7 @@ public class PlayerFight : MonoBehaviour
             return;
         canAttackAgain = false;
         if (enemyList.Count > 0)
-        {
-            enemyList[0].HurtEnemy(fistsStats["damage"]);
-        }
+            enemyList[0].HurtEnemy(fistsStats["damage"], fistsStats["penetration"], fistsStats["armorIgnore"]);
 
         StartCoroutine(CanAttackAgain());
     }
@@ -180,11 +150,18 @@ public class PlayerFight : MonoBehaviour
 
         if (enemyList.Count > 0)
         {
-            if (itemInHand.stats["AoE"] == 0)
-                enemyList[0].HurtEnemy(itemInHand.stats["damage"]);
-            else
+            if (itemInHand.AoE)
             {
                 // AoE attack
+            }
+            else
+            {
+                float damage = itemInHand.stats["damage"];
+                float petration = itemInHand.stats["penetration"];
+                float armorIgnore = itemInHand.stats["armorIgnore"];
+                // Add any bonuses to damage (skills, equipment)
+
+                enemyList[0].HurtEnemy(damage, petration, armorIgnore);
             }
         }
 

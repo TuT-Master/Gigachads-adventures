@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
         y = Input.GetAxisRaw("Vertical");
 
         // Shift
-        if(Input.GetKey(KeyCode.LeftShift) && playerStats.playerStats["stamina"] >= 0 && canSprint && (x != 0 || y != 0))
+        if(Input.GetKey(KeyCode.LeftShift) && playerStats.playerStats["stamina"] >= 0 && canSprint && (x != 0 || y != 0) && !GetComponent<PlayerFight>().defending)
             sprint = true;
         else
             sprint = false;

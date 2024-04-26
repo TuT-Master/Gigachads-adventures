@@ -30,4 +30,5 @@ MonoBehaviour:
   manaCost: 0
   rangeX: 1
   rangeY: 1
+  defense: 15
   weight: 3

@@ -37,6 +37,7 @@ public class WeaponRangedSO : ScriptableObject
     [SerializeField] private float splashRadius = 0;
     [SerializeField] private float rangeX = 1;
     [SerializeField] private float rangeY = 1;
+    [SerializeField] private float defense = 0;
     [SerializeField] private float weight = 0;
     public Dictionary<string, float> Stats()
     {
@@ -56,6 +57,7 @@ public class WeaponRangedSO : ScriptableObject
             {"splashRadius", splashRadius},
             {"rangeX", rangeX},
             {"rangeY", rangeY},
+            {"defense", defense},
             {"weight", weight},
         };
     }

@@ -25,7 +25,9 @@ public class StatTab : MonoBehaviour
         textL += "Mana: " + Mathf.Round(playerStats.playerStats["mana"]).ToString() + " / " + playerStats.playerStats["manaMax"].ToString() + "\n";
 
         // Right text field
-        textR += "Weight: " + playerStats.playerStats["weight"].ToString() + " Kg\n";
+        textR += "Weight: " + (playerStats.playerStats["weight"] - 80).ToString() + " Kg\n";
+        textR += "Armor: " + playerStats.playerStats["armor"].ToString() + " \n";
+        textR += "Defense: " + playerStats.playerStats["defense"].ToString() + "\n";
 
         // Apply texts
         textField_left.text = textL;
