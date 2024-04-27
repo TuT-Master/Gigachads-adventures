@@ -13,19 +13,27 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
     public bool isStunned;
 
-    void FixedUpdate()
+    void Update()
     {
         if (hp <= 0)
-        {
-            FindAnyObjectByType<PlayerStats>().playerStats["experience"] += expForKill;
+            Die();
+    }
 
-            Destroy(gameObject);
-        }
+    private void Die()
+    {
+        Debug.Log("Enemy " + gameObject.name + " has EVAPORATED!");
+
+        FindAnyObjectByType<PlayerStats>().playerStats["exp"] += expForKill;
+
+        Destroy(gameObject);
     }
 
     public bool CanInteract()
     {
-        return true;
+        if (hp <= 0)
+            return false;
+        else
+            return true;
     }
 
     public void HurtEnemy(float damage, float penetration, float armorIgnore)
@@ -46,8 +54,8 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
         if (finalDamage > 0)
         {
-            hp -= finalDamage;
             Debug.Log("Hitting enemy and dealing " + finalDamage + " damage to hp!");
+            hp -= finalDamage;
         }
         else
             Debug.Log("Not enough power to break through enemy's armor!");

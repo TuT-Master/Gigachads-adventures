@@ -16,6 +16,9 @@ public class ArmorSO : ScriptableObject
 
     // Armor bonuses
     [SerializeField] private float armor;
+    [SerializeField] private float hpMax;
+    [SerializeField] private float staminaMax;
+    [SerializeField] private float manaMax;
     [SerializeField] private float weight;
 
 
@@ -24,6 +27,9 @@ public class ArmorSO : ScriptableObject
         return new()
         {
             {"armor", armor },
+            {"hpMax", hpMax },
+            {"staminaMax", staminaMax },
+            {"manaMax", manaMax },
             {"weight", weight },
         };
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour, IDataPersistance
 {
     public Dictionary<string, float> playerStats;
+    public Dictionary<string, float> playerStats_default;
 
     public Dictionary<string, float> playerSkillBonusStats = new()
         {
@@ -49,7 +50,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private float armor;
     [SerializeField]
-    private float evasion;
+    private float evade;
     [SerializeField]
     private float defense;
     [SerializeField]
@@ -57,7 +58,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private float speed;
     [SerializeField]
-    private int experience;
+    private int exp;
     [SerializeField]
     private int level;
     [SerializeField]
@@ -99,7 +100,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         playerFight = GetComponent<PlayerFight>();
 
 
-        playerStats = new()
+        playerStats_default = new()
         {
             { "hp", hp },
             { "stamina", stamina },
@@ -111,11 +112,11 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "staminaRegen", staminaRegen },
             { "manaRegen", manaRegen },
             { "armor", armor },
-            { "evasion", evasion },
+            { "evade", evade },
             { "defense", defense },
             { "weight", weight },
             { "speed", speed },
-            { "experience", experience },
+            { "exp", exp },
             { "level", level },
             { "skillPoints", skillPoints },
             { "skillIssue", skillIssue },
@@ -123,7 +124,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "beltSize", beltSize },
             { "pocketSize", pocketSize },
         };
-        UpdateStats();
+        UpdateSkillBonusStats();
 
 
         canRegenerateHp = true;
@@ -132,6 +133,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     }
     void Update()
     {
+        if (playerStats == null)
+            return;
         if (playerStats["hp"] <= 0)
         {
             // Kill player and increase skill issue
@@ -172,16 +175,17 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             playerStats["mana"] = playerStats["manaMax"];
 
         UpdateEquipment();
-        GetComponent<PlayerGFXManager>().UpdateGFX();
     }
     void FixedUpdate()
     {
+        if (playerStats == null)
+            return;
         // Sprint
         if (playerMovement.sprint)
             playerStats["stamina"] -= 10 * Time.fixedDeltaTime;
         // Regen stats
         if (canRegenerateHp)
-            playerStats["hp"] += playerStats["hpRegen"] * Time.fixedDeltaTime * 2;
+            playerStats["hp"] += playerStats["hpRegen"] * Time.fixedDeltaTime * 0.5f;
         if (canRegenerateStamina)
             playerStats["stamina"] += playerStats["staminaRegen"] * Time.fixedDeltaTime * 5;
         if (canRegenerateMana)
@@ -243,11 +247,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         armors = new();
         equipment = new();
         backpackInventory = new();
-        Dictionary<string, float> baseStats = new()
+        playerStats_default = new()
         {
-            { "hp", playerStats["hp"] },
-            { "stamina", playerStats["stamina"] },
-            { "mana", playerStats["mana"] },
             { "hpMax", hpMax },
             { "staminaMax", staminaMax },
             { "manaMax", manaMax },
@@ -255,38 +256,27 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "staminaRegen", staminaRegen },
             { "manaRegen", manaRegen },
             { "armor", armor },
-            { "evasion", evasion },
+            { "evade", evade },
             { "defense", defense },
             { "weight", weight },
             { "speed", speed },
-            { "experience", experience },
-            { "level", level },
-            { "skillPoints", skillPoints },
-            { "skillIssue", skillIssue },
             { "backpackSize", backpackSize },
             { "beltSize", beltSize },
             { "pocketSize", pocketSize },
         };
         Dictionary<string, float> bonusStats = new()
         {
-            { "hp", 0 },
-            { "stamina", 0 },
-            { "mana", 0 },
             { "hpMax", 0 },
             { "staminaMax", 0 },
             { "manaMax", 0 },
-            { "hpRegen", 1 },
-            { "staminaRegen", 1 },
-            { "manaRegen", 1 },
+            { "hpRegen", 0 },
+            { "staminaRegen", 0 },
+            { "manaRegen", 0 },
             { "armor", 0 },
-            { "evasion", 0 },
+            { "evade", 0 },
             { "defense", 0 },
             { "weight", 0 },
             { "speed", 0 },
-            { "experience", 0 },
-            { "level", 0 },
-            { "skillPoints", 0 },
-            { "skillIssue", 0 },
             { "backpackSize", 0 },
             { "beltSize", 0 },
             { "pocketSize", 0 },
@@ -352,10 +342,12 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             bonusStats["defense"] += playerFight.itemInHand.stats["defense"];
 
         // Send all stats to PlayerStats
-        foreach (string key in baseStats.Keys)
-            playerStats[key] = baseStats[key] + bonusStats[key];
+        foreach (string key in bonusStats.Keys)
+            playerStats[key] = playerStats_default[key] + bonusStats[key];
+
+        GetComponent<PlayerGFXManager>().UpdateGFX();
     }
-    public void UpdateStats()
+    public void UpdateSkillBonusStats()
     {
         foreach(Skill skill in FindObjectsByType<Skill>(FindObjectsSortMode.None))
             foreach (string key in skill.bonusStats.Keys)
@@ -369,7 +361,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     }
     public void LoadData(GameData data)
     {
-        playerStats.Clear();
+        playerStats = new();
         foreach(string key in data.playerStats.Keys)
             playerStats.Add(key, data.playerStats[key]);
         StartCoroutine(UpdateGFXDelay());

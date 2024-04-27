@@ -18,6 +18,8 @@ public class StatBar : MonoBehaviour
 
     private void Update()
     {
+        if (playerStats.playerStats == null)
+            return;
         gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerStats.playerStats[field + "Max"] * 3);
         fill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerStats.playerStats[field] * 3);
     }

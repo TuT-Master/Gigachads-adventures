@@ -348,8 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8297e62ce1b2a14428602e65d923c714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
-  armor: 0
+  hp: 15
+  armor: 2
   evasion: 0
   defense: 0
   expForKill: 10
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAttackAgain: 0
-  damage: 5
+  damage: 10
   penetration: 0
   armorIgnore: 0
 --- !u!114 &8842026836342983176
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attitude: 0
-  speed: 1
+  speed: 2
   weight: 10
 --- !u!195 &2655500466956550045
 NavMeshAgent:

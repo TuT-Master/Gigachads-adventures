@@ -40,7 +40,7 @@ public class GameData
             { "defense", 0 },
             { "weight", 80 },
             { "speed", 1 },
-            { "experience", 0 },
+            { "exp", 0 },
             { "level", 0 },
             { "skillPoints", 0 },
             { "accuracyBonus", 0 },

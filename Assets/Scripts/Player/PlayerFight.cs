@@ -63,6 +63,15 @@ public class PlayerFight : MonoBehaviour
         MyInput();
         FreeRotation();
         animator.gameObject.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+
+        foreach (IInteractableEnemy enemy in enemyList)
+        {
+            if (!enemy.CanInteract())
+            {
+                enemyList.Remove(enemy);
+                return;
+            }
+        }
     }
 
     void MyInput()
@@ -124,11 +133,8 @@ public class PlayerFight : MonoBehaviour
 
     void Defend()
     {
-        Debug.Log("Defending");
         defending = true;
-        // Decrease stamina
         playerStats.playerStats["stamina"] -= Time.deltaTime * 2;
-
     }
 
     void FistsAttack()
@@ -146,7 +152,13 @@ public class PlayerFight : MonoBehaviour
     {
         if(!canAttackAgain)
             return;
+        if(playerStats.playerStats["stamina"] - itemInHand.stats["staminaCost"] < 0)
+        {
+            Debug.Log("Not enough stamina for attack!");
+            return;
+        }
         canAttackAgain = false;
+        playerStats.playerStats["stamina"] -= itemInHand.stats["staminaCost"];
 
         if (enemyList.Count > 0)
         {

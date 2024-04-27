@@ -19,4 +19,7 @@ MonoBehaviour:
   sprite_equipBack: {fileID: 0}
   slotType: 7
   armor: 1
+  hpMax: 5
+  staminaMax: 5
+  manaMax: 0
   weight: 2

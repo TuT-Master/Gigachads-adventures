@@ -22,8 +22,6 @@ public class EnemyMovement : MonoBehaviour
     [Header("Stats")]
     [SerializeField]
     private float speed;
-    [SerializeField]
-    private float weight;
 
 
     private float defaultSpeed;
@@ -34,9 +32,9 @@ public class EnemyMovement : MonoBehaviour
     private void Start()
     {
         enemyFight = GetComponent<EnemyFight>();
-        defaultSpeed = speed;
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = speed;
+
+        agent.speed = defaultSpeed = speed;
     }
 
     private void FixedUpdate()
@@ -72,15 +70,25 @@ public class EnemyMovement : MonoBehaviour
 
     private void MeleeAggresive()
     {
-        agent.destination = FindAnyObjectByType<PlayerMovement>().transform.position;
+        if (!enemyFight.CanAttack())
+        {
+            agent.isStopped = false;
+            agent.destination = FindAnyObjectByType<PlayerMovement>().transform.position;
+        }
+        else
+            agent.isStopped = true;
     }
     private void MeleeEvasive()
     {
         if(enemyFight.CanAttack())
+        {
+            agent.isStopped = true;
             agent.destination = FindAnyObjectByType<PlayerMovement>().transform.position;
+        }
         else
         {
-
+            agent.isStopped = false;
+            // Evading
         }
     }
     private void MeleeWandering()

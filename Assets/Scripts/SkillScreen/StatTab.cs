@@ -23,6 +23,7 @@ public class StatTab : MonoBehaviour
         textL += "Health: " + Mathf.Round(playerStats.playerStats["hp"]).ToString() + " / " + playerStats.playerStats["hpMax"].ToString() + "\n";
         textL += "Stamina: " + Mathf.Round(playerStats.playerStats["stamina"]).ToString() + " / " + playerStats.playerStats["staminaMax"].ToString() + "\n";
         textL += "Mana: " + Mathf.Round(playerStats.playerStats["mana"]).ToString() + " / " + playerStats.playerStats["manaMax"].ToString() + "\n";
+        textL += "\n Exp: " + Mathf.Round(playerStats.playerStats["exp"]).ToString() + "\n";
 
         // Right text field
         textR += "Weight: " + (playerStats.playerStats["weight"] - 80).ToString() + " Kg\n";

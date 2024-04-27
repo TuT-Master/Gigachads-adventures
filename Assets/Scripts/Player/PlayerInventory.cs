@@ -112,6 +112,8 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     // !!-.-.-.- MEGA IMPORTANT -.-.-.-!!
     void UpdatePlayerStats()
     {
+        if (playerStats.playerStats == null)
+            return;
         backpackSize = (int)playerStats.playerStats["backpackSize"];
         beltSize = (int)playerStats.playerStats["beltSize"];
         pocketsSize = (int)playerStats.playerStats["pocketSize"];
