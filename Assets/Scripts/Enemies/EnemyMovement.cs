@@ -5,6 +5,18 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public enum Attitude
+    {
+        MeleeAgressive,
+        MeleeEvasive,
+        MeleeWandering,
+        MeleeStealth,
+        RangedStatic,
+        RangedWandering,
+        Placeable,
+    }
+    public Attitude attitude;
+
     private NavMeshAgent agent;
 
     [Header("Stats")]
@@ -16,17 +28,76 @@ public class EnemyMovement : MonoBehaviour
 
     private float defaultSpeed;
 
+    private EnemyFight enemyFight;
+
 
     private void Start()
     {
+        enemyFight = GetComponent<EnemyFight>();
         defaultSpeed = speed;
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = speed;
     }
 
     private void FixedUpdate()
     {
+
+        switch(attitude)
+        {
+            case Attitude.MeleeAgressive:
+                MeleeAggresive();
+                break;
+            case Attitude.MeleeEvasive:
+                MeleeEvasive();
+                break;
+            case Attitude.MeleeWandering:
+                MeleeWandering();
+                break;
+            case Attitude.MeleeStealth:
+                MeleeStealth();
+                break;
+            case Attitude.RangedStatic:
+                RangedStatic();
+                break;
+            case Attitude.RangedWandering:
+                RangedWandering();
+                break;
+            case Attitude.Placeable:
+                // Random se otáèí (rozhlíží)
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void MeleeAggresive()
+    {
         agent.destination = FindAnyObjectByType<PlayerMovement>().transform.position;
-        agent.speed = speed;
+    }
+    private void MeleeEvasive()
+    {
+        if(enemyFight.CanAttack())
+            agent.destination = FindAnyObjectByType<PlayerMovement>().transform.position;
+        else
+        {
+
+        }
+    }
+    private void MeleeWandering()
+    {
+
+    }
+    private void MeleeStealth()
+    {
+
+    }
+    private void RangedStatic()
+    {
+
+    }
+    private void RangedWandering()
+    {
+
     }
 
     public IEnumerator Stun(float seconds)

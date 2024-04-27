@@ -5,17 +5,6 @@ using UnityEngine;
 
 public class EnemyFight : MonoBehaviour
 {
-    public enum Attitude
-    {
-        MeleeAgressive,
-        MeleeEvasive,
-        MeleeWandering,
-        MeleeStealth,
-        RangedStatic,
-        RangedWandering,
-        Placeable,
-    }
-    public Attitude attitude;
 
     public bool canAttackAgain;
 
@@ -58,8 +47,6 @@ public class EnemyFight : MonoBehaviour
 
         canAttackAgain = false;
 
-        Debug.Log("Attacking!");
-
         player.GetComponent<PlayerStats>().DealDamage(damage, penetration, armorIgnore);
 
         GetComponent<EnemyMovement>().StopMovement();
@@ -76,15 +63,7 @@ public class EnemyFight : MonoBehaviour
         canAttackAgain = true;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Player entered enemy's collider");
-        player = other.transform.parent.gameObject;
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        Debug.Log("Player exit enemy's collider");
-        player = null;
-    }
+    private void OnTriggerEnter(Collider other) { player = other.transform.parent.gameObject; }
+    private void OnTriggerExit(Collider other) { player = null; }
 }

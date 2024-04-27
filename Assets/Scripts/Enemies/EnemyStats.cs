@@ -50,7 +50,7 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
             Debug.Log("Hitting enemy and dealing " + finalDamage + " damage to hp!");
         }
         else
-            Debug.Log("Not enough power to break through enemy armor!");
+            Debug.Log("Not enough power to break through enemy's armor!");
     }
 
     public void StunEnemy(float seconds)

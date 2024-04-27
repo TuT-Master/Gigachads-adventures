@@ -366,7 +366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5b5f6a76e00b464d8eef0ef17fe307c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attitude: 0
   canAttackAgain: 0
   damage: 5
   penetration: 0
@@ -383,6 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab08dcaf70cfa924799da16944ed9a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attitude: 0
   speed: 1
   weight: 10
 --- !u!195 &2655500466956550045
