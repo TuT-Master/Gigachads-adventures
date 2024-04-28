@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Dungeon : MonoBehaviour
 {
+    public Transform currentRoom;
+
+
     private void OnEnable()
     {
         FindAnyObjectByType<DungeonGenerator>().BuildDungeon();

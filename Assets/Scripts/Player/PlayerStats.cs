@@ -220,7 +220,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
                 finalDamage *= 0.5f;
                 playerStats["stamina"] -= 10;
             }
-            Debug.Log("Got hit for " + finalDamage + " hp!");
             getsDamage = true;
             playerStats["hp"] -= finalDamage;
 
@@ -230,8 +229,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
             StartCoroutine(StatRegen());
         }
-        else
-            Debug.Log("Completely blocked incoming damage");
     }
     IEnumerator StatRegen()
     {

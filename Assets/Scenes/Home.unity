@@ -2854,11 +2854,11 @@ MonoBehaviour:
   staminaRegen: 1
   manaRegen: 1
   armor: 0
-  evasion: 0
+  evade: 0
   defense: 0
   weight: 80
   speed: 1
-  experience: 0
+  exp: 0
   level: 0
   skillPoints: 0
   skillIssue: 0
@@ -3840,6 +3840,59 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 280208694}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &281849194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 281849195}
+  - component: {fileID: 281849196}
+  m_Layer: 0
+  m_Name: EffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &281849195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281849194}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1735747205}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &281849196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281849194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d97ab229f6ba6de4b96142b5168ce1b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodStains:
+  - {fileID: 2100000, guid: c15ff23f3eb128d4c8252414e6ca6586, type: 2}
+  - {fileID: 2100000, guid: eccd3f0eb055fcd4e92b3d803c32c963, type: 2}
+  - {fileID: 2100000, guid: ffe587456073a1e4e986381ed17d7584, type: 2}
+  - {fileID: 2100000, guid: 7b3f58f5702e8fb4eb3ed08dc5dc28df, type: 2}
+  - {fileID: 2100000, guid: f338d1c426aa76b4c8c548fb11bd3406, type: 2}
+  poisonStains: []
+  stainPrefab: {fileID: 2640857400013486437, guid: 01b660c776b287946b04869b743a8eae,
+    type: 3}
 --- !u!1001 &282181676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25327,6 +25380,7 @@ Transform:
   - {fileID: 1873072212}
   - {fileID: 1754936368}
   - {fileID: 723506867}
+  - {fileID: 281849195}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29067,6 +29121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b44eecf308daee4f9226787f57fee30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentRoom: {fileID: 0}
 --- !u!1 &1921553619
 GameObject:
   m_ObjectHideFlags: 0

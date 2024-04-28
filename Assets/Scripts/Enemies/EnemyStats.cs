@@ -13,6 +13,14 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
     public bool isStunned;
 
+    private EffectManager effectManager;
+
+
+    void Start()
+    {
+        effectManager = FindAnyObjectByType<EffectManager>();
+    }
+
     void Update()
     {
         if (hp <= 0)
@@ -21,8 +29,6 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
     private void Die()
     {
-        Debug.Log("Enemy " + gameObject.name + " has EVAPORATED!");
-
         FindAnyObjectByType<PlayerStats>().playerStats["exp"] += expForKill;
 
         Destroy(gameObject);
@@ -55,10 +61,20 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
         if (finalDamage > 0)
         {
             Debug.Log("Hitting enemy and dealing " + finalDamage + " damage to hp!");
+            // Spawn blood stain
+            effectManager.SpawnStain(transform, EffectManager.StainType.Blood);
+
+            // Play some sound
+
+
+            // Decrease hp
             hp -= finalDamage;
         }
         else
+        {
             Debug.Log("Not enough power to break through enemy's armor!");
+            // Play some sound
+        }
     }
 
     public void StunEnemy(float seconds)
