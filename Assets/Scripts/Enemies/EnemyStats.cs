@@ -15,6 +15,9 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
     private EffectManager effectManager;
 
+    private float color = 255;
+
+
 
     void Start()
     {
@@ -25,6 +28,14 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
     {
         if (hp <= 0)
             Die();
+
+        if (color < 255)
+        {
+            color += 3;
+            transform.Find("GFX").GetChild(0).GetComponent<MeshRenderer>().material.color = new Color(255, color / 255f, color / 255f);
+        }
+        else
+            transform.Find("GFX").GetChild(0).GetComponent<MeshRenderer>().material.color = Color.white;
     }
 
     private void Die()
@@ -65,6 +76,11 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
             effectManager.SpawnStain(transform, EffectManager.StainType.Blood);
 
             // Play some sound
+
+
+            // Hit animation
+            color = 0f;
+            transform.Find("GFX").GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
 
 
             // Decrease hp

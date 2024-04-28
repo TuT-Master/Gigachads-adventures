@@ -79,9 +79,6 @@ public class DungeonRoom : MonoBehaviour
     {
         if (TryGetComponent(out DungeonRoomUI dungeonRoomUI))
             return;
-
-        FindAnyObjectByType<Dungeon>().currentRoom = transform;
-
         // Short loading screen
 
 

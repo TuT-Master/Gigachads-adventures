@@ -6,6 +6,7 @@ using UnityEngine;
 public class ShieldSO : ScriptableObject
 {
     public string itemName;
+    [TextArea]
     public string description;
 
     public int amount;

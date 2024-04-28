@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class Dungeon : MonoBehaviour
 {
-    public Transform currentRoom;
+    public GameObject currentRoom;
 
-
+    private void Update()
+    {
+        if (transform.childCount > 0)
+            for (int i = 0; i < transform.childCount; i++)
+                if (transform.GetChild(i).gameObject.activeInHierarchy)
+                    currentRoom = transform.GetChild(i).gameObject;
+    }
     private void OnEnable()
     {
         FindAnyObjectByType<DungeonGenerator>().BuildDungeon();
@@ -19,5 +25,6 @@ public class Dungeon : MonoBehaviour
         {
             Destroy(transform.GetChild(i).gameObject);
         }
+        FindAnyObjectByType<DungeonMap>().ClearMap();
     }
 }

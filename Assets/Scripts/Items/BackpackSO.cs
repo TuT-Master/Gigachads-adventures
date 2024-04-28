@@ -6,6 +6,7 @@ using UnityEngine;
 public class BackpackSO : ScriptableObject
 {
     public string itemName;
+    [TextArea]
     public string description;
 
     public Sprite sprite_inventory;

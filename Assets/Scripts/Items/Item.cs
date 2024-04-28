@@ -11,6 +11,7 @@ public class Item : MonoBehaviour
     public Dictionary<string, float> armorStats;
 
     public string itemName;
+    [TextArea]
     public string description;
 
     public Slot.SlotType slotType;

@@ -6,6 +6,7 @@ using UnityEngine;
 public class WeaponRangedSO : ScriptableObject
 {
     public string itemName;
+    [TextArea]
     public string description;
 
     public int amount;

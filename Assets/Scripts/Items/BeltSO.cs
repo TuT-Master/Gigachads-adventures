@@ -6,6 +6,7 @@ using UnityEngine;
 public class BeltSO : ScriptableObject
 {
     public string itemName;
+    [TextArea]
     public string description;
 
     public Sprite sprite_inventory;

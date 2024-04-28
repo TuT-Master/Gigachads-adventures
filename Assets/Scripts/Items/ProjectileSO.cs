@@ -6,6 +6,7 @@ using UnityEngine;
 public class ProjectileSO : ScriptableObject
 {
     public string itemName;
+    [TextArea]
     public string description;
 
     public int stackSize;
