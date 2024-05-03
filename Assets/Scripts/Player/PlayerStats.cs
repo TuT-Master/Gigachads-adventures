@@ -26,7 +26,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             {"evade", 0 },
         };
 
-
     [Header("Player default stats")]
     #region Default stats setup
     [SerializeField]
@@ -58,9 +57,49 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private float speed;
     [SerializeField]
-    private int exp;
+    private int exp_player;
     [SerializeField]
-    private int level;
+    private int level_player;
+    [SerializeField]
+    private int exp_oneHandDexterity;
+    [SerializeField]
+    private int level_oneHandDexterity;
+    [SerializeField]
+    private int exp_oneHandStrenght;
+    [SerializeField]
+    private int level_oneHandStrenght;
+    [SerializeField]
+    private int exp_twoHandDexterity;
+    [SerializeField]
+    private int level_twoHandDexterity;
+    [SerializeField]
+    private int exp_twoHandStrenght;
+    [SerializeField]
+    private int level_twoHandStrenght;
+    [SerializeField]
+    private int exp_rangedDexterity;
+    [SerializeField]
+    private int level_rangedDexterity;
+    [SerializeField]
+    private int exp_rangedStrenght;
+    [SerializeField]
+    private int level_rangedStrenght;
+    [SerializeField]
+    private int exp_magicFire;
+    [SerializeField]
+    private int level_magicFire;
+    [SerializeField]
+    private int exp_magicWater;
+    [SerializeField]
+    private int level_magicWater;
+    [SerializeField]
+    private int exp_magicEarth;
+    [SerializeField]
+    private int level_magicEarth;
+    [SerializeField]
+    private int exp_magicAir;
+    [SerializeField]
+    private int level_magicAir;
     [SerializeField]
     private int skillPoints;
     [SerializeField]
@@ -72,6 +111,22 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private float pocketSize;
     #endregion
+
+    public enum WeaponClass
+    {
+        OneHandDexterity,
+        OneHandStrenght,
+        TwoHandDexterity,
+        TwoHandStrenght,
+        RangeDexterity,
+        RangeStrenght,
+        MagicFire,
+        MagicWater,
+        MagicEarth,
+        MagicAir,
+    }
+
+
 
     private PlayerInventory playerInventory;
     private PlayerMovement playerMovement;
@@ -116,8 +171,28 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "defense", defense },
             { "weight", weight },
             { "speed", speed },
-            { "exp", exp },
-            { "level", level },
+            { "exp_player", exp_player },
+            { "level_player", level_player },
+            { "exp_oneHandDexterity", exp_oneHandDexterity },
+            { "level_oneHandDexterity", level_oneHandDexterity },
+            { "exp_oneHandStrenght", exp_oneHandStrenght },
+            { "level_oneHandStrenght", level_oneHandStrenght },
+            { "exp_twoHandDexterity", exp_twoHandDexterity },
+            { "level_twoHandDexterity", level_twoHandDexterity },
+            { "exp_twoHandStrenght", exp_twoHandStrenght },
+            { "level_twoHandStrenght", level_twoHandStrenght },
+            { "exp_rangedDexterity", exp_rangedDexterity },
+            { "level_rangedDexterity", level_rangedDexterity },
+            { "exp_rangedStrenght", exp_rangedStrenght },
+            { "level_rangedStrenght", level_rangedStrenght },
+            { "exp_magicFire", exp_magicFire },
+            { "level_magicFire", level_magicFire },
+            { "exp_magicWater", exp_magicWater },
+            { "level_magicWater", level_magicWater },
+            { "exp_magicEarth", exp_magicEarth },
+            { "level_magicEarth", level_magicEarth },
+            { "exp_magicAir", exp_magicAir },
+            { "level_magicAir", level_magicAir },
             { "skillPoints", skillPoints },
             { "skillIssue", skillIssue },
             { "backpackSize", backpackSize },
@@ -193,12 +268,53 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     }
 
 
+    public void AddExp(WeaponClass weaponClass, float exp)
+    {
+        switch(weaponClass)
+        {
+            case WeaponClass.OneHandDexterity:
+
+                break;
+            case WeaponClass.OneHandStrenght:
+
+                break;
+            case WeaponClass.TwoHandDexterity:
+
+                break;
+            case WeaponClass.TwoHandStrenght:
+
+                break;
+            case WeaponClass.RangeDexterity:
+
+                break;
+            case WeaponClass.RangeStrenght:
+
+                break;
+            case WeaponClass.MagicFire:
+
+                break;
+            case WeaponClass.MagicWater:
+
+                break;
+            case WeaponClass.MagicEarth:
+
+                break;
+            case WeaponClass.MagicAir:
+
+                break;
+            default:
+                Debug.Log("Developer (TuT) is kokot!");
+                break;
+        }
+    }
+
     private bool CanRegenStats()
     {
         if (playerMovement.sprint || getsDamage || !GetComponent<PlayerFight>().canAttackAgain || playerFight.defending)
             return false;
         return true;
     }
+
     public void DealDamage(float damage, float penetration, float armorIgnore)
     {
         float finalDamage = damage;
