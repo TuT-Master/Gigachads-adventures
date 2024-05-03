@@ -41,21 +41,25 @@ public class Item : MonoBehaviour
 
         // Range
         // Dexterity
-
+        Bow,
+        SMG,
+        Pistol,
+        AttackRifle,
+        Thrower,
         // Strenght
+        Longbow,
+        Crossbow,
+        Shotgun,
+        Revolver,
+        Machinegun,
+        SniperRifle,
+        Launcher,
 
-
-        // Magic
-        // Fire
-
-        // Water
-
-        // Earth
-
-        // Air
-
+        // Magic weapon
+        MagicWeapon,
     }
     public WeaponType weaponType;
+    public List<PlayerStats.MagicType> magicType;
     public PlayerStats.WeaponClass weaponClass;
 
     public bool isStackable;
@@ -230,8 +234,21 @@ public class Item : MonoBehaviour
             case WeaponType.Halbert or WeaponType.Hammer_twoHanded or WeaponType.Zweihander:
                 weaponClass = PlayerStats.WeaponClass.TwoHandStrenght;
                 break;
+            case WeaponType.Bow or WeaponType.SMG or WeaponType.Pistol or WeaponType.AttackRifle or WeaponType.Thrower:
+                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
+                break;
+            case WeaponType.Longbow or WeaponType.Crossbow or WeaponType.Shotgun or WeaponType.Revolver or WeaponType.Machinegun or WeaponType.SniperRifle or WeaponType.Launcher:
+                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
+                break;
+            case WeaponType.MagicWeapon:
+                
+
+                // Magic weapons
+
+
+                break;
             default:
-                Debug.Log("Developer (TuT) je kokot! (zase)");
+                Debug.Log(itemName);
                 break;
         }
     }

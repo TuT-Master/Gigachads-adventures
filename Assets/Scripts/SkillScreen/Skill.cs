@@ -14,8 +14,8 @@ public class Skill : MonoBehaviour
     public bool activeSkill;
 
     // Levels of skill
-    public int levelOfSkill = 0;
-    [HideInInspector] public int MaxlevelsOfSkill = 1;
+    public float levelOfSkill = 0f;
+    [HideInInspector] public float MaxlevelsOfSkill = 1f;
     [HideInInspector] public bool maxLevel;
 
     public Dictionary<string, float> bonusStats = new();
@@ -148,22 +148,19 @@ public class Skill : MonoBehaviour
                 if (newBonusStats[key].Length > 0)
                 {
                     if (bonusStats.ContainsKey(key))
-                        bonusStats[key] = newBonusStats[key][levelOfSkill - 1];
+                        bonusStats[key] = newBonusStats[key][(int)levelOfSkill - 1];
                     else
-                        bonusStats.Add(key, newBonusStats[key][levelOfSkill - 1]);
+                        bonusStats.Add(key, newBonusStats[key][(int)levelOfSkill - 1]);
                 }
             }
 
             // Fill
             fillAmount = levelOfSkill / MaxlevelsOfSkill;
-            Debug.Log(fillAmount);
             skillUnlockedAmountImage.fillAmount = fillAmount;
 
             if (levelOfSkill == MaxlevelsOfSkill)
                 maxLevel = true;
         }
-        else
-            Debug.Log("Skill is at max level!");
     }
 
 
