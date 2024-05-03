@@ -37,6 +37,8 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     private GameObject RightHandSlot;
     [SerializeField]
     private SpriteRenderer weaponSpriteRenderer;
+    [SerializeField]
+    private SpriteRenderer secondaryWeaponSpriteRenderer;
 
     // Prefabs
     [SerializeField]
@@ -90,12 +92,12 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         // Right hand
         if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out item))
         {
-            //weaponSpriteRenderer.sprite = item.sprite_hand;
+            secondaryWeaponSpriteRenderer.sprite = item.sprite_equip;
             GetComponent<PlayerFight>().secondaryItemInHand = item;
         }
         else
         {
-            //weaponSpriteRenderer.sprite = null;
+            secondaryWeaponSpriteRenderer.sprite = null;
             GetComponent<PlayerFight>().secondaryItemInHand = null;
         }
     }

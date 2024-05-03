@@ -20,6 +20,8 @@ public class PlayerGFXManager : MonoBehaviour
     private GameObject torsoEquipmentObj;
     [SerializeField]
     private GameObject weaponObj;
+    [SerializeField]
+    private GameObject secondaryWeaponObj;
 
 
 
@@ -61,7 +63,8 @@ public class PlayerGFXManager : MonoBehaviour
             headEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
             torsoArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
             torsoEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
-            weaponObj.transform.localPosition = new(0, 0.55f, 0.003f);
+            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, 0.003f);
+            weaponObj.transform.localPosition = new(0, 0.55f, 0.004f);
         }
         else
         {
@@ -71,7 +74,8 @@ public class PlayerGFXManager : MonoBehaviour
             headEquipmentObj.transform.localPosition = new(0, 0.55f, -0.002f);
             torsoArmorObj.transform.localPosition = new(0, 0.55f, -0.001f);
             torsoEquipmentObj.transform.localPosition = new(0, 0.55f, -0.002f);
-            weaponObj.transform.localPosition = new(0, 0.55f, -0.003f);
+            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, -0.003f);
+            weaponObj.transform.localPosition = new(0, 0.55f, -0.004f);
         }
     }
 

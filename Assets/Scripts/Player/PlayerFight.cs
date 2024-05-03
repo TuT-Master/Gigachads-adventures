@@ -142,8 +142,9 @@ public class PlayerFight : MonoBehaviour
         if (!canAttackAgain)
             return;
         canAttackAgain = false;
+
         if (enemyList.Count > 0)
-            enemyList[0].HurtEnemy(fistsStats["damage"], fistsStats["penetration"], fistsStats["armorIgnore"]);
+            enemyList[0].HurtEnemy(fistsStats["damage"], fistsStats["penetration"], fistsStats["armorIgnore"], out float finalDamage);
 
         StartCoroutine(CanAttackAgain());
     }
@@ -173,7 +174,9 @@ public class PlayerFight : MonoBehaviour
                 float armorIgnore = itemInHand.stats["armorIgnore"];
                 // Add any bonuses to damage (skills, equipment)
 
-                enemyList[0].HurtEnemy(damage, petration, armorIgnore);
+                enemyList[0].HurtEnemy(damage, petration, armorIgnore, out float finalDamage);
+                if(finalDamage > 0)
+                    playerStats.AddExp(itemInHand.weaponClass, finalDamage);
             }
         }
 

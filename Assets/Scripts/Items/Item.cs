@@ -28,6 +28,7 @@ public class Item : MonoBehaviour
         Axe,
         Mace,
         Hammer_oneHanded,
+
         // Melle TWO HANDED
         // Dexterity
         QuarterStaff,
@@ -39,9 +40,23 @@ public class Item : MonoBehaviour
         Zweihander,
 
         // Range
+        // Dexterity
+
+        // Strenght
+
+
+        // Magic
+        // Fire
+
+        // Water
+
+        // Earth
+
+        // Air
 
     }
     public WeaponType weaponType;
+    public PlayerStats.WeaponClass weaponClass;
 
     public bool isStackable;
     public int stackSize;
@@ -197,6 +212,25 @@ public class Item : MonoBehaviour
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Image>().sprite = sprite_inventory;
+
+        switch(weaponType)
+        {
+            case WeaponType.Whip or WeaponType.Dagger or WeaponType.Sword or WeaponType.Rapier:
+                weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
+                break;
+            case WeaponType.Axe or WeaponType.Mace or WeaponType.Hammer_oneHanded:
+                weaponClass = PlayerStats.WeaponClass.OneHandStrenght;
+                break;
+            case WeaponType.QuarterStaff or WeaponType.Spear or WeaponType.Longsword:
+                weaponClass = PlayerStats.WeaponClass.TwoHandDexterity;
+                break;
+            case WeaponType.Halbert or WeaponType.Hammer_twoHanded or WeaponType.Zweihander:
+                weaponClass = PlayerStats.WeaponClass.TwoHandStrenght;
+                break;
+            default:
+                Debug.Log("Developer (TuT) je kokot! (zase)");
+                break;
+        }
     }
 
     private void Update()

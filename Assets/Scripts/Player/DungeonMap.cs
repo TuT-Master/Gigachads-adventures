@@ -12,10 +12,6 @@ public class DungeonMap : MonoBehaviour
     private GameObject dungeonMapCanvas;
     [SerializeField]
     private GameObject mapContentArea;
-    [SerializeField]
-    private GameObject tilePrefab;
-
-    private GameObject[,] tileMap;
 
     private HUDmanager hudmanager;
 
@@ -58,14 +54,18 @@ public class DungeonMap : MonoBehaviour
     void UpdateMap()
     {
         foreach (GameObject room in rooms)
-            room.GetComponent<Image>().color = Color.white;
+            room.SetActive(false);
 
         // Cleared rooms
         for (int i = 0; i < dungeon.transform.childCount; i++)
             if (dungeon.transform.GetChild(i).GetComponent<DungeonRoom>().cleared)
+            {
+                rooms[i].SetActive(true);
                 rooms[i].GetComponent<Image>().color = Color.blue;
+            }
 
         // Tracking current room
+        rooms[dungeon.currentRoom.GetComponent<DungeonRoom>().roomID].SetActive(true);
         rooms[dungeon.currentRoom.GetComponent<DungeonRoom>().roomID].GetComponent<Image>().color = Color.green;
     }
 

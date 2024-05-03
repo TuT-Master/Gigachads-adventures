@@ -17,7 +17,9 @@ public class Projectile : MonoBehaviour
         if (other.gameObject.layer == 10)
         {
             Debug.Log("Hitting an enemy!");
-            other.GetComponentInParent<IInteractableEnemy>().HurtEnemy(item.stats["damage"], item.stats["penetration"], item.stats["armorIgnore"]);
+            other.GetComponentInParent<IInteractableEnemy>().HurtEnemy(item.stats["damage"], item.stats["penetration"], item.stats["armorIgnore"], out float finalDamage);
+            if (finalDamage > 0)
+                FindAnyObjectByType<PlayerStats>().AddExp(item.weaponClass, finalDamage);
             if (item != null && item.stats["splashRadius"] > 0)
             {
                 // TODO - splash damage

@@ -9,8 +9,6 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
     [SerializeField] private float evasion;
     [SerializeField] private float defense;
 
-    [SerializeField] private float expForKill;
-
     public bool isStunned;
 
     private EffectManager effectManager;
@@ -40,8 +38,6 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
     private void Die()
     {
-        FindAnyObjectByType<PlayerStats>().playerStats["exp"] += expForKill;
-
         Destroy(gameObject);
     }
 
@@ -53,9 +49,9 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
             return true;
     }
 
-    public void HurtEnemy(float damage, float penetration, float armorIgnore)
+    public void HurtEnemy(float damage, float penetration, float armorIgnore, out float finalDamage)
     {
-        float finalDamage;
+        finalDamage = 0f;
         float armorTemp = armor;
 
         if (armorIgnore > 0)
