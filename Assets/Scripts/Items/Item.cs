@@ -215,6 +215,9 @@ public class Item : MonoBehaviour
 
         switch(weaponType)
         {
+            case WeaponType.NotAWeapon:
+                weaponClass = PlayerStats.WeaponClass.None;
+                break;
             case WeaponType.Whip or WeaponType.Dagger or WeaponType.Sword or WeaponType.Rapier:
                 weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
                 break;

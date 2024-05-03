@@ -114,6 +114,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     public enum WeaponClass
     {
+        None,
         OneHandDexterity,
         OneHandStrenght,
         TwoHandDexterity,
