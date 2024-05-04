@@ -345,7 +345,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         }
         parent.GetChild(index).GetComponent<Slot>().isActive = false;
     }
-    void DropItemOnDaFloor(Item item, Transform transform)
+    public void DropItemOnDaFloor(Item item, Transform transform)
     {
         GameObject droppedItem = Instantiate(itemOnDaFloorPrefab, transform.position, Quaternion.identity);
         droppedItem.GetComponent<ItemOnDaFloor>().SetUpItemOnDaFloor(item);
@@ -391,7 +391,10 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             done = true;
         }
         if (!done)
+        {
+            DropItemOnDaFloor(item, transform);
             Debug.Log("Item could not be placed - no free slot in backpack!");
+        }
 
         Debug.Log(item.itemName + " added!");
         ToggleInventory(false);

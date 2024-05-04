@@ -22,6 +22,7 @@ public class ItemOnDaFloor : MonoBehaviour, IInteractable
     {
         canInteract = false;
         FindAnyObjectByType<PlayerInventory>().AddItem(item);
+        FindAnyObjectByType<PlayerInteract>().RemoveInteractable(this);
         Destroy(gameObject);
     }
 }

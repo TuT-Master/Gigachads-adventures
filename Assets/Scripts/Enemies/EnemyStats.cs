@@ -38,6 +38,11 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
     private void Die()
     {
+        ItemSpawner itemSpawner = FindAnyObjectByType<ItemSpawner>();
+        itemSpawner.dropItem = true;
+        FindAnyObjectByType<ItemSpawner>().Interact();
+        itemSpawner.dropItem = false;
+        FindAnyObjectByType<PlayerInventory>().DropItemOnDaFloor(FindAnyObjectByType<ItemSpawner>().item, transform);
         Destroy(gameObject);
     }
 
