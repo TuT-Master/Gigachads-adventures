@@ -2859,8 +2859,28 @@ MonoBehaviour:
   defense: 0
   weight: 80
   speed: 1
-  exp: 0
-  level: 0
+  exp_player: 0
+  level_player: 0
+  exp_oneHandDexterity: 0
+  level_oneHandDexterity: 0
+  exp_oneHandStrenght: 0
+  level_oneHandStrenght: 0
+  exp_twoHandDexterity: 0
+  level_twoHandDexterity: 0
+  exp_twoHandStrenght: 0
+  level_twoHandStrenght: 0
+  exp_rangedDexterity: 0
+  level_rangedDexterity: 0
+  exp_rangedStrenght: 0
+  level_rangedStrenght: 0
+  exp_magicFire: 0
+  level_magicFire: 0
+  exp_magicWater: 0
+  level_magicWater: 0
+  exp_magicEarth: 0
+  level_magicEarth: 0
+  exp_magicAir: 0
+  level_magicAir: 0
   skillPoints: 0
   skillIssue: 0
   backpackSize: 8
@@ -13408,7 +13428,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.02
+  m_Intensity: 0.05
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

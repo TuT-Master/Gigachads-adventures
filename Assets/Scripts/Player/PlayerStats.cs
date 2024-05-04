@@ -114,6 +114,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     public enum WeaponClass
     {
+        None,
         OneHandDexterity,
         OneHandStrenght,
         TwoHandDexterity,
@@ -123,6 +124,18 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         MagicFire,
         MagicWater,
         MagicEarth,
+        MagicAir,
+    }
+    public enum MagicType
+    {
+        None,
+        // Fire
+        MagicFire,
+        // Water
+        MagicWater,
+        // Earth
+        MagicEarth,
+        // Air
         MagicAir,
     }
 
@@ -249,6 +262,16 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         if (playerStats["mana"] >= playerStats["manaMax"])
             playerStats["mana"] = playerStats["manaMax"];
 
+        // Checking for level up
+        if (playerStats["exp_oneHandStrenght"] >= 20)
+        {
+            Debug.Log("One handed strenght LEVEL UP!");
+            playerStats["exp_oneHandStrenght"] = 0;
+            playerStats["level_oneHandStrenght"]++;
+            playerStats["skillPoints"]++;
+        }
+
+
         UpdateEquipment();
     }
     void FixedUpdate()
@@ -273,22 +296,22 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         switch(weaponClass)
         {
             case WeaponClass.OneHandDexterity:
-
+                playerStats["exp_oneHandDexterity"] += exp;
                 break;
             case WeaponClass.OneHandStrenght:
-
+                playerStats["exp_oneHandStrenght"] += exp;
                 break;
             case WeaponClass.TwoHandDexterity:
-
+                playerStats["exp_twoHandDexterity"] += exp;
                 break;
             case WeaponClass.TwoHandStrenght:
-
+                playerStats["exp_twoHandStrenght"] += exp;
                 break;
             case WeaponClass.RangeDexterity:
-
+                playerStats["exp_rangeDexterity"] += exp;
                 break;
             case WeaponClass.RangeStrenght:
-
+                playerStats["exp_rangeStrenght"] += exp;
                 break;
             case WeaponClass.MagicFire:
 
