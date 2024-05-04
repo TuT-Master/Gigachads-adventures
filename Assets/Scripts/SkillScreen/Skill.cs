@@ -61,6 +61,7 @@ public class Skill : MonoBehaviour
     private Sprite skillLocked;
     [SerializeField]
     private Sprite skillUnlocked;
+    private GameObject highlight;
 
     // Other variables for images
     private float fillAmount = 0f;
@@ -71,6 +72,8 @@ public class Skill : MonoBehaviour
 
     private void Start()
     {
+        highlight = transform.GetChild(0).gameObject;
+        highlight.SetActive(false);
         transform.Find("ImageLocked").GetComponent<Image>().sprite = skillLocked;
         skillUnlockedAmountImage.sprite = skillUnlocked;
         skillUnlockedAmountImage.type = Image.Type.Filled;
@@ -167,11 +170,15 @@ public class Skill : MonoBehaviour
     public void OnPointerDown()
     {
         skillDescription.skill = this;
-        // TODO - Zvýraznit vybraný skill
     }
     public void OnPointerExit()
     {
         skillDescription.HideSkillDetails();
+        highlight.SetActive(false);
     }
-    public void OnPointerEnter() { skillDescription.ShowSkillDetails(this); }
+    public void OnPointerEnter()
+    {
+        skillDescription.ShowSkillDetails(this);
+        highlight.SetActive(true);
+    }
 }
