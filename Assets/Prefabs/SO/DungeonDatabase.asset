@@ -27,4 +27,5 @@ MonoBehaviour:
   lootBoxes:
   - {fileID: 5857961823447582917, guid: 3b6631833aacfa049b825d89a4b37ac8, type: 3}
   meleeEnemies:
-  - {fileID: 8809413063290618312, guid: 0e35d70fe23ab1a49ba2fcb8ad36a3f8, type: 3}
+  - {fileID: 8809413063290618312, guid: 409252e42a1512d4688e133f491c6c4b, type: 3}
+  - {fileID: 8809413063290618312, guid: 22de22cc99ffce542868ee0362883e37, type: 3}

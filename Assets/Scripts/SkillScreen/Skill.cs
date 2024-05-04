@@ -124,7 +124,7 @@ public class Skill : MonoBehaviour
             levelOfSkill++;
 
 
-            Dictionary<string, float[]> newBonusStats = new()
+            Dictionary<string, float[]> skillBonus = new()
             {
                 {"damage", damage },
                 {"accuracyBonus", accuracyBonus },
@@ -143,14 +143,14 @@ public class Skill : MonoBehaviour
                 {"evade", evade },
             };
 
-            foreach (string key in  newBonusStats.Keys)
+            foreach (string key in  skillBonus.Keys)
             {
-                if (newBonusStats[key].Length > 0)
+                if (skillBonus[key].Length > 0)
                 {
                     if (bonusStats.ContainsKey(key))
-                        bonusStats[key] = newBonusStats[key][(int)levelOfSkill - 1];
+                        bonusStats[key] = skillBonus[key][(int)levelOfSkill - 1];
                     else
-                        bonusStats.Add(key, newBonusStats[key][(int)levelOfSkill - 1]);
+                        bonusStats.Add(key, skillBonus[key][(int)levelOfSkill - 1]);
                 }
             }
 

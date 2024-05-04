@@ -20,8 +20,8 @@ public class ItemOnDaFloor : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        FindAnyObjectByType<PlayerInventory>().AddItem(item);
         canInteract = false;
+        FindAnyObjectByType<PlayerInventory>().AddItem(item);
         Destroy(gameObject);
     }
 }

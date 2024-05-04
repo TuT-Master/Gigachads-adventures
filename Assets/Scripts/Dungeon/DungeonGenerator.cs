@@ -361,7 +361,7 @@ public class DungeonGenerator : MonoBehaviour
                     case 99:
                         // Enemy
                         if(rooms.Count > 0)
-                            pop.Add(new(x, y), objDatabase.meleeEnemies[0]);
+                            pop.Add(new(x, y), objDatabase.meleeEnemies[random.Next(0, objDatabase.meleeEnemies.Count)]);
                         break;
                     default:
                         pop.Add(new(x, y), null);

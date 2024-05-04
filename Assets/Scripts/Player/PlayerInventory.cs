@@ -340,14 +340,14 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         // Check if there are any items in it
         if (parent.GetChild(index).childCount > 0)
         {
-            DropItemOnDaFloor(parent.GetChild(index).GetChild(0).GetComponent<Item>());
+            DropItemOnDaFloor(parent.GetChild(index).GetChild(0).GetComponent<Item>(), transform);
             Destroy(parent.GetChild(index).GetChild(0).gameObject);
         }
         parent.GetChild(index).GetComponent<Slot>().isActive = false;
     }
-    void DropItemOnDaFloor(Item item)
+    void DropItemOnDaFloor(Item item, Transform transform)
     {
-        GameObject droppedItem = Instantiate(itemOnDaFloorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject droppedItem = Instantiate(itemOnDaFloorPrefab, transform.position, Quaternion.identity);
         droppedItem.GetComponent<ItemOnDaFloor>().SetUpItemOnDaFloor(item);
     }
 
