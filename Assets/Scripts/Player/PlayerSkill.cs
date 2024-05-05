@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class PlayerSkill : MonoBehaviour
 {
@@ -22,10 +23,12 @@ public class PlayerSkill : MonoBehaviour
 
     private HUDmanager hudManager;
 
+    private List<SkillConnection> skillConnections;
 
     void Start()
     {
         hudManager = GetComponent<HUDmanager>();
+        skillConnections = FindObjectsOfType<SkillConnection>().ToList();
         skillScreenOpen = false;
         OpenTab(0);
         ToggleSkillScreen(false);
@@ -45,6 +48,8 @@ public class PlayerSkill : MonoBehaviour
         {
             Time.timeScale = 0f;
             OpenTab(0);
+            foreach(SkillConnection connection in skillConnections)
+                connection.UpdateSkillConnection();
             categoryButtons[0].clicked = true;
             categoryButtons[1].clicked = categoryButtons[2].clicked = categoryButtons[3].clicked = false;
         }
