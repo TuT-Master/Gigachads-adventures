@@ -340,15 +340,23 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         // Check if there are any items in it
         if (parent.GetChild(index).childCount > 0)
         {
-            DropItemOnDaFloor(parent.GetChild(index).GetChild(0).GetComponent<Item>(), transform);
+            DropItemOnDaFloor(parent.GetChild(index).GetChild(0).GetComponent<Item>(), transform.position, null);
             Destroy(parent.GetChild(index).GetChild(0).gameObject);
         }
         parent.GetChild(index).GetComponent<Slot>().isActive = false;
     }
-    public void DropItemOnDaFloor(Item item, Transform transform)
+    public void DropItemOnDaFloor(Item item, Vector3 pos, Transform parent)
     {
-        GameObject droppedItem = Instantiate(itemOnDaFloorPrefab, transform.position, Quaternion.identity);
-        droppedItem.GetComponent<ItemOnDaFloor>().SetUpItemOnDaFloor(item);
+        if(parent == null)
+        {
+            GameObject droppedItem = Instantiate(itemOnDaFloorPrefab, pos, Quaternion.identity);
+            droppedItem.GetComponent<ItemOnDaFloor>().SetUpItemOnDaFloor(item);
+        }
+        else
+        {
+            GameObject droppedItem = Instantiate(itemOnDaFloorPrefab, pos, Quaternion.identity, parent);
+            droppedItem.GetComponent<ItemOnDaFloor>().SetUpItemOnDaFloor(item);
+        }
     }
 
 
@@ -392,8 +400,10 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         }
         if (!done)
         {
-            DropItemOnDaFloor(item, transform);
-            Debug.Log("Item could not be placed - no free slot in backpack!");
+            if(FindAnyObjectByType<VirtualSceneManager>().DungeonLoaded())
+                DropItemOnDaFloor(item, transform.position, FindAnyObjectByType<Dungeon>().currentRoom.transform);
+            else
+                DropItemOnDaFloor(item, transform.position, null);
         }
 
         Debug.Log(item.itemName + " added!");

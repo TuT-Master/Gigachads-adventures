@@ -39,4 +39,11 @@ public class VirtualSceneManager : MonoBehaviour
         if(newScene.name == "Home")
             FindAnyObjectByType<PlayerMovement>().transform.position = newScene.transform.position;
     }
+
+    public bool DungeonLoaded()
+    {
+        if(dungeonScene.activeInHierarchy)
+            return true;
+        return false;
+    }
 }

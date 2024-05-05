@@ -11,6 +11,8 @@ public class DungeonDatabase : ScriptableObject
 
     public List<GameObject> walls;
 
+    public List<Material> wallMaterials;
+
     public List<GameObject> doors;
 
     public List<GameObject> obstacles;
