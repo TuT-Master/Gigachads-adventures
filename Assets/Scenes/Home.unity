@@ -3017,7 +3017,7 @@ MonoBehaviour:
   mapOpened: 0
   dungeonMapCanvas: {fileID: 1482189837}
   mapContentArea: {fileID: 770308955}
-  roomPrefab: {fileID: 2667266997332693454, guid: 3343ca6b9dc64ef4f8a385db380be417,
+  roomPrefab: {fileID: 6761886819505605479, guid: 3343ca6b9dc64ef4f8a385db380be417,
     type: 3}
 --- !u!114 &220485086
 MonoBehaviour:
