@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5ce3e5e27bc640d4d8baaef204bf1c60
+guid: 23e0a2d15c7365f44b13d53de3a19342
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -21,7 +21,7 @@ ScriptedImporter:
   predefinedResolutionIndex: 1
   targetResolution: 1080
   resolutionMultiplier: 1
-  stepDistance: 10
+  stepDistance: 1.99
   samplingStepDistance: 100
   maxCordDeviationEnabled: 0
   maxCordDeviation: 1
@@ -39,16 +39,22 @@ ScriptedImporter:
   spriteData:
     TessellationDetail: 0
     SpriteRect:
-      name: 
+      name: SkillConectionArrow 1Sprite
       originalName: 
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.49999997, y: 0.5}
       alignment: 0
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 50, w: 0}
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 0
-        height: 0
-      spriteID: 49acc9294674d36458d3af96cbc37a01
-    PhysicsOutlines: []
+        width: 100
+        height: 50
+      spriteID: b71c0fd7ccbb8d246b0aec0c4fa64c13
+    PhysicsOutlines:
+    - Vertices:
+      - {x: -14, y: -9}
+      - {x: -36, y: 4}
+      - {x: -14, y: 12}
+      - {x: 0, y: 12}
+      - {x: 0, y: -9}

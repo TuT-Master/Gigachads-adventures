@@ -27,7 +27,7 @@ ScriptedImporter:
   maxCordDeviation: 1
   maxTangentAngleEnabled: 0
   maxTangentAngle: 5
-  keepTextureAspectRatio: 1
+  keepTextureAspectRatio: 0
   textureSize: 256
   textureWidth: 256
   textureHeight: 256
