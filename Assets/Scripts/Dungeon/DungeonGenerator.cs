@@ -320,7 +320,7 @@ public class DungeonGenerator : MonoBehaviour
                     if (x == size.x - 1)
                         Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 90, 0), walls.transform);
                     if (y == 0)
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), walls.transform);
+                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), walls.transform).GetComponentInChildren<MeshRenderer>().material = objDatabase.wallMaterials[1];
                     if (y == size.y - 1)
                         Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 0, 0), walls.transform);
                 }
