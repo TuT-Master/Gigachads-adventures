@@ -160,6 +160,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     private bool getsDamage;
 
+    private bool loaded;
+
+
 
     private void Start()
     {
@@ -223,9 +226,12 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     {
         if (playerStats == null)
             return;
+
+        UpdateEquipment();
+
         if (playerStats["hp"] <= 0)
         {
-            // Kill player and increase skill issue
+            // Increase skill issue
             playerStats["skillIssue"]++;
 
             // Empty player inventory
@@ -238,6 +244,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             playerStats["hp"] = playerStats["hpMax"];
             playerStats["stamina"] = playerStats["staminaMax"];
             playerStats["mana"] = playerStats["manaMax"];
+
+            // Reset exp
+
         }
 
         // Checking whether can regen stats or not
@@ -255,14 +264,14 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         }
 
         // Stops regen at max values
-        if (playerStats["hp"] >= playerStats["hpMax"])
+        if (playerStats["hp"] > playerStats["hpMax"])
             playerStats["hp"] = playerStats["hpMax"];
-        if (playerStats["stamina"] >= playerStats["staminaMax"])
+        if (playerStats["stamina"] > playerStats["staminaMax"])
             playerStats["stamina"] = playerStats["staminaMax"];
-        if (playerStats["mana"] >= playerStats["manaMax"])
+        if (playerStats["mana"] > playerStats["manaMax"])
             playerStats["mana"] = playerStats["manaMax"];
 
-        // Checking for level up
+        // Checking for level up        --- TODO ---
         if (playerStats["exp_oneHandStrenght"] >= 20)
         {
             Debug.Log("One handed strenght LEVEL UP!");
@@ -272,12 +281,12 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         }
 
 
-        UpdateEquipment();
     }
     void FixedUpdate()
     {
         if (playerStats == null)
             return;
+
         // Sprint
         if (playerMovement.sprint)
             playerStats["stamina"] -= 10 * Time.fixedDeltaTime;
@@ -380,6 +389,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     public void UpdateEquipment()
     {
+        if (!loaded)
+            return;
         armors = new();
         equipment = new();
         backpackInventory = new();
@@ -490,17 +501,19 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
                 playerSkillBonusStats[key] += skill.bonusStats[key];
     }
 
-    IEnumerator UpdateGFXDelay()
-    {
-        yield return new WaitForSeconds(0.1f);
-        GetComponent<PlayerGFXManager>().UpdateGFX();
-    }
+
     public void LoadData(GameData data)
     {
         playerStats = new();
         foreach(string key in data.playerStats.Keys)
             playerStats.Add(key, data.playerStats[key]);
         StartCoroutine(UpdateGFXDelay());
+    }
+    IEnumerator UpdateGFXDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<PlayerGFXManager>().UpdateGFX();
+        loaded = true;
     }
     public void SaveData(ref GameData data)
     {
