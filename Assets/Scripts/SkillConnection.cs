@@ -5,15 +5,23 @@ using UnityEngine.UI;
 
 public class SkillConnection : MonoBehaviour
 {
-    public float fill;  // value 0 - 1
+    [SerializeField]
+    private Skill previousSkill;
+    [SerializeField]
+    private Skill nextSkill;
 
     [SerializeField]
-    private Image line;
+    private Image lineDefault;
     [SerializeField]
-    private Image arrow;
+    private Image lineActive;
+    [SerializeField]
+    private Image arrowDefault;
+    [SerializeField]
+    private Image arrowActive;
 
 
-    void UpdateSkillConnection()
+
+    public void UpdateSkillConnection()
     {
         
     }
