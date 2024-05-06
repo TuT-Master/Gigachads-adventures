@@ -15,11 +15,19 @@ public class ConsumableSO : ScriptableObject
     public bool isStackable;
     public int stackSize;
 
+    [SerializeField] private float hpRefill = 0;
+    [SerializeField] private float staminaRefill = 0;
+    [SerializeField] private float manaRefill = 0;
+    [SerializeField] private float cooldown = 0;
     [SerializeField] private float weight = 0;
     public Dictionary<string, float> Stats()
     {
         return new()
         {
+            { "hpRefill", hpRefill},
+            { "staminaRefill", staminaRefill},
+            { "manaRefill", manaRefill},
+            { "cooldown", cooldown},
             { "weight", weight},
         };
     }

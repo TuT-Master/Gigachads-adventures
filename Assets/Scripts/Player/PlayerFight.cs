@@ -49,6 +49,8 @@ public class PlayerFight : MonoBehaviour
 
     private PlayerStats playerStats;
 
+    private bool canUseConsumable = true;
+
 
     private void Start()
     {
@@ -78,14 +80,6 @@ public class PlayerFight : MonoBehaviour
     {
         if (GetComponent<HUDmanager>().AnyScreenOpen() | reloading)
             return;
-
-        // Adjust height of projectile spawn point
-        if (Input.GetAxis("Adjust projectile height") > 0)
-            projectileSpawnPoint.localPosition = new(0, 0.5f, 0.6f);
-        else if(Input.GetAxis("Adjust projectile height") < 0)
-            projectileSpawnPoint.localPosition = new(0, 0.1f, 0.6f);
-        else
-            projectileSpawnPoint.localPosition = new(0, 0.25f, 0.6f);
 
         // LMB - Attack
         if (Input.GetMouseButtonDown(0))
@@ -129,6 +123,31 @@ public class PlayerFight : MonoBehaviour
         if (itemInHand != null && itemInHand.slotType == Slot.SlotType.WeaponRanged && !reloading)
             if (Input.GetKeyDown(KeyCode.R) | itemInHand.stats["currentMagazine"] == 0)
                 StartCoroutine(Reload());
+
+        // Q - Use consumable
+        if (Input.GetKeyDown(KeyCode.Q))
+            UseConsumable(GetComponent<PlayerToolbar>().GetActiveConsumable());
+    }
+
+    private void UseConsumable(Item consumable)
+    {
+        if (consumable == null && canUseConsumable)
+            return;
+
+        canUseConsumable = false;
+
+        playerStats.playerStats["hp"] += consumable.stats["hpRefill"];
+        playerStats.playerStats["stamina"] += consumable.stats["staminaRefill"];
+        playerStats.playerStats["mana"] += consumable.stats["manaRefill"];
+
+        consumable.amount--;
+
+        StartCoroutine(ConsumableCooldown(consumable.stats["cooldown"]));
+    }
+    private IEnumerator ConsumableCooldown(float cooldown)
+    {
+        yield return new WaitForSeconds(cooldown);
+        canUseConsumable = true;
     }
 
     void Defend()

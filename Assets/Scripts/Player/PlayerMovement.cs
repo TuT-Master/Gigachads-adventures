@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
     void Movement()
     {
         // Movement
-        _rb.mass = (playerStats.playerStats["weight"] - 80) / 40;
+        _rb.mass = (playerStats.playerStats["weight"] - 80) / 80;
         if(_rb.mass < 1)
             _rb.mass = 1;
         float moreSpeed = 3f;

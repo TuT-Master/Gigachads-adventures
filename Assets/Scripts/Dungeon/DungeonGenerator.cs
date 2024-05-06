@@ -290,8 +290,8 @@ public class DungeonGenerator : MonoBehaviour
                 {
                     if(y == 0)
                     {
-                        Instantiate(objDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, 180, 0), newRoom.transform.Find("Doors"));
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), newRoom.transform.Find("DoorWalls"));
+                        Instantiate(objDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, 180, 0), newRoom.transform.Find("Doors")).GetComponentInChildren<MeshRenderer>().material = objDatabase.wallMaterials[1];
+                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), newRoom.transform.Find("DoorWalls")).GetComponentInChildren<MeshRenderer>().material = objDatabase.wallMaterials[1];
                     }
                     else if (y == size.y - 1)
                     {
@@ -342,9 +342,9 @@ public class DungeonGenerator : MonoBehaviour
 
         // Add obstacles
         System.Random random;
-        for (int y = 0; y < room.GetComponent<DungeonRoom>().size.y * 3; y++)
+        for (int y = 1; y < room.GetComponent<DungeonRoom>().size.y * 3 - 1; y++)
         {
-            for (int x = 0; x < room.GetComponent<DungeonRoom>().size.x * 3; x++)
+            for (int x = 1; x < room.GetComponent<DungeonRoom>().size.x * 3 - 1; x++)
             {
                 random = new();
                 switch (random.Next(0, 100))
