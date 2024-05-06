@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 20
-  armor: 0
+  armor: 1
   evasion: 0
   defense: 0
   isStunned: 0

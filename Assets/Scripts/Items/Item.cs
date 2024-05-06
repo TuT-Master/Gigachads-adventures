@@ -270,7 +270,7 @@ public class Item : MonoBehaviour
         else if (amount == 1)
             text.text = "";
         else if (amount == 69)
-            text.text = "Nice";
+            text.text = "nice";
         else
             text.text = amount.ToString();
     }

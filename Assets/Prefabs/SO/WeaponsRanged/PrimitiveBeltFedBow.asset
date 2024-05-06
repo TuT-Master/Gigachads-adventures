@@ -25,8 +25,8 @@ MonoBehaviour:
   sprite_inventory: {fileID: 3286163911610860551, guid: a1c44edb65897e24783b759130e72819,
     type: 3}
   sprite_hand: {fileID: 21300000, guid: e9becedac4198a745ac83c62ff07e6b4, type: 3}
-  damage: 4
-  penetration: 1
+  damage: 5
+  penetration: 2
   armorIgnore: 0
   attackSpeed: 0.25
   staminaCost: 2

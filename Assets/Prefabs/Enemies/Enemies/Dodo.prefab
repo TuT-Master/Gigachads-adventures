@@ -357,7 +357,6 @@ MonoBehaviour:
   armor: 0
   evasion: 0
   defense: 0
-  expForKill: 10
   isStunned: 0
 --- !u!114 &6221516654857553878
 MonoBehaviour:
@@ -372,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAttackAgain: 0
-  damage: 10
+  damage: 7
   penetration: 0
   armorIgnore: 0
 --- !u!114 &8842026836342983176

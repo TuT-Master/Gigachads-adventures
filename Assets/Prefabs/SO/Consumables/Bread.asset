@@ -18,4 +18,8 @@ MonoBehaviour:
   sprite_hand: {fileID: 0}
   isStackable: 1
   stackSize: 69
+  hpRefill: 10
+  staminaRefill: 10
+  manaRefill: 10
+  cooldown: 2
   weight: 0.5

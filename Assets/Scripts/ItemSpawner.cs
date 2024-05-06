@@ -69,7 +69,7 @@ public class ItemSpawner : MonoBehaviour, IInteractable
 
     public Item GetMaterial(int amount)
     {
-        Item item = itemDatabase.GetMaterial(itemDatabase.materials[Random.Range(0, itemDatabase.weaponsMelee.Count)].itemName);
+        Item item = itemDatabase.GetMaterial(itemDatabase.materials[Random.Range(0, itemDatabase.materials.Count)].itemName);
         item.amount = amount;
 
         return item;
