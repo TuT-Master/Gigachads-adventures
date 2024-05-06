@@ -25,7 +25,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             {"staminaConsumtionReduction", 0 },
             {"evade", 0 },
         };
-
+    
     [Header("Player default stats")]
     #region Default stats setup
     [SerializeField]

@@ -22,6 +22,8 @@ public class ItemDatabase : ScriptableObject
 
     public List<ShieldSO> shields;
 
+    public List<MaterialSO> materials;
+
 
     public Item GetWeaponMelee(string weaponName)
     {
@@ -80,6 +82,14 @@ public class ItemDatabase : ScriptableObject
         foreach (ShieldSO shield in shields)
             if (shield.itemName == shieldName)
                 return new(shield);
+        return null;
+    }
+
+    public Item GetMaterial(string materialName)
+    {
+        foreach (MaterialSO materialSO in materials)
+            if (materialSO.itemName == materialName)
+                return new(materialSO);
         return null;
     }
 

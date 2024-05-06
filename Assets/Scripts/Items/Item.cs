@@ -188,6 +188,16 @@ public class Item : MonoBehaviour
         stats = shieldSO.Stats();
         slotType = Slot.SlotType.Shield;
     }
+    public Item(MaterialSO materialSO)
+    {
+        itemName = materialSO.itemName;
+        description = materialSO.description;
+        sprite_inventory = materialSO.sprite_inventory;
+        stackSize= materialSO.stackSize;
+        isStackable = true;
+        stats = materialSO.Stats();
+        slotType = Slot.SlotType.Material;
+    }
     public void SetUpByItem(Item item)
     {
         stats = item.stats;

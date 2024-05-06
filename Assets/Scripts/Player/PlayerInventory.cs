@@ -376,7 +376,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                         freeSpaceId = i;
                 }
                 else if(
-                    backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().slotType == item.slotType &&
+                    backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().itemName == item.itemName &&
                     backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().isStackable)
                 {
                     if(backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().amount + item.amount <= backpackInventory.transform.GetChild(i).GetComponentInChildren<Item>().stackSize)

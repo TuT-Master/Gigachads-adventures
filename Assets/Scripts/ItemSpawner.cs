@@ -12,7 +12,6 @@ public class ItemSpawner : MonoBehaviour, IInteractable
 
     public bool dropItem;
     [HideInInspector]
-    public Item item;
 
     void Start()
     {
@@ -21,7 +20,13 @@ public class ItemSpawner : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        item = null;
+        if(!dropItem)
+            playerInventory.AddItem(GetRandomItem());
+    }
+
+    public Item GetRandomItem()
+    {
+        Item item = null;
         switch (Random.Range(0, 8))
         {
             case 0:
@@ -59,8 +64,15 @@ public class ItemSpawner : MonoBehaviour, IInteractable
             default:
                 break;
         }
-        if(!dropItem)
-            playerInventory.AddItem(item);
+        return item;
+    }
+
+    public Item GetMaterial(int amount)
+    {
+        Item item = itemDatabase.GetMaterial(itemDatabase.materials[Random.Range(0, itemDatabase.weaponsMelee.Count)].itemName);
+        item.amount = amount;
+
+        return item;
     }
 
     public bool CanInteract() { return true; }

@@ -34,3 +34,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b446ed242e47b5743ac422ecac076f1f, type: 2}
   shields:
   - {fileID: 11400000, guid: 8d76da3b562db6c4ba8b43c5b9662185, type: 2}
+  materials:
+  - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
+  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
