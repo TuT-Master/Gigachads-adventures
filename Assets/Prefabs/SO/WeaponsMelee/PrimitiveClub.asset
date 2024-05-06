@@ -20,7 +20,8 @@ MonoBehaviour:
   twoHanded: 0
   AoE: 0
   weaponType: 6
-  sprite_inventory: {fileID: 21300000, guid: db5fe89fa815d5542b31fcaa85250c44, type: 3}
+  sprite_inventory: {fileID: 3286163911610860551, guid: b577ae89eb0f3c148a177521c91d0721,
+    type: 3}
   sprite_hand: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c, type: 3}
   damage: 10
   penetration: 0
