@@ -21,5 +21,9 @@ public class DungeonDatabase : ScriptableObject
 
     public List<GameObject> lootBoxes;
 
+    public List<string> firstChampionNames;
+
+    public List<string> secondChampionNames;
+
     public List<GameObject> meleeEnemies;
 }

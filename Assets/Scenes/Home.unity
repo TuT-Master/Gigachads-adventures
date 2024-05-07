@@ -14715,7 +14715,6 @@ MonoBehaviour:
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
   dropItem: 0
-  item: {fileID: 0}
 --- !u!1 &1110269647
 GameObject:
   m_ObjectHideFlags: 0
@@ -19054,7 +19053,6 @@ MonoBehaviour:
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
   dropItem: 0
-  item: {fileID: 0}
 --- !u!1001 &1342699840
 PrefabInstance:
   m_ObjectHideFlags: 0

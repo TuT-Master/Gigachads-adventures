@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour, IInteractableEnemy
 {
+    public string name = "";
+    public bool isChampion;
+
     [SerializeField] private float hp;
     [SerializeField] private float armor;
     [SerializeField] private float evasion;
@@ -20,6 +24,8 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
     void Start()
     {
         effectManager = FindAnyObjectByType<EffectManager>();
+        if(!isChampion)
+            name = gameObject.name;
     }
 
     void Update()

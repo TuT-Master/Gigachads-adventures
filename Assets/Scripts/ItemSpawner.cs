@@ -10,8 +10,8 @@ public class ItemSpawner : MonoBehaviour, IInteractable
     [SerializeField]
     private GameObject itemPrefab;
 
-    public bool dropItem;
     [HideInInspector]
+    public bool dropItem;
 
     void Start()
     {

@@ -29,6 +29,8 @@ MonoBehaviour:
   - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
   lootBoxes:
   - {fileID: 5857961823447582917, guid: 3b6631833aacfa049b825d89a4b37ac8, type: 3}
+  firstChampionNames: []
+  secondChampionNames: []
   meleeEnemies:
-  - {fileID: 8809413063290618312, guid: 409252e42a1512d4688e133f491c6c4b, type: 3}
-  - {fileID: 8809413063290618312, guid: 22de22cc99ffce542868ee0362883e37, type: 3}
+  - {fileID: 8809413063290618312, guid: 6a07bb455ff65a94d9dcc27af44f3978, type: 3}
+  - {fileID: 8809413063290618312, guid: 2f6c34d2f2ad82b459ac77bf8b876e70, type: 3}

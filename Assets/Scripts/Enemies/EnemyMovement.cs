@@ -27,12 +27,13 @@ public class EnemyMovement : MonoBehaviour
     private float defaultSpeed;
 
     private EnemyFight enemyFight;
-
+    private EnemyAgroRange agro;
 
     private void Start()
     {
         enemyFight = GetComponent<EnemyFight>();
         agent = GetComponent<NavMeshAgent>();
+        agro = GetComponentInChildren<EnemyAgroRange>();
 
         agent.speed = defaultSpeed = speed;
     }
@@ -93,7 +94,14 @@ public class EnemyMovement : MonoBehaviour
     }
     private void MeleeWandering()
     {
+        // Get random point
 
+
+        // Walk there
+
+
+        if (agro.playerInRange)
+            attitude = Attitude.MeleeAgressive;
     }
     private void MeleeStealth()
     {

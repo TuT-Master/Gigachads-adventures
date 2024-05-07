@@ -131,7 +131,7 @@ public class PlayerFight : MonoBehaviour
 
     private void UseConsumable(Item consumable)
     {
-        if (consumable == null && canUseConsumable)
+        if (consumable == null | !canUseConsumable)
             return;
 
         canUseConsumable = false;
