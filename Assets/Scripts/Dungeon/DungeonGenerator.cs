@@ -361,7 +361,10 @@ public class DungeonGenerator : MonoBehaviour
                     case 99:
                         // Enemy
                         if(rooms.Count > 0)
+                        {
+                            // TODO - chance to spawn a champion
                             pop.Add(new(x, y), objDatabase.meleeEnemies[random.Next(0, objDatabase.meleeEnemies.Count)]);
+                        }
                         break;
                     default:
                         pop.Add(new(x, y), null);
