@@ -12,6 +12,7 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
     [SerializeField] private float armor;
     [SerializeField] private float evasion;
     [SerializeField] private float defense;
+    [SerializeField] private float agroRange;
 
     public bool isStunned;
 
@@ -26,6 +27,7 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
         effectManager = FindAnyObjectByType<EffectManager>();
         if(!isChampion)
             name = gameObject.name;
+        transform.Find("AgroRange").GetComponent<SphereCollider>().radius = agroRange;
     }
 
     void Update()

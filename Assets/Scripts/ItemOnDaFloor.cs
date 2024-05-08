@@ -14,6 +14,12 @@ public class ItemOnDaFloor : MonoBehaviour, IInteractable
         item = droppedItem;
         GetComponentInChildren<TextMeshPro>().text = item.amount.ToString();
         GetComponentInChildren<SpriteRenderer>().sprite = item.sprite_inventory;
+        StartCoroutine(BecomeKinematic());
+    }
+    private IEnumerator BecomeKinematic()
+    {
+        yield return new WaitForSeconds(5f);
+        GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public bool CanInteract() { return canInteract; }

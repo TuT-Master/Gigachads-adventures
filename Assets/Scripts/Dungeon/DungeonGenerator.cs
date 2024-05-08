@@ -165,8 +165,12 @@ public class DungeonGenerator : MonoBehaviour
                 startPos = new(dungeonMaxSize / 2, ((roomSize.y + 1) / 2) + 2);
                 AddRoom(startPos, roomSize, previousRoom, out newRoom);
                 newRoom.GetComponent<DungeonRoom>().boardPos = startPos;
-
                 newRoom.GetComponent<DungeonRoom>().previousRoom = previousRoom;
+
+                // Doors back to player's base
+                newRoom.GetComponent<DungeonRoom>().AddDoors(2, null);
+                newRoom.GetComponent<DungeonRoom>().doors[2].GetComponent<Door>().baseDoors = true;
+                newRoom.GetComponent<DungeonRoom>().doors[2].GetComponent<Door>().sceneName = "Home";
 
                 previousRoom = newRoom;
                 newRoom.SetActive(false);
@@ -364,6 +368,7 @@ public class DungeonGenerator : MonoBehaviour
                         {
                             // TODO - chance to spawn a champion
                             pop.Add(new(x, y), objDatabase.meleeEnemies[random.Next(0, objDatabase.meleeEnemies.Count)]);
+                            pop[new(x, y)].transform.rotation = Quaternion.Euler(0, 180, 0);
                         }
                         break;
                     default:

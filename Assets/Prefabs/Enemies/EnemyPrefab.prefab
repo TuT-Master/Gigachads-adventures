@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 3265975599464964101}
   - component: {fileID: 8409258434728976927}
   - component: {fileID: 5885680981259336159}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: AgroRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -539,6 +539,7 @@ MonoBehaviour:
   armor: 0
   evasion: 0
   defense: 0
+  agroRange: 5
   isStunned: 0
 --- !u!114 &6221516654857553878
 MonoBehaviour:

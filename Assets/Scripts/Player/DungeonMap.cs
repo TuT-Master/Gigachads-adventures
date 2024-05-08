@@ -45,9 +45,11 @@ public class DungeonMap : MonoBehaviour
         mapContentArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MathF.Sqrt(board.Count) * 30);
         for (int i = 0; i < boardRooms.Count; i++)
         {
-            roomPrefab.GetComponent<DungeonRoomUI>().SetRoomUp(boardRooms[i].GetComponent<DungeonRoom>());
-            rooms[i] = Instantiate(roomPrefab, mapContentArea.transform);
+            GameObject newRoom = Instantiate(roomPrefab);
+            newRoom.GetComponent<DungeonRoomUI>().SetRoomUp(boardRooms[i].GetComponent<DungeonRoom>());
+            rooms[i] = Instantiate(newRoom, mapContentArea.transform);
             rooms[i].transform.localPosition = new Vector3(boardRooms[i].GetComponent<DungeonRoom>().boardPos.x * 30, boardRooms[i].GetComponent<DungeonRoom>().boardPos.y * 30, 0);
+            Destroy(newRoom);
         }
     }
 

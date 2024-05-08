@@ -2714,7 +2714,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 220485070}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.0083774375, z: 0, w: 0.99996495}
   m_LocalPosition: {x: -50, y: 0, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2728,7 +2728,7 @@ Transform:
   - {fileID: 143395404}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -0.96, z: 0}
 --- !u!54 &220485072
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4324,6 +4324,7 @@ Transform:
   - {fileID: 2067305686552176058}
   - {fileID: 955936812}
   - {fileID: 1340890295}
+  - {fileID: 1138024440}
   m_Father: {fileID: 369907265}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9557,8 +9558,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 596171881}
   m_HandleRect: {fileID: 596171880}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.6901042
+  m_Value: 0.00000010258014
+  m_Size: 0.69010425
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11712,7 +11713,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1526129797}
   m_HandleRect: {fileID: 1526129796}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -14986,6 +14987,37 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1362148553}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1138024439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1138024440}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1138024440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138024439}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 349258792}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1148019143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16571,7 +16603,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1849373830}
   m_HandleRect: {fileID: 1849373829}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -17059,7 +17091,7 @@ CapsuleCollider:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 15351
+    m_Bits: 31735
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -26052,6 +26084,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   homeScene: {fileID: 369907264}
+  spawnPoint: {fileID: 1138024440}
+  entranceFromDungeon: {fileID: 2067305686552176058}
   dungeonScene: {fileID: 1918773566}
 --- !u!1001 &1758832748
 PrefabInstance:

@@ -7,6 +7,11 @@ public class VirtualSceneManager : MonoBehaviour
     [SerializeField]
     private GameObject homeScene;
     [SerializeField]
+    private Transform spawnPoint;
+    [SerializeField]
+    private Transform entranceFromDungeon;
+
+    [SerializeField]
     private GameObject dungeonScene;
 
     private List<GameObject> sceneList;
@@ -18,8 +23,6 @@ public class VirtualSceneManager : MonoBehaviour
             homeScene,
             dungeonScene
         };
-
-        LoadScene(homeScene.name);
     }
 
     public void LoadScene(string sceneName)
@@ -37,7 +40,12 @@ public class VirtualSceneManager : MonoBehaviour
             newScene.SetActive(true);
 
         if(newScene.name == "Home")
-            FindAnyObjectByType<PlayerMovement>().transform.position = newScene.transform.position;
+        {
+            if (FindAnyObjectByType<PlayerStats>().playerStats["hp"] <= 0)
+                FindAnyObjectByType<PlayerMovement>().transform.position = spawnPoint.position;
+            else
+                FindAnyObjectByType<PlayerMovement>().transform.position = entranceFromDungeon.position;
+        }
     }
 
     public bool DungeonLoaded()
