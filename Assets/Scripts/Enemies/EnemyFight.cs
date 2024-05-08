@@ -15,6 +15,7 @@ public class EnemyFight : MonoBehaviour
     [SerializeField]
     private float armorIgnore;
 
+    private Item weapon;
 
 
     private GameObject player;
@@ -47,7 +48,10 @@ public class EnemyFight : MonoBehaviour
 
         canAttackAgain = false;
 
-        player.GetComponent<PlayerStats>().DealDamage(damage, penetration, armorIgnore);
+        if(GetComponent<EnemyWeapon>().HasWeapon(out weapon))
+            player.GetComponent<PlayerStats>().DealDamage(weapon.stats["damage"], weapon.stats["penetration"], weapon.stats["armorIgnore"]);
+        else
+            player.GetComponent<PlayerStats>().DealDamage(damage, penetration, armorIgnore);
 
         GetComponent<EnemyMovement>().StopMovement();
 

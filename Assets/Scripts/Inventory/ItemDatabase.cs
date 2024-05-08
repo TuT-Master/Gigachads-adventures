@@ -121,7 +121,7 @@ public class ItemDatabase : ScriptableObject
         foreach (ShieldSO shield in shields)
             if (shield.itemName == name)
                 item = new(shield);
-
+        Debug.Log(item);
         item.amount = amount;
         return item;
     }

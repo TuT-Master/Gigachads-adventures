@@ -26,4 +26,15 @@ public class DungeonDatabase : ScriptableObject
     public List<string> secondChampionNames;
 
     public List<GameObject> meleeEnemies;
+
+    public List<Material> weaponMaterials;
+
+
+    public Material GetWeaponMaterial(string name)
+    {
+        foreach (Material mat in weaponMaterials)
+            if(mat.name == name)
+                return mat;
+        return null;
+    }
 }

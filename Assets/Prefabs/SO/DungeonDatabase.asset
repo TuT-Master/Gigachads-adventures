@@ -34,3 +34,5 @@ MonoBehaviour:
   meleeEnemies:
   - {fileID: 8809413063290618312, guid: 6a07bb455ff65a94d9dcc27af44f3978, type: 3}
   - {fileID: 8809413063290618312, guid: 2f6c34d2f2ad82b459ac77bf8b876e70, type: 3}
+  weaponMaterials:
+  - {fileID: 2100000, guid: ae8554b6deeb7f142b52680513762cfd, type: 2}
