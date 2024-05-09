@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 {
@@ -10,9 +11,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
     public bool saveInv;
 
-    public Dictionary<int, Item> inventory;
-    // SLedování hodnot
-    public List<Item> list = new();
+    public Dictionary<int, string> inventory;
 
     public int inventorySize = 8;
 
@@ -21,7 +20,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
 
 
-    public void SetUpInventory(Dictionary<int, Item> inventory, bool locked)
+    public void SetUpInventory(Dictionary<int, string> inventory, bool locked)
     {
         this.inventory = inventory;
         inventorySize = inventory.Count;
@@ -33,10 +32,6 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     {
         if (inventory == null)
             return;
-        // Sledování hodnot
-        list = new();
-        foreach (Item item in inventory.Values)
-            list.Add(item);
     }
 
     public void Interact()
@@ -71,7 +66,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         for (int i = 0; i < data.otherInventories[transform].Count; i++)
         {
             if (data.otherInventories[transform][i] != "")
-                inventory.Add(i, GetItemForLoading(data.otherInventories[transform][i]));
+                inventory.Add(i, data.otherInventories[transform][i]);
             else
                 inventory.Add(i, null);
         }
@@ -79,38 +74,6 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         isLocked = false;
         isOpened = false;
         inventorySize = inventory.Count;
-    }
-    Item GetItemForLoading(string item)
-    {
-        string name = "";
-        string amountString = "";
-        string currentMagazineString = "";
-
-        int stage = 0;
-        foreach (char c in item)
-        {
-            if (c == '-')
-                stage++;
-            else if (c == '/')
-                stage++;
-            else
-            {
-                if (stage == 0)
-                    name += c;
-                else if (stage == 1)
-                    amountString += c;
-                else if (stage == 2)
-                    currentMagazineString += c;
-            }
-        }
-
-        int.TryParse(amountString, out int amount);
-        Item loadedItem = itemDatabase.GetItemByNameAndAmount(name, amount);
-
-        if (int.TryParse(currentMagazineString, out int currentMagazine))
-            loadedItem.stats["currentMagazine"] = currentMagazine;
-
-        return loadedItem;
     }
 
     public void LoadData(GameData data)
@@ -134,11 +97,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         for (int i = 0; i < inventorySize; i++)
         {
             if (inventory[i] != null)
-            {
-                items.Add(i, inventory[i].itemName + "-" + inventory[i].amount.ToString());
-                if (inventory[i].stats != null && inventory[i].stats.ContainsKey("currentMagazine"))
-                    items[i] += "/" + inventory[i].stats["currentMagazine"].ToString();
-            }
+                items.Add(i, inventory[i]);
             else
                 items.Add(i, "");
         }

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEditor.Progress;
 
 public class PlayerOtherInventoryScreen : MonoBehaviour
 {
-    public Dictionary<int, Item> otherInventory = new();
+    public Dictionary<int, string> otherInventory = new();
     private GameObject otherInventoryObj;
 
     public bool isOpened;
@@ -50,15 +51,12 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
                 otherInventorySlots[i].transform.GetComponent<Slot>().isActive = true;
                 otherInventorySlots[i].SetActive(true);
 
-                try
+                if (otherInventory[i] != "" && otherInventory[i] != null)
                 {
-                    if (otherInventory[i].itemName != "")
-                    {
-                        GameObject newItem = Instantiate(itemPrefab, otherInventorySlots[i].transform);
-                        newItem.GetComponent<Item>().SetUpByItem(otherInventory[i]);
-                    }
+                    Debug.Log(otherInventory[i]);
+                    GameObject newItem = Instantiate(itemPrefab, otherInventorySlots[i].transform);
+                    newItem.GetComponent<Item>().SetUpByItem(playerInventory.GetItemForLoading(otherInventory[i]));
                 }
-                catch { }
             }
             else
             {
@@ -88,11 +86,6 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
 
     public void SaveInventory()
     {
-        foreach (Item item in otherInventoryObj.GetComponent<OtherInventory>().list)
-            if (item != null)
-                Debug.Log(item.itemName + "-" + item.amount);
-        Debug.Log("Saving inventory of " + otherInventoryObj.name);
-
         // Player inventory
         for (int i = 0; i < playerInventorySlots.Count; i++)
         {
@@ -110,10 +103,16 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             {
                 if (otherInventorySlots[i].transform.childCount > 0 && otherInventorySlots[i].transform.GetChild(0).TryGetComponent(out Item item))
                 {
-                    otherInventory[i] = item;
+                    if (otherInventory.ContainsKey(i))
+                        otherInventory[i] = item.itemName + "-" + item.amount.ToString();
+                    else
+                        otherInventory.Add(i, item.itemName + "-" + item.amount.ToString());
+
+                    if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
+                        otherInventory[i] += "/" + item.stats["currentMagazine"].ToString();
                 }
                 else
-                    otherInventory[i] = null;
+                    otherInventory[i] = "";
             }
         }
         otherInventoryObj.GetComponent<OtherInventory>().SetUpInventory(otherInventory, otherInventoryObj.GetComponent<OtherInventory>().isLocked);
@@ -131,9 +130,6 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         }
         else if (!toggle && isOpened)
         {
-            foreach (Item item in otherInventoryObj.GetComponent<OtherInventory>().list)
-                if (item != null)
-                    Debug.Log(item.itemName + "-" + item.amount);
             SaveInventory();
             Time.timeScale = 1f;
             otherInventoryScreen.SetActive(toggle);

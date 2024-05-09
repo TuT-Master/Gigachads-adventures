@@ -440,7 +440,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             if (data.playerInventory[transform] != "")
                 AddItemToSlot(GetItemForLoading(data.playerInventory[transform]), transform);
     }
-    Item GetItemForLoading(string item)
+    public Item GetItemForLoading(string item)
     {
         string name = "";
         string amountString = "";

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f4cce0f482a9ff4ab45372f15e06c06, type: 3}
-  m_Name: Bread
+  m_Name: MeatStick
   m_EditorClassIdentifier: 
   itemName: Meat Stick
   description: Loaf of well-baked skill issue
