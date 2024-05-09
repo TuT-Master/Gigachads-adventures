@@ -95,6 +95,7 @@ public class EnemyMovement : MonoBehaviour
     private void MeleeWandering()
     {
         // Get random point
+        agent.destination = new(-50, 0, -50);
 
 
         // Walk there

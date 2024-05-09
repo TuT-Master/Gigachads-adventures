@@ -8,7 +8,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
     public bool isOpened;
 
-    public bool isTemp = true;
+    public bool saveInv;
 
     public Dictionary<int, Item> inventory;
 
@@ -27,14 +27,14 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         isOpened = false;
     }
 
-    public List<Item> items;
+    public List<Item> list = new();
     void Update()
     {
         if (inventory == null)
             return;
-        items = new();
+        list = new();
         foreach (Item item in inventory.Values)
-            items.Add(item);
+            list.Add(item);
     }
 
     public void Interact()
@@ -45,8 +45,6 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
         if (isOpened)
             FindAnyObjectByType<PlayerOtherInventoryScreen>().UpdateOtherInventory(gameObject);
-        else
-            FindAnyObjectByType<PlayerOtherInventoryScreen>().SaveInventory();
 
         FindAnyObjectByType<HUDmanager>().ToggleOtherInventoryScreen(isOpened);
     }
@@ -55,7 +53,6 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     {
         if(inventory == null)
         {
-            Debug.Log("Creating inventory of " + gameObject.name);
             inventory = new();
             for (int i = 0; i < inventorySize; i++)
                 inventory.Add(i, null);
@@ -110,17 +107,13 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
         if (int.TryParse(currentMagazineString, out int currentMagazine))
             loadedItem.stats["currentMagazine"] = currentMagazine;
-        else if (loadedItem.stats != null && loadedItem.stats.ContainsKey("currentMagazine"))
-            loadedItem.stats["currentMagazine"] = 0;
-
-        Debug.Log(loadedItem);
 
         return loadedItem;
     }
 
     public void LoadData(GameData data)
     {
-        if(isTemp || !data.otherInventories.ContainsKey(transform))
+        if(!saveInv || !data.otherInventories.ContainsKey(transform))
             return;
 
         CreateInventoryIfNull();
@@ -130,7 +123,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     }
     public void SaveData(ref GameData data)
     {
-        if (isTemp)
+        if (!saveInv)
             return;
 
         CreateInventoryIfNull();

@@ -25,12 +25,9 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
     {
         Clear();
         if (keys.Count != values.Count)
-        {
             Debug.LogError("Amount of keys does not match the amount of values in SerializableDictionary!");
-        }
-        for (int i = 0; i < keys.Count; i++)
-        {
-            Add(keys[i], values[i]);
-        }
+        else
+            for (int i = 0; i < keys.Count; i++)
+                Add(keys[i], values[i]);
     }
 }

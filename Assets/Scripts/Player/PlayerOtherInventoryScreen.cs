@@ -36,12 +36,9 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
 
     public void UpdateOtherInventory(GameObject inventory)
     {
-        Debug.Log("Zde");
         otherInventoryObj = inventory;
-        Debug.Log("Zde");
-        otherInventory = inventory.GetComponent<OtherInventory>().inventory;
+        otherInventory = otherInventoryObj.GetComponent<OtherInventory>().inventory;
 
-        Debug.Log("Zde");
         for (int i = 0; i < otherInventorySlots.Count; i++)
         {
             if (otherInventorySlots[i].transform.childCount > 0)
@@ -51,12 +48,15 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             {
                 otherInventorySlots[i].transform.GetComponent<Slot>().isActive = true;
                 otherInventorySlots[i].SetActive(true);
-
-                if (otherInventory[i] != null)
+                try
                 {
-                    var newItem = Instantiate(itemPrefab, otherInventorySlots[i].transform);
-                    newItem.GetComponent<Item>().SetUpByItem(otherInventory[i]);
+                    if (otherInventory[i].itemName != "")
+                    {
+                        var newItem = Instantiate(itemPrefab, otherInventorySlots[i].transform);
+                        newItem.GetComponent<Item>().SetUpByItem(otherInventory[i]);
+                    }
                 }
+                catch { }
             }
             else
             {
@@ -86,8 +86,9 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
 
     public void SaveInventory()
     {
+        Debug.Log("Saving inventory of " + otherInventoryObj.name);
         // Player inventory
-        for(int i = 0; i < playerInventorySlots.Count; i++)
+        for (int i = 0; i < playerInventorySlots.Count; i++)
         {
             if (playerInventory.backpackInventory.transform.GetChild(i).childCount > 0)
                 Destroy(playerInventory.backpackInventory.transform.GetChild(i).GetChild(0).gameObject);
@@ -102,7 +103,9 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             if (otherInventorySlots[i].GetComponent<Slot>().isActive)
             {
                 if (otherInventorySlots[i].transform.childCount > 0 && otherInventorySlots[i].transform.GetChild(0).TryGetComponent(out Item item))
+                {
                     otherInventory[i] = item;
+                }
                 else
                     otherInventory[i] = null;
             }
@@ -116,17 +119,19 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
     {
         if (toggle)
         {
+            Debug.Log(toggle);
             UpdatePlayerInventory();
             Time.timeScale = 0f;
+            otherInventoryObj.GetComponent<OtherInventory>().isOpened = isOpened = toggle;
+            otherInventoryScreen.SetActive(toggle);
         }
-        if (!toggle && otherInventory != null && otherInventoryObj != null && otherInventoryObj.GetComponent<OtherInventory>().isOpened)
+        else if (!toggle && isOpened)
         {
+            Debug.Log(toggle);
             SaveInventory();
-            otherInventoryObj.GetComponent<OtherInventory>().isOpened = false;
             Time.timeScale = 1f;
+            otherInventoryScreen.SetActive(toggle);
+            otherInventoryObj.GetComponent<OtherInventory>().isOpened = isOpened = toggle;
         }
-
-        otherInventoryScreen.SetActive(toggle);
-        isOpened = toggle;
     }
 }
