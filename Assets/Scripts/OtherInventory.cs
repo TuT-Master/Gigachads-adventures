@@ -11,6 +11,8 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     public bool saveInv;
 
     public Dictionary<int, Item> inventory;
+    // SLedování hodnot
+    public List<Item> list = new();
 
     public int inventorySize = 8;
 
@@ -27,11 +29,11 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         isOpened = false;
     }
 
-    public List<Item> list = new();
     void Update()
     {
         if (inventory == null)
             return;
+        // Sledování hodnot
         list = new();
         foreach (Item item in inventory.Values)
             list.Add(item);

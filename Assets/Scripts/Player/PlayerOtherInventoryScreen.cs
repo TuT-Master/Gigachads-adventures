@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerOtherInventoryScreen : MonoBehaviour
 {
@@ -48,11 +49,12 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             {
                 otherInventorySlots[i].transform.GetComponent<Slot>().isActive = true;
                 otherInventorySlots[i].SetActive(true);
+
                 try
                 {
                     if (otherInventory[i].itemName != "")
                     {
-                        var newItem = Instantiate(itemPrefab, otherInventorySlots[i].transform);
+                        GameObject newItem = Instantiate(itemPrefab, otherInventorySlots[i].transform);
                         newItem.GetComponent<Item>().SetUpByItem(otherInventory[i]);
                     }
                 }
@@ -86,7 +88,11 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
 
     public void SaveInventory()
     {
+        foreach (Item item in otherInventoryObj.GetComponent<OtherInventory>().list)
+            if (item != null)
+                Debug.Log(item.itemName + "-" + item.amount);
         Debug.Log("Saving inventory of " + otherInventoryObj.name);
+
         // Player inventory
         for (int i = 0; i < playerInventorySlots.Count; i++)
         {
@@ -111,7 +117,6 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             }
         }
         otherInventoryObj.GetComponent<OtherInventory>().SetUpInventory(otherInventory, otherInventoryObj.GetComponent<OtherInventory>().isLocked);
-
         otherInventory = null;
     }
 
@@ -119,7 +124,6 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
     {
         if (toggle)
         {
-            Debug.Log(toggle);
             UpdatePlayerInventory();
             Time.timeScale = 0f;
             otherInventoryObj.GetComponent<OtherInventory>().isOpened = isOpened = toggle;
@@ -127,7 +131,9 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         }
         else if (!toggle && isOpened)
         {
-            Debug.Log(toggle);
+            foreach (Item item in otherInventoryObj.GetComponent<OtherInventory>().list)
+                if (item != null)
+                    Debug.Log(item.itemName + "-" + item.amount);
             SaveInventory();
             Time.timeScale = 1f;
             otherInventoryScreen.SetActive(toggle);

@@ -6573,6 +6573,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3900670023662248732, guid: 3b6631833aacfa049b825d89a4b37ac8,
         type: 3}
+      propertyPath: itemPrefab
+      value: 
+      objectReference: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+        type: 3}
+    - target: {fileID: 3900670023662248732, guid: 3b6631833aacfa049b825d89a4b37ac8,
+        type: 3}
       propertyPath: itemDatabase
       value: 
       objectReference: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d,
@@ -26110,6 +26116,12 @@ PrefabInstance:
       propertyPath: saveInv
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3900670023662248732, guid: 3b6631833aacfa049b825d89a4b37ac8,
+        type: 3}
+      propertyPath: itemPrefab
+      value: 
+      objectReference: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+        type: 3}
     - target: {fileID: 3900670023662248732, guid: 3b6631833aacfa049b825d89a4b37ac8,
         type: 3}
       propertyPath: itemDatabase

@@ -121,7 +121,6 @@ public class ItemDatabase : ScriptableObject
         foreach (ShieldSO shield in shields)
             if (shield.itemName == name)
                 item = new(shield);
-
         item.amount = amount;
         return item;
     }
