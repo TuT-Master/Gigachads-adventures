@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4cce0f482a9ff4ab45372f15e06c06, type: 3}
   m_Name: Bread
   m_EditorClassIdentifier: 
-  itemName: Bread
+  itemName: Meat Stick
   description: Loaf of well-baked skill issue
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: cb887e876bcd91d4593637c142be8d27,
+    type: 3}
   sprite_hand: {fileID: 0}
   isStackable: 1
   stackSize: 69
