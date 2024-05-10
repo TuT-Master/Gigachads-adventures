@@ -358,12 +358,16 @@ public class PlayerFight : MonoBehaviour
     void FreeRotation() { freeRotation.transform.rotation = Quaternion.Euler(0, GetComponent<PlayerMovement>().angleRaw, 0); }
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer == 14)
+            return;
         var enemy = other.GetComponentInParent<IInteractableEnemy>();
         if (enemy != null && enemy.CanInteract())
             enemyList.Add(enemy);
     }
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.layer == 14)
+            return;
         var enemy = other.GetComponentInParent<IInteractableEnemy>();
         if (enemyList.Contains(enemy))
             enemyList.Remove(enemy);

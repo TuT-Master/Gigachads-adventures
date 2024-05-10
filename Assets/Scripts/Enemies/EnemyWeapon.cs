@@ -32,6 +32,8 @@ public class EnemyWeapon : MonoBehaviour
             if (weaponMaterial.material == null)
                 Debug.Log("Enemy " + GetComponent<EnemyStats>().name + " coudn't find any weapon with name " + weaponRanged.itemName);
         }
+        if (weaponMelee == null && weaponRanged == null)
+            weaponMaterial.gameObject.SetActive(false);
     }
 
     public bool HasWeapon(out Item weapon)
