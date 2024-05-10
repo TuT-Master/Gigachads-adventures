@@ -13,6 +13,10 @@ public class MaterialSO : ScriptableObject
 
     public Sprite sprite_inventory;
 
+    public int requieredCraftingLevel;
+    public List<MaterialSO> recipeMaterials;
+    public List<int> recipeMaterialsAmount;
+
     [SerializeField] private float weight = 0;
     public Dictionary<string, float> Stats()
     {

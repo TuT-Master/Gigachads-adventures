@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 [CreateAssetMenu(fileName = "Item database", menuName = "Scriptable objects/Item database")]
 public class ItemDatabase : ScriptableObject
@@ -123,5 +124,31 @@ public class ItemDatabase : ScriptableObject
                 item = new(shield);
         item.amount = amount;
         return item;
+    }
+
+    public List<Item> GetAllItems()
+    {
+        List<Item> items = new();
+
+        foreach (WeaponMeleeSO weapon in weaponsMelee)
+            items.Add(new(weapon));
+        foreach (WeaponRangedSO weapon in weaponsRanged)
+            items.Add(new(weapon));
+        foreach (ArmorSO armor in armors)
+            items.Add(new(armor));
+        foreach (BackpackSO backpack in backpacks)
+            items.Add(new(backpack));
+        foreach (BeltSO belt in belts)
+            items.Add(new(belt));
+        foreach (ConsumableSO consumable in consumables)
+            items.Add(new(consumable));
+        foreach (ProjectileSO projectile in projectiles)
+            items.Add(new(projectile));
+        foreach (ShieldSO shield in shields)
+            items.Add(new(shield));
+        foreach (MaterialSO material in materials)
+            items.Add(new(material));
+
+        return items;
     }
 }

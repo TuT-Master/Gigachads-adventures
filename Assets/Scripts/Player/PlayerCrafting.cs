@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerCrafting : MonoBehaviour
 {
@@ -15,7 +16,11 @@ public class PlayerCrafting : MonoBehaviour
     private GameObject itemPrefab;
     [SerializeField]
     private List<GameObject> playerInventorySlots;
+    [SerializeField]
+    private GameObject recipePrefab;
 
+    [SerializeField]
+    private ItemDatabase itemDatabase;
 
     private HUDmanager hudmanager;
     private PlayerInventory playerInventory;
@@ -72,6 +77,16 @@ public class PlayerCrafting : MonoBehaviour
         }
     }
 
+    private void ShowRecipes()
+    {
+        List<Item> allItems = itemDatabase.GetAllItems();
+        foreach (Item item in allItems)
+            if (item.recipe.Count > 0 && item.requieredCraftingLevel <= craftingLevel)
+            {
+                // Show recipe
+            }
+    }
+
     public void ToggleScreen(bool toggle)
     {
         if (toggle)
@@ -80,6 +95,7 @@ public class PlayerCrafting : MonoBehaviour
             StartCoroutine(UpdatePlayerInventory());
             isOpened = toggle;
             craftingScreen.SetActive(toggle);
+            ShowRecipes();
         }
         else if (!toggle && isOpened)
         {

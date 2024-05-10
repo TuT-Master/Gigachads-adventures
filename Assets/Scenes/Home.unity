@@ -3310,6 +3310,8 @@ MonoBehaviour:
   - {fileID: 1184971747}
   - {fileID: 126005994}
   - {fileID: 523137478}
+  recipePrefab: {fileID: 0}
+  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
 --- !u!1001 &232833306
 PrefabInstance:
   m_ObjectHideFlags: 0

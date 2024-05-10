@@ -12,6 +12,10 @@ public class ConsumableSO : ScriptableObject
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
 
+    public int requieredCraftingLevel;
+    public List<MaterialSO> recipeMaterials;
+    public List<int> recipeMaterialsAmount;
+
     public bool isStackable;
     public int stackSize;
 

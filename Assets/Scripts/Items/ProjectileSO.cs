@@ -14,6 +14,10 @@ public class ProjectileSO : ScriptableObject
     public Sprite sprite_inventory;
     public Sprite sprite_equip;
 
+    public int requieredCraftingLevel;
+    public List<MaterialSO> recipeMaterials;
+    public List<int> recipeMaterialsAmount;
+
 
     [SerializeField] private float damage = 0;
     [SerializeField] private float penetration = 0;

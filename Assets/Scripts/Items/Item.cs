@@ -83,6 +83,10 @@ public class Item : MonoBehaviour
 
     public List<ProjectileSO> ammo;
 
+    public int requieredCraftingLevel;
+
+    public Dictionary<MaterialSO, int> recipe;
+
     private TextMeshProUGUI text;
 
 
@@ -99,6 +103,10 @@ public class Item : MonoBehaviour
         weaponType = weaponSO.weaponType;
         twoHanded = weaponSO.twoHanded;
         AoE = weaponSO.AoE;
+        requieredCraftingLevel = weaponSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
+            recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
     }
     public Item(WeaponRangedSO weaponSO)
     {
@@ -116,6 +124,10 @@ public class Item : MonoBehaviour
         weaponType = weaponSO.weaponType;
         twoHanded = weaponSO.twoHanded;
         AoE = weaponSO.AoE;
+        requieredCraftingLevel = weaponSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
+            recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
     }
     public Item(ConsumableSO consumableSO)
     {
@@ -127,6 +139,10 @@ public class Item : MonoBehaviour
         isStackable = consumableSO.isStackable;
         stackSize = consumableSO.stackSize;
         stats = consumableSO.Stats();
+        requieredCraftingLevel = consumableSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < consumableSO.recipeMaterials.Count; i++)
+            recipe.Add(consumableSO.recipeMaterials[i], consumableSO.recipeMaterialsAmount[i]);
     }
     public Item(ProjectileSO projectile)
     {
@@ -138,6 +154,10 @@ public class Item : MonoBehaviour
         stats = projectile.ProjectileStats();
         isStackable = true;
         stackSize = projectile.stackSize;
+        requieredCraftingLevel = projectile.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < projectile.recipeMaterials.Count; i++)
+            recipe.Add(projectile.recipeMaterials[i], projectile.recipeMaterialsAmount[i]);
     }
     public Item(ArmorSO armorSO)
     {
@@ -149,6 +169,10 @@ public class Item : MonoBehaviour
         sprite_inventory = armorSO.sprite_inventory;
         sprite_equip = armorSO.sprite_equipFront;
         sprite_equipBack = armorSO.sprite_equipBack;
+        requieredCraftingLevel = armorSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < armorSO.recipeMaterials.Count; i++)
+            recipe.Add(armorSO.recipeMaterials[i], armorSO.recipeMaterialsAmount[i]);
     }
     public Item(BackpackSO backpackSO)
     {
@@ -162,6 +186,10 @@ public class Item : MonoBehaviour
         stackSize = 1;
         stats = backpackSO.BackpackStats();
         slotType = Slot.SlotType.Backpack;
+        requieredCraftingLevel = backpackSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < backpackSO.recipeMaterials.Count; i++)
+            recipe.Add(backpackSO.recipeMaterials[i], backpackSO.recipeMaterialsAmount[i]);
     }
     public Item(BeltSO beltSO)
     {
@@ -175,6 +203,10 @@ public class Item : MonoBehaviour
         stackSize = 1;
         stats = beltSO.BeltStats();
         slotType = Slot.SlotType.Belt;
+        requieredCraftingLevel = beltSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < beltSO.recipeMaterials.Count; i++)
+            recipe.Add(beltSO.recipeMaterials[i], beltSO.recipeMaterialsAmount[i]);
     }
     public Item(ShieldSO shieldSO)
     {
@@ -187,6 +219,10 @@ public class Item : MonoBehaviour
         stackSize = 1;
         stats = shieldSO.Stats();
         slotType = Slot.SlotType.Shield;
+        requieredCraftingLevel = shieldSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < shieldSO.recipeMaterials.Count; i++)
+            recipe.Add(shieldSO.recipeMaterials[i], shieldSO.recipeMaterialsAmount[i]);
     }
     public Item(MaterialSO materialSO)
     {
@@ -197,6 +233,10 @@ public class Item : MonoBehaviour
         isStackable = true;
         stats = materialSO.Stats();
         slotType = Slot.SlotType.Material;
+        requieredCraftingLevel = materialSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < materialSO.recipeMaterials.Count; i++)
+            recipe.Add(materialSO.recipeMaterials[i], materialSO.recipeMaterialsAmount[i]);
     }
     public void SetUpByItem(Item item)
     {
@@ -219,6 +259,8 @@ public class Item : MonoBehaviour
         weaponType = item.weaponType;
         twoHanded = item.twoHanded;
         AoE = item.AoE;
+        requieredCraftingLevel = item.requieredCraftingLevel;
+        recipe = item.recipe;
     }
 
 
@@ -226,8 +268,9 @@ public class Item : MonoBehaviour
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Image>().sprite = sprite_inventory;
+        recipe ??= new();
 
-        switch(weaponType)
+        switch (weaponType)
         {
             case WeaponType.NotAWeapon:
                 weaponClass = PlayerStats.WeaponClass.None;

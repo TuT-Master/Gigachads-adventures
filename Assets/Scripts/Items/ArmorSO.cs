@@ -15,6 +15,10 @@ public class ArmorSO : ScriptableObject
 
     public Slot.SlotType slotType;
 
+    public int requieredCraftingLevel;
+    public List<MaterialSO> recipeMaterials;
+    public List<int> recipeMaterialsAmount;
+
     // Armor bonuses
     [SerializeField] private float armor;
     [SerializeField] private float hpMax;

@@ -18,6 +18,10 @@ public class ShieldSO : ScriptableObject
     public Sprite sprite_equipFront;
     public Sprite sprite_equipBack;
 
+    public int requieredCraftingLevel;
+    public List<MaterialSO> recipeMaterials;
+    public List<int> recipeMaterialsAmount;
+
     [SerializeField] private float defense = 0;
     [SerializeField] private float weight = 0;
 
