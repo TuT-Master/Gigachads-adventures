@@ -8,6 +8,7 @@ public class HUDmanager : MonoBehaviour
     private PlayerSkill skill;
     private DungeonMap map;
     private PlayerOtherInventoryScreen playerOtherInventory;
+    private PlayerCrafting playerCrafting;
 
     [SerializeField]
     private SkillDescription skillDescription;
@@ -19,6 +20,7 @@ public class HUDmanager : MonoBehaviour
         skill = GetComponent<PlayerSkill>();
         map = GetComponent<DungeonMap>();
         playerOtherInventory = GetComponent<PlayerOtherInventoryScreen>();
+        playerCrafting = GetComponent<PlayerCrafting>();
     }
 
     private void Update()
@@ -28,7 +30,7 @@ public class HUDmanager : MonoBehaviour
     }
     public bool AnyScreenOpen()
     {
-        if(inventory.playerInventoryOpen || skill.skillScreenOpen || map.mapOpened || playerOtherInventory.isOpened)
+        if(inventory.playerInventoryOpen || skill.skillScreenOpen || map.mapOpened || playerOtherInventory.isOpened || playerCrafting.isOpened)
             return true;
         else
             return false;
@@ -41,8 +43,15 @@ public class HUDmanager : MonoBehaviour
         playerOtherInventory.ToggleOtherInventoryScreen(false);
         inventory.ToggleInventory(false);
         inventory.CloseItemCard();
+        playerCrafting.ToggleScreen(false);
     }
 
+
+    public void TogglePlayerCrafting(bool toggle)
+    {
+        CloseEverything();
+        playerCrafting.ToggleScreen(toggle);
+    }
 
     public void ToggleInventoryScreen(bool toggle)
     {

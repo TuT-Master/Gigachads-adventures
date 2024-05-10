@@ -279,8 +279,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             playerStats["level_oneHandStrenght"]++;
             playerStats["skillPoints"]++;
         }
-
-
     }
     void FixedUpdate()
     {

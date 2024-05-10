@@ -16,6 +16,8 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (Input.GetMouseButton(1) || Input.GetMouseButton(2))
+            return;
         transform.parent.GetComponent<Slot>().SetDefaultImage();
         FindAnyObjectByType<PlayerInventory>().CloseItemCard();
         canvasGroup.blocksRaycasts = false;
@@ -27,12 +29,19 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (Input.GetMouseButton(1) || Input.GetMouseButton(2))
+            return;
         canvasGroup.blocksRaycasts = true;
         transform.SetParent(parentAfterDrag);
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
     }
 
-    public void OnDrag(PointerEventData eventData) { transform.position = Input.mousePosition; }
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (Input.GetMouseButton(1) || Input.GetMouseButton(2))
+            return;
+        transform.position = Input.mousePosition;
+    }
     public void OnPointerDown(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }
     public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().OpenItemCard(GetComponent<Item>()); }
     public void OnPointerExit(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }

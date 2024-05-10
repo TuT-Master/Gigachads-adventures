@@ -11,14 +11,16 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact") && interactablesInRange.Count > 0)
         {
-            if (interactablesInRange[0] != null)
+            try
             {
                 interactablesInRange[0].Interact();
                 if (!interactablesInRange[0].CanInteract())
                     RemoveInteractable(interactablesInRange[0]);
             }
-            else
+            catch
+            {
                 RemoveInteractable(interactablesInRange[0]);
+            }
         }
     }
 
