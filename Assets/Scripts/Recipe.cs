@@ -32,11 +32,62 @@ public class Recipe : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
         }
     }
 
+    private bool CanBeCrafted()
+    {
+        foreach(MaterialSO material in item.recipe.Keys)
+        {
+            List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(material.itemName);
+            int totalMaterialAmount = 0;
+            for (int i = 0; i < materials.Count; i++)
+                totalMaterialAmount += materials[i].amount;
+
+            if(totalMaterialAmount < item.recipe[material])
+                return false;
+        }
+        return true;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         // TODO - craft the item
-        Debug.Log("Recipe clicked");
+        if(CanBeCrafted())
+        {
+            foreach (MaterialSO material in item.recipe.Keys)
+            {
+                int materialNeeded = item.recipe[material];
+                List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(material.itemName);
+                int totalMaterialAmount = 0;
+                for (int i = 0; i < materials.Count; i++)
+                    totalMaterialAmount += materials[i].amount;
 
+                bool crafted = false;
+                for (int i = 0; i < materials.Count; i++)
+                {
+                    if (crafted)
+                        break;
+
+                    if (materials[i].amount >= materialNeeded)
+                    {
+                        materials[i].amount -= materialNeeded;
+                        crafted = true;
+                    }
+                    else
+                    {
+                        materialNeeded -= materials[i].amount;
+                        materials[i].amount = 0;
+                    }
+                }
+
+                // Spawn item in inventory
+                item.amount = 1;
+                FindAnyObjectByType<PlayerInventory>().AddItem(item);
+                StartCoroutine(FindAnyObjectByType<PlayerCrafting>().UpdatePlayerInventory());
+            }
+        }
+        else
+        {
+            Debug.Log("Not enough materials for this recipe!");
+        }
     }
     public void OnPointerDown(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }
     public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().OpenItemCard(item); }

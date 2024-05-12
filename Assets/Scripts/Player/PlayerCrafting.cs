@@ -48,7 +48,7 @@ public class PlayerCrafting : MonoBehaviour
             hudmanager.TogglePlayerCrafting(!isOpened);
     }
 
-    private IEnumerator UpdatePlayerInventory()
+    public IEnumerator UpdatePlayerInventory()
     {
         yield return new WaitForEndOfFrame();
         for (int i = 0; i < playerInventory.backpackInventory.transform.childCount; i++)
@@ -56,8 +56,8 @@ public class PlayerCrafting : MonoBehaviour
             playerInventorySlots[i].GetComponent<Slot>().isActive = playerInventory.backpackInventory.transform.GetChild(i).GetComponent<Slot>().isActive;
             playerInventorySlots[i].SetActive(playerInventorySlots[i].GetComponent<Slot>().isActive);
 
-            if (playerInventorySlots[i].transform.childCount > 0)
-                Destroy(playerInventorySlots[i].transform.GetChild(0).gameObject);
+            for(int j = 0; j < playerInventorySlots[i].transform.childCount; j++)
+                Destroy(playerInventorySlots[i].transform.GetChild(j).gameObject);
 
             if (playerInventory.backpackInventory.transform.GetChild(i).childCount > 0 && playerInventory.backpackInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item itemInSlot))
             {
