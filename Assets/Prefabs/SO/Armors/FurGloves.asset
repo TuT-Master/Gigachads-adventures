@@ -19,6 +19,10 @@ MonoBehaviour:
   sprite_equipFront: {fileID: 0}
   sprite_equipBack: {fileID: 0}
   slotType: 13
+  requieredCraftingLevel: 0
+  recipeMaterials:
+  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
+  recipeMaterialsAmount: 05000000
   armor: 1
   hpMax: 5
   staminaMax: 5

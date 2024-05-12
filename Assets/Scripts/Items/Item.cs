@@ -90,6 +90,10 @@ public class Item : MonoBehaviour
     private TextMeshProUGUI text;
 
 
+    public bool isRecipe;
+
+
+
     public Item(WeaponMeleeSO weaponSO)
     {
         itemName = weaponSO.itemName;
@@ -266,6 +270,8 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
+        if (isRecipe)
+            return;
         text = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Image>().sprite = sprite_inventory;
         recipe ??= new();
@@ -308,6 +314,8 @@ public class Item : MonoBehaviour
 
     private void Update()
     {
+        if (isRecipe)
+            return;
         if (amount <= 0)
             StartCoroutine(DestroyItem());
         else if (amount == 1)

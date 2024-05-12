@@ -18,6 +18,8 @@ public class PlayerCrafting : MonoBehaviour
     private List<GameObject> playerInventorySlots;
     [SerializeField]
     private GameObject recipePrefab;
+    [SerializeField]
+    private Transform recipesTransform;
 
     [SerializeField]
     private ItemDatabase itemDatabase;
@@ -77,14 +79,23 @@ public class PlayerCrafting : MonoBehaviour
         }
     }
 
-    private void ShowRecipes()
+    private void CreateRecipes()
     {
+        for (int i = 0; i < recipesTransform.childCount; i++)
+            Destroy(recipesTransform.GetChild(i).gameObject);
+
         List<Item> allItems = itemDatabase.GetAllItems();
+        int recipesAmount = 0;
         foreach (Item item in allItems)
             if (item.recipe.Count > 0 && item.requieredCraftingLevel <= craftingLevel)
             {
                 // Show recipe
+                GameObject recipe = Instantiate(recipePrefab, recipesTransform);
+                recipe.GetComponent<Item>().SetUpByItem(item);
+                recipe.GetComponent<Recipe>().CreateRecipe();
+                recipesAmount++;
             }
+        recipesTransform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, recipesAmount * 120);
     }
 
     public void ToggleScreen(bool toggle)
@@ -95,7 +106,7 @@ public class PlayerCrafting : MonoBehaviour
             StartCoroutine(UpdatePlayerInventory());
             isOpened = toggle;
             craftingScreen.SetActive(toggle);
-            ShowRecipes();
+            CreateRecipes();
         }
         else if (!toggle && isOpened)
         {
