@@ -10680,6 +10680,7 @@ MonoBehaviour:
   dungeonScene: {fileID: 1918773567}
   rooms: []
   objDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
 --- !u!1001 &725267585
 PrefabInstance:
   m_ObjectHideFlags: 0

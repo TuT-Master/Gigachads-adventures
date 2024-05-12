@@ -77,17 +77,15 @@ public class Recipe : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
                         materials[i].amount = 0;
                     }
                 }
-
-                // Spawn item in inventory
-                item.amount = 1;
-                FindAnyObjectByType<PlayerInventory>().AddItem(item);
-                StartCoroutine(FindAnyObjectByType<PlayerCrafting>().UpdatePlayerInventory());
             }
+
+            // Spawn item in inventory
+            item.amount = 1;
+            FindAnyObjectByType<PlayerInventory>().AddItem(item);
+            StartCoroutine(FindAnyObjectByType<PlayerCrafting>().UpdatePlayerInventory());
         }
         else
-        {
             Debug.Log("Not enough materials for this recipe!");
-        }
     }
     public void OnPointerDown(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }
     public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().OpenItemCard(item); }

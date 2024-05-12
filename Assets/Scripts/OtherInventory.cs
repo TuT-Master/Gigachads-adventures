@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 {
@@ -15,8 +14,8 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
     public int inventorySize = 8;
 
-    [SerializeField]
-    private ItemDatabase itemDatabase;
+    [HideInInspector]
+    public ItemDatabase itemDatabase;
 
 
 
