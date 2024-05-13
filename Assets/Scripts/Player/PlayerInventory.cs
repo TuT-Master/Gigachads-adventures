@@ -574,7 +574,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                 inventory[beltSlot.transform] += "/" + _item.stats["currentMagazine"].ToString();
         }
 
-
         data.playerInventory.Clear();
         foreach(Transform key in inventory.Keys)
             data.playerInventory.Add(key, inventory[key]);

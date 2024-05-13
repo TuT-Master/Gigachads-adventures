@@ -85,5 +85,16 @@ public class DungeonRoom : MonoBehaviour
 
         // Wake everything and everybody up
         gameObject.SetActive(true);
+        // Add loot
+        for(int i = 0; i < transform.Find("Population").childCount; i++)
+            if (transform.Find("Population").GetChild(i).TryGetComponent(out OtherInventory otherInventory))
+            {
+                Item material = FindAnyObjectByType<ItemSpawner>().GetRandomMaterial();
+                Dictionary<int, string> loot = new()
+                {
+                    {0, material.itemName + "-" + material.amount},
+                };
+                otherInventory.SetUpInventory(loot, false);
+            }
     }
 }

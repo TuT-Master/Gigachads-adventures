@@ -361,18 +361,8 @@ public class DungeonGenerator : MonoBehaviour
                     case 2 | 3:
                         pop.Add(new(x, y), objDatabase.resources[0]);
                         break;
-                    case 4 | 5:
+                    case 4:
                         pop.Add(new(x, y), objDatabase.lootBoxes[0]);
-
-                        // Loot drop
-                        Item material = FindAnyObjectByType<ItemSpawner>().GetRandomMaterial();
-                        Dictionary<int, string> loot = new()
-                        {
-                            {0, material.itemName + "-" + material.amount},
-                        };
-                        Debug.Log(material.itemName + "-" + material.amount);
-                        pop[new(x, y)].GetComponent<OtherInventory>().itemDatabase = itemDatabase;
-                        pop[new(x, y)].GetComponent<OtherInventory>().SetUpInventory(loot, false);
                         break;
                     case 99:
                         // Enemy
