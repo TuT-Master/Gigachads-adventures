@@ -49,9 +49,9 @@ public class Recipe : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // TODO - craft the item
         if(CanBeCrafted())
         {
+            // Consume materials
             foreach (MaterialSO material in item.recipe.Keys)
             {
                 int materialNeeded = item.recipe[material];

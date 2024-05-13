@@ -46,6 +46,8 @@ public class VirtualSceneManager : MonoBehaviour
             else
                 FindAnyObjectByType<PlayerMovement>().transform.position = entranceFromDungeon.position;
         }
+        else if(newScene.name == "Dungeon")
+            dungeonScene.transform.Find("Room-0").GetComponent<DungeonRoom>().StartRoom();
     }
 
     public bool DungeonLoaded()

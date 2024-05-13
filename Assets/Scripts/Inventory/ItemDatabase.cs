@@ -97,7 +97,6 @@ public class ItemDatabase : ScriptableObject
     public Item GetItemByNameAndAmount(string name, int amount)
     {
         Item item = null;
-
         foreach (WeaponMeleeSO weapon in weaponsMelee)
             if (weapon.itemName == name)
                 item = new(weapon);

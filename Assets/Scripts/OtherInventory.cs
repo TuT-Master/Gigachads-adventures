@@ -27,12 +27,6 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         isOpened = false;
     }
 
-    void Update()
-    {
-        if (inventory == null)
-            return;
-    }
-
     public void Interact()
     {
         isOpened = !isOpened;
