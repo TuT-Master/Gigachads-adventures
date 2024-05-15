@@ -15,5 +15,9 @@ MonoBehaviour:
   itemName: Stone
   description: Stone
   stackSize: 69
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: 08b99541b016698419efb5636376eee0,
+    type: 3}
+  requieredCraftingLevel: 0
+  recipeMaterials: []
+  recipeMaterialsAmount: 
   weight: 1
