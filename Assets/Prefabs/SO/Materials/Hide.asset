@@ -15,5 +15,9 @@ MonoBehaviour:
   itemName: Hide
   description: Hide & Seak
   stackSize: 69
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: 7a1c01cf3f681254bbd8d62b7738202b,
+    type: 3}
+  requieredCraftingLevel: 0
+  recipeMaterials: []
+  recipeMaterialsAmount: 
   weight: 0.5

@@ -15,5 +15,9 @@ MonoBehaviour:
   itemName: Bone
   description: Bad to the bone
   stackSize: 69
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: d89b8063ec0a29646a43e38b09d2c844,
+    type: 3}
+  requieredCraftingLevel: 0
+  recipeMaterials: []
+  recipeMaterialsAmount: 
   weight: 0.25
