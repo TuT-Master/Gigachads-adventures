@@ -92,9 +92,9 @@ public class DungeonRoom : MonoBehaviour
             {
                 Item material = FindAnyObjectByType<ItemSpawner>().GetRandomMaterial();
                 Dictionary<int, string> loot = new()
-                    {
-                        {0, material.itemName + "-" + material.amount},
-                    };
+                {
+                    {0, material.itemName + "-" + material.amount},
+                };
                 otherInventory.SetUpInventory(loot, false);
             }
     }

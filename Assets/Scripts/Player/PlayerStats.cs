@@ -166,6 +166,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     private void Start()
     {
+        Application.targetFrameRate = 69;
         playerInventory = GetComponent<PlayerInventory>();
         playerMovement = GetComponent<PlayerMovement>();
         playerFight = GetComponent<PlayerFight>();

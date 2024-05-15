@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Recipe : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerClickHandler, IPointerUpHandler
 {
     [SerializeField]
     private Image itemImage;
@@ -17,6 +17,11 @@ public class Recipe : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
     private List<GameObject> ingredients;
 
     private Item item;
+
+    private bool isBeingClicked;
+    private float time = 0f;
+    private float craftingSpeed = 1f;
+    private bool canCraftAgain = true;
 
     public void CreateRecipe()
     {
@@ -47,9 +52,40 @@ public class Recipe : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
         return true;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    private void Update()
     {
-        if(CanBeCrafted())
+        if (!isBeingClicked || !CanBeCrafted())
+            return;
+
+        time += 0.015f;
+        switch(time)
+        {
+            case > 1f and <= 2f:
+                craftingSpeed = 1.5f;
+                CraftItem();
+                break;
+            case > 2f and <= 2.5f:
+                craftingSpeed = 2f;
+                CraftItem();
+                break;
+            case > 2.5f and <= 3f:
+                craftingSpeed = 4f;
+                CraftItem();
+                break;
+            case > 3f and <= 3.5f:
+                craftingSpeed = 8f;
+                CraftItem();
+                break;
+            case > 3.5f:
+                craftingSpeed = 16f;
+                CraftItem();
+                break;
+        }
+    }
+
+    private void CraftItem()
+    {
+        if (CanBeCrafted() && canCraftAgain)
         {
             // Consume materials
             foreach (MaterialSO material in item.recipe.Keys)
@@ -83,11 +119,31 @@ public class Recipe : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
             item.amount = 1;
             FindAnyObjectByType<PlayerInventory>().AddItem(item);
             StartCoroutine(FindAnyObjectByType<PlayerCrafting>().UpdatePlayerInventory());
+            canCraftAgain = false;
+            StartCoroutine(CanCraftAgain(1 / craftingSpeed));
         }
         else
             Debug.Log("Not enough materials for this recipe!");
     }
-    public void OnPointerDown(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }
+    private IEnumerator CanCraftAgain(float delay)
+    {
+        if(delay == 1)
+            yield return null;
+        else
+            yield return new WaitForSeconds(delay);
+        canCraftAgain = true;
+    }
+
+    public void OnPointerClick(PointerEventData eventData) { CraftItem(); }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        FindAnyObjectByType<PlayerInventory>().CloseItemCard();
+        isBeingClicked = true;
+        time = 0f;
+        craftingSpeed = 1;
+    }
+    public void OnPointerUp(PointerEventData eventData) { isBeingClicked = false; }
     public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().OpenItemCard(item); }
     public void OnPointerExit(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }
+
 }
