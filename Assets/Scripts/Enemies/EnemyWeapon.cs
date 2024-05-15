@@ -24,13 +24,13 @@ public class EnemyWeapon : MonoBehaviour
         {
             weaponMaterial.material = dungeonDatabase.GetWeaponMaterial(weaponMelee.itemName);
             if (weaponMaterial.material == null)
-                Debug.Log("Enemy " + GetComponent<EnemyStats>().name + " coudn't find any weapon with name " + weaponMelee.itemName);
+                Debug.Log("Enemy " + GetComponent<EnemyStats>().enemyName + " coudn't find any weapon with name " + weaponMelee.itemName);
         }
         else if (weaponRanged != null)
         {
             weaponMaterial.material = FindAnyObjectByType<DungeonDatabase>().GetWeaponMaterial(weaponRanged.itemName);
             if (weaponMaterial.material == null)
-                Debug.Log("Enemy " + GetComponent<EnemyStats>().name + " coudn't find any weapon with name " + weaponRanged.itemName);
+                Debug.Log("Enemy " + GetComponent<EnemyStats>().enemyName + " coudn't find any weapon with name " + weaponRanged.itemName);
         }
         if (weaponMelee == null && weaponRanged == null)
             weaponMaterial.gameObject.SetActive(false);

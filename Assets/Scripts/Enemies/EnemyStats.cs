@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour, IInteractableEnemy
 {
-    public string name = "";
+    public string enemyName = "";
     public bool isChampion;
 
     [SerializeField] private float hp;
@@ -26,7 +25,7 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
     {
         effectManager = FindAnyObjectByType<EffectManager>();
         if(!isChampion)
-            name = gameObject.name;
+            enemyName = gameObject.name;
         transform.Find("AgroRange").GetComponent<SphereCollider>().radius = agroRange;
     }
 

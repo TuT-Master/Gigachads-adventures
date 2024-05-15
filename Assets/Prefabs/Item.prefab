@@ -40,7 +40,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -121.82849, y: -42.246185}
-  m_SizeDelta: {x: 90, y: 90}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &421221862585066130
 CanvasRenderer:
@@ -139,6 +139,8 @@ MonoBehaviour:
   sprite_equipBack: {fileID: 0}
   ammo:
   - {fileID: 11400000, guid: 0a9aa93304c54b84aacc6b88bbfae12d, type: 2}
+  requieredCraftingLevel: 0
+  isRecipe: 0
 --- !u!1 &6599278895345260592
 GameObject:
   m_ObjectHideFlags: 0

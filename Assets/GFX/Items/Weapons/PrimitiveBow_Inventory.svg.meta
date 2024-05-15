@@ -29,8 +29,8 @@ ScriptedImporter:
   maxTangentAngle: 5
   keepTextureAspectRatio: 0
   textureSize: 256
-  textureWidth: 128
-  textureHeight: 128
+  textureWidth: 256
+  textureHeight: 256
   wrapMode: 0
   filterMode: 1
   sampleCount: 8
