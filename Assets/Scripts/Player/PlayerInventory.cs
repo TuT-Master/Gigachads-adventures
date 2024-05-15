@@ -263,6 +263,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             else if (item.slotType == Slot.SlotType.Material)
             {
 
+                row[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
             else
                 row[1] = "Tak na tohle jsem zapomnìl.";

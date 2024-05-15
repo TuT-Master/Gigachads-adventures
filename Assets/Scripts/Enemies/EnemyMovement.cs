@@ -29,6 +29,10 @@ public class EnemyMovement : MonoBehaviour
     private EnemyFight enemyFight;
     private EnemyAgroRange agro;
 
+    private bool getNewRandomPoint = true;
+
+
+
     private void Start()
     {
         enemyFight = GetComponent<EnemyFight>();
@@ -95,11 +99,13 @@ public class EnemyMovement : MonoBehaviour
     private void MeleeWandering()
     {
         // Get random point
-        agent.destination = new(-50, 0, -50);
-
-
-        // Walk there
-
+        if(getNewRandomPoint)
+        {
+            Debug.Log("Finding new point!");
+            agent.destination = GetRandomPoint(transform.position);
+            getNewRandomPoint = false;
+            StartCoroutine(GetRandomPointDelay());
+        }
 
         if (agro.playerInRange)
             attitude = Attitude.MeleeAgressive;
@@ -115,6 +121,17 @@ public class EnemyMovement : MonoBehaviour
     private void RangedWandering()
     {
 
+    }
+
+    private IEnumerator GetRandomPointDelay()
+    {
+        yield return new WaitForSeconds(Random.Range(5, 10));
+        getNewRandomPoint = true;
+    }
+
+    Vector3 GetRandomPoint(Vector3 startPoint)
+    {
+        return new(startPoint.x + Random.Range(-10, 10), 0, startPoint.z + Random.Range(-10, 10));
     }
 
     public IEnumerator Stun(float seconds)

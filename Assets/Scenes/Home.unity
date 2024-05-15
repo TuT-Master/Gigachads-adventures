@@ -1053,7 +1053,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1333992922}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3399,8 +3399,6 @@ MonoBehaviour:
   itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
-  playerInventoryTransform: {fileID: 814336334}
-  otherInventoryTransform: {fileID: 1110269648}
 --- !u!114 &220485088
 MonoBehaviour:
   m_ObjectHideFlags: 0

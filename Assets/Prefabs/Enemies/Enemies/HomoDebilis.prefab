@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8297e62ce1b2a14428602e65d923c714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  enemyName: 
   isChampion: 0
   hp: 25
   armor: 1

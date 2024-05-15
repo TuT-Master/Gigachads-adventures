@@ -54,6 +54,7 @@ public class DataPersistanceManager : MonoBehaviour
         if (gameData == null)
             NewGame();
 
+
         foreach (IDataPersistance obj in dataPersistanceObjects)
             obj.LoadData(gameData);
     }
