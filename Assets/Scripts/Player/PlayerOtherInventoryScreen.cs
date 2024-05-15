@@ -34,6 +34,56 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         otherInventoryScreen.SetActive(false);
     }
 
+    public void ShiftClickOnItem(Item item, string parentName)
+    {
+        // Find parent obj
+        switch (parentName)
+        {
+            case "PlayerInventory":
+                // Item is in player inventory
+                MoveItem(item, otherInventorySlots);
+                break;
+            case "OtherInventory":
+                // Item is in other inventory
+                MoveItem(item, playerInventorySlots);
+                break;
+        }
+    }
+    private void MoveItem(Item item, List<GameObject> inventorySlots)
+    {
+        List<GameObject> slots = new();
+        foreach(GameObject slot in inventorySlots)
+            if(slot.GetComponent<Slot>().isActive)
+                slots.Add(slot);
+
+        bool done = false;
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].activeInHierarchy && !done)
+            {
+                if (slots[i].transform.childCount > 0 && slots[i].GetComponentInChildren<Item>().itemName == item.itemName && slots[i].GetComponentInChildren<Item>().isStackable)
+                {
+                    if (slots[i].GetComponentInChildren<Item>().amount + item.amount <= slots[i].GetComponentInChildren<Item>().stackSize)
+                    {
+                        slots[i].GetComponentInChildren<Item>().amount += item.amount;
+                        item.amount = 0;
+                        done = true;
+                    }
+                    else
+                    {
+                        item.amount -= (slots[i].GetComponentInChildren<Item>().stackSize - slots[i].GetComponentInChildren<Item>().amount);
+                        slots[i].GetComponentInChildren<Item>().amount = slots[i].GetComponentInChildren<Item>().stackSize;
+                    }
+                }
+                else if (slots[i].transform.childCount == 0)
+                {
+                    item.gameObject.transform.SetParent(slots[i].transform);
+                    done = true;
+                }
+            }
+        }
+    }
+
     public void UpdateOtherInventory(GameObject inventory)
     {
         otherInventoryObj = inventory;
@@ -53,6 +103,7 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
                 {
                     GameObject newItem = Instantiate(itemPrefab, otherInventorySlots[i].transform);
                     newItem.GetComponent<Item>().SetUpByItem(playerInventory.GetItemForLoading(otherInventory[i]));
+                    newItem.AddComponent<OtherInventoryItem>();
                 }
             }
             else
@@ -77,6 +128,7 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
             {
                 var newItem = Instantiate(itemPrefab, playerInventorySlots[i].transform);
                 newItem.GetComponent<Item>().SetUpByItem(itemInSlot);
+                newItem.AddComponent<OtherInventoryItem>();
             }
         }
     }

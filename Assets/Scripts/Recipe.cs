@@ -61,23 +61,27 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         switch(time)
         {
             case > 1f and <= 2f:
-                craftingSpeed = 1.5f;
-                CraftItem();
-                break;
-            case > 2f and <= 2.5f:
                 craftingSpeed = 2f;
                 CraftItem();
                 break;
-            case > 2.5f and <= 3f:
+            case > 2f and <= 2.5f:
                 craftingSpeed = 4f;
                 CraftItem();
                 break;
-            case > 3f and <= 3.5f:
+            case > 2.5f and <= 3f:
                 craftingSpeed = 8f;
                 CraftItem();
                 break;
-            case > 3.5f:
+            case > 3f and <= 3.5f:
                 craftingSpeed = 16f;
+                CraftItem();
+                break;
+            case > 3.5f and <= 4f:
+                craftingSpeed = 32f;
+                CraftItem();
+                break;
+            case > 4f:
+                craftingSpeed = 64f;
                 CraftItem();
                 break;
         }
