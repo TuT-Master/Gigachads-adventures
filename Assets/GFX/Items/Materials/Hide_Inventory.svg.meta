@@ -27,7 +27,7 @@ ScriptedImporter:
   maxCordDeviation: 1
   maxTangentAngleEnabled: 0
   maxTangentAngle: 5
-  keepTextureAspectRatio: 1
+  keepTextureAspectRatio: 0
   textureSize: 256
   textureWidth: 256
   textureHeight: 256
@@ -50,5 +50,5 @@ ScriptedImporter:
         y: 0
         width: 0
         height: 0
-      spriteID: a03ef8000e226ae4192304fdb82ff60b
+      spriteID: 00ed6ea908f23134e9cfe83053b41273
     PhysicsOutlines: []

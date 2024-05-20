@@ -33,7 +33,7 @@ ScriptedImporter:
   textureHeight: 256
   wrapMode: 0
   filterMode: 1
-  sampleCount: 4
+  sampleCount: 8
   preserveSVGImageAspect: 0
   useSVGPixelsPerUnit: 0
   spriteData:
@@ -50,5 +50,5 @@ ScriptedImporter:
         y: 0
         width: 0
         height: 0
-      spriteID: a79b999fe23245f4a9b6e2e9601541bc
+      spriteID: b06045a23ef9c4040b71b438b124dbef
     PhysicsOutlines: []
