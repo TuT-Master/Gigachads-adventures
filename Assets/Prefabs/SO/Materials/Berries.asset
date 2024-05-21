@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b3d4845a237f4e9ec5fc5ec39cb2b, type: 3}
   m_Name: Berries
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Berries
   description: 
-  stackSize: 0
-  sprite_inventory: {fileID: 0}
+  stackSize: 420
+  sprite_inventory: {fileID: 3286163911610860551, guid: cf500e58c02bce24c8ab46bfa12c3148,
+    type: 3}
   requieredCraftingLevel: 0
   recipeMaterials: []
   recipeMaterialsAmount: 

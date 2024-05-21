@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Primitive arrow
   description: Small sharpened stick
   stackSize: 420
-  sprite_inventory: {fileID: 3286163911610860551, guid: 447f31ca5832ecf4898c1fd11838cb6b,
+  sprite_inventory: {fileID: 3286163911610860551, guid: a77f99ae15b02d24fab129ae2a80e679,
     type: 3}
   sprite_equip: {fileID: 21300000, guid: 02290baebff8daf4bb1415cec7e342e0, type: 3}
   requieredCraftingLevel: 0
