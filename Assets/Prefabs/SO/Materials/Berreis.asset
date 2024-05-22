@@ -10,18 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 483b3d4845a237f4e9ec5fc5ec39cb2b, type: 3}
-  m_Name: Meat
+  m_Name: Berreis
   m_EditorClassIdentifier: 
-  itemName: Meat
-<<<<<<< Updated upstream
-  description: Most delitios food you know.
-=======
-  description: Most delicious food you know.
->>>>>>> Stashed changes
+  itemName: Berries
+  description: Good ol' cave berries!
   stackSize: 420
-  sprite_inventory: {fileID: 3286163911610860551, guid: 34f99c64a39e5e0488dc0ef8c3ddf8d5,
+  sprite_inventory: {fileID: 3286163911610860551, guid: cf500e58c02bce24c8ab46bfa12c3148,
     type: 3}
   requieredCraftingLevel: 0
   recipeMaterials: []
   recipeMaterialsAmount: 
-  weight: 0.1
+  weight: 0.005

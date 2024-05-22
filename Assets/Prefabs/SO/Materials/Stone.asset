@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Stone
   description: Stone
-  stackSize: 69
+  stackSize: 420
   sprite_inventory: {fileID: 3286163911610860551, guid: 08b99541b016698419efb5636376eee0,
     type: 3}
   requieredCraftingLevel: 0

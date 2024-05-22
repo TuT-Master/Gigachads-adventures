@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Wood
   description: Chunk of wood
-  stackSize: 69
+  stackSize: 420
   sprite_inventory: {fileID: 3286163911610860551, guid: bfe3115f9f0c0b946be6e6ff9fdaa2cd,
     type: 3}
   requieredCraftingLevel: 0

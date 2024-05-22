@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Hide
   description: Hide & Seak
-  stackSize: 69
+  stackSize: 420
   sprite_inventory: {fileID: 3286163911610860551, guid: 7a1c01cf3f681254bbd8d62b7738202b,
     type: 3}
   requieredCraftingLevel: 0
