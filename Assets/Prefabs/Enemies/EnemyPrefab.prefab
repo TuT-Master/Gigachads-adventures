@@ -493,6 +493,7 @@ GameObject:
   - component: {fileID: 6221516654857553878}
   - component: {fileID: 5137595141193464848}
   - component: {fileID: 8842026836342983176}
+  - component: {fileID: 6559928559447375380}
   - component: {fileID: 2655500466956550045}
   - component: {fileID: 3540842410455966055}
   - component: {fileID: 5843397948648757938}
@@ -534,7 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8297e62ce1b2a14428602e65d923c714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  enemyName: 
   isChampion: 0
   hp: 15
   armor: 0
@@ -589,6 +590,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attitude: 0
   speed: 2
+--- !u!114 &6559928559447375380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8809413063290618312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7817040ed2dc9428629fbdf244abad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &2655500466956550045
 NavMeshAgent:
   m_ObjectHideFlags: 0

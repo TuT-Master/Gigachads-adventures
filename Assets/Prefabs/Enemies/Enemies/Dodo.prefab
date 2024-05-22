@@ -496,6 +496,7 @@ GameObject:
   - component: {fileID: 3540842410455966055}
   - component: {fileID: 5843397948648757938}
   - component: {fileID: 5754050111939196479}
+  - component: {fileID: 1776319534551356693}
   m_Layer: 0
   m_Name: Dodo
   m_TagString: Untagged
@@ -534,7 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8297e62ce1b2a14428602e65d923c714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  enemyName: 
   isChampion: 0
   hp: 15
   armor: 0
@@ -653,3 +654,23 @@ MonoBehaviour:
   weaponGO: {fileID: 5321354167611077384}
   itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
   dungeonDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}
+--- !u!114 &1776319534551356693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8809413063290618312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7817040ed2dc9428629fbdf244abad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loot:
+  - {fileID: 11400000, guid: d6a78678ad4917848924acbb8fd8cf1f, type: 2}
+  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
+  - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
+  lootDropChanceInPercentage:
+  - 40
+  - 25
+  - 25
