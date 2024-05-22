@@ -16,8 +16,6 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     private List<GameObject> ingredients;
 
-    private Item item;
-
     private bool isBeingClicked;
     private float time = 0f;
     private float craftingSpeed = 1f;
@@ -25,28 +23,48 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     public void CreateRecipe()
     {
-        item = GetComponent<Item>();
+        itemImage.sprite = GetComponent<Item>().sprite_inventory;
+        List<Item> itemsInRecipe = new();
         ingredients = new();
-        itemImage.sprite = item.sprite_inventory;
-        foreach (MaterialSO material in item.recipe.Keys)
+        foreach (ScriptableObject so in GetComponent<Item>().recipe.Keys)
         {
+            if (so.GetType().ToString() == "ArmorSO")
+                itemsInRecipe.Add(new(so as ArmorSO));
+            else if (so.GetType().ToString() == "BackpackSO")
+                itemsInRecipe.Add(new(so as BackpackSO));
+            else if (so.GetType().ToString() == "BeltSO")
+                itemsInRecipe.Add(new(so as BeltSO));
+            else if (so.GetType().ToString() == "ConsumableSO")
+                itemsInRecipe.Add(new(so as ConsumableSO));
+            else if (so.GetType().ToString() == "MaterialSO")
+                itemsInRecipe.Add(new(so as MaterialSO));
+            else if (so.GetType().ToString() == "ProjectileSO")
+                itemsInRecipe.Add(new(so as ProjectileSO));
+            else if (so.GetType().ToString() == "ShieldSO")
+                itemsInRecipe.Add(new(so as ShieldSO));
+            else if (so.GetType().ToString() == "WeaponMeleeSO")
+                itemsInRecipe.Add(new(so as WeaponMeleeSO));
+            else if (so.GetType().ToString() == "WeaponRangedSO")
+                itemsInRecipe.Add(new(so as WeaponRangedSO));
+
+
             var ingredient = Instantiate(ingredientPrefab, transform.Find("Ingredients"));
-            ingredient.GetComponent<Image>().sprite = material.sprite_inventory;
-            ingredient.GetComponentInChildren<TextMeshProUGUI>().text = item.recipe[material].ToString();
+            ingredient.GetComponent<Image>().sprite = itemsInRecipe[itemsInRecipe.Count - 1].sprite_inventory;
+            ingredient.GetComponentInChildren<TextMeshProUGUI>().text = GetComponent<Item>().recipe[so].ToString();
             ingredients.Add(ingredient);
         }
     }
 
     private bool CanBeCrafted()
     {
-        foreach(MaterialSO material in item.recipe.Keys)
+        foreach(MaterialSO material in GetComponent<Item>().recipe.Keys)
         {
             List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(material.itemName);
             int totalMaterialAmount = 0;
             for (int i = 0; i < materials.Count; i++)
                 totalMaterialAmount += materials[i].amount;
 
-            if(totalMaterialAmount < item.recipe[material])
+            if(totalMaterialAmount < GetComponent<Item>().recipe[material])
                 return false;
         }
         return true;
@@ -92,9 +110,9 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         if (CanBeCrafted() && canCraftAgain)
         {
             // Consume materials
-            foreach (MaterialSO material in item.recipe.Keys)
+            foreach (MaterialSO material in GetComponent<Item>().recipe.Keys)
             {
-                int materialNeeded = item.recipe[material];
+                int materialNeeded = GetComponent<Item>().recipe[material];
                 List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(material.itemName);
                 int totalMaterialAmount = 0;
                 for (int i = 0; i < materials.Count; i++)
@@ -120,8 +138,8 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             }
 
             // Spawn item in inventory
-            item.amount = 1;
-            FindAnyObjectByType<PlayerInventory>().AddItem(item);
+            GetComponent<Item>().amount = 1;
+            FindAnyObjectByType<PlayerInventory>().AddItem(GetComponent<Item>());
             StartCoroutine(FindAnyObjectByType<PlayerCrafting>().UpdatePlayerInventory());
             canCraftAgain = false;
             StartCoroutine(CanCraftAgain(1 / craftingSpeed));
@@ -147,7 +165,7 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         craftingSpeed = 1;
     }
     public void OnPointerUp(PointerEventData eventData) { isBeingClicked = false; }
-    public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().OpenItemCard(item); }
+    public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().OpenItemCard(GetComponent<Item>()); }
     public void OnPointerExit(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }
 
 }

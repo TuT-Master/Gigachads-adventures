@@ -85,7 +85,7 @@ public class Item : MonoBehaviour
 
     public int requieredCraftingLevel;
 
-    public Dictionary<MaterialSO, int> recipe;
+    public Dictionary<ScriptableObject, int> recipe;
 
     private TextMeshProUGUI text;
 

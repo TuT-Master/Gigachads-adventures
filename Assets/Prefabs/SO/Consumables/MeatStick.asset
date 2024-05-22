@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: MeatStick
   m_EditorClassIdentifier: 
   itemName: Meat Stick
-  description: Loaf of well-baked skill issue
+  description: Finally I get to EAT!
   sprite_inventory: {fileID: 3286163911610860551, guid: cb887e876bcd91d4593637c142be8d27,
     type: 3}
   sprite_hand: {fileID: 0}
+  requieredCraftingLevel: 0
+  recipeMaterials:
+  - {fileID: 11400000, guid: 1346f861001ef7044a39b2e2e5f43548, type: 2}
+  - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
+  recipeMaterialsAmount: 0500000001000000
   isStackable: 1
   stackSize: 69
   hpRefill: 10

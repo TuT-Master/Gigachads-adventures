@@ -20,4 +20,4 @@ MonoBehaviour:
   requieredCraftingLevel: 0
   recipeMaterials: []
   recipeMaterialsAmount: 
-  weight: 1
+  weight: 0.4

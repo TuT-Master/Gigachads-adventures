@@ -21,7 +21,7 @@ public class DungeonRoom : MonoBehaviour
 
     public bool cleared;
 
-
+    private List<OtherInventory> lootBoxes = new();
 
     public void GetDoors()
     {
@@ -71,6 +71,8 @@ public class DungeonRoom : MonoBehaviour
             Debug.Log(gameObject.name + " cleared!");
 
             cleared = true;
+            foreach (OtherInventory lootbox in lootBoxes)
+                lootbox.isLocked = false;
         }
         for (int i = 0; i < 4; i++)
             doors[i].GetComponent<Door>().canInteract = cleared;
@@ -90,6 +92,8 @@ public class DungeonRoom : MonoBehaviour
         for(int i = 0; i < transform.Find("Population").childCount; i++)
             if (transform.Find("Population").GetChild(i).TryGetComponent(out OtherInventory otherInventory))
             {
+                otherInventory.isLocked = true;
+                lootBoxes.Add(otherInventory);
                 Item material = FindAnyObjectByType<ItemSpawner>().GetRandomMaterial();
                 Dictionary<int, string> loot = new()
                 {

@@ -13,7 +13,7 @@ public class ConsumableSO : ScriptableObject
     public Sprite sprite_hand;
 
     public int requieredCraftingLevel;
-    public List<MaterialSO> recipeMaterials;
+    public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
     public bool isStackable;

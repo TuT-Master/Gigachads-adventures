@@ -22,7 +22,7 @@ public class WeaponRangedSO : ScriptableObject
     public Item.WeaponType weaponType;
 
     public int requieredCraftingLevel;
-    public List<MaterialSO> recipeMaterials;
+    public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
     public Sprite sprite_inventory;

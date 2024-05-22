@@ -14,7 +14,7 @@ public class MaterialSO : ScriptableObject
     public Sprite sprite_inventory;
 
     public int requieredCraftingLevel;
-    public List<MaterialSO> recipeMaterials;
+    public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
     [SerializeField] private float weight = 0;

@@ -22,10 +22,8 @@ public class EnemyDropLoot : MonoBehaviour
     {
         Item item = null;
         for (int i = 0; i < loot.Count; i++)
-        {
             if (new System.Random().Next(0, 10000) / 100 <= lootDropChanceInPercentage[i])
             {
-                // Spawn loot item
                 if (loot[i].GetType().ToString() == "ArmorSO")
                     item = new(loot[i] as ArmorSO);
                 else if (loot[i].GetType().ToString() == "BackpackSO")
@@ -48,7 +46,6 @@ public class EnemyDropLoot : MonoBehaviour
                 item.amount = GetRandomItemAmount();
                 playerInventory.DropItemOnDaFloor(item, transform.position, FindAnyObjectByType<Dungeon>().currentRoom.transform);
             }
-        }
     }
 
     private int GetRandomItemAmount()

@@ -31,7 +31,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b75f384552784a14696dd2e44e6007be, type: 2}
   belts:
   - {fileID: 11400000, guid: e620a85373dfb264c9fdd955b141bcc4, type: 2}
-  - {fileID: 11400000, guid: b446ed242e47b5743ac422ecac076f1f, type: 2}
   shields:
   - {fileID: 11400000, guid: 90e1d7ed0ce90504e88014bc1c4259ba, type: 2}
   materials:
@@ -39,5 +38,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
   - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
   - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
-  - {fileID: 11400000, guid: d6a78678ad4917848924acbb8fd8cf1f, type: 2}
-  - {fileID: 11400000, guid: 9c80740699b9e084eb4d3694171f85a5, type: 2}
+  - {fileID: 11400000, guid: 1346f861001ef7044a39b2e2e5f43548, type: 2}
+  - {fileID: 11400000, guid: 3bdacfc805c0a3f4399e0b13116369ca, type: 2}

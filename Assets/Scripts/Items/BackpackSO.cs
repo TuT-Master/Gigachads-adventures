@@ -14,7 +14,7 @@ public class BackpackSO : ScriptableObject
     public Sprite sprite_equipBack;
 
     public int requieredCraftingLevel;
-    public List<MaterialSO> recipeMaterials;
+    public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
     public int inventoryCapacity;
