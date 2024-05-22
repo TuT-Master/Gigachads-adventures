@@ -1,30 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
+using UnityEngine.Windows.Speech;
 
 public class PlayerStats : MonoBehaviour, IDataPersistance
 {
     public Dictionary<string, float> playerStats;
     public Dictionary<string, float> playerStats_default;
 
-    public Dictionary<string, float> playerSkillBonusStats = new()
-        {
-            {"damage", 0 },
-            {"accuracyBonus", 0 },
-            {"penetration", 0 },
-            {"armorIngore", 0 },
-            {"bleedingChance", 0 },
-            {"bleedingDamage", 0 },
-            {"poisonChance", 0 },
-            {"poisonDamage", 0 },
-            {"stunChance", 0 },
-            {"range", 0 },
-            {"attackSpeed", 0 },
-            {"critChance", 0 },
-            {"notConsumeStaminaChance", 0 },
-            {"staminaConsumtionReduction", 0 },
-            {"evade", 0 },
-        };
+    public Dictionary <string, float> playerSkillBonusStats_OneHandedStrength;
+    public Dictionary <string, float> playerSkillBonusStats_OneHandedDexterity;
+    public Dictionary <string, float> playerSkillBonusStats_TwoHandedStrength;
+    public Dictionary <string, float> playerSkillBonusStats_TwoHandedDexterity;
+    public Dictionary<string, float> playerSkillBonusStats_RangedStrength;
+    public Dictionary<string, float> playerSkillBonusStats_RangedDexterity;
+    public Dictionary<string, float> playerSkillBonusStats_MagicFire;
+    public Dictionary<string, float> playerSkillBonusStats_MagicWater;
+    public Dictionary<string, float> playerSkillBonusStats_MagicEarth;
+    public Dictionary<string, float> playerSkillBonusStats_MagicAir;
     
     [Header("Player default stats")]
     #region Default stats setup
@@ -216,6 +210,28 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "beltSize", beltSize },
             { "pocketSize", pocketSize },
         };
+        playerSkillBonusStats_OneHandedDexterity = playerSkillBonusStats_OneHandedStrength =
+        playerSkillBonusStats_TwoHandedDexterity = playerSkillBonusStats_TwoHandedStrength =
+        playerSkillBonusStats_RangedDexterity = playerSkillBonusStats_RangedStrength =
+        playerSkillBonusStats_MagicAir = playerSkillBonusStats_MagicEarth =
+        playerSkillBonusStats_MagicWater = playerSkillBonusStats_MagicFire = new()
+        {
+            {"damage", 0 },
+            {"accuracyBonus", 0 },
+            {"penetration", 0 },
+            {"armorIngore", 0 },
+            {"bleedingChance", 0 },
+            {"bleedingDamage", 0 },
+            {"poisonChance", 0 },
+            {"poisonDamage", 0 },
+            {"stunChance", 0 },
+            {"range", 0 },
+            {"attackSpeed", 0 },
+            {"critChance", 0 },
+            {"notConsumeStaminaChance", 0 },
+            {"staminaConsumtionReduction", 0 },
+            {"evade", 0 },
+        };
         UpdateSkillBonusStats();
 
 
@@ -316,22 +332,22 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
                 playerStats["exp_twoHandStrenght"] += exp;
                 break;
             case WeaponClass.RangeDexterity:
-                playerStats["exp_rangeDexterity"] += exp;
+                playerStats["exp_rangedDexterity"] += exp;
                 break;
             case WeaponClass.RangeStrenght:
-                playerStats["exp_rangeStrenght"] += exp;
+                playerStats["exp_rangedStrenght"] += exp;
                 break;
             case WeaponClass.MagicFire:
-
+                playerStats["exp_magicFire"] += exp;
                 break;
             case WeaponClass.MagicWater:
-
+                playerStats["exp_magicWater"] += exp;
                 break;
             case WeaponClass.MagicEarth:
-
+                playerStats["exp_magicEarth"] += exp;
                 break;
             case WeaponClass.MagicAir:
-
+                playerStats["exp_magicAir"] += exp;
                 break;
             default:
                 Debug.Log("Developer (TuT) is kokot!");
@@ -495,9 +511,70 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     }
     public void UpdateSkillBonusStats()
     {
-        foreach(Skill skill in FindObjectsByType<Skill>(FindObjectsSortMode.None))
+        // Reset lists
+        playerSkillBonusStats_OneHandedDexterity = playerSkillBonusStats_OneHandedStrength =
+        playerSkillBonusStats_TwoHandedDexterity = playerSkillBonusStats_TwoHandedStrength =
+        playerSkillBonusStats_RangedDexterity = playerSkillBonusStats_RangedStrength =
+        playerSkillBonusStats_MagicAir = playerSkillBonusStats_MagicEarth =
+        playerSkillBonusStats_MagicWater = playerSkillBonusStats_MagicFire = new()
+        {
+            {"damage", 0 },
+            {"accuracyBonus", 0 },
+            {"penetration", 0 },
+            {"armorIngore", 0 },
+            {"bleedingChance", 0 },
+            {"bleedingDamage", 0 },
+            {"poisonChance", 0 },
+            {"poisonDamage", 0 },
+            {"stunChance", 0 },
+            {"range", 0 },
+            {"attackSpeed", 0 },
+            {"critChance", 0 },
+            {"notConsumeStaminaChance", 0 },
+            {"staminaConsumtionReduction", 0 },
+            {"evade", 0 },
+        };
+
+        // Update new values
+        foreach (Skill skill in FindObjectsByType<Skill>(FindObjectsSortMode.None))
             foreach (string key in skill.bonusStats.Keys)
-                playerSkillBonusStats[key] += skill.bonusStats[key];
+            {
+                switch (skill.weaponClass)
+                {
+                    case WeaponClass.OneHandDexterity:
+                        playerSkillBonusStats_OneHandedDexterity[key] += skill.bonusStats[key];
+                        break;
+                    case WeaponClass.OneHandStrenght:
+                        playerSkillBonusStats_OneHandedStrength[key] += skill.bonusStats[key];
+                        break;
+                    case WeaponClass.TwoHandDexterity:
+                        playerSkillBonusStats_TwoHandedDexterity[key] += skill.bonusStats[key];
+                        break;
+                    case WeaponClass.TwoHandStrenght:
+                        playerSkillBonusStats_TwoHandedStrength[key] += skill.bonusStats[key];
+                        break;
+                    case WeaponClass.RangeDexterity:
+                        playerSkillBonusStats_RangedDexterity[key] += skill.bonusStats[key];
+                        break;
+                    case WeaponClass.RangeStrenght:
+                        playerSkillBonusStats_RangedStrength[key] += skill.bonusStats[key];
+                        break;
+                    case WeaponClass.MagicAir:
+                        playerSkillBonusStats_MagicAir[key] += skill.bonusStats[key];
+                        break;
+                    case WeaponClass.MagicFire:
+                        playerSkillBonusStats_MagicFire[key] += skill.bonusStats[key];
+                        break;
+                    case WeaponClass.MagicEarth:
+                        playerSkillBonusStats_MagicEarth[key] += skill.bonusStats[key];
+                        break;
+                    case WeaponClass.MagicWater:
+                        playerSkillBonusStats_MagicWater[key] += skill.bonusStats[key];
+                        break;
+                    default:
+                        break;
+                }
+            }
     }
 
 

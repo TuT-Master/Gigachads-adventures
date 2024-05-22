@@ -25,6 +25,16 @@ public class StatTab : MonoBehaviour
         textL += "Mana: " + Mathf.Round(playerStats.playerStats["mana"]).ToString() + " / " + playerStats.playerStats["manaMax"].ToString() + "\n";
         textL += "\nExperience: " + Mathf.Round(playerStats.playerStats["exp_player"]).ToString() + "\n";
         textL += "\nLevel: " + Mathf.Round(playerStats.playerStats["level_player"]).ToString() + "\n";
+        textL += "\nOne handed dexterity exp: " + Mathf.Round(playerStats.playerStats["exp_oneHandDexterity"]).ToString() + "\n";
+        textL += "One handed strenght exp: " + Mathf.Round(playerStats.playerStats["exp_oneHandStrenght"]).ToString() + "\n";
+        textL += "Two handed dexterity exp: " + Mathf.Round(playerStats.playerStats["exp_twoHandDexterity"]).ToString() + "\n";
+        textL += "Two handed strenght exp: " + Mathf.Round(playerStats.playerStats["exp_twoHandStrenght"]).ToString() + "\n";
+        textL += "Ranged dexterity exp: " + Mathf.Round(playerStats.playerStats["exp_rangedDexterity"]).ToString() + "\n";
+        textL += "Ranged strenght exp: " + Mathf.Round(playerStats.playerStats["exp_rangedStrenght"]).ToString() + "\n";
+        textL += "Magic Fire exp: " + Mathf.Round(playerStats.playerStats["exp_magicFire"]).ToString() + "\n";
+        textL += "Magic Water exp: " + Mathf.Round(playerStats.playerStats["exp_magicWater"]).ToString() + "\n";
+        textL += "Magic Earth exp: " + Mathf.Round(playerStats.playerStats["exp_magicEarth"]).ToString() + "\n";
+        textL += "Magic Air exp: " + Mathf.Round(playerStats.playerStats["exp_magicAir"]).ToString() + "\n";
 
         // Right text field
         textR += "Weight: " + (playerStats.playerStats["weight"] - 80).ToString() + " Kg\n";

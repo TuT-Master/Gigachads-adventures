@@ -13,6 +13,8 @@ public class Skill : MonoBehaviour
 
     public bool activeSkill;
 
+    public PlayerStats.WeaponClass weaponClass;
+
     // Levels of skill
     public float levelOfSkill = 0f;
     [HideInInspector] public float MaxlevelsOfSkill = 1f;

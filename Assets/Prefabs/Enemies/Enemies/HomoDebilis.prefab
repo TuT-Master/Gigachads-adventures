@@ -669,7 +669,7 @@ MonoBehaviour:
   loot:
   - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
   - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
-  - {fileID: 11400000, guid: 9c80740699b9e084eb4d3694171f85a5, type: 2}
+  - {fileID: 11400000, guid: 3bdacfc805c0a3f4399e0b13116369ca, type: 2}
   lootDropChanceInPercentage:
   - 10
   - 25
