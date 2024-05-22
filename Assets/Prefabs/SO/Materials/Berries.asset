@@ -13,11 +13,19 @@ MonoBehaviour:
   m_Name: Berries
   m_EditorClassIdentifier: 
   itemName: Berries
+<<<<<<< Updated upstream
   description: 
+=======
+  description: Good ol' cave berries!
+>>>>>>> Stashed changes
   stackSize: 420
   sprite_inventory: {fileID: 3286163911610860551, guid: cf500e58c02bce24c8ab46bfa12c3148,
     type: 3}
   requieredCraftingLevel: 0
   recipeMaterials: []
   recipeMaterialsAmount: 
+<<<<<<< Updated upstream
   weight: 0
+=======
+  weight: 0.005
+>>>>>>> Stashed changes
