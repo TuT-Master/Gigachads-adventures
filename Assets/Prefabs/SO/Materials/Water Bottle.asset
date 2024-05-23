@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483b3d4845a237f4e9ec5fc5ec39cb2b, type: 3}
+  m_Name: Water Bottle
+  m_EditorClassIdentifier: 
+  itemName: Watter Bottle
+  description: 
+  stackSize: 1
+  sprite_inventory: {fileID: 3286163911610860551, guid: 54e2d6ae3b8df1040b327f72f4b082ce,
+    type: 3}
+  requieredCraftingLevel: 0
+  recipeMaterials: []
+  recipeMaterialsAmount: 
+  weight: 1

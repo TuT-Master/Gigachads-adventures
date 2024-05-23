@@ -21,8 +21,8 @@ public class Skill : MonoBehaviour
     [HideInInspector] public bool maxLevel;
 
     public Dictionary<string, float> bonusStats = new();
-    #region Bonus stats
-    [Header("Bonus stats")]
+    #region Bonus Passive Stats
+    [Header("Bonus passive stats")]
     [SerializeField]
     float[] damage;
     [SerializeField]
