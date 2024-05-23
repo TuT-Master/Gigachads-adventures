@@ -574,7 +574,7 @@ MonoBehaviour:
   weaponMelee: {fileID: 0}
   weaponRanged: {fileID: 0}
   weaponGO: {fileID: 8513082985898998683}
-  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
   dungeonDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}
 --- !u!114 &8842026836342983176
 MonoBehaviour:
@@ -602,6 +602,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7817040ed2dc9428629fbdf244abad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loot: []
+  lootDropChanceInPercentage: []
 --- !u!195 &2655500466956550045
 NavMeshAgent:
   m_ObjectHideFlags: 0

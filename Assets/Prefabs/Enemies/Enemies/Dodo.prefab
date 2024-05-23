@@ -652,7 +652,7 @@ MonoBehaviour:
   weaponMelee: {fileID: 0}
   weaponRanged: {fileID: 0}
   weaponGO: {fileID: 5321354167611077384}
-  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
   dungeonDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}
 --- !u!114 &1776319534551356693
 MonoBehaviour:

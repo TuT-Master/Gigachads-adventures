@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e492eb93face1f4c835c917ff0e5af5, type: 3}
+  m_Name: Item database
+  m_EditorClassIdentifier: 
+  weaponsMelee:
+  - {fileID: 11400000, guid: 412e6c6a2e0d5e0479f518c694aed94d, type: 2}
+  - {fileID: 11400000, guid: 6c20bbdce8e2d1046af11c7176596bd1, type: 2}
+  weaponsRanged:
+  - {fileID: 11400000, guid: 248de275aa212584ea2e9778379fc2ca, type: 2}
+  - {fileID: 11400000, guid: 1b43d55501f0f5643bd26850ffd048ef, type: 2}
+  armors:
+  - {fileID: 11400000, guid: 6a4d07a578e6de94e86b5e904f7305e8, type: 2}
+  - {fileID: 11400000, guid: 482c5cd403d4b5e4bbc435a5cf84c105, type: 2}
+  - {fileID: 11400000, guid: 4f924105a3a39704e86ae54ad365efc9, type: 2}
+  - {fileID: 11400000, guid: 4a48b2b0ecab3e842a991303b29cfc9a, type: 2}
+  consumables:
+  - {fileID: 11400000, guid: a762031ea8bea694789206638365315c, type: 2}
+  projectiles:
+  - {fileID: 11400000, guid: 0a9aa93304c54b84aacc6b88bbfae12d, type: 2}
+  backpacks:
+  - {fileID: 11400000, guid: b75f384552784a14696dd2e44e6007be, type: 2}
+  belts:
+  - {fileID: 11400000, guid: e620a85373dfb264c9fdd955b141bcc4, type: 2}
+  shields:
+  - {fileID: 11400000, guid: 90e1d7ed0ce90504e88014bc1c4259ba, type: 2}
+  materials:
+  - {fileID: 11400000, guid: 3bdacfc805c0a3f4399e0b13116369ca, type: 2}
+  - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
+  - {fileID: 11400000, guid: 21b02db8ce0c1334b83dfbf7c65f066b, type: 2}
+  - {fileID: 11400000, guid: 990210ba53bf8bb4aa043c44a739c044, type: 2}
+  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
+  - {fileID: 11400000, guid: 1346f861001ef7044a39b2e2e5f43548, type: 2}
+  - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
+  - {fileID: 11400000, guid: 82beacbf306b0ee4b92299549ecf4299, type: 2}
+  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}

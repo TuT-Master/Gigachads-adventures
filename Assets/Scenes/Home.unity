@@ -1053,7 +1053,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1333992922}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3105,7 +3105,7 @@ MonoBehaviour:
   beltSize: 4
   pocketsInventory: {fileID: 732029706}
   pocketsSize: 4
-  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
   LeftHandSlot: {fileID: 4905618838372884872}
   RightHandSlot: {fileID: 4905618838619227636}
   weaponSpriteRenderer: {fileID: 1933346282}
@@ -3396,7 +3396,7 @@ MonoBehaviour:
   - {fileID: 1741102898}
   - {fileID: 1735888781}
   - {fileID: 211502519}
-  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
 --- !u!114 &220485088
@@ -3440,7 +3440,7 @@ MonoBehaviour:
   recipePrefab: {fileID: 5084281565014806434, guid: 8cf5ee5889add024bb9ad7a549b4ad8d,
     type: 3}
   recipesTransform: {fileID: 815430889}
-  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
 --- !u!1001 &232833306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10681,7 +10681,7 @@ MonoBehaviour:
   dungeonScene: {fileID: 1918773567}
   rooms: []
   objDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}
-  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
 --- !u!1001 &725267585
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16708,7 +16708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f15fa18d5adbd459acf8344cfd5914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
   dropItem: 0
@@ -21437,7 +21437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f15fa18d5adbd459acf8344cfd5914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDatabase: {fileID: 11400000, guid: 51f97d3faaf217c4e8f5b6fadd89678d, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
   dropItem: 0
