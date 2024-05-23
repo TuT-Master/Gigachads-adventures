@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 483b3d4845a237f4e9ec5fc5ec39cb2b, type: 3}
-  m_Name: Fibers
+  m_Name: Watter Bottle
   m_EditorClassIdentifier: 
-  itemName: Fibers
+  itemName: Watter Bottle
   description: 
-  stackSize: 420
-  sprite_inventory: {fileID: 3286163911610860551, guid: 655ece33a7aeba2439c5fce95bdfaca6,
+  stackSize: 1
+  sprite_inventory: {fileID: 3286163911610860551, guid: 54e2d6ae3b8df1040b327f72f4b082ce,
     type: 3}
   requieredCraftingLevel: 0
   recipeMaterials: []
   recipeMaterialsAmount: 
-  weight: 0.01
+  weight: 1
