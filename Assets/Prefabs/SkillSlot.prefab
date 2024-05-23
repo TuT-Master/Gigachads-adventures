@@ -56,6 +56,7 @@ MonoBehaviour:
   skillName: 
   description: 
   activeSkill: 0
+  weaponClass: 0
   levelOfSkill: 0
   MaxlevelsOfSkill: 1
   maxLevel: 0
@@ -77,6 +78,8 @@ MonoBehaviour:
   skillUnlockedAmountImage: {fileID: 5532748971415127509}
   skillLocked: {fileID: 0}
   skillUnlocked: {fileID: 0}
+  activeSkillDatabase: {fileID: 11400000, guid: 5bb767704937f8d408fea94ca4eda50e,
+    type: 2}
 --- !u!114 &5066627898884717616
 MonoBehaviour:
   m_ObjectHideFlags: 0

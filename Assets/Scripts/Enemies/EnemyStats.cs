@@ -57,6 +57,16 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
             return true;
     }
 
+    public void PoisonDamage()
+    {
+
+    }
+
+    public void BleedingDamage()
+    {
+
+    }
+
     public void HurtEnemy(float damage, float penetration, float armorIgnore, out float finalDamage)
     {
         finalDamage = 0f;

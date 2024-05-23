@@ -47,7 +47,6 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             else if (so.GetType().ToString() == "WeaponRangedSO")
                 itemsInRecipe.Add(new(so as WeaponRangedSO));
 
-
             var ingredient = Instantiate(ingredientPrefab, transform.Find("Ingredients"));
             ingredient.GetComponent<Image>().sprite = itemsInRecipe[itemsInRecipe.Count - 1].sprite_inventory;
             ingredient.GetComponentInChildren<TextMeshProUGUI>().text = GetComponent<Item>().recipe[so].ToString();
@@ -57,14 +56,34 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     private bool CanBeCrafted()
     {
-        foreach(MaterialSO material in GetComponent<Item>().recipe.Keys)
+        foreach(ScriptableObject so in GetComponent<Item>().recipe.Keys)
         {
-            List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(material.itemName);
+            Item itemFromSO = null;
+            if (so.GetType().ToString() == "ArmorSO")
+                itemFromSO = new(so as ArmorSO);
+            else if (so.GetType().ToString() == "BackpackSO")
+                itemFromSO = new(so as BackpackSO);
+            else if (so.GetType().ToString() == "BeltSO")
+                itemFromSO = new(so as BeltSO);
+            else if (so.GetType().ToString() == "ConsumableSO")
+                itemFromSO = new(so as ConsumableSO);
+            else if (so.GetType().ToString() == "MaterialSO")
+                itemFromSO = new(so as MaterialSO);
+            else if (so.GetType().ToString() == "ProjectileSO")
+                itemFromSO = new(so as ProjectileSO);
+            else if (so.GetType().ToString() == "ShieldSO")
+                itemFromSO = new(so as ShieldSO);
+            else if (so.GetType().ToString() == "WeaponMeleeSO")
+                itemFromSO = new(so as WeaponMeleeSO);
+            else if (so.GetType().ToString() == "WeaponRangedSO")
+                itemFromSO = new(so as WeaponRangedSO);
+
+            List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(itemFromSO.itemName);
             int totalMaterialAmount = 0;
             for (int i = 0; i < materials.Count; i++)
                 totalMaterialAmount += materials[i].amount;
 
-            if(totalMaterialAmount < GetComponent<Item>().recipe[material])
+            if(totalMaterialAmount < GetComponent<Item>().recipe[so])
                 return false;
         }
         return true;
@@ -110,10 +129,31 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         if (CanBeCrafted() && canCraftAgain)
         {
             // Consume materials
-            foreach (MaterialSO material in GetComponent<Item>().recipe.Keys)
+            foreach (ScriptableObject so in GetComponent<Item>().recipe.Keys)
             {
-                int materialNeeded = GetComponent<Item>().recipe[material];
-                List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(material.itemName);
+                Item itemFromSO = null;
+                if (so.GetType().ToString() == "ArmorSO")
+                    itemFromSO = new(so as ArmorSO);
+                else if (so.GetType().ToString() == "BackpackSO")
+                    itemFromSO = new(so as BackpackSO);
+                else if (so.GetType().ToString() == "BeltSO")
+                    itemFromSO = new(so as BeltSO);
+                else if (so.GetType().ToString() == "ConsumableSO")
+                    itemFromSO = new(so as ConsumableSO);
+                else if (so.GetType().ToString() == "MaterialSO")
+                    itemFromSO = new(so as MaterialSO);
+                else if (so.GetType().ToString() == "ProjectileSO")
+                    itemFromSO = new(so as ProjectileSO);
+                else if (so.GetType().ToString() == "ShieldSO")
+                    itemFromSO = new(so as ShieldSO);
+                else if (so.GetType().ToString() == "WeaponMeleeSO")
+                    itemFromSO = new(so as WeaponMeleeSO);
+                else if (so.GetType().ToString() == "WeaponRangedSO")
+                    itemFromSO = new(so as WeaponRangedSO);
+
+
+                int materialNeeded = GetComponent<Item>().recipe[so];
+                List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(itemFromSO.itemName);
                 int totalMaterialAmount = 0;
                 for (int i = 0; i < materials.Count; i++)
                     totalMaterialAmount += materials[i].amount;

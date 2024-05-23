@@ -372,4 +372,45 @@ public class PlayerFight : MonoBehaviour
         if (enemyList.Contains(enemy))
             enemyList.Remove(enemy);
     }
+
+
+
+
+    // Active skills
+    public void DisarmEnemy()
+    {
+
+    }
+    public void PoisonStain()
+    {
+
+    }
+    public void GigaStunDamage()
+    {
+
+    }
+    public void LungeAttack()
+    {
+
+    }
+    public void HeadHit()
+    {
+
+    }
+    public void ShieldBreak()
+    {
+
+    }
+    public void AoEStun()
+    {
+
+    }
+    public void ArmorDecrease()
+    {
+
+    }
+    public void DamageBurst()
+    {
+
+    }
 }
