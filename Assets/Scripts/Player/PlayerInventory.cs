@@ -438,7 +438,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     {
         yield return new WaitForSeconds(0.1f);
         foreach (Transform transform in data.playerInventory.Keys)
-            if (data.playerInventory[transform] != "")
+            if (data.playerInventory[transform] != "" && data.playerInventory[transform] != null)
                 AddItemToSlot(GetItemForLoading(data.playerInventory[transform]), transform);
     }
     public Item GetItemForLoading(string item)

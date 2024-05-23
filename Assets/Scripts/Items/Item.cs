@@ -56,7 +56,10 @@ public class Item : MonoBehaviour
         Launcher,
 
         // Magic weapon
-        MagicWeapon,
+        MagicWeapon_fire,
+        MagicWeapon_water,
+        MagicWeapon_earth,
+        MagicWeapon_air,
     }
     public WeaponType weaponType;
     public List<PlayerStats.MagicType> magicType;
@@ -89,9 +92,7 @@ public class Item : MonoBehaviour
 
     private TextMeshProUGUI text;
 
-
     public bool isRecipe;
-
 
 
     public Item(WeaponMeleeSO weaponSO)
@@ -281,30 +282,92 @@ public class Item : MonoBehaviour
             case WeaponType.NotAWeapon:
                 weaponClass = PlayerStats.WeaponClass.None;
                 break;
-            case WeaponType.Whip or WeaponType.Dagger or WeaponType.Sword or WeaponType.Rapier:
+            case WeaponType.Whip:
                 weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
                 break;
-            case WeaponType.Axe or WeaponType.Mace or WeaponType.Hammer_oneHanded:
+            case WeaponType.Dagger:
+                weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
+                break;
+            case WeaponType.Sword:
+                weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
+                break;
+            case WeaponType.Rapier:
+                weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
+                break;
+            case WeaponType.Axe:
                 weaponClass = PlayerStats.WeaponClass.OneHandStrenght;
                 break;
-            case WeaponType.QuarterStaff or WeaponType.Spear or WeaponType.Longsword:
+            case WeaponType.Mace:
+                weaponClass = PlayerStats.WeaponClass.OneHandStrenght;
+                break;
+            case WeaponType.Hammer_oneHanded:
+                weaponClass = PlayerStats.WeaponClass.OneHandStrenght;
+                break;
+            case WeaponType.QuarterStaff:
                 weaponClass = PlayerStats.WeaponClass.TwoHandDexterity;
                 break;
-            case WeaponType.Halbert or WeaponType.Hammer_twoHanded or WeaponType.Zweihander:
+            case WeaponType.Spear:
+                weaponClass = PlayerStats.WeaponClass.TwoHandDexterity;
+                break;
+            case WeaponType.Longsword:
+                weaponClass = PlayerStats.WeaponClass.TwoHandDexterity;
+                break;
+            case WeaponType.Halbert:
                 weaponClass = PlayerStats.WeaponClass.TwoHandStrenght;
                 break;
-            case WeaponType.Bow or WeaponType.SMG or WeaponType.Pistol or WeaponType.AttackRifle or WeaponType.Thrower:
+            case WeaponType.Hammer_twoHanded:
+                weaponClass = PlayerStats.WeaponClass.TwoHandStrenght;
+                break;
+            case WeaponType.Zweihander:
+                weaponClass = PlayerStats.WeaponClass.TwoHandStrenght;
+                break;
+            case WeaponType.Bow:
                 weaponClass = PlayerStats.WeaponClass.RangeDexterity;
                 break;
-            case WeaponType.Longbow or WeaponType.Crossbow or WeaponType.Shotgun or WeaponType.Revolver or WeaponType.Machinegun or WeaponType.SniperRifle or WeaponType.Launcher:
+            case WeaponType.SMG:
+                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
+                break;
+            case WeaponType.Pistol:
+                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
+                break;
+            case WeaponType.AttackRifle:
+                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
+                break;
+            case WeaponType.Thrower:
+                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
+                break;
+            case WeaponType.Longbow:
                 weaponClass = PlayerStats.WeaponClass.RangeStrenght;
                 break;
-            case WeaponType.MagicWeapon:
-                
-
-                // Magic weapons
-
-
+            case WeaponType.Crossbow:
+                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
+                break;
+            case WeaponType.Shotgun:
+                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
+                break;
+            case WeaponType.Revolver:
+                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
+                break;
+            case WeaponType.Machinegun:
+                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
+                break;
+            case WeaponType.SniperRifle:
+                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
+                break;
+            case WeaponType.Launcher:
+                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
+                break;
+            case WeaponType.MagicWeapon_fire:
+                weaponClass = PlayerStats.WeaponClass.MagicFire;
+                break;
+            case WeaponType.MagicWeapon_water:
+                weaponClass = PlayerStats.WeaponClass.MagicWater;
+                break;
+            case WeaponType.MagicWeapon_earth:
+                weaponClass = PlayerStats.WeaponClass.MagicEarth;
+                break;
+            case WeaponType.MagicWeapon_air:
+                weaponClass = PlayerStats.WeaponClass.MagicAir;
                 break;
             default:
                 Debug.Log(itemName);
