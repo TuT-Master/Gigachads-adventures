@@ -13,13 +13,13 @@ public class PlayerInteract : MonoBehaviour
         {
             try
             {
-                interactablesInRange[0].Interact();
-                if (!interactablesInRange[0].CanInteract())
-                    RemoveInteractable(interactablesInRange[0]);
+                interactablesInRange[^interactablesInRange.Count].Interact();
+                if (!interactablesInRange[^interactablesInRange.Count].CanInteract())
+                    RemoveInteractable(interactablesInRange[^interactablesInRange.Count]);
             }
             catch
             {
-                RemoveInteractable(interactablesInRange[0]);
+                interactablesInRange = new();
             }
         }
     }

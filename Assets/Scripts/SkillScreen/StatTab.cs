@@ -20,21 +20,21 @@ public class StatTab : MonoBehaviour
         string textR = "";
 
         // Left text field
-        textL += "Health: " + Mathf.Round(playerStats.playerStats["hp"]).ToString() + " / " + playerStats.playerStats["hpMax"].ToString() + "\n";
-        textL += "Stamina: " + Mathf.Round(playerStats.playerStats["stamina"]).ToString() + " / " + playerStats.playerStats["staminaMax"].ToString() + "\n";
-        textL += "Mana: " + Mathf.Round(playerStats.playerStats["mana"]).ToString() + " / " + playerStats.playerStats["manaMax"].ToString() + "\n";
-        textL += "\nExperience: " + Mathf.Round(playerStats.playerStats["exp_player"]).ToString() + "\n";
-        textL += "\nLevel: " + Mathf.Round(playerStats.playerStats["level_player"]).ToString() + "\n";
-        textL += "\nOne handed dexterity exp: " + Mathf.Round(playerStats.playerStats["exp_oneHandDexterity"]).ToString() + "\n";
-        textL += "One handed strenght exp: " + Mathf.Round(playerStats.playerStats["exp_oneHandStrenght"]).ToString() + "\n";
-        textL += "Two handed dexterity exp: " + Mathf.Round(playerStats.playerStats["exp_twoHandDexterity"]).ToString() + "\n";
-        textL += "Two handed strenght exp: " + Mathf.Round(playerStats.playerStats["exp_twoHandStrenght"]).ToString() + "\n";
-        textL += "Ranged dexterity exp: " + Mathf.Round(playerStats.playerStats["exp_rangedDexterity"]).ToString() + "\n";
-        textL += "Ranged strenght exp: " + Mathf.Round(playerStats.playerStats["exp_rangedStrenght"]).ToString() + "\n";
-        textL += "Magic Fire exp: " + Mathf.Round(playerStats.playerStats["exp_magicFire"]).ToString() + "\n";
-        textL += "Magic Water exp: " + Mathf.Round(playerStats.playerStats["exp_magicWater"]).ToString() + "\n";
-        textL += "Magic Earth exp: " + Mathf.Round(playerStats.playerStats["exp_magicEarth"]).ToString() + "\n";
-        textL += "Magic Air exp: " + Mathf.Round(playerStats.playerStats["exp_magicAir"]).ToString() + "\n";
+        textL += "Health: " + System.Math.Round(playerStats.playerStats["hp"], 2).ToString() + " / " + playerStats.playerStats["hpMax"].ToString() + "\n";
+        textL += "Stamina: " + System.Math.Round(playerStats.playerStats["stamina"], 2).ToString() + " / " + playerStats.playerStats["staminaMax"].ToString() + "\n";
+        textL += "Mana: " + System.Math.Round(playerStats.playerStats["mana"], 2).ToString() + " / " + playerStats.playerStats["manaMax"].ToString() + "\n";
+        textL += "\nExperience: " + System.Math.Round(playerStats.playerStats["exp_player"], 2).ToString() + "\n";
+        textL += "Level: " + System.Math.Round(playerStats.playerStats["level_player"], 2).ToString() + "\n";
+        textL += "\nOne handed dexterity exp: " + System.Math.Round(playerStats.playerStats["exp_oneHandDexterity"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_oneHandDexterity"] * 5)) + " (lvl:" + playerStats.playerStats["level_oneHandDexterity"] + ")" + "\n";
+        textL += "One handed strenght exp: " + System.Math.Round(playerStats.playerStats["exp_oneHandStrenght"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_oneHandStrenght"] * 5)) + " (lvl:" + playerStats.playerStats["level_oneHandStrenght"] + ")" + "\n";
+        textL += "Two handed dexterity exp: " + System.Math.Round(playerStats.playerStats["exp_twoHandDexterity"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_twoHandDexterity"] * 5)) + " (lvl:" + playerStats.playerStats["level_twoHandDexterity"] + ")" + "\n";
+        textL += "Two handed strenght exp: " + System.Math.Round(playerStats.playerStats["exp_twoHandStrenght"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_twoHandStrenght"] * 5)) + " (lvl:" + playerStats.playerStats["level_twoHandStrenght"] + ")" + "\n";
+        textL += "Ranged dexterity exp: " + System.Math.Round(playerStats.playerStats["exp_rangedDexterity"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_rangedDexterity"] * 5)) + " (lvl:" + playerStats.playerStats["level_rangedDexterity"] + ")" + "\n";
+        textL += "Ranged strenght exp: " + System.Math.Round(playerStats.playerStats["exp_rangedStrenght"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_rangedStrenght"] * 5)) + " (lvl:" + playerStats.playerStats["level_rangedStrenght"] + ")" + "\n";
+        textL += "Magic Fire exp: " + System.Math.Round(playerStats.playerStats["exp_magicFire"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_magicFire"] * 5)) + " (lvl:" + playerStats.playerStats["level_magicFire"] + ")" + "\n";
+        textL += "Magic Water exp: " + System.Math.Round(playerStats.playerStats["exp_magicWater"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_magicWater"] * 5)) + " (lvl:" + playerStats.playerStats["level_magicWater"] + ")" + "\n";
+        textL += "Magic Earth exp: " + System.Math.Round(playerStats.playerStats["exp_magicEarth"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_magicEarth"] * 5)) + " (lvl:" + playerStats.playerStats["level_magicEarth"] + ")" + "\n";
+        textL += "Magic Air exp: " + System.Math.Round(playerStats.playerStats["exp_magicAir"], 2).ToString() + "/" + (20 + (playerStats.playerStats["level_magicAir"] * 5)) + " (lvl:" + playerStats.playerStats["level_magicAir"] + ")" + "\n";
 
         // Right text field
         textR += "Weight: " + System.Math.Round(playerStats.playerStats["weight"] - 80, 2).ToString() + " Kg\n";

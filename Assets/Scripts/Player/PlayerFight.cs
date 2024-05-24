@@ -182,21 +182,26 @@ public class PlayerFight : MonoBehaviour
 
         if (enemyList.Count > 0)
         {
+            float finalDamage = 0f;
             if (itemInHand.AoE)
             {
                 // AoE attack
             }
             else
             {
+                // Get base stats of weapon
                 float damage = itemInHand.stats["damage"];
                 float petration = itemInHand.stats["penetration"];
                 float armorIgnore = itemInHand.stats["armorIgnore"];
+
                 // Add any bonuses to damage (skills, equipment)
 
-                enemyList[0].HurtEnemy(damage, petration, armorIgnore, out float finalDamage);
-                if(finalDamage > 0)
-                    playerStats.AddExp(itemInHand.weaponClass, finalDamage);
+
+                // Deal damage
+                enemyList[0].HurtEnemy(damage, petration, armorIgnore, out finalDamage);
             }
+            if (finalDamage > 0)
+                playerStats.AddExp(itemInHand.weaponClass, finalDamage);
         }
 
         StartCoroutine(CanAttackAgain());
@@ -216,12 +221,13 @@ public class PlayerFight : MonoBehaviour
             float angle = GetComponent<PlayerMovement>().angleRaw + UnityEngine.Random.Range(-itemInHand.stats["spread"], itemInHand.stats["spread"]);
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, angle, 0));
 
-            projectile.GetComponent<Projectile>().item = new(itemInHand.ammo[0]);
-            Vector3 victor = projectile.GetComponent<Projectile>().item.stats["projectileSpeed"] * new Vector3(VectorFromAngle(angle).z, 0.05f, VectorFromAngle(angle).x);
+            projectile.GetComponent<Projectile>().projectile = new(itemInHand.ammo[0]);
+            Vector3 victor = projectile.GetComponent<Projectile>().projectile.stats["projectileSpeed"] * new Vector3(VectorFromAngle(angle).z, 0.05f, VectorFromAngle(angle).x);
 
-            projectile.GetComponent<Rigidbody>().mass = projectile.GetComponent<Projectile>().item.stats["weight"];
+            projectile.GetComponent<Rigidbody>().mass = projectile.GetComponent<Projectile>().projectile.stats["weight"];
             projectile.GetComponent<Rigidbody>().AddForce(victor, ForceMode.Force);
 
+            projectile.GetComponent<Projectile>().weapon = itemInHand;
             projectile.GetComponent<Projectile>().alive = true;
 
             StartCoroutine(CanAttackAgain());
@@ -305,7 +311,6 @@ public class PlayerFight : MonoBehaviour
                     animator.SetTrigger("Reload");
                     yield return new WaitForSeconds(itemInHand.stats["reloadTime"]);
                 }
-                Debug.Log("Reloaded!");
 
                 // Reload
                 for (int i = 0; i < chosenItems.Count; i++)
@@ -324,13 +329,10 @@ public class PlayerFight : MonoBehaviour
                         }
                     }
                 }
-
                 canAttackAgain = true;
             }
             reloading = false;
         }
-        else
-            Debug.Log("No need to reload. Your ammo magazine is full!");
     }
 
     void ActiveWeapon()
@@ -347,10 +349,6 @@ public class PlayerFight : MonoBehaviour
             weaponRange.height = itemInHand.stats["rangeX"] * 2;
             weaponRange.radius = itemInHand.stats["rangeY"] * 0.5f;
             weaponRange.center = new Vector3(0, 0, weaponRange.height * 0.5f);
-        }
-        else if (itemInHand.slotType == Slot.SlotType.Consumable) // itemInHand is some consumable
-        {
-
         }
     }
 

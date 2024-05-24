@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public Item item;
+    public Item projectile;
+    public Item weapon;
 
     public bool alive = false;
+
+    private List<IInteractableEnemy> enemies = new();
 
 
     private void OnTriggerEnter(Collider other)
@@ -14,13 +17,26 @@ public class Projectile : MonoBehaviour
         if (!alive)
             return;
 
-        if (other.gameObject.layer == 10)
+        if (other.transform.parent.TryGetComponent(out IInteractableEnemy enemy) && !enemies.Contains(enemy) && other.gameObject.layer == 10)
         {
-            Debug.Log("Hitting an enemy!");
-            other.GetComponentInParent<IInteractableEnemy>().HurtEnemy(item.stats["damage"], item.stats["penetration"], item.stats["armorIgnore"], out float finalDamage);
+            enemies.Add(enemy);
+            Debug.Log(enemy.ToString());
+
+            float damage = weapon.stats["damage"] + projectile.stats["damage"];
+            float penetration = weapon.stats["penetration"] + projectile.stats["penetration"];
+            float armorIgnore = weapon.stats["armorIgnore"] + projectile.stats["armorIgnore"];
+            float finalDamage = 0f;
+
+            foreach(IInteractableEnemy IEnemy in enemies)
+            {
+                IEnemy.HurtEnemy(damage, penetration, armorIgnore, out float partialFinalDamage);
+                finalDamage += partialFinalDamage;
+            }
+
             if (finalDamage > 0)
-                FindAnyObjectByType<PlayerStats>().AddExp(item.weaponClass, finalDamage);
-            if (item != null && item.stats["splashRadius"] > 0)
+                FindAnyObjectByType<PlayerStats>().AddExp(weapon.weaponClass, finalDamage);
+
+            if (projectile.stats["splashRadius"] > 0 && projectile.stats["splashDamage"] > 0)
             {
                 // TODO - splash damage
             }
@@ -29,8 +45,7 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            Debug.Log("Hitting an object!");
-            if (item != null && item.stats["splashRadius"] > 0)
+            if (projectile != null && projectile.stats["splashRadius"] > 0)
             {
                 // TODO - splash damage
             }

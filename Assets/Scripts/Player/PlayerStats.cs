@@ -286,14 +286,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         if (playerStats["mana"] > playerStats["manaMax"])
             playerStats["mana"] = playerStats["manaMax"];
 
-        // Checking for level up        --- TODO ---
-        if (playerStats["exp_oneHandStrenght"] >= 20)
-        {
-            Debug.Log("One handed strenght LEVEL UP!");
-            playerStats["exp_oneHandStrenght"] = 0;
-            playerStats["level_oneHandStrenght"]++;
-            playerStats["skillPoints"]++;
-        }
+        // Checking for level up
+        CheckForLevelUp();
     }
     void FixedUpdate()
     {
@@ -312,6 +306,31 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             playerStats["mana"] += playerStats["manaRegen"] * Time.fixedDeltaTime * 5;
     }
 
+    readonly Dictionary<string, string> levelExpPairs = new()
+    {
+        { "level_oneHandDexterity", "exp_oneHandDexterity" },
+        { "level_oneHandStrenght", "exp_oneHandStrenght" },
+        { "level_twoHandDexterity", "exp_twoHandDexterity" },
+        { "level_twoHandStrenght", "exp_twoHandStrenght" },
+        { "level_rangedDexterity", "exp_rangedDexterity" },
+        { "level_rangedStrenght", "exp_rangedStrenght" },
+        { "level_magicFire", "exp_magicFire" },
+        { "level_magicWater", "exp_magicWater" },
+        { "level_magicEarth", "exp_magicEarth" },
+        { "level_magicAir", "exp_magicAir" },
+    };
+    private void CheckForLevelUp()
+    {
+        foreach (string level in levelExpPairs.Keys)
+            if (playerStats[levelExpPairs[level]] >= 20 + (playerStats[level] * 5))
+            {
+                playerStats[levelExpPairs[level]] -= 20 + (playerStats[level] * 5);
+                playerStats[level]++;
+                playerStats["skillPoints"]++;
+                Debug.Log(level + " increased to level " + playerStats[level]);
+                Debug.Log("For next level you need " + (20 + (playerStats[level] * 5) - playerStats[levelExpPairs[level]]) + " more EXPs");
+            }
+    }
 
     public void AddExp(WeaponClass weaponClass, float exp)
     {

@@ -69,7 +69,6 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
 
     public void HurtEnemy(float damage, float penetration, float armorIgnore, out float finalDamage)
     {
-        finalDamage = 0f;
         float armorTemp = armor;
 
         if (armorIgnore > 0)

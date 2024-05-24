@@ -24,7 +24,7 @@ MonoBehaviour:
   recipeMaterials:
   - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
   - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
-  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
+  - {fileID: 11400000, guid: 990210ba53bf8bb4aa043c44a739c044, type: 2}
   - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
   recipeMaterialsAmount: 05000000030000000200000001000000
   sprite_inventory: {fileID: 3286163911610860551, guid: 8f96ca8c6ac06884ea9ff10523f50179,

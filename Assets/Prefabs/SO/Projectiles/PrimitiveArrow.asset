@@ -24,7 +24,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
   recipeMaterialsAmount: 0100000001000000
   damage: 1
-  penetration: 1
+  penetration: 0
   armorIgnore: 0
   projectileSpeed: 10
   splashDamage: 0
