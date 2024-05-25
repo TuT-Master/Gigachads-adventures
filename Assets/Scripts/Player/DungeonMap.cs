@@ -55,6 +55,7 @@ public class DungeonMap : MonoBehaviour
 
     void UpdateMap()
     {
+        // Hide rooms
         foreach (GameObject room in rooms)
             room.SetActive(false);
 

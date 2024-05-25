@@ -35,6 +35,8 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField]
     private ItemDatabase itemDatabase;
 
+    private Vector2 preferedDirection;
+
 
     public void BuildDungeon()
     {
@@ -183,7 +185,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 System.Random rnd = new();
                 int rndOffset = rnd.Next(1, maxRoomOffset);
-                List<Vector2> directions = new();
+                List<Vector2> directions;
                 if (previousRoom != null)
                 {
                     startPos = previousRoom.GetComponent<DungeonRoom>().boardPos;
@@ -215,6 +217,23 @@ public class DungeonGenerator : MonoBehaviour
                     };
                 }
 
+                // Prefered direction
+                if (preferedDirection != null && preferedDirection != Vector2.zero)
+                {
+                    // Right
+                    if (preferedDirection == new Vector2(0, 1))
+                        directions.Add(new(0, rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x + roomSize.x) / 2)));
+                    // Left
+                    else if (preferedDirection == new Vector2(0, -1))
+                        directions.Add(new(0, -(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.x + roomSize.x) / 2))));
+                    // Up
+                    else if (preferedDirection == new Vector2(1, 0))
+                        directions.Add(new(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.y + roomSize.y) / 2), 0));
+                    // Down
+                    else if (preferedDirection == new Vector2(-1, 0))
+                        directions.Add(new(-(rndOffset + ((previousRoom.GetComponent<DungeonRoom>().size.y + roomSize.y) / 2)), 0));
+                }
+
                 // Choose direction
                 Vector2 dir = new();
                 bool done = false;
@@ -229,6 +248,20 @@ public class DungeonGenerator : MonoBehaviour
                         if (CanPlaceRoom(startPos + dir, roomSize))
                         {
                             AddRoom(startPos + dir, roomSize, previousRoom, out newRoom);
+
+                            //Prefered direction for next room
+                            // Right
+                            if (dir.x == 0 && dir.y > 0)
+                                preferedDirection = new Vector2(0, 1);
+                            // Left
+                            else if (dir.x == 0 && dir.y < 0)
+                                preferedDirection = new Vector2(0, -1);
+                            // Up
+                            else if (dir.x > 0 && dir.y == 0)
+                                preferedDirection = new Vector2(1, 0);
+                            // Down
+                            else if (dir.x < 0 && dir.y == 0)
+                                preferedDirection = new Vector2(-1, 0);
 
                             newRoom.GetComponent<DungeonRoom>().boardPos = startPos + dir;
 
@@ -245,6 +278,7 @@ public class DungeonGenerator : MonoBehaviour
                     }
                     else
                     {
+                        preferedDirection = Vector2.zero;
                         // If no direction selected -> go back and try it with previous room
                         if (startPos == new Vector2(dungeonMaxSize / 2, ((roomSize.y + 1) / 2) + 2))
                             currentRoom = maxRoomCount;
@@ -358,13 +392,13 @@ public class DungeonGenerator : MonoBehaviour
                     case 0 | 1:
                         pop.Add(new(x, y), objDatabase.obstacles[0]);
                         break;
-                    case 2 | 3:
+                    case 2:
                         pop.Add(new(x, y), objDatabase.resources[0]);
                         break;
-                    case 4:
+                    case 3:
                         pop.Add(new(x, y), objDatabase.lootBoxes[0]);
                         break;
-                    case 99:
+                    case 4:
                         // Enemy
                         if(rooms.Count > 0)
                         {
