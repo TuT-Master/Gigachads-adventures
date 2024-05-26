@@ -34,7 +34,7 @@ public class Projectile : MonoBehaviour
             }
 
             if (finalDamage > 0)
-                FindAnyObjectByType<PlayerStats>().AddExp(weapon.weaponClass, finalDamage);
+                FindAnyObjectByType<PlayerStats>().AddExp(weapon, finalDamage);
 
             if (projectile.stats["splashRadius"] > 0 && projectile.stats["splashDamage"] > 0)
             {

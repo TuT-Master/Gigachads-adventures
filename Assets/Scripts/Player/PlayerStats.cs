@@ -113,22 +113,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         TwoHandStrenght,
         RangeDexterity,
         RangeStrenght,
-        MagicFire,
-        MagicWater,
-        MagicEarth,
-        MagicAir,
-    }
-    public enum MagicType
-    {
-        None,
-        // Fire
-        MagicFire,
-        // Water
-        MagicWater,
-        // Earth
-        MagicEarth,
-        // Air
-        MagicAir,
+        Magic
     }
 
 
@@ -332,9 +317,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             }
     }
 
-    public void AddExp(WeaponClass weaponClass, float exp)
+    public void AddExp(Item weapon, float exp)
     {
-        switch(weaponClass)
+        switch(weapon.weaponClass)
         {
             case WeaponClass.OneHandDexterity:
                 playerStats["exp_oneHandDexterity"] += exp;
@@ -354,17 +339,22 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             case WeaponClass.RangeStrenght:
                 playerStats["exp_rangedStrenght"] += exp;
                 break;
-            case WeaponClass.MagicFire:
-                playerStats["exp_magicFire"] += exp;
-                break;
-            case WeaponClass.MagicWater:
-                playerStats["exp_magicWater"] += exp;
-                break;
-            case WeaponClass.MagicEarth:
-                playerStats["exp_magicEarth"] += exp;
-                break;
-            case WeaponClass.MagicAir:
-                playerStats["exp_magicAir"] += exp;
+            case WeaponClass.Magic:
+                switch (weapon.weaponType)
+                {
+                    case Item.WeaponType.MagicWeapon_air:
+                        playerStats["exp_magicAir"] += exp;
+                        break;
+                    case Item.WeaponType.MagicWeapon_fire:
+                        playerStats["exp_magicFire"] += exp;
+                        break;
+                    case Item.WeaponType.MagicWeapon_water:
+                        playerStats["exp_magicWater"] += exp;
+                        break;
+                    case Item.WeaponType.MagicWeapon_earth:
+                        playerStats["exp_magicEarth"] += exp;
+                        break;
+                }
                 break;
             default:
                 Debug.Log("Developer (TuT) is kokot!");
@@ -576,17 +566,22 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
                     case WeaponClass.RangeStrenght:
                         playerSkillBonusStats_RangedStrength[key] += skill.bonusStats[key];
                         break;
-                    case WeaponClass.MagicAir:
-                        playerSkillBonusStats_MagicAir[key] += skill.bonusStats[key];
-                        break;
-                    case WeaponClass.MagicFire:
-                        playerSkillBonusStats_MagicFire[key] += skill.bonusStats[key];
-                        break;
-                    case WeaponClass.MagicEarth:
-                        playerSkillBonusStats_MagicEarth[key] += skill.bonusStats[key];
-                        break;
-                    case WeaponClass.MagicWater:
-                        playerSkillBonusStats_MagicWater[key] += skill.bonusStats[key];
+                    case WeaponClass.Magic:
+                        switch (skill.weaponType)
+                        {
+                            case Item.WeaponType.MagicWeapon_fire:
+                                playerSkillBonusStats_MagicFire[key] += skill.bonusStats[key];
+                                break;
+                            case Item.WeaponType.MagicWeapon_water:
+                                playerSkillBonusStats_MagicWater[key] += skill.bonusStats[key];
+                                break;
+                            case Item.WeaponType.MagicWeapon_air:
+                                playerSkillBonusStats_MagicAir[key] += skill.bonusStats[key];
+                                break;
+                            case Item.WeaponType.MagicWeapon_earth:
+                                playerSkillBonusStats_MagicEarth[key] += skill.bonusStats[key];
+                                break;
+                        }
                         break;
                     default:
                         break;

@@ -201,7 +201,7 @@ public class PlayerFight : MonoBehaviour
                 enemyList[0].HurtEnemy(damage, petration, armorIgnore, out finalDamage);
             }
             if (finalDamage > 0)
-                playerStats.AddExp(itemInHand.weaponClass, finalDamage);
+                playerStats.AddExp(itemInHand, finalDamage);
         }
 
         StartCoroutine(CanAttackAgain());

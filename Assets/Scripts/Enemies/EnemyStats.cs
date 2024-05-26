@@ -7,22 +7,32 @@ public class EnemyStats : MonoBehaviour, IInteractableEnemy
     public string enemyName = "";
     public bool isChampion;
 
+    [Header("Basic stats")]
     [SerializeField] private float hp;
+    [SerializeField] private float stamina;
+    [SerializeField] private float mana;
+    private float hpMax;
+    private float staminaMax;
+    private float manaMax;
+
+    [Header("Fight stats")]
     [SerializeField] private float armor;
     [SerializeField] private float evasion;
     [SerializeField] private float defense;
     [SerializeField] private float agroRange;
-
-    public bool isStunned;
+    [HideInInspector] public bool isStunned;
 
     private EffectManager effectManager;
-
     private float color = 255;
 
 
 
     void Start()
     {
+        hpMax = hp;
+        staminaMax = stamina;
+        manaMax = mana;
+
         effectManager = FindAnyObjectByType<EffectManager>();
         if(!isChampion)
             enemyName = gameObject.name;

@@ -62,7 +62,6 @@ public class Item : MonoBehaviour
         MagicWeapon_air,
     }
     public WeaponType weaponType;
-    public List<PlayerStats.MagicType> magicType;
     public PlayerStats.WeaponClass weaponClass;
 
     public bool isStackable;
@@ -358,16 +357,16 @@ public class Item : MonoBehaviour
                 weaponClass = PlayerStats.WeaponClass.RangeStrenght;
                 break;
             case WeaponType.MagicWeapon_fire:
-                weaponClass = PlayerStats.WeaponClass.MagicFire;
+                weaponClass = PlayerStats.WeaponClass.Magic;
                 break;
             case WeaponType.MagicWeapon_water:
-                weaponClass = PlayerStats.WeaponClass.MagicWater;
+                weaponClass = PlayerStats.WeaponClass.Magic;
                 break;
             case WeaponType.MagicWeapon_earth:
-                weaponClass = PlayerStats.WeaponClass.MagicEarth;
+                weaponClass = PlayerStats.WeaponClass.Magic;
                 break;
             case WeaponType.MagicWeapon_air:
-                weaponClass = PlayerStats.WeaponClass.MagicAir;
+                weaponClass = PlayerStats.WeaponClass.Magic;
                 break;
             default:
                 Debug.Log(itemName);
@@ -387,14 +386,6 @@ public class Item : MonoBehaviour
             text.text = "nice";
         else
             text.text = amount.ToString();
-    }
-
-    public bool TwoHanded()
-    {
-        if(stats.ContainsKey("twoHanded"))
-            if (stats["twoHanded"] == 1)
-                return true;
-        return false;
     }
 
     private IEnumerator DestroyItem()
