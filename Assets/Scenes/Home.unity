@@ -3179,14 +3179,8 @@ MonoBehaviour:
   level_rangedDexterity: 0
   exp_rangedStrenght: 0
   level_rangedStrenght: 0
-  exp_magicFire: 0
-  level_magicFire: 0
-  exp_magicWater: 0
-  level_magicWater: 0
-  exp_magicEarth: 0
-  level_magicEarth: 0
-  exp_magicAir: 0
-  level_magicAir: 0
+  exp_magic: 0
+  level_magic: 0
   skillPoints: 0
   skillIssue: 0
   backpackSize: 8
@@ -6986,7 +6980,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490377960}
-  - component: {fileID: 490377961}
   m_Layer: 5
   m_Name: RangedTab
   m_TagString: Untagged
@@ -7015,18 +7008,6 @@ RectTransform:
   m_AnchoredPosition: {x: -130, y: 0}
   m_SizeDelta: {x: 930, y: 720}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &490377961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 490377959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed66274abeeb064da5685b3f83059fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &501865251
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26039,7 +26020,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1567255693}
-  - component: {fileID: 1567255694}
   m_Layer: 5
   m_Name: MeleeTab
   m_TagString: Untagged
@@ -26068,19 +26048,6 @@ RectTransform:
   m_AnchoredPosition: {x: -130, y: 0}
   m_SizeDelta: {x: 930, y: 720}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1567255694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1567255692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11424d27b46d21a4aa08d11a9df1bc2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillDescription: {fileID: 1488603244}
 --- !u!1001 &1568856096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32577,7 +32544,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1921553620}
-  - component: {fileID: 1921553621}
   m_Layer: 5
   m_Name: MagicTab
   m_TagString: Untagged
@@ -32605,18 +32571,6 @@ RectTransform:
   m_AnchoredPosition: {x: -130, y: 0}
   m_SizeDelta: {x: 930, y: 720}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1921553621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1921553619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d8f279b4883cbc43b18bbf108887ee7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1924770780
 GameObject:
   m_ObjectHideFlags: 0

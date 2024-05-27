@@ -77,21 +77,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private int level_rangedStrenght;
     [SerializeField]
-    private int exp_magicFire;
+    private int exp_magic;
     [SerializeField]
-    private int level_magicFire;
-    [SerializeField]
-    private int exp_magicWater;
-    [SerializeField]
-    private int level_magicWater;
-    [SerializeField]
-    private int exp_magicEarth;
-    [SerializeField]
-    private int level_magicEarth;
-    [SerializeField]
-    private int exp_magicAir;
-    [SerializeField]
-    private int level_magicAir;
+    private int level_magic;
     [SerializeField]
     private int skillPoints;
     [SerializeField]
@@ -179,14 +167,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "level_rangedDexterity", level_rangedDexterity },
             { "exp_rangedStrenght", exp_rangedStrenght },
             { "level_rangedStrenght", level_rangedStrenght },
-            { "exp_magicFire", exp_magicFire },
-            { "level_magicFire", level_magicFire },
-            { "exp_magicWater", exp_magicWater },
-            { "level_magicWater", level_magicWater },
-            { "exp_magicEarth", exp_magicEarth },
-            { "level_magicEarth", level_magicEarth },
-            { "exp_magicAir", exp_magicAir },
-            { "level_magicAir", level_magicAir },
+            { "exp_magicFire", exp_magic },
+            { "level_magicFire", level_magic },
             { "skillPoints", skillPoints },
             { "skillIssue", skillIssue },
             { "backpackSize", backpackSize },
@@ -299,10 +281,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         { "level_twoHandStrenght", "exp_twoHandStrenght" },
         { "level_rangedDexterity", "exp_rangedDexterity" },
         { "level_rangedStrenght", "exp_rangedStrenght" },
-        { "level_magicFire", "exp_magicFire" },
-        { "level_magicWater", "exp_magicWater" },
-        { "level_magicEarth", "exp_magicEarth" },
-        { "level_magicAir", "exp_magicAir" },
+        { "level_magic", "exp_magic" },
     };
     private void CheckForLevelUp()
     {
