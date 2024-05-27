@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b3d4845a237f4e9ec5fc5ec39cb2b, type: 3}
   m_Name: EarthCrystal
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Earth Crystal
   description: 
-  stackSize: 0
-  sprite_inventory: {fileID: 0}
+  stackSize: 69
+  sprite_inventory: {fileID: 3286163911610860551, guid: 135475cf78703f0439209d65215f6b90,
+    type: 3}
   requieredCraftingLevel: 0
   recipeMaterials: []
   recipeMaterialsAmount: 
-  weight: 0
+  weight: 1
