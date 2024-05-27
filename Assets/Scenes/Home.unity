@@ -1053,7 +1053,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1333992922}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14007,6 +14007,11 @@ PrefabInstance:
         type: 3}
       propertyPath: slotType
       value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8248644224333491186, guid: 46263f1146e6a4d439fbed09bfa30e62,
+        type: 3}
+      propertyPath: isLeftSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4188577557131644121, guid: ab81f839011853046b138a9c9414c81d,
         type: 3}
