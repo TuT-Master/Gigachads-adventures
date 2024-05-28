@@ -18,6 +18,7 @@ public class DungeonRoom : MonoBehaviour
 
     public List<GameObject> population = new();
     public List<IInteractableEnemy> enemies = new();
+    // public List<MineableResource> resources = new();
 
     public bool cleared;
 
@@ -89,8 +90,8 @@ public class DungeonRoom : MonoBehaviour
         // Wake everything and everybody up
         gameObject.SetActive(true);
         // Add loot
-        for(int i = 0; i < transform.Find("Population").childCount; i++)
-            if (transform.Find("Population").GetChild(i).TryGetComponent(out OtherInventory otherInventory))
+        for(int i = 0; i < transform.Find("Objs").childCount; i++)
+            if (transform.Find("Objs").GetChild(i).TryGetComponent(out OtherInventory otherInventory))
             {
                 otherInventory.isLocked = true;
                 lootBoxes.Add(otherInventory);

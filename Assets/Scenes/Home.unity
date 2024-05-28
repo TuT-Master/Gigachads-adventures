@@ -1053,7 +1053,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1333992922}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3264,6 +3264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011799553e0763a419fd7800d93edd03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillScreenOpen: 0
   categoryButtons:
   - {fileID: 582107807}
   - {fileID: 1710146124}
@@ -3271,7 +3272,6 @@ MonoBehaviour:
   - {fileID: 1163005121}
   skillScreen: {fileID: 1813809444}
   skillDescription: {fileID: 1488603244}
-  skillScreenOpen: 0
   tabs:
   - {fileID: 397380054}
   - {fileID: 1567255692}
