@@ -7,6 +7,8 @@ using System.Linq;
 
 public class PlayerSkill : MonoBehaviour
 {
+    public bool skillScreenOpen;
+
     [SerializeField]
     private CategoryButton[] categoryButtons;
 
@@ -16,14 +18,13 @@ public class PlayerSkill : MonoBehaviour
     [SerializeField]
     private SkillDescription skillDescription;
 
-    public bool skillScreenOpen;
-
     [SerializeField]
     private List<GameObject> tabs;
 
     private HUDmanager hudManager;
 
     private List<SkillConnection> skillConnections;
+
 
     void Start()
     {

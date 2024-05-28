@@ -121,9 +121,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Primitive belt fed bow
   description: Just like a primitive bow but with arrow belt. Let the FUN begins!
-  slotType: 2
+  slotType: 0
   weaponType: 0
-  magicType: 
   weaponClass: 0
   isStackable: 0
   stackSize: 1

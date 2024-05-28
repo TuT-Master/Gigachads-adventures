@@ -23,6 +23,8 @@ public class DungeonDatabase : ScriptableObject
 
     public List<GameObject> meleeEnemies;
 
+    public List<GameObject> rangedEnemies;
+
     public List<Material> weaponMaterials;
 
     public List<string> firstChampionNames;

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Skill : MonoBehaviour
 {
+    public int levelUnlock;
+
     public string skillName;
 
     public string description;

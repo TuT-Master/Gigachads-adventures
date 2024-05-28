@@ -377,53 +377,114 @@ public class DungeonGenerator : MonoBehaviour
 
     void PopulateRoom(GameObject room)
     {
+        Dictionary<Vector2, GameObject> objs = new();
         Dictionary<Vector2, GameObject> pop = new();
+        System.Random random = new();
 
+        // Set min/max count of obstacles, enemies, lootboxes etc depending on difficulty/roomSize/etc.
+        int tilesCount = (int)(room.GetComponent<DungeonRoom>().size.x * room.GetComponent<DungeonRoom>().size.y * 9);
+        int obstacleCount = random.Next(0, (int)(tilesCount * 0.05f));
+        int meleeEnemiesCount = random.Next(2, (int)(tilesCount * 0.01f));
+        int rangedEnemiesCount = random.Next(1, (int)(tilesCount * 0.005f));
+        int lootBoxesCount = random.Next(0, (int)(tilesCount * 0.005f));
 
-        // Add obstacles
-        System.Random random;
-        for (int y = 1; y < room.GetComponent<DungeonRoom>().size.y * 3 - 1; y++)
+        // Assing obstacles to tiles
+        for (int i = 0; i < obstacleCount; i++)
         {
-            for (int x = 1; x < room.GetComponent<DungeonRoom>().size.x * 3 - 1; x++)
+            bool done = false;
+            while(!done)
             {
                 random = new();
-                switch (random.Next(0, 100))
+                Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
+                if (!objs.ContainsKey(id))
                 {
-                    case 0 | 1:
-                        pop.Add(new(x, y), objDatabase.obstacles[0]);
-                        break;
-                    case 2:
-                        pop.Add(new(x, y), objDatabase.resources[0]);
-                        break;
-                    case 3:
-                        pop.Add(new(x, y), objDatabase.lootBoxes[0]);
-                        break;
-                    case 4:
-                        // Enemy
-                        if(rooms.Count > 0)
-                        {
-                            // TODO - chance to spawn a champion
-                            pop.Add(new(x, y), objDatabase.meleeEnemies[random.Next(0, objDatabase.meleeEnemies.Count)]);
-                            pop[new(x, y)].transform.rotation = Quaternion.Euler(0, 180, 0);
-                        }
-                        break;
-                    default:
-                        pop.Add(new(x, y), null);
-                        break;
+                    objs.Add(id, objDatabase.obstacles[random.Next(0, objDatabase.obstacles.Count)]);
+                    done = true;
                 }
             }
         }
 
-        // Spawn population
-        GameObject population = new("Population");
-        population.transform.parent = room.transform;
+        // Assign lootBoxes to tiles
+        for (int i = 0; i < lootBoxesCount; i++)
+        {
+            bool done = false;
+            while (!done)
+            {
+                random = new();
+                Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
+                if (!objs.ContainsKey(id))
+                {
+                    objs.Add(id, objDatabase.lootBoxes[random.Next(0, objDatabase.lootBoxes.Count)]);
+                    done = true;
+                }
+            }
+        }
+
+        // Assign mineable resources to tiles
+        for (int i = 0; i < lootBoxesCount; i++)
+        {
+            bool done = false;
+            while (!done)
+            {
+                random = new();
+                Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
+                if (!objs.ContainsKey(id))
+                {
+                    objs.Add(id, objDatabase.resources[random.Next(0, objDatabase.resources.Count)]);
+                    done = true;
+                }
+            }
+        }
+        
+        if(room.GetComponent<DungeonRoom>().roomID != 0)
+        {
+            // Assign melee enemies to tiles
+            for (int i = 0; i < meleeEnemiesCount; i++)
+            {
+                bool done = false;
+                while (!done)
+                {
+                    random = new();
+                    Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
+                    if (!objs.ContainsKey(id) && !pop.ContainsKey(id))
+                    {
+                        pop.Add(id, objDatabase.meleeEnemies[random.Next(0, objDatabase.meleeEnemies.Count)]);
+                        done = true;
+                    }
+                }
+            }
+
+            // Assign ranged enemies to tiles
+            for (int i = 0; i < rangedEnemiesCount; i++)
+            {
+                bool done = false;
+                while (!done)
+                {
+                    random = new();
+                    Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
+                    if (!objs.ContainsKey(id) && !pop.ContainsKey(id))
+                    {
+                        pop.Add(id, objDatabase.rangedEnemies[random.Next(0, objDatabase.rangedEnemies.Count)]);
+                        done = true;
+                    }
+                }
+            }
+        }
+
+        // Spawn population and objs
+        GameObject objFolder = new("Objs");
+        objFolder.transform.parent = room.transform;
+        foreach (Vector2 id in objs.Keys)
+            if (objs[id] != null)
+                Instantiate(objs[id], new Vector3(id.x, 0, id.y), Quaternion.identity, objFolder.transform);
+        GameObject popFolder = new("Population");
+        popFolder.transform.parent = room.transform;
         foreach (Vector2 id in pop.Keys)
         {
             if (pop[id] != null)
             {
-                Instantiate(pop[id], new Vector3(id.x, 0, id.y), Quaternion.identity, population.transform);
-                if (pop[id] != null && pop[id].TryGetComponent(out EnemyStats enemy))
-                    room.GetComponent<DungeonRoom>().enemies.Add(enemy);
+                Instantiate(pop[id], new Vector3(id.x, 0, id.y), Quaternion.identity, popFolder.transform);
+                room.GetComponent<DungeonRoom>().enemies.Add(pop[id].GetComponent<EnemyStats>());
             }
         }
 

@@ -37,6 +37,9 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public bool isActive;
 
+    public bool isOcupied;
+
+
     void Start() { SetDefaultImage(); }
     void Update()
     {
@@ -47,9 +50,15 @@ public class Slot : MonoBehaviour, IDropHandler
             gameObject.SetActive(false);
         // setting slot image
         if(transform.childCount > 0)
+        {
             image.sprite = slotImages[0];
+            isOcupied = true;
+        }
         else
+        {
             SetDefaultImage();
+            isOcupied = false;
+        }
     }
 
     public void SetDefaultImage()
@@ -116,24 +125,24 @@ public class Slot : MonoBehaviour, IDropHandler
         else if (transform.childCount == 1 && CanBePlaced(droppedItem))
         {
             // Spojení stackable itemù
-            if (gameObject.transform.childCount == 1 &&
+            if (transform.childCount == 1 &&
             droppedItem.isStackable &&
-            transform.GetChild(0).gameObject.GetComponent<Item>().isStackable &&
-            droppedItem.itemName == transform.GetChild(0).gameObject.GetComponent<Item>().itemName)
+            transform.GetChild(0).GetComponent<Item>().isStackable &&
+            droppedItem.itemName == transform.GetChild(0).GetComponent<Item>().itemName)
             {
-                if (droppedItem.amount + gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount <= gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize)
+                if (droppedItem.amount + transform.GetChild(0).GetComponent<Item>().amount <= transform.GetChild(0).GetComponent<Item>().stackSize)
                 {
-                    gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount += droppedItem.amount;
+                    transform.GetChild(0).GetComponent<Item>().amount += droppedItem.amount;
                     Destroy(eventData.pointerDrag);
                 }
                 else
                 {
-                    droppedItem.amount -= gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize - gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount;
-                    gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().amount = gameObject.transform.GetChild(0).gameObject.GetComponent<Item>().stackSize;
+                    droppedItem.amount -= transform.GetChild(0).GetComponent<Item>().stackSize - transform.GetChild(0).GetComponent<Item>().amount;
+                    transform.GetChild(0).GetComponent<Item>().amount = transform.GetChild(0).GetComponent<Item>().stackSize;
                 }
             }
             // Prohození itemù
-            else
+            else if (eventData.pointerDrag.GetComponent<ItemUI>().parentBeforeDrag.GetComponent<Slot>().CanBePlaced(GetComponentInChildren<Item>()))
             {
                 transform.GetChild(0).SetParent(eventData.pointerDrag.GetComponent<ItemUI>().parentBeforeDrag);
                 eventData.pointerDrag.GetComponent<ItemUI>().parentAfterDrag = transform;
@@ -141,10 +150,17 @@ public class Slot : MonoBehaviour, IDropHandler
         }
     }
 
-    private bool CanBePlaced(Item dropped)
+    public bool CanBePlaced(Item dropped)
     {
         if(slotType == SlotType.All)
             return true;
+        else if (slotType == SlotType.PrimaryHand && dropped.twoHanded)
+        {
+            foreach (Slot slot in FindObjectsByType<Slot>(FindObjectsSortMode.None))
+                if (slot.slotType == SlotType.SecondaryHand && slot.isOcupied)
+                    return false;
+            return true;
+        }
         else if(slotType == SlotType.PrimaryHand && dropped.slotType == SlotType.WeaponMelee)
             return true;
         else if (slotType == SlotType.PrimaryHand && dropped.slotType == SlotType.WeaponRanged)
@@ -156,8 +172,6 @@ public class Slot : MonoBehaviour, IDropHandler
         else if(slotType == SlotType.SecondaryHand && dropped.slotType == SlotType.Shield && !FindAnyObjectByType<PlayerInventory>().TwoHandedWeaponInFirstSlot())
             return true;
         else if (slotType == SlotType.SecondaryHand && dropped.slotType == SlotType.WeaponMelee && dropped.twoHanded)
-            return true;
-        else if (slotType == SlotType.SecondaryHand && dropped.slotType == SlotType.Consumable && !FindAnyObjectByType<PlayerInventory>().TwoHandedWeaponInFirstSlot())
             return true;
         else
             return false;
