@@ -7,6 +7,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     public Dictionary<string, float> playerStats;
     public Dictionary<string, float> playerStats_default;
 
+    // Skill bonuses
     public Dictionary <string, float> playerSkillBonusStats_OneHandedStrength;
     public Dictionary <string, float> playerSkillBonusStats_OneHandedDexterity;
     public Dictionary <string, float> playerSkillBonusStats_TwoHandedStrength;
