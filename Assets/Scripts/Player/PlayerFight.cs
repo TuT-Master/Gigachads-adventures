@@ -124,8 +124,8 @@ public class PlayerFight : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R) | itemInHand.stats["currentMagazine"] == 0)
                 StartCoroutine(Reload());
 
-        // Q - Use consumable
-        if (Input.GetKeyDown(KeyCode.Q))
+        // E - Use consumable
+        if (Input.GetKeyDown(KeyCode.E))
             UseConsumable(GetComponent<PlayerToolbar>().GetActiveConsumable());
     }
 

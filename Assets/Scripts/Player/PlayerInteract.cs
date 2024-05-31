@@ -15,7 +15,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if(interactablesInRange[^interactablesInRange.Count].CanInteract())
                     interactablesInRange[^interactablesInRange.Count].Interact();
-                else
+                if (!interactablesInRange[^interactablesInRange.Count].CanInteract())
                     RemoveInteractable(interactablesInRange[^interactablesInRange.Count]);
             }
             catch
