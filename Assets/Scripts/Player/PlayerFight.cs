@@ -33,6 +33,12 @@ public class PlayerFight : MonoBehaviour
     [SerializeField]
     private Transform projectileSpawnPoint;
 
+    [Header("Effects")]
+    [SerializeField]
+    private EffectManager effectManager;
+    [SerializeField]
+    private Transform weaponEffectSpawnPoint;
+
     private List<IInteractableEnemy> enemyList = new();
     private Dictionary<string, float> fistsStats = new(){
                 {"damage", 2f},
@@ -203,6 +209,10 @@ public class PlayerFight : MonoBehaviour
             if (finalDamage > 0)
                 playerStats.AddExp(itemInHand, finalDamage);
         }
+
+        // Play animation
+        effectManager.SpawnSlash(weaponEffectSpawnPoint);
+
 
         StartCoroutine(CanAttackAgain());
     }

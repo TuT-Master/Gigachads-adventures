@@ -1053,7 +1053,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1333992922}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3139,6 +3139,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 8358021877404063525, guid: f8ae3909c2e13ea47b10e830fbbfa5f1,
     type: 3}
   projectileSpawnPoint: {fileID: 2138501397}
+  effectManager: {fileID: 281849196}
+  weaponEffectSpawnPoint: {fileID: 358020610}
 --- !u!114 &220485077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4190,7 +4192,11 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7b3f58f5702e8fb4eb3ed08dc5dc28df, type: 2}
   - {fileID: 2100000, guid: f338d1c426aa76b4c8c548fb11bd3406, type: 2}
   poisonStains: []
+  slashes:
+  - {fileID: 21300000, guid: c87445e2f315031499efc27252b5d7ee, type: 3}
   stainPrefab: {fileID: 2640857400013486437, guid: 01b660c776b287946b04869b743a8eae,
+    type: 3}
+  slashPrefab: {fileID: 8330678872317956471, guid: 017336962ba248647a3e729bfe676cd6,
     type: 3}
 --- !u!1001 &282181676
 PrefabInstance:
@@ -5078,6 +5084,37 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 350364534}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &358020609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 358020610}
+  m_Layer: 0
+  m_Name: SlashSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &358020610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358020609}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.015, y: 0.3, z: 0.896}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 920902997}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &361000640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14037,6 +14074,7 @@ Transform:
   - {fileID: 2138501397}
   - {fileID: 902259200}
   - {fileID: 892991716}
+  - {fileID: 358020610}
   m_Father: {fileID: 220485071}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

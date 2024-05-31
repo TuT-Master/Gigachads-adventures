@@ -1,26 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using UnityEditor.Rendering;
 using UnityEngine;
 
 public class EffectManager : MonoBehaviour
 {
-    [SerializeField]
-    private List<Material> bloodStains;
-    [SerializeField]
-    private List<Material> poisonStains;
-
-    [SerializeField]
-    private GameObject stainPrefab;
-
     public enum StainType
     {
         Blood,
         Poison
     }
 
+
+    [SerializeField]
+    private List<Material> bloodStains;
+    [SerializeField]
+    private List<Material> poisonStains;
+
+    [SerializeField]
+    private List<Sprite> slashes;
+
+    [SerializeField]
+    private GameObject stainPrefab;
+    [SerializeField]
+    private GameObject slashPrefab;
+
     private Dungeon dungeon;
     private GameObject currentRoom;
+
 
 
     private void Update()
@@ -39,7 +47,6 @@ public class EffectManager : MonoBehaviour
         rand = new();
         newStain.transform.localScale = new(10f / rand.Next(10, 20), 10f / rand.Next(10, 20), 1);
     }
-
     private Material GetRandomMaterial(StainType stainType)
     {
         System.Random rnd = new();
@@ -49,5 +56,13 @@ public class EffectManager : MonoBehaviour
             StainType.Poison => poisonStains[rnd.Next(poisonStains.Count - 1)],
             _ => null,
         };
+    }
+
+    public void SpawnSlash(Transform t)
+    {
+        GameObject newSlash = Instantiate(slashPrefab, t.position, Quaternion.identity);
+        newSlash.transform.rotation = Quaternion.Euler(new(90, 0, -(FindAnyObjectByType<PlayerMovement>().angleRaw - 90)));
+        if(new System.Random().Next(0, 2) > 0)
+            newSlash.GetComponent<SpriteRenderer>().flipY = true;
     }
 }
