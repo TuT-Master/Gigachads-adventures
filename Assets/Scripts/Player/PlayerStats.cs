@@ -18,7 +18,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     public Dictionary<string, float> playerSkillBonusStats_MagicWater;
     public Dictionary<string, float> playerSkillBonusStats_MagicEarth;
     public Dictionary<string, float> playerSkillBonusStats_MagicAir;
-    
+
     [Header("Player default stats")]
     #region Default stats setup
     [SerializeField]
@@ -78,9 +78,21 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private int level_rangedStrenght;
     [SerializeField]
-    private int exp_magic;
+    private int exp_magicFire;
     [SerializeField]
-    private int level_magic;
+    private int level_magicFire;
+    [SerializeField]
+    private int exp_magicAir;
+    [SerializeField]
+    private int level_magicAir;
+    [SerializeField]
+    private int exp_magicWater;
+    [SerializeField]
+    private int level_magicWater;
+    [SerializeField]
+    private int exp_magicEarth;
+    [SerializeField]
+    private int level_magicEarth;
     [SerializeField]
     private int skillPoints;
     [SerializeField]
@@ -168,8 +180,14 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "level_rangedDexterity", level_rangedDexterity },
             { "exp_rangedStrenght", exp_rangedStrenght },
             { "level_rangedStrenght", level_rangedStrenght },
-            { "exp_magicFire", exp_magic },
-            { "level_magicFire", level_magic },
+            { "exp_magicFire", exp_magicFire },
+            { "level_magicFire", level_magicFire },
+            { "exp_magicAir", exp_magicAir },
+            { "level_magicAir", level_magicAir },
+            { "exp_magicWater", exp_magicWater },
+            { "level_magicWater", level_magicWater },
+            { "exp_magicEarth", exp_magicEarth },
+            { "level_magicEarth", level_magicEarth },
             { "skillPoints", skillPoints },
             { "skillIssue", skillIssue },
             { "backpackSize", backpackSize },
@@ -282,7 +300,10 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         { "level_twoHandStrenght", "exp_twoHandStrenght" },
         { "level_rangedDexterity", "exp_rangedDexterity" },
         { "level_rangedStrenght", "exp_rangedStrenght" },
-        { "level_magic", "exp_magic" },
+        { "level_magicFire", "exp_magicFire" },
+        { "level_magicAir", "exp_magicAir" },
+        { "level_magicWater", "exp_magicWater" },
+        { "level_magicEarth", "exp_magicEarth" },
     };
     private void CheckForLevelUp()
     {
