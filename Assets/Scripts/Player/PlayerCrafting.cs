@@ -6,9 +6,6 @@ public class PlayerCrafting : MonoBehaviour
 {
     public bool isOpened;
 
-    public int craftingLevel = 0;
-
-
     [SerializeField]
     private GameObject craftingScreen;
     [SerializeField]
@@ -25,6 +22,8 @@ public class PlayerCrafting : MonoBehaviour
 
     private HUDmanager hudmanager;
     private PlayerInventory playerInventory;
+    [SerializeField]
+    private PlayerBase playerBase;
 
 
 
@@ -34,6 +33,9 @@ public class PlayerCrafting : MonoBehaviour
         playerInventory = GetComponent<PlayerInventory>();
         ToggleScreen(true);
         ToggleScreen(false);
+
+        // TODO - load crafting leves from upgrades in player's base
+
     }
 
     void Update()
@@ -86,7 +88,7 @@ public class PlayerCrafting : MonoBehaviour
         List<Item> allItems = itemDatabase.GetAllItems();
         int recipesAmount = 0;
         foreach (Item item in allItems)
-            if (item.recipe.Count > 0 && item.requieredCraftingLevel <= craftingLevel)
+            if (item.recipe.Count > 0 && item.requieredCraftingLevel <= playerBase.baseUpgrades[item.craftedIn])
             {
                 // Show recipe
                 GameObject recipe = Instantiate(recipePrefab, recipesTransform);

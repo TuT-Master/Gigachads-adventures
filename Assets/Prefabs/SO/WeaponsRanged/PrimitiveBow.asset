@@ -22,6 +22,7 @@ MonoBehaviour:
   twoHanded: 1
   AoE: 0
   weaponType: 14
+  craftedIn: 4
   requieredCraftingLevel: 0
   recipeMaterials:
   - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}

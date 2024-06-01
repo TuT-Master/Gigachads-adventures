@@ -13,6 +13,7 @@ public class MaterialSO : ScriptableObject
 
     public Sprite sprite_inventory;
 
+    public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;

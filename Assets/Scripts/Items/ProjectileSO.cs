@@ -14,6 +14,7 @@ public class ProjectileSO : ScriptableObject
     public Sprite sprite_inventory;
     public Sprite sprite_equip;
 
+    public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;

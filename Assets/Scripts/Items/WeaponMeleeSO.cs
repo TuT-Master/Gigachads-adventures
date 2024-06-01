@@ -19,6 +19,7 @@ public class WeaponMeleeSO : ScriptableObject
 
     public Item.WeaponType weaponType;
 
+    public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;

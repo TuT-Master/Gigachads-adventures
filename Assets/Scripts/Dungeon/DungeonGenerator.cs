@@ -383,10 +383,10 @@ public class DungeonGenerator : MonoBehaviour
 
         // Set min/max count of obstacles, enemies, lootboxes etc depending on difficulty/roomSize/etc.
         int tilesCount = (int)(room.GetComponent<DungeonRoom>().size.x * room.GetComponent<DungeonRoom>().size.y * 9);
-        int obstacleCount = random.Next(0, (int)(tilesCount * 0.05f));
+        int obstacleCount = random.Next(5, (int)(tilesCount * 0.05f));
         int meleeEnemiesCount = random.Next(2, (int)(tilesCount * 0.01f));
         int rangedEnemiesCount = random.Next(1, (int)(tilesCount * 0.005f));
-        int lootBoxesCount = random.Next(0, (int)(tilesCount * 0.005f));
+        int lootBoxesCount = random.Next(0, (int)(tilesCount * 0.0075f));
 
         // Assing obstacles to tiles
         for (int i = 0; i < obstacleCount; i++)
@@ -476,7 +476,7 @@ public class DungeonGenerator : MonoBehaviour
         objFolder.transform.parent = room.transform;
         foreach (Vector2 id in objs.Keys)
             if (objs[id] != null)
-                Instantiate(objs[id], new Vector3(id.x, 0, id.y), Quaternion.identity, objFolder.transform);
+                Instantiate(objs[id], new Vector3(id.x, 0, id.y), Quaternion.Euler(0, new System.Random().Next(-180, 180), 0), objFolder.transform);
         GameObject popFolder = new("Population");
         popFolder.transform.parent = room.transform;
         foreach (Vector2 id in pop.Keys)

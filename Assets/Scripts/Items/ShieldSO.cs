@@ -18,6 +18,7 @@ public class ShieldSO : ScriptableObject
     public Sprite sprite_equipFront;
     public Sprite sprite_equipBack;
 
+    public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;

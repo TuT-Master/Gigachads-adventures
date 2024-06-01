@@ -17,6 +17,7 @@ MonoBehaviour:
   stackSize: 1
   sprite_inventory: {fileID: 3286163911610860551, guid: 54e2d6ae3b8df1040b327f72f4b082ce,
     type: 3}
+  craftedIn: 6
   requieredCraftingLevel: 0
   recipeMaterials: []
   recipeMaterialsAmount: 

@@ -15,6 +15,7 @@ public class ArmorSO : ScriptableObject
 
     public Slot.SlotType slotType;
 
+    public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
