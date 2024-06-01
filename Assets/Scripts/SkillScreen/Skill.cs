@@ -131,8 +131,10 @@ public class Skill : MonoBehaviour
         if (levelOfSkill < MaxlevelsOfSkill)
         {
             levelOfSkill++;
+            if (levelOfSkill == MaxlevelsOfSkill)
+                maxLevel = true;
 
-
+            // Upgrade skill bonuses
             Dictionary<string, float[]> skillBonus = new()
             {
                 {"damage", damage },
@@ -151,7 +153,6 @@ public class Skill : MonoBehaviour
                 {"staminaConsumtionReduction", staminaConsumtionReduction },
                 {"evade", evade },
             };
-
             foreach (string key in  skillBonus.Keys)
             {
                 if (skillBonus[key].Length > 0)
@@ -163,12 +164,15 @@ public class Skill : MonoBehaviour
                 }
             }
 
+            // Update skill level
+            if (activeSkill)
+                FindAnyObjectByType<PlayerSkill>().playerWeaponTypeSkillLevels[weaponType][PlayerSkill.SkillType.Active]++;
+            else
+                FindAnyObjectByType<PlayerSkill>().playerWeaponTypeSkillLevels[weaponType][PlayerSkill.SkillType.Passive]++;
+
             // Fill
             fillAmount = levelOfSkill / MaxlevelsOfSkill;
             skillUnlockedAmountImage.fillAmount = fillAmount;
-
-            if (levelOfSkill == MaxlevelsOfSkill)
-                maxLevel = true;
         }
     }
 

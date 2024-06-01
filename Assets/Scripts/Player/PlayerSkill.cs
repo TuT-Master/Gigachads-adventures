@@ -4,9 +4,57 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class PlayerSkill : MonoBehaviour
 {
+    public enum SkillType
+    {
+        Passive,
+        Active
+    }
+    public Dictionary<Item.WeaponType, Dictionary<SkillType, int>> playerWeaponTypeSkillLevels = new()
+    {
+        // One handed
+        { Item.WeaponType.Whip, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Dagger, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Sword, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Rapier, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.LightShield, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+
+        { Item.WeaponType.Axe, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Mace, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Hammer_oneHanded, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.HeavyShield, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        // Two handed
+        { Item.WeaponType.QuarterStaff, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Spear, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Longsword, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+
+        { Item.WeaponType.Halbert, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Hammer_twoHanded, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Zweihander, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        // Ranged
+        { Item.WeaponType.Bow, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.SMG, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Pistol, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.AttackRifle, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Thrower, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+
+        { Item.WeaponType.Longbow, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Crossbow, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Shotgun, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Revolver, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Machinegun, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.SniperRifle, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.Launcher, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        // Magic
+        { Item.WeaponType.MagicWeapon_fire, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.MagicWeapon_water, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.MagicWeapon_earth, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.WeaponType.MagicWeapon_air, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+    };
+
     public bool skillScreenOpen;
 
     [SerializeField]

@@ -24,10 +24,12 @@ public class Item : MonoBehaviour
         Dagger,
         Sword,
         Rapier,
+        LightShield,
         // Strenght
         Axe,
         Mace,
         Hammer_oneHanded,
+        HeavyShield,
 
         // Melle TWO HANDED
         // Dexterity

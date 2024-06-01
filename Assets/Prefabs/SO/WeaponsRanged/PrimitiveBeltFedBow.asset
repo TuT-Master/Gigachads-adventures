@@ -21,7 +21,7 @@ MonoBehaviour:
   fullAuto: 1
   twoHanded: 1
   AoE: 0
-  weaponType: 23
+  weaponType: 25
   craftedIn: 4
   requieredCraftingLevel: 0
   recipeMaterials:
