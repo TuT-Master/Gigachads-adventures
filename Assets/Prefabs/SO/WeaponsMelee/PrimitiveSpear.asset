@@ -19,7 +19,7 @@ MonoBehaviour:
   emitsLight: 0
   twoHanded: 1
   AoE: 0
-  weaponType: 9
+  weaponType: 11
   craftedIn: 4
   requieredCraftingLevel: 0
   recipeMaterials:

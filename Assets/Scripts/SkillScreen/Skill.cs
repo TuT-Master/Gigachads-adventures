@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class Skill : MonoBehaviour
 {
-    public int levelUnlock;
-
     public string skillName;
 
     public string description;
+
+    public List<int> levelUnlock;
 
     public bool activeSkill;
 
@@ -20,7 +20,7 @@ public class Skill : MonoBehaviour
     public Item.WeaponType weaponType;
 
     // Levels of skill
-    public float levelOfSkill = 0f;
+    [HideInInspector] public float levelOfSkill = 0f;
     [HideInInspector] public float MaxlevelsOfSkill = 1f;
     [HideInInspector] public bool maxLevel;
 
@@ -131,8 +131,10 @@ public class Skill : MonoBehaviour
         if (levelOfSkill < MaxlevelsOfSkill)
         {
             levelOfSkill++;
+            if (levelOfSkill == MaxlevelsOfSkill)
+                maxLevel = true;
 
-
+            // Upgrade skill bonuses
             Dictionary<string, float[]> skillBonus = new()
             {
                 {"damage", damage },
@@ -151,7 +153,6 @@ public class Skill : MonoBehaviour
                 {"staminaConsumtionReduction", staminaConsumtionReduction },
                 {"evade", evade },
             };
-
             foreach (string key in  skillBonus.Keys)
             {
                 if (skillBonus[key].Length > 0)
@@ -163,12 +164,15 @@ public class Skill : MonoBehaviour
                 }
             }
 
+            // Update skill level
+            if (activeSkill)
+                FindAnyObjectByType<PlayerSkill>().playerWeaponTypeSkillLevels[weaponType][PlayerSkill.SkillType.Active]++;
+            else
+                FindAnyObjectByType<PlayerSkill>().playerWeaponTypeSkillLevels[weaponType][PlayerSkill.SkillType.Passive]++;
+
             // Fill
             fillAmount = levelOfSkill / MaxlevelsOfSkill;
             skillUnlockedAmountImage.fillAmount = fillAmount;
-
-            if (levelOfSkill == MaxlevelsOfSkill)
-                maxLevel = true;
         }
     }
 

@@ -21,6 +21,7 @@ MonoBehaviour:
     type: 3}
   sprite_equipFront: {fileID: 0}
   sprite_equipBack: {fileID: 0}
+  weaponType: 5
   craftedIn: 4
   requieredCraftingLevel: 0
   recipeMaterials:

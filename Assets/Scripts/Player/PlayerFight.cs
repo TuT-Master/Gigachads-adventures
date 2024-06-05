@@ -54,6 +54,7 @@ public class PlayerFight : MonoBehaviour
     };
 
     private PlayerStats playerStats;
+    private PlayerSkill playerSkill;
 
     private bool canUseConsumable = true;
 
@@ -61,6 +62,7 @@ public class PlayerFight : MonoBehaviour
     private void Start()
     {
         playerStats = GetComponent<PlayerStats>();
+        playerSkill = GetComponent<PlayerSkill>();
         canAttackAgain = true;
         reloading = false;
     }
@@ -133,8 +135,25 @@ public class PlayerFight : MonoBehaviour
         // E - Use consumable
         if (Input.GetKeyDown(KeyCode.E))
             UseConsumable(GetComponent<PlayerToolbar>().GetActiveConsumable());
+
+        // Space - Active skill
+        if (Input.GetKeyDown(KeyCode.Space) && secondaryItemInHand != null && defending)
+            UseActiveSkill(true);
+        else if (Input.GetKeyDown(KeyCode.Space) && itemInHand != null && !defending)
+            UseActiveSkill(false);
     }
 
+    private void UseActiveSkill(bool shield)
+    {
+        if(shield && playerSkill.playerWeaponTypeSkillLevels[secondaryItemInHand.weaponType][PlayerSkill.SkillType.Active] > 0)
+        {
+            Debug.Log("Using " + secondaryItemInHand.itemName + "'s active skill!");
+        }
+        else if(!shield && playerSkill.playerWeaponTypeSkillLevels[itemInHand.weaponType][PlayerSkill.SkillType.Active] > 0)
+        {
+            Debug.Log("Using " + itemInHand.itemName + "'s active skill!");
+        }
+    }
     private void UseConsumable(Item consumable)
     {
         if (consumable == null | !canUseConsumable)
