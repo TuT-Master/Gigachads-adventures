@@ -62,6 +62,9 @@ public class Item : MonoBehaviour
         MagicWeapon_water,
         MagicWeapon_earth,
         MagicWeapon_air,
+
+        // Global
+        Global,
     }
     public WeaponType weaponType;
     public PlayerStats.WeaponClass weaponClass;

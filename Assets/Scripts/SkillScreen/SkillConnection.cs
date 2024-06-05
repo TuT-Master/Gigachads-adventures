@@ -58,7 +58,7 @@ public class SkillConnection : MonoBehaviour
 
     public void UpdateSkillConnection()
     {
-        if(previousSkill.levelUnlock <= playerStats.playerStats[levelType] && playerStats.playerStats[levelType] <= nextSkill.levelUnlock)
-            lineDefault.fillAmount = (playerStats.playerStats[levelType] - previousSkill.levelUnlock) / (nextSkill.levelUnlock - previousSkill.levelUnlock);
+        if(previousSkill.levelUnlock[0] <= playerStats.playerStats[levelType] && playerStats.playerStats[levelType] <= nextSkill.levelUnlock[0])
+            lineDefault.fillAmount = (playerStats.playerStats[levelType] - previousSkill.levelUnlock[0]) / (nextSkill.levelUnlock[0] - previousSkill.levelUnlock[0]);
     }
 }

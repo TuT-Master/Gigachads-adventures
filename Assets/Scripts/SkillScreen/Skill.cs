@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class Skill : MonoBehaviour
 {
-    public int levelUnlock;
-
     public string skillName;
 
     public string description;
+
+    public List<int> levelUnlock;
 
     public bool activeSkill;
 
@@ -20,7 +20,7 @@ public class Skill : MonoBehaviour
     public Item.WeaponType weaponType;
 
     // Levels of skill
-    public float levelOfSkill = 0f;
+    [HideInInspector] public float levelOfSkill = 0f;
     [HideInInspector] public float MaxlevelsOfSkill = 1f;
     [HideInInspector] public bool maxLevel;
 
