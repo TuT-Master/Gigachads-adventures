@@ -1144,7 +1144,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1333992922}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15100,6 +15100,7 @@ RectTransform:
   m_Children:
   - {fileID: 730451354}
   - {fileID: 1072934025}
+  - {fileID: 1483716307}
   m_Father: {fileID: 1597961706}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -27974,25 +27975,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1495687659}
-  - {fileID: 1142159799}
-  - {fileID: 1496767053}
-  - {fileID: 1634703608}
-  - {fileID: 452727986}
-  - {fileID: 1515997105}
-  - {fileID: 632611859}
-  - {fileID: 1716789636}
-  - {fileID: 1037154782}
-  - {fileID: 1526289905}
-  - {fileID: 1684231331}
-  - {fileID: 276461139}
-  - {fileID: 1655411192}
-  - {fileID: 1384434979}
-  - {fileID: 202849673}
-  - {fileID: 917310469}
-  - {fileID: 596970570}
-  - {fileID: 1818320927}
+  m_Children: []
   m_Father: {fileID: 847367623}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
