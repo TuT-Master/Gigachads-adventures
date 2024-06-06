@@ -52,6 +52,8 @@ public class Skill : MonoBehaviour
     [SerializeField]
     float[] critChance;
     [SerializeField]
+    float[] knockback;
+    [SerializeField]
     float[] notConsumeStaminaChance;
     [SerializeField]
     float[] staminaConsumtionReduction;
@@ -99,6 +101,7 @@ public class Skill : MonoBehaviour
             range,
             attackSpeed,
             critChance,
+            knockback,
             notConsumeStaminaChance,
             staminaConsumtionReduction,
             evade,
@@ -120,6 +123,7 @@ public class Skill : MonoBehaviour
             {"range", 0 },
             {"attackSpeed", 0 },
             {"critChance", 0 },
+            {"knockback", 0 },
             {"notConsumeStaminaChance", 0 },
             {"staminaConsumtionReduction", 0 },
             {"evade", 0 },
@@ -149,6 +153,7 @@ public class Skill : MonoBehaviour
                 {"range", range },
                 {"attackSpeed", attackSpeed },
                 {"critChance", critChance },
+                {"knockback", knockback },
                 {"notConsumeStaminaChance", notConsumeStaminaChance },
                 {"staminaConsumtionReduction", staminaConsumtionReduction },
                 {"evade", evade },
