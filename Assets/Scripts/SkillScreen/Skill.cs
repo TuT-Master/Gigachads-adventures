@@ -54,6 +54,8 @@ public class Skill : MonoBehaviour
     [SerializeField]
     float[] knockback;
     [SerializeField]
+    float[] increaseArmorByPercentage;
+    [SerializeField]
     float[] notConsumeStaminaChance;
     [SerializeField]
     float[] staminaConsumtionReduction;
@@ -102,6 +104,7 @@ public class Skill : MonoBehaviour
             attackSpeed,
             critChance,
             knockback,
+            increaseArmorByPercentage,
             notConsumeStaminaChance,
             staminaConsumtionReduction,
             evade,
@@ -124,6 +127,7 @@ public class Skill : MonoBehaviour
             {"attackSpeed", 0 },
             {"critChance", 0 },
             {"knockback", 0 },
+            {"increaseArmorByPercentage", 0 },
             {"notConsumeStaminaChance", 0 },
             {"staminaConsumtionReduction", 0 },
             {"evade", 0 },
@@ -154,6 +158,7 @@ public class Skill : MonoBehaviour
                 {"attackSpeed", attackSpeed },
                 {"critChance", critChance },
                 {"knockback", knockback },
+                {"increaseArmorByPercentage", increaseArmorByPercentage },
                 {"notConsumeStaminaChance", notConsumeStaminaChance },
                 {"staminaConsumtionReduction", staminaConsumtionReduction },
                 {"evade", evade },
