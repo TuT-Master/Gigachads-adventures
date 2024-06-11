@@ -632,7 +632,7 @@ GameObject:
   - component: {fileID: 3540842410455966055}
   - component: {fileID: 5843397948648757938}
   m_Layer: 0
-  m_Name: EnemyPrefab
+  m_Name: Enemy_meleeStealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -726,7 +726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab08dcaf70cfa924799da16944ed9a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attitude: 0
+  attitude: 3
   speed: 1
 --- !u!114 &6559928559447375380
 MonoBehaviour:

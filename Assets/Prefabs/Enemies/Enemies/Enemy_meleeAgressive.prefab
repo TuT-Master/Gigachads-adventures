@@ -632,7 +632,7 @@ GameObject:
   - component: {fileID: 3540842410455966055}
   - component: {fileID: 5843397948648757938}
   m_Layer: 0
-  m_Name: EnemyPrefab
+  m_Name: Enemy_meleeAgressive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
