@@ -58,7 +58,6 @@ public class SkillConnection : MonoBehaviour
 
     public void UpdateSkillConnection()
     {
-        if(previousSkill.levelUnlock[0] <= playerStats.playerStats[levelType] && playerStats.playerStats[levelType] <= nextSkill.levelUnlock[0])
-            lineDefault.fillAmount = (playerStats.playerStats[levelType] - previousSkill.levelUnlock[0]) / (nextSkill.levelUnlock[0] - previousSkill.levelUnlock[0]);
+        Debug.Log("Updating skill joints...");
     }
 }

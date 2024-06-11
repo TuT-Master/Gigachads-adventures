@@ -103,6 +103,10 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private float beltSize;
     [SerializeField]
     private float pocketSize;
+    [SerializeField]
+    private float knockback;
+    [SerializeField]
+    private float increaseArmorByPercentage;
     #endregion
 
     public enum WeaponClass
@@ -193,6 +197,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "backpackSize", backpackSize },
             { "beltSize", beltSize },
             { "pocketSize", pocketSize },
+            {"knockback", knockback },
+            {"increaseArmorByPercentage", increaseArmorByPercentage },
         };
         playerSkillBonusStats_OneHandedDexterity = playerSkillBonusStats_OneHandedStrength =
         playerSkillBonusStats_TwoHandedDexterity = playerSkillBonusStats_TwoHandedStrength =
@@ -212,6 +218,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             {"range", 0 },
             {"attackSpeed", 0 },
             {"critChance", 0 },
+            {"knockback", 0 },
+            {"increaseArmorByPercentage", 0 },
             {"notConsumeStaminaChance", 0 },
             {"staminaConsumtionReduction", 0 },
             {"evade", 0 },
@@ -538,6 +546,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             {"range", 0 },
             {"attackSpeed", 0 },
             {"critChance", 0 },
+            {"knockback", 0 },
+            {"increaseArmorByPercentage", 0 },
             {"notConsumeStaminaChance", 0 },
             {"staminaConsumtionReduction", 0 },
             {"evade", 0 },
