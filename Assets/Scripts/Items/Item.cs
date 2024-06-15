@@ -62,6 +62,8 @@ public class Item : MonoBehaviour
         MagicWeapon_water,
         MagicWeapon_earth,
         MagicWeapon_air,
+        MagicWeapon_light,
+        MagicWeapon_dark,
 
         // Global
         Global,
