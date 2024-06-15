@@ -65,6 +65,10 @@ public class Item : MonoBehaviour
 
         // Global
         Global,
+
+        // Other
+        Throwable,
+        MagicWeapon,
     }
     public WeaponType weaponType;
     public PlayerStats.WeaponClass weaponClass;
@@ -165,7 +169,7 @@ public class Item : MonoBehaviour
         itemName = projectile.itemName;
         description = projectile.description;
         sprite_inventory = projectile.sprite_inventory;
-        sprite_equip = projectile.sprite_equip;
+        sprite_equip = projectile.sprite_projectile;
         stats = projectile.ProjectileStats();
         isStackable = true;
         stackSize = projectile.stackSize;

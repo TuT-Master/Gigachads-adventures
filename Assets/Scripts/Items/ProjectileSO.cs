@@ -12,7 +12,7 @@ public class ProjectileSO : ScriptableObject
     public int stackSize;
 
     public Sprite sprite_inventory;
-    public Sprite sprite_equip;
+    public Sprite sprite_projectile;
 
     public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;

@@ -28,7 +28,9 @@ public class Slot : MonoBehaviour, IDropHandler
         Backpack,
         PrimaryHand,
         SecondaryHand,
-        Shield
+        Shield,
+        MagicWeapon,
+        MagicCrystal,
     }
     public SlotType slotType;
 

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c958d26b49a1a42bd2753c98716bdf, type: 3}
+  m_Name: Stone
+  m_EditorClassIdentifier: 
+  itemName: Stone
+  description: Nice sharp stone.
+  amount: 0
+  isStackable: 1
+  stackSize: 69
+  emitsLight: 0
+  AoE: 0
+  weaponType: 33
+  craftedIn: 4
+  requieredCraftingLevel: 0
+  recipeMaterials:
+  - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
+  recipeMaterialsAmount: 02000000
+  sprite_inventory: {fileID: 3286163911610860551, guid: 08b99541b016698419efb5636376eee0,
+    type: 3}
+  sprite_projectile: {fileID: 0}
+  damage: 2
+  penetration: 2
+  armorIgnore: 0.1
+  attackSpeed: 1
+  staminaCost: 2
+  manaCost: 0
+  spread: 1
+  splashDamage: 0
+  splashRadius: 0
+  rangeX: 1
+  rangeY: 1
+  weight: 0.3
