@@ -71,6 +71,7 @@ public class Item : MonoBehaviour
         // Other
         Throwable,
         MagicWeapon,
+        Trap,
     }
     public WeaponType weaponType;
     public PlayerStats.WeaponClass weaponClass;

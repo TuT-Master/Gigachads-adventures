@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 067cab8ec8edccd4190817bbffd99311, type: 3}
+  m_Name: WoodenSpikes
+  m_EditorClassIdentifier: 
+  itemName: Wooden spikes
+  description: Sharpened spikes
+  amount: 0
+  isStackable: 0
+  stackSize: 0
+  emitsLight: 0
+  AoE: 0
+  weaponType: 37
+  craftedIn: 4
+  requieredCraftingLevel: 0
+  recipeMaterials: []
+  recipeMaterialsAmount: 
+  sprite_inventory: {fileID: 0}
+  model: {fileID: 7910833422986085406, guid: 2308c8ed0e0238a46bbbe7959be5bf8b, type: 3}
+  damage: 3
+  penetration: 2
+  armorIgnore: 0.15
+  poisonDamage: 0
+  bleedingDamage: 0
+  knockback: 2
+  weight: 10
