@@ -21,24 +21,16 @@ public class HelpScreen : MonoBehaviour
 
     void Update()
     {
-        if(helpScreenToggle)
-            MyInput();
-    }
-
-    void MyInput()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            GetComponent<ESCScreen>().ToggleESCScreen(true);
+        if (helpScreenToggle && Input.GetKeyDown(KeyCode.Escape))
             ToggleHelpScreen(false);
-        }
     }
 
     public void ToggleHelpScreen(bool toggle)
     {
-        helpScreenToggle = toggle;
         helpScreen.SetActive(toggle);
+        GetComponent<ESCScreen>().ToggleESCScreen(!toggle);
         GetComponent<PlayerMovement>().canMove = !toggle;
         GetComponent<HUDmanager>().canOpenScreen = !toggle;
+        helpScreenToggle = toggle;
     }
 }

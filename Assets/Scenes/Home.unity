@@ -7729,7 +7729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   escScreenToggle: 0
-  escScreen: {fileID: 0}
+  escScreen: {fileID: 356689640}
 --- !u!114 &220485090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37229,7 +37229,7 @@ MonoBehaviour:
   sprite_active: {fileID: 3286163911610860551, guid: 22d750450fa5cb543bcf71260d7966f5,
     type: 3}
   sprite_clicked: {fileID: 0}
-  helpScreen: {fileID: 0}
+  helpScreen: {fileID: 220485090}
 --- !u!114 &821537104
 MonoBehaviour:
   m_ObjectHideFlags: 0

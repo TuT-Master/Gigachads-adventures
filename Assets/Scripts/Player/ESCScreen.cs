@@ -10,7 +10,6 @@ public class ESCScreen : MonoBehaviour
     [SerializeField]
     private GameObject escScreen;
 
-
     void Start()
     {
         escScreenToggle = false;
@@ -19,14 +18,13 @@ public class ESCScreen : MonoBehaviour
 
     void Update()
     {
-        if(GetComponent<HUDmanager>().AnyScreenOpen() || GetComponent<HelpScreen>().helpScreenToggle)
-            return;
-        MyInput();
+        if(!GetComponent<HUDmanager>().AnyScreenOpen() && !GetComponent<HelpScreen>().helpScreenToggle)
+            MyInput();
     }
 
     void MyInput()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) && !GetComponent<HelpScreen>().helpScreenToggle)
+        if(Input.GetKeyDown(KeyCode.Escape))
             ToggleESCScreen(!escScreenToggle);
     }
 

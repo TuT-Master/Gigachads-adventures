@@ -17,7 +17,11 @@ public class Button_Continue : MonoBehaviour, IPointerClickHandler, IPointerEnte
     private Image image;
 
 
-    void Start() { image = GetComponent<Image>(); }
+    void Start()
+    {
+        image = GetComponent<Image>();
+        image.sprite = sprite_inactive;
+    }
     public void OnPointerEnter(PointerEventData eventData) { image.sprite = sprite_active; }
     public void OnPointerExit(PointerEventData eventData) { image.sprite = sprite_inactive; }
     public void OnPointerClick(PointerEventData eventData)
