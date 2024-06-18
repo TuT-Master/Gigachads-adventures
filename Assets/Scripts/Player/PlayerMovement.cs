@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
     public bool sprint;
     public bool turn;
 
+    public bool canMove = true;
 
     [SerializeField]
     private float rotationMin;
@@ -29,7 +30,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
 
     void Update()
     {
-        if (GetComponent<HUDmanager>().AnyScreenOpen() || playerStats.playerStats == null)
+        if (GetComponent<HUDmanager>().AnyScreenOpen() || playerStats.playerStats == null || !canMove)
             return;
         MyInput();
     }

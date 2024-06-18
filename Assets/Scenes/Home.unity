@@ -7541,6 +7541,7 @@ GameObject:
   - component: {fileID: 220485085}
   - component: {fileID: 220485088}
   - component: {fileID: 220485086}
+  - component: {fileID: 220485089}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7614,6 +7615,7 @@ MonoBehaviour:
   angleRaw: 0
   sprint: 0
   turn: 0
+  canMove: 1
   rotationMin: 0
   rotationMax: 0
   playerGFX: {fileID: 722590334}
@@ -7836,6 +7838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillDescription: {fileID: 1488603244}
+  canOpenScreen: 0
 --- !u!114 &220485085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7981,6 +7984,25 @@ MonoBehaviour:
   recipesTransform: {fileID: 946723760}
   itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
   playerBase: {fileID: 213958365}
+--- !u!114 &220485089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220485070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50272c1b8d08694080be11829a02fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  escScreenToggle: 0
+  helpScreenToggle: 0
+  escScreen: {fileID: 2068499366}
+  helpScreen: {fileID: 111396873}
+  button_continue: {fileID: 0}
+  button_quitGame: {fileID: 0}
+  button_help: {fileID: 0}
 --- !u!1001 &222898278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18998,6 +19020,7 @@ GameObject:
   - component: {fileID: 490003123}
   - component: {fileID: 490003125}
   - component: {fileID: 490003124}
+  - component: {fileID: 490003126}
   m_Layer: 0
   m_Name: Button-quitGame
   m_TagString: Untagged
@@ -19064,6 +19087,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 490003122}
   m_CullTransparentMesh: 1
+--- !u!114 &490003126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490003122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24aa5338124d9140922628ec9264dc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &490377959
 GameObject:
   m_ObjectHideFlags: 0
@@ -42330,6 +42365,7 @@ GameObject:
   - component: {fileID: 942041667}
   - component: {fileID: 942041669}
   - component: {fileID: 942041668}
+  - component: {fileID: 942041670}
   m_Layer: 0
   m_Name: Button-continue
   m_TagString: Untagged
@@ -42396,6 +42432,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 942041666}
   m_CullTransparentMesh: 1
+--- !u!114 &942041670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942041666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e44e1fd0386c9468a14b9588d810b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &944064090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43483,7 +43531,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &982622681
@@ -56848,6 +56896,7 @@ GameObject:
   - component: {fileID: 1356728578}
   - component: {fileID: 1356728580}
   - component: {fileID: 1356728579}
+  - component: {fileID: 1356728581}
   m_Layer: 0
   m_Name: Button-help
   m_TagString: Untagged
@@ -56914,6 +56963,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356728577}
   m_CullTransparentMesh: 1
+--- !u!114 &1356728581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356728577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bbe43522b5c4804180ec2eb5c6aa786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1362148553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59569,7 +59630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1455224807

@@ -13,6 +13,8 @@ public class HUDmanager : MonoBehaviour
     [SerializeField]
     private SkillDescription skillDescription;
 
+    public bool canOpenScreen = true;
+
 
     private void Start()
     {
