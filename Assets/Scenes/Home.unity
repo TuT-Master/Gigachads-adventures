@@ -4062,7 +4062,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111396873}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4070,7 +4070,7 @@ RectTransform:
   - {fileID: 1798819431}
   - {fileID: 1102786493}
   - {fileID: 759546353}
-  m_Father: {fileID: 2068499367}
+  m_Father: {fileID: 1959332351}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7543,6 +7543,7 @@ GameObject:
   - component: {fileID: 220485088}
   - component: {fileID: 220485086}
   - component: {fileID: 220485089}
+  - component: {fileID: 220485090}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7998,12 +7999,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   escScreenToggle: 0
-  helpScreenToggle: 0
   escScreen: {fileID: 2068499366}
+--- !u!114 &220485090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220485070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 562a0c8ecbbd1594595228345bdfacb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  helpScreenToggle: 0
   helpScreen: {fileID: 111396873}
-  button_continue: {fileID: 0}
-  button_quitGame: {fileID: 0}
-  button_help: {fileID: 0}
 --- !u!1001 &222898278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19060,6 +19070,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c24aa5338124d9140922628ec9264dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite_inactive: {fileID: 0}
+  sprite_active: {fileID: 0}
+  sprite_clicked: {fileID: 0}
 --- !u!1 &490377959
 GameObject:
   m_ObjectHideFlags: 0
@@ -42498,6 +42511,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e44e1fd0386c9468a14b9588d810b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite_inactive: {fileID: 0}
+  sprite_active: {fileID: 0}
+  sprite_clicked: {fileID: 0}
 --- !u!1001 &944064090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43560,6 +43576,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 980569517}
+  - component: {fileID: 980569518}
   m_Layer: 0
   m_Name: Trader
   m_TagString: Untagged
@@ -43588,6 +43605,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &980569518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980569516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbeaccaabe4e724b989f196bcf39013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &982622681
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57030,6 +57059,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbe43522b5c4804180ec2eb5c6aa786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite_inactive: {fileID: 0}
+  sprite_active: {fileID: 0}
+  sprite_clicked: {fileID: 0}
+  helpScreen: {fileID: 220485090}
 --- !u!1001 &1362148553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59751,6 +59784,7 @@ GameObject:
   - component: {fileID: 1455224806}
   - component: {fileID: 1455224808}
   - component: {fileID: 1455224807}
+  - component: {fileID: 1455224809}
   m_Layer: 5
   m_Name: StartScreen
   m_TagString: Untagged
@@ -59819,6 +59853,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455224805}
   m_CullTransparentMesh: 1
+--- !u!114 &1455224809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455224805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee9eb867d0b9b5e40a2191af153d8d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1459553360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81150,6 +81196,7 @@ RectTransform:
   - {fileID: 855833494}
   - {fileID: 562437757}
   - {fileID: 2068499367}
+  - {fileID: 111396874}
   - {fileID: 1455224806}
   - {fileID: 980569517}
   m_Father: {fileID: 220485071}
@@ -86734,7 +86781,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1534875594}
-  - {fileID: 111396874}
   m_Father: {fileID: 1959332351}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
