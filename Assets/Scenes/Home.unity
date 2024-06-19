@@ -7854,6 +7854,16 @@ MonoBehaviour:
   recipesTransform: {fileID: 946723760}
   itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
   playerBase: {fileID: 213958365}
+  craftingScreens:
+  - {fileID: 112698375}
+  - {fileID: 1708808944}
+  - {fileID: 717063135}
+  - {fileID: 826610898}
+  craftingButtons:
+  - {fileID: 1143223805}
+  - {fileID: 1866896356}
+  - {fileID: 1705015448}
+  - {fileID: 378058215}
 --- !u!114 &220485089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14054,6 +14064,7 @@ GameObject:
   - component: {fileID: 378058212}
   - component: {fileID: 378058214}
   - component: {fileID: 378058213}
+  - component: {fileID: 378058215}
   m_Layer: 0
   m_Name: Button_baseUpgrading
   m_TagString: Untagged
@@ -14119,6 +14130,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 378058211}
   m_CullTransparentMesh: 1
+--- !u!114 &378058215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378058211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8754c19d4b3e8ba44b9b1fe089e34d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clicked: 0
+  sprite_idle: {fileID: 0}
+  sprite_select: {fileID: 0}
+  playerCrafting: {fileID: 220485088}
+  screenId: 3
 --- !u!1001 &378747443
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48638,6 +48666,7 @@ GameObject:
   - component: {fileID: 1143223802}
   - component: {fileID: 1143223804}
   - component: {fileID: 1143223803}
+  - component: {fileID: 1143223805}
   m_Layer: 0
   m_Name: Button_crafting
   m_TagString: Untagged
@@ -48653,7 +48682,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143223801}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48703,6 +48732,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143223801}
   m_CullTransparentMesh: 1
+--- !u!114 &1143223805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143223801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8754c19d4b3e8ba44b9b1fe089e34d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clicked: 0
+  sprite_idle: {fileID: 0}
+  sprite_select: {fileID: 0}
+  playerCrafting: {fileID: 220485088}
+  screenId: 0
 --- !u!1001 &1145182690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68300,6 +68346,7 @@ GameObject:
   - component: {fileID: 1705015445}
   - component: {fileID: 1705015447}
   - component: {fileID: 1705015446}
+  - component: {fileID: 1705015448}
   m_Layer: 0
   m_Name: Button_MagicManagement
   m_TagString: Untagged
@@ -68365,6 +68412,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705015444}
   m_CullTransparentMesh: 1
+--- !u!114 &1705015448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705015444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8754c19d4b3e8ba44b9b1fe089e34d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clicked: 0
+  sprite_idle: {fileID: 0}
+  sprite_select: {fileID: 0}
+  playerCrafting: {fileID: 220485088}
+  screenId: 2
 --- !u!1001 &1705021189
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75219,6 +75283,7 @@ GameObject:
   - component: {fileID: 1866896353}
   - component: {fileID: 1866896355}
   - component: {fileID: 1866896354}
+  - component: {fileID: 1866896356}
   m_Layer: 0
   m_Name: Button_upgrading
   m_TagString: Untagged
@@ -75284,6 +75349,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866896352}
   m_CullTransparentMesh: 1
+--- !u!114 &1866896356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866896352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8754c19d4b3e8ba44b9b1fe089e34d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clicked: 0
+  sprite_idle: {fileID: 0}
+  sprite_select: {fileID: 0}
+  playerCrafting: {fileID: 220485088}
+  screenId: 1
 --- !u!1 &1868624070 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,

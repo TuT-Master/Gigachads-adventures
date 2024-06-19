@@ -25,7 +25,10 @@ public class PlayerCrafting : MonoBehaviour
     [SerializeField]
     private PlayerBase playerBase;
 
-
+    [SerializeField]
+    private List<GameObject> craftingScreens;
+    [SerializeField]
+    private List<CraftingButtons> craftingButtons;
 
     void Start()
     {
@@ -115,6 +118,23 @@ public class PlayerCrafting : MonoBehaviour
             SaveInventory();
             isOpened = toggle;
             craftingScreen.SetActive(toggle);
+        }
+    }
+
+    public void OpenTab(int tabId)
+    {
+        for (int i = 0; i < craftingScreens.Count; i++)
+        {
+            if (i == tabId)
+            {
+                craftingButtons[i].clicked = true;
+                craftingScreens[i].SetActive(true);
+            }
+            else
+            {
+                craftingButtons[i].clicked = false;
+                craftingScreens[i].SetActive(false);
+            }
         }
     }
 }
