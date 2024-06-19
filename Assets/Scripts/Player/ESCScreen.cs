@@ -10,6 +10,14 @@ public class ESCScreen : MonoBehaviour
     [SerializeField]
     private GameObject escScreen;
 
+    [SerializeField]
+    private Button_Continue button_Continue;
+    [SerializeField]
+    private Button_Help button_Help;
+    [SerializeField]
+    private Button_QuitGame button_QuitGame;
+
+
     void Start()
     {
         escScreenToggle = false;
@@ -18,6 +26,8 @@ public class ESCScreen : MonoBehaviour
 
     void Update()
     {
+        if (GetComponent<HelpScreen>().helpScreenToggle)
+            return;
         if(!GetComponent<HUDmanager>().AnyScreenOpen() && !GetComponent<HelpScreen>().helpScreenToggle)
             MyInput();
     }
@@ -38,5 +48,8 @@ public class ESCScreen : MonoBehaviour
         escScreen.SetActive(toggle);
         GetComponent<PlayerMovement>().canMove = !toggle;
         GetComponent<HUDmanager>().canOpenScreen = !toggle;
+        button_Continue.ReloadSprite();
+        button_Help.ReloadSprite();
+        button_QuitGame.ReloadSprite();
     }
 }

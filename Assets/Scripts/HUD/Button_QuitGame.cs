@@ -21,6 +21,11 @@ public class Button_QuitGame : MonoBehaviour, IPointerClickHandler, IPointerEnte
         image = GetComponent<Image>();
         image.sprite = sprite_inactive;
     }
+    public void ReloadSprite()
+    {
+        if (image != null)
+            image.sprite = sprite_inactive;
+    }
     public void OnPointerEnter(PointerEventData eventData) { image.sprite = sprite_active; }
     public void OnPointerExit(PointerEventData eventData) { image.sprite = sprite_inactive; }
     public void OnPointerClick(PointerEventData eventData)

@@ -7730,6 +7730,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   escScreenToggle: 0
   escScreen: {fileID: 356689640}
+  button_Continue: {fileID: 1847162463}
+  button_Help: {fileID: 821537103}
+  button_QuitGame: {fileID: 1100038950}
 --- !u!114 &220485090
 MonoBehaviour:
   m_ObjectHideFlags: 0

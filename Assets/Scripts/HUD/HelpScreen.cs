@@ -10,6 +10,8 @@ public class HelpScreen : MonoBehaviour
     [SerializeField]
     private GameObject helpScreen;
 
+    private bool closingScreen = false;
+
 
     void Start()
     {
@@ -22,13 +24,19 @@ public class HelpScreen : MonoBehaviour
     void Update()
     {
         if (helpScreenToggle && Input.GetKeyDown(KeyCode.Escape))
-            ToggleHelpScreen(false);
+            StartCoroutine(GoBackToESCScreen());
+    }
+
+    IEnumerator GoBackToESCScreen()
+    {
+        ToggleHelpScreen(false);
+        yield return new WaitForEndOfFrame();
+        GetComponent<ESCScreen>().ToggleESCScreen(true);
     }
 
     public void ToggleHelpScreen(bool toggle)
     {
         helpScreen.SetActive(toggle);
-        GetComponent<ESCScreen>().ToggleESCScreen(!toggle);
         GetComponent<PlayerMovement>().canMove = !toggle;
         GetComponent<HUDmanager>().canOpenScreen = !toggle;
         helpScreenToggle = toggle;

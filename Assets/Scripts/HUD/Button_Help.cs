@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Button_Help : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class Button_Help : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Sprite sprite_inactive;
@@ -23,11 +23,17 @@ public class Button_Help : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         image = GetComponent<Image>();
         image.sprite = sprite_inactive;
     }
+    public void ReloadSprite()
+    {
+        if (image != null)
+            image.sprite = sprite_inactive;
+    }
     public void OnPointerEnter(PointerEventData eventData) { image.sprite = sprite_active; }
     public void OnPointerExit(PointerEventData eventData) { image.sprite = sprite_inactive; }
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         image.sprite = sprite_clicked;
         helpScreen.ToggleHelpScreen(true);
+        transform.parent.parent.gameObject.SetActive(false);
     }
 }
