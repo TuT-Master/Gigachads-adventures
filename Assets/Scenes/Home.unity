@@ -48619,7 +48619,7 @@ MonoBehaviour:
     type: 3}
   sprite_clicked: {fileID: 3286163911610860551, guid: 2d48f761d33ef7c499f06ed3abace048,
     type: 3}
-  helpScreen: {fileID: 0}
+  helpScreen: {fileID: 220485090}
 --- !u!114 &1143997006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64249,7 +64249,7 @@ MonoBehaviour:
     type: 3}
   sprite_clicked: {fileID: 3286163911610860551, guid: 2d48f761d33ef7c499f06ed3abace048,
     type: 3}
-  helpScreen: {fileID: 0}
+  helpScreen: {fileID: 220485090}
 --- !u!114 &1596080785
 MonoBehaviour:
   m_ObjectHideFlags: 0

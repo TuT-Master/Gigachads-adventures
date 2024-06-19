@@ -27,5 +27,11 @@ public class HelpScreen_arrowButton : MonoBehaviour, IPointerClickHandler, IPoin
     {
         GetComponent<Image>().sprite = sprite_clicked;
         helpScreen.SlideImage(nextImage);
+        StartCoroutine(UnclickImage());
+    }
+    IEnumerator UnclickImage()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        GetComponent<Image>().sprite = sprite_inactive;
     }
 }
