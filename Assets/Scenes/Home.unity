@@ -37388,7 +37388,8 @@ MonoBehaviour:
     type: 3}
   sprite_active: {fileID: 3286163911610860551, guid: 22d750450fa5cb543bcf71260d7966f5,
     type: 3}
-  sprite_clicked: {fileID: 0}
+  sprite_clicked: {fileID: 3286163911610860551, guid: 9a79fa64b16dd5e4ab6e841e114edef1,
+    type: 3}
   helpScreen: {fileID: 220485090}
 --- !u!114 &821537104
 MonoBehaviour:
@@ -47066,7 +47067,8 @@ MonoBehaviour:
     type: 3}
   sprite_active: {fileID: 3286163911610860551, guid: 81fc86b5a6743a24c8cf96c45fe211ad,
     type: 3}
-  sprite_clicked: {fileID: 0}
+  sprite_clicked: {fileID: 3286163911610860551, guid: 8d44ad3d0dbc76e4e95abf742e17d671,
+    type: 3}
 --- !u!114 &1100038951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74483,7 +74485,8 @@ MonoBehaviour:
     type: 3}
   sprite_active: {fileID: 3286163911610860551, guid: a2b464557904571448250a8c347a09c6,
     type: 3}
-  sprite_clicked: {fileID: 0}
+  sprite_clicked: {fileID: 3286163911610860551, guid: a9e6ec92b46ca364989908c00eef5fc4,
+    type: 3}
 --- !u!114 &1847162464
 MonoBehaviour:
   m_ObjectHideFlags: 0
