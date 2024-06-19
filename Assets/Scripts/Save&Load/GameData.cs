@@ -72,7 +72,7 @@ public class GameData
             { "pocketSize", 0 },
         };
         playerInventory = new();
-        playerPos = new Vector3(-50, 0, -50);
+        playerPos = new Vector3(-52, 0, -52);
 
         otherInventories = new();
     }

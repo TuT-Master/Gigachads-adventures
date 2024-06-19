@@ -26,7 +26,7 @@ public class ESCScreen : MonoBehaviour
 
     void Update()
     {
-        if (GetComponent<HelpScreen>().helpScreenToggle)
+        if (GetComponent<HelpScreen>().helpScreenToggle || !GetComponent<HUDmanager>().canOpenESCScreen)
             return;
         if(!GetComponent<HUDmanager>().AnyScreenOpen() && !GetComponent<HelpScreen>().helpScreenToggle)
             MyInput();

@@ -15,6 +15,7 @@ public class HUDmanager : MonoBehaviour
 
     public bool canOpenScreen = true;
 
+    public bool canOpenESCScreen;
 
     private void Start()
     {
@@ -29,7 +30,18 @@ public class HUDmanager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && AnyScreenOpen())
             CloseEverything();
+        if(!AnyScreenOpen() && !canOpenESCScreen)
+            StartCoroutine(CanOpenESCScreen());
+        if (AnyScreenOpen())
+            canOpenESCScreen = false;
     }
+
+    IEnumerator CanOpenESCScreen()
+    {
+        yield return new WaitForSeconds(0.1f);
+        canOpenESCScreen = true;
+    }
+
     public bool AnyScreenOpen()
     {
         if(inventory.playerInventoryOpen || skill.skillScreenOpen || map.mapOpened || playerOtherInventory.isOpened || playerCrafting.isOpened)
