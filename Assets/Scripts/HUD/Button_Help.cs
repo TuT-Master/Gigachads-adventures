@@ -33,6 +33,12 @@ public class Button_Help : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     public void OnPointerDown(PointerEventData eventData)
     {
         image.sprite = sprite_clicked;
+        StartCoroutine(ActionDelay());
+    }
+
+    IEnumerator ActionDelay()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
         helpScreen.ToggleHelpScreen(true);
         transform.parent.parent.gameObject.SetActive(false);
     }

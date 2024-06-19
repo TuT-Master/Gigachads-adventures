@@ -22,7 +22,7 @@ public class StatBar : MonoBehaviour
         gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerStats.playerStats[field + "Max"] * 3);
         fill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerStats.playerStats[field] * 3);
         float statRatio = playerStats.playerStats[field] / playerStats.playerStats[field + "Max"];
-        if (statRatio <= 0.2f && statRatio > 0)
+        if (statRatio <= 0.2f)
         {
             fill.GetComponent<Image>().color = new Color(1, 1, 1, statRatio / 0.2f);
             fillEnd.color = new Color(1, 1, 1, statRatio / 0.2f);

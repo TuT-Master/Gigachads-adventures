@@ -32,6 +32,12 @@ public class Button_Continue : MonoBehaviour, IPointerClickHandler, IPointerEnte
     public void OnPointerClick(PointerEventData eventData)
     {
         image.sprite = sprite_clicked;
+        StartCoroutine(ActionDelay());
+    }
+
+    IEnumerator ActionDelay()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
         FindAnyObjectByType<ESCScreen>().ToggleESCScreen(false);
     }
 }
