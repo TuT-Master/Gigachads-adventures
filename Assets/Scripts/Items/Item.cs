@@ -104,6 +104,9 @@ public class Item : MonoBehaviour
 
     public bool isRecipe;
 
+    //Upgrading
+    public ScriptableObject upgradedVersionOfItem;
+
 
     private TextMeshProUGUI text;
 
@@ -127,6 +130,7 @@ public class Item : MonoBehaviour
         recipe = new();
         for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
             recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
+        upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
     }
     public Item(WeaponRangedSO weaponSO)
     {
@@ -149,6 +153,29 @@ public class Item : MonoBehaviour
         recipe = new();
         for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
             recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
+        upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
+    }
+    public Item(WeaponMagicSO weaponSO)
+    {
+        itemName = weaponSO.itemName;
+        description = weaponSO.description;
+        slotType = Slot.SlotType.WeaponRanged;
+        sprite_inventory = weaponSO.sprite_inventory;
+        sprite_hand = weaponSO.sprite_hand;
+        stats = weaponSO.Stats();
+        isStackable = weaponSO.isStackable;
+        stackSize = weaponSO.stackSize;
+        emitsLight = weaponSO.emitsLight;
+        fullAuto = weaponSO.fullAuto;
+        weaponType = weaponSO.weaponType;
+        twoHanded = weaponSO.twoHanded;
+        AoE = weaponSO.AoE;
+        craftedIn = weaponSO.craftedIn;
+        requieredCraftingLevel = weaponSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
+            recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
+        upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
     }
     public Item(ConsumableSO consumableSO)
     {
@@ -197,6 +224,7 @@ public class Item : MonoBehaviour
         recipe = new();
         for (int i = 0; i < armorSO.recipeMaterials.Count; i++)
             recipe.Add(armorSO.recipeMaterials[i], armorSO.recipeMaterialsAmount[i]);
+        upgradedVersionOfItem = armorSO.upgradedVersionsOfArmor;
     }
     public Item(BackpackSO backpackSO)
     {
@@ -250,6 +278,7 @@ public class Item : MonoBehaviour
         recipe = new();
         for (int i = 0; i < shieldSO.recipeMaterials.Count; i++)
             recipe.Add(shieldSO.recipeMaterials[i], shieldSO.recipeMaterialsAmount[i]);
+        upgradedVersionOfItem = shieldSO.upgradedVersionsOfShield;
     }
     public Item(MaterialSO materialSO)
     {
@@ -265,6 +294,50 @@ public class Item : MonoBehaviour
         recipe = new();
         for (int i = 0; i < materialSO.recipeMaterials.Count; i++)
             recipe.Add(materialSO.recipeMaterials[i], materialSO.recipeMaterialsAmount[i]);
+    }
+    public Item(ThrowableSO throwableSO)
+    {
+        itemName = throwableSO.itemName;
+        description = throwableSO.description;
+        sprite_inventory = throwableSO.sprite_inventory;
+        stackSize = throwableSO.stackSize;
+        isStackable = true;
+        stats = throwableSO.Stats();
+        slotType = Slot.SlotType.Material;
+        craftedIn = throwableSO.craftedIn;
+        requieredCraftingLevel = throwableSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < throwableSO.recipeMaterials.Count; i++)
+            recipe.Add(throwableSO.recipeMaterials[i], throwableSO.recipeMaterialsAmount[i]);
+    }
+    public Item(EquipableSO equipableSO)
+    {
+        itemName = equipableSO.itemName;
+        description = equipableSO.description;
+        sprite_inventory = equipableSO.sprite_inventory;
+        isStackable = true;
+        stats = equipableSO.ArmorStats();
+        slotType = Slot.SlotType.Material;
+        craftedIn = equipableSO.craftedIn;
+        requieredCraftingLevel = equipableSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < equipableSO.recipeMaterials.Count; i++)
+            recipe.Add(equipableSO.recipeMaterials[i], equipableSO.recipeMaterialsAmount[i]);
+    }
+    public Item(TrapSO trapSO)
+    {
+        itemName = trapSO.itemName;
+        description = trapSO.description;
+        sprite_inventory = trapSO.sprite_inventory;
+        stackSize = trapSO.stackSize;
+        isStackable = true;
+        stats = trapSO.Stats();
+        slotType = Slot.SlotType.Material;
+        craftedIn = trapSO.craftedIn;
+        requieredCraftingLevel = trapSO.requieredCraftingLevel;
+        recipe = new();
+        for (int i = 0; i < trapSO.recipeMaterials.Count; i++)
+            recipe.Add(trapSO.recipeMaterials[i], trapSO.recipeMaterialsAmount[i]);
     }
     public void SetUpByItem(Item item)
     {
@@ -290,6 +363,7 @@ public class Item : MonoBehaviour
         craftedIn = item.craftedIn;
         requieredCraftingLevel = item.requieredCraftingLevel;
         recipe = item.recipe;
+        upgradedVersionOfItem = item.upgradedVersionOfItem;
     }
 
 
@@ -417,5 +491,37 @@ public class Item : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         Destroy(gameObject);
+    }
+
+    public List<Item> GetMaterials()
+    {
+        ItemDatabase itemDatabase = FindAnyObjectByType<PlayerInventory>().itemDatabase;
+
+        List<Item> items = new();
+        foreach (ScriptableObject recipe in recipe.Keys)
+        {
+            if (recipe.GetType() == typeof(ArmorSO)) items.Add(itemDatabase.GetArmor((recipe as ArmorSO).itemName));
+            else if (recipe.GetType() == typeof(BackpackSO)) items.Add(itemDatabase.GetBackpack((recipe as BackpackSO).itemName));
+            else if (recipe.GetType() == typeof(BeltSO)) items.Add(itemDatabase.GetBelt((recipe as BeltSO).itemName));
+            else if (recipe.GetType() == typeof(ConsumableSO)) items.Add(itemDatabase.GetConsumable((recipe as ConsumableSO).itemName));
+            else if (recipe.GetType() == typeof(EquipableSO)) items.Add(itemDatabase.GetEquipable((recipe as EquipableSO).itemName));
+            else if (recipe.GetType() == typeof(MaterialSO)) items.Add(itemDatabase.GetMaterial((recipe as MaterialSO).itemName));
+            else if (recipe.GetType() == typeof(ProjectileSO)) items.Add(itemDatabase.GetProjectile((recipe as ProjectileSO).itemName));
+            else if (recipe.GetType() == typeof(ShieldSO)) items.Add(itemDatabase.GetShield((recipe as ShieldSO).itemName));
+            else if (recipe.GetType() == typeof(ThrowableSO)) items.Add(itemDatabase.GetThrowable((recipe as ThrowableSO).itemName));
+            else if (recipe.GetType() == typeof(TrapSO)) items.Add(itemDatabase.GetTrap((recipe as TrapSO).itemName));
+            else if (recipe.GetType() == typeof(WeaponMagicSO)) items.Add(itemDatabase.GetWeaponMagic((recipe as WeaponMagicSO).itemName));
+            else if (recipe.GetType() == typeof(WeaponMeleeSO)) items.Add(itemDatabase.GetWeaponMelee((recipe as WeaponMeleeSO).itemName));
+            else if (recipe.GetType() == typeof(WeaponRangedSO)) items.Add(itemDatabase.GetWeaponRanged((recipe as WeaponRangedSO).itemName));
+            else Debug.LogWarning("Nepovedlo se urèit typeof ingredient pøi upgradu!");
+        }
+
+        List<int> amounts = new();
+        foreach (int amount in recipe.Values)
+            amounts.Add(amount);
+        for (int i = 0; i < items.Count; i++)
+            items[i].amount = amounts[i];
+
+        return items;
     }
 }

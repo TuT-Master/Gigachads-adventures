@@ -54,4 +54,6 @@ public class WeaponMeleeSO : ScriptableObject
             {"weight", weight},
         };
     }
+
+    public WeaponMeleeSO upgradedVersionsOfWeapon;
 }

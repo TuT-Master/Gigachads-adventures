@@ -33,4 +33,6 @@ public class ArmorSO : ScriptableObject
             {"weight", weight },
         };
     }
+
+    public ArmorSO upgradedVersionsOfArmor;
 }

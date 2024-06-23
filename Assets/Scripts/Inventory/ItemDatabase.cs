@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item database", menuName = "Scriptable objects/Item database")]
@@ -10,7 +8,15 @@ public class ItemDatabase : ScriptableObject
 
     public List<WeaponRangedSO> weaponsRanged;
 
+    public List<WeaponMagicSO> weaponsMagic;
+
+    public List<ThrowableSO> throwables;
+
+    public List<TrapSO> traps;
+
     public List<ArmorSO> armors;
+
+    public List<EquipableSO> equipables;
 
     public List<ConsumableSO> consumables;
 
@@ -35,6 +41,13 @@ public class ItemDatabase : ScriptableObject
     public Item GetWeaponRanged(string weaponName)
     {
         foreach (WeaponRangedSO weapon in weaponsRanged)
+            if (weapon.itemName == weaponName)
+                return new(weapon);
+        return null;
+    }
+    public Item GetWeaponMagic(string weaponName)
+    {
+        foreach (WeaponMagicSO weapon in weaponsMagic)
             if (weapon.itemName == weaponName)
                 return new(weapon);
         return null;
@@ -90,6 +103,30 @@ public class ItemDatabase : ScriptableObject
         foreach (MaterialSO materialSO in materials)
             if (materialSO.itemName == materialName)
                 return new(materialSO);
+        return null;
+    }
+
+    public Item GetEquipable(string equipableName)
+    {
+        foreach (EquipableSO equipableSO in equipables)
+            if (equipableSO.itemName == equipableName)
+                return new(equipableSO);
+        return null;
+    }
+
+    public Item GetThrowable(string throwableName)
+    {
+        foreach (ThrowableSO throwableSO in throwables)
+            if (throwableSO.itemName == throwableName)
+                return new(throwableSO);
+        return null;
+    }
+
+    public Item GetTrap(string trapName)
+    {
+        foreach (TrapSO trapSO in traps)
+            if (trapSO.itemName == trapName)
+                return new(trapSO);
         return null;
     }
 

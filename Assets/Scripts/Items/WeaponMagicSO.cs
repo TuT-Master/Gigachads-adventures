@@ -61,4 +61,6 @@ public class WeaponMagicSO : ScriptableObject
             {"weight", weight},
         };
     }
+
+    public WeaponMagicSO upgradedVersionsOfWeapon;
 }

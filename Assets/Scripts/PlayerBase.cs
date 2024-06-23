@@ -16,6 +16,7 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
         Smithy,
         EnchantingTable,
         Materials,
+        Upgrade,
     }
     public Dictionary<BaseUpgrade, int> baseUpgrades = new()
     {

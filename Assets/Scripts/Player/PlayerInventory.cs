@@ -27,8 +27,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
     private PlayerStats playerStats;
 
-    [SerializeField]
-    private ItemDatabase itemDatabase;
+    public ItemDatabase itemDatabase;
 
     // Hands
     [SerializeField]
@@ -453,8 +452,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             else
                 DropItemOnDaFloor(item, transform.position, null);
         }
-
-        Debug.Log(item.itemName + " added!");
         ToggleInventory(false);
     }
     public void AddItemToSlot(Item item, Transform slot)

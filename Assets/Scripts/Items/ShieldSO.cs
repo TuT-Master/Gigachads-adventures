@@ -36,4 +36,6 @@ public class ShieldSO : ScriptableObject
             {"weight", weight},
         };
     }
+
+    public ShieldSO upgradedVersionsOfShield;
 }

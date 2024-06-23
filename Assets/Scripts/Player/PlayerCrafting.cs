@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCrafting : MonoBehaviour
 {
@@ -30,6 +32,17 @@ public class PlayerCrafting : MonoBehaviour
     [SerializeField]
     private List<CraftingButtons> craftingButtons;
 
+    // Upgrade screen
+    [SerializeField]
+    private GameObject upgradeSlot;
+    private Item itemInUpgradeSlot;
+    private string lastItemName = "";
+    [SerializeField]
+    private Transform upgradeRecipesTransform;
+    [SerializeField]
+    private GameObject ingredientPrefab;
+
+
     void Start()
     {
         hudmanager = GetComponent<HUDmanager>();
@@ -44,12 +57,50 @@ public class PlayerCrafting : MonoBehaviour
     void Update()
     {
         MyInput();
+        if(upgradeSlot.transform.childCount > 0 && upgradeSlot.transform.GetChild(0).TryGetComponent(out itemInUpgradeSlot) && lastItemName != itemInUpgradeSlot.itemName)
+        {
+            lastItemName = itemInUpgradeSlot.itemName;
+            if (itemInUpgradeSlot.upgradedVersionOfItem != null)
+                CreateRecipesForUpgrade();
+            else
+            {
+                Debug.Log("No possible upgrades!");
+
+                // TODO - zatmavit upgrade button, some hláška že no possible upgrades
+
+            }
+        }
+        else if (upgradeSlot.transform.childCount == 0 && upgradeRecipesTransform.childCount > 0)
+            for (int i = 0; i < upgradeRecipesTransform.childCount; i++)
+                Destroy(upgradeRecipesTransform.GetChild(i).gameObject);
     }
 
     private void MyInput()
     {
         if (Input.GetKeyDown(KeyCode.V))
             hudmanager.TogglePlayerCrafting(!isOpened);
+    }
+
+    private void CreateRecipesForUpgrade()
+    {
+        for (int i = 0; i < upgradeRecipesTransform.childCount; i++)
+            Destroy(upgradeRecipesTransform.GetChild(i).gameObject);
+
+        ScriptableObject upgradedVar = itemInUpgradeSlot.upgradedVersionOfItem;
+
+        Item upgradedItem = null;
+        if (upgradedVar.GetType() == typeof(WeaponMeleeSO)) upgradedItem = itemDatabase.GetWeaponMelee((upgradedVar as WeaponMeleeSO).itemName);
+        else if (upgradedVar.GetType() == typeof(WeaponRangedSO)) upgradedItem = itemDatabase.GetWeaponRanged((upgradedVar as WeaponRangedSO).itemName);
+        else if (upgradedVar.GetType() == typeof(WeaponMagicSO)) upgradedItem = itemDatabase.GetWeaponMagic((upgradedVar as WeaponMagicSO).itemName);
+        else if (upgradedVar.GetType() == typeof(ArmorSO)) upgradedItem = itemDatabase.GetArmor((upgradedVar as ArmorSO).itemName);
+        else if (upgradedVar.GetType() == typeof(ShieldSO)) upgradedItem = itemDatabase.GetShield((upgradedVar as ShieldSO).itemName);
+
+        foreach (Item item in upgradedItem.GetMaterials())
+        {
+            GameObject ingredient = Instantiate(ingredientPrefab, upgradeRecipesTransform);
+            ingredient.GetComponent<Image>().sprite = item.sprite_inventory;
+            ingredient.GetComponentInChildren<TextMeshProUGUI>().text = item.amount.ToString();
+        }
     }
 
     public IEnumerator UpdatePlayerInventory()
@@ -109,8 +160,9 @@ public class PlayerCrafting : MonoBehaviour
             Time.timeScale = 0f;
             StartCoroutine(UpdatePlayerInventory());
             isOpened = toggle;
-            craftingScreen.SetActive(toggle);
             CreateRecipes();
+            craftingScreen.SetActive(toggle);
+            OpenTab(0);
         }
         else if (!toggle && isOpened)
         {

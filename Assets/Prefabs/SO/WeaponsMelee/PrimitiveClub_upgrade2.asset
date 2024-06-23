@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8391f245896305a418bd3e6dd883c0c5, type: 3}
-  m_Name: PrimitiveClub
+  m_Name: PrimitiveClub_upgrade2
   m_EditorClassIdentifier: 
   itemName: Primitive club
   description: Stick with stone
@@ -20,25 +20,23 @@ MonoBehaviour:
   twoHanded: 0
   AoE: 0
   weaponType: 7
-  craftedIn: 4
-  requieredCraftingLevel: 0
+  craftedIn: 7
+  requieredCraftingLevel: 1
   recipeMaterials:
-  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
+  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
   - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
-  - {fileID: 11400000, guid: 990210ba53bf8bb4aa043c44a739c044, type: 2}
-  recipeMaterialsAmount: 020000000200000004000000
+  recipeMaterialsAmount: 0200000001000000
   sprite_inventory: {fileID: 3286163911610860551, guid: b577ae89eb0f3c148a177521c91d0721,
     type: 3}
   sprite_hand: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c, type: 3}
-  damage: 10
-  penetration: 0
+  damage: 15
+  penetration: 1
   armorIgnore: 0.5
-  attackSpeed: 1
+  attackSpeed: 1.2
   staminaCost: 10
   manaCost: 0
   rangeX: 1
   rangeY: 1
   defense: 15
   weight: 3
-  upgradedVersionsOfWeapon: {fileID: 11400000, guid: ad172e728b7382343af51ae61ca283f3,
-    type: 2}
+  upgradedVersionsOfWeapon: []

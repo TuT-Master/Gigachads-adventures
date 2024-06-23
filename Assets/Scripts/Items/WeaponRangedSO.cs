@@ -69,4 +69,6 @@ public class WeaponRangedSO : ScriptableObject
     }
 
     public List<ProjectileSO> ammo;
+
+    public WeaponRangedSO upgradedVersionsOfWeapon;
 }
