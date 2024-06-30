@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8391f245896305a418bd3e6dd883c0c5, type: 3}
   m_Name: PrimitiveClub_upgrade2
   m_EditorClassIdentifier: 
-  itemName: Primitive club
+  itemName: Primitive club upgrade upgrade
   description: Stick with stone
   amount: 0
   isStackable: 0
@@ -39,4 +39,4 @@ MonoBehaviour:
   rangeY: 1
   defense: 15
   weight: 3
-  upgradedVersionsOfWeapon: []
+  upgradedVersionsOfWeapon: {fileID: 0}

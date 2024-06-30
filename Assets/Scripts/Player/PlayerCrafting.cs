@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -41,6 +42,10 @@ public class PlayerCrafting : MonoBehaviour
     private Transform upgradeRecipesTransform;
     [SerializeField]
     private GameObject ingredientPrefab;
+    [SerializeField]
+    private TextMeshProUGUI nameField;
+    [SerializeField]
+    private TextMeshProUGUI statField;
 
 
     void Start()
@@ -64,7 +69,7 @@ public class PlayerCrafting : MonoBehaviour
                 CreateRecipesForUpgrade();
             else
             {
-                Debug.Log("No possible upgrades!");
+                nameField.text = "No possible upgrades!";
 
                 // TODO - zatmavit upgrade button, some hláška že no possible upgrades
 
@@ -86,6 +91,7 @@ public class PlayerCrafting : MonoBehaviour
         for (int i = 0; i < upgradeRecipesTransform.childCount; i++)
             Destroy(upgradeRecipesTransform.GetChild(i).gameObject);
 
+        // Get upgraded version of item
         ScriptableObject upgradedVar = itemInUpgradeSlot.upgradedVersionOfItem;
 
         Item upgradedItem = null;
@@ -95,12 +101,24 @@ public class PlayerCrafting : MonoBehaviour
         else if (upgradedVar.GetType() == typeof(ArmorSO)) upgradedItem = itemDatabase.GetArmor((upgradedVar as ArmorSO).itemName);
         else if (upgradedVar.GetType() == typeof(ShieldSO)) upgradedItem = itemDatabase.GetShield((upgradedVar as ShieldSO).itemName);
 
+        // Create recipe
         foreach (Item item in upgradedItem.GetMaterials())
         {
             GameObject ingredient = Instantiate(ingredientPrefab, upgradeRecipesTransform);
             ingredient.GetComponent<Image>().sprite = item.sprite_inventory;
             ingredient.GetComponentInChildren<TextMeshProUGUI>().text = item.amount.ToString();
         }
+
+        // Name field
+        nameField.text = itemInUpgradeSlot.itemName + " -> " + upgradedItem.itemName;
+
+        // Upgraded stats
+        // TODO - porovnat staty itemù -> rozdíly vypsat
+    }
+
+    private void DeleteRecipesForUpgrade()
+    {
+
     }
 
     public IEnumerator UpdatePlayerInventory()

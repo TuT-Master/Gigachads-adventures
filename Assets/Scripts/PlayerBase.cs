@@ -27,6 +27,7 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
         {BaseUpgrade.Smithy, 0},
         {BaseUpgrade.EnchantingTable, 0},
         {BaseUpgrade.Materials, 0},
+        {BaseUpgrade.Upgrade, 0},
     };
 
     private void OnEnable()

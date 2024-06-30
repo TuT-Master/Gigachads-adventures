@@ -15,14 +15,20 @@ MonoBehaviour:
   weaponsMelee:
   - {fileID: 11400000, guid: 412e6c6a2e0d5e0479f518c694aed94d, type: 2}
   - {fileID: 11400000, guid: 6c20bbdce8e2d1046af11c7176596bd1, type: 2}
+  - {fileID: 11400000, guid: ad172e728b7382343af51ae61ca283f3, type: 2}
+  - {fileID: 11400000, guid: 3a03d0f9821162b41a818b83d83e1a51, type: 2}
   weaponsRanged:
   - {fileID: 11400000, guid: 248de275aa212584ea2e9778379fc2ca, type: 2}
   - {fileID: 11400000, guid: 1b43d55501f0f5643bd26850ffd048ef, type: 2}
+  weaponsMagic: []
+  throwables: []
+  traps: []
   armors:
   - {fileID: 11400000, guid: 6a4d07a578e6de94e86b5e904f7305e8, type: 2}
   - {fileID: 11400000, guid: 482c5cd403d4b5e4bbc435a5cf84c105, type: 2}
   - {fileID: 11400000, guid: 4f924105a3a39704e86ae54ad365efc9, type: 2}
   - {fileID: 11400000, guid: 4a48b2b0ecab3e842a991303b29cfc9a, type: 2}
+  equipables: []
   consumables:
   - {fileID: 11400000, guid: a762031ea8bea694789206638365315c, type: 2}
   projectiles:

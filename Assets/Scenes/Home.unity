@@ -7323,6 +7323,8 @@ MonoBehaviour:
   upgradeRecipesTransform: {fileID: 520211881}
   ingredientPrefab: {fileID: 7963609021554683160, guid: f01ef42749a55b84e9cff221ccd4d478,
     type: 3}
+  nameField: {fileID: 2054137059}
+  statField: {fileID: 569244337}
 --- !u!114 &220485089
 MonoBehaviour:
   m_ObjectHideFlags: 0
