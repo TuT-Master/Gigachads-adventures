@@ -133,13 +133,13 @@ public class PlayerCrafting : MonoBehaviour
 
     public void UpgradeItem()
     {
-        if (itemInUpgradeSlot != null && CanBeCrafted(upgradedVersionOfItem))
+        if (itemInUpgradeSlot != null && CanBeCrafted())
         {
             // Destroy item
             Destroy(upgradeSlot.transform.GetChild(0).gameObject);
 
             // Consume materials for upgrade
-            ConsumeMaterialsForUpgrade(upgradedVersionOfItem);
+            ConsumeMaterialsForUpgrade();
 
             // Spawn new item
             AddItem(GetComponent<PlayerInventory>().itemDatabase.GetItemByNameAndAmount(upgradedVersionOfItem.itemName, 1));
@@ -151,9 +151,9 @@ public class PlayerCrafting : MonoBehaviour
             Debug.Log("Kokote");
     }
 
-    private bool CanBeCrafted(Item item)
+    private bool CanBeCrafted()
     {
-        foreach (ScriptableObject so in item.recipe.Keys)
+        foreach (ScriptableObject so in upgradedVersionOfItem.recipe.Keys)
         {
             Item itemFromSO = null;
             if (so.GetType() == typeof(ArmorSO)) itemFromSO = new(so as ArmorSO);
@@ -172,7 +172,7 @@ public class PlayerCrafting : MonoBehaviour
             for (int i = 0; i < materials.Count; i++)
                 totalMaterialAmount += materials[i].amount;
 
-            if (totalMaterialAmount < item.recipe[so])
+            if (totalMaterialAmount < upgradedVersionOfItem.recipe[so])
             {
                 Debug.Log("Not enough materials for upgrading " + itemInUpgradeSlot.itemName);
                 return false;
@@ -181,9 +181,9 @@ public class PlayerCrafting : MonoBehaviour
         return true;
     }
 
-    private void ConsumeMaterialsForUpgrade(Item item)
+    private void ConsumeMaterialsForUpgrade()
     {
-        foreach (ScriptableObject so in item.recipe.Keys)
+        foreach (ScriptableObject so in upgradedVersionOfItem.recipe.Keys)
         {
             Item itemFromSO = null;
             if (so.GetType() == typeof(ArmorSO)) itemFromSO = new(so as ArmorSO);
@@ -197,17 +197,16 @@ public class PlayerCrafting : MonoBehaviour
             else if (so.GetType() == typeof(WeaponRangedSO)) itemFromSO = new(so as WeaponRangedSO);
             else if (so.GetType() == typeof(WeaponMagicSO)) itemFromSO = new(so as WeaponMagicSO);
 
-            int materialNeeded = itemFromSO.recipe[so];
+            int materialNeeded = upgradedVersionOfItem.recipe[so];
 
-            List<Item> materials = new();
+            List<GameObject> materials = new();
             for (int i = 0; i < playerInventorySlots.Count; i++)
-                if (playerInventorySlots[i].transform.childCount > 0)
-                    if (playerInventorySlots[i].transform.GetComponentInChildren<Item>().itemName == name)
-                        materials.Add(playerInventorySlots[i].transform.GetComponentInChildren<Item>());
+                if (playerInventorySlots[i].transform.childCount > 0 && playerInventorySlots[i].transform.GetComponentInChildren<Item>().itemName == itemFromSO.itemName)
+                    materials.Add(playerInventorySlots[i].transform.GetComponentInChildren<Item>().gameObject);
 
             int totalMaterialAmount = 0;
             for (int i = 0; i < materials.Count; i++)
-                totalMaterialAmount += materials[i].amount;
+                totalMaterialAmount += materials[i].GetComponent<Item>().amount;
 
             bool crafted = false;
             for (int i = 0; i < materials.Count; i++)
@@ -215,15 +214,15 @@ public class PlayerCrafting : MonoBehaviour
                 if (crafted)
                     break;
 
-                if (materials[i].amount >= materialNeeded)
+                if (materials[i].GetComponent<Item>().amount >= materialNeeded)
                 {
-                    materials[i].amount -= materialNeeded;
+                    materials[i].GetComponent<Item>().amount -= materialNeeded;
                     crafted = true;
                 }
                 else
                 {
-                    materialNeeded -= materials[i].amount;
-                    materials[i].amount = 0;
+                    materialNeeded -= materials[i].GetComponent<Item>().amount;
+                    materials[i].GetComponent<Item>().amount = 0;
                 }
             }
         }
