@@ -20967,7 +20967,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Nap\u0159.\nDamage: + 3\nPenetration: + 1\nStamina cost: - 1"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -59782,6 +59782,7 @@ GameObject:
   - component: {fileID: 1640317172}
   - component: {fileID: 1640317174}
   - component: {fileID: 1640317173}
+  - component: {fileID: 1640317175}
   m_Layer: 0
   m_Name: Button_upgrade
   m_TagString: Untagged
@@ -59848,6 +59849,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640317171}
   m_CullTransparentMesh: 1
+--- !u!114 &1640317175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640317171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5956531f5efb7f840a3dcf728dce105b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCrafting: {fileID: 220485088}
+  sprite_default: {fileID: 0}
+  sprite_active: {fileID: 0}
+  sprite_clicked: {fileID: 0}
+  isActive: 1
 --- !u!1 &1641582928
 GameObject:
   m_ObjectHideFlags: 0
@@ -77919,6 +77937,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8248644224333491186, guid: 46263f1146e6a4d439fbed09bfa30e62,
         type: 3}
+      propertyPath: isActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8248644224333491186, guid: 46263f1146e6a4d439fbed09bfa30e62,
+        type: 3}
       propertyPath: slotType
       value: 20
       objectReference: {fileID: 0}
@@ -78217,7 +78240,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Nap\u0159. Wooden club -> Reinforced wooden club"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -78244,7 +78267,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.9
+  m_fontSize: 26
   m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 1

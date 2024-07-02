@@ -37,6 +37,7 @@ public class PlayerCrafting : MonoBehaviour
     [SerializeField]
     private GameObject upgradeSlot;
     private Item itemInUpgradeSlot;
+    private Item upgradedVersionOfItem;
     private string lastItemName = "";
     [SerializeField]
     private Transform upgradeRecipesTransform;
@@ -70,14 +71,21 @@ public class PlayerCrafting : MonoBehaviour
             else
             {
                 nameField.text = "No possible upgrades!";
+                statField.text = "";
 
                 // TODO - zatmavit upgrade button, some hláška že no possible upgrades
 
             }
         }
-        else if (upgradeSlot.transform.childCount == 0 && upgradeRecipesTransform.childCount > 0)
+        else if (upgradeSlot.transform.childCount == 0 && nameField.text != "")
+        {
             for (int i = 0; i < upgradeRecipesTransform.childCount; i++)
                 Destroy(upgradeRecipesTransform.GetChild(i).gameObject);
+            nameField.text = "";
+            statField.text = "";
+            lastItemName = "";
+            itemInUpgradeSlot = null;
+        }
     }
 
     private void MyInput()
@@ -94,15 +102,15 @@ public class PlayerCrafting : MonoBehaviour
         // Get upgraded version of item
         ScriptableObject upgradedVar = itemInUpgradeSlot.upgradedVersionOfItem;
 
-        Item upgradedItem = null;
-        if (upgradedVar.GetType() == typeof(WeaponMeleeSO)) upgradedItem = itemDatabase.GetWeaponMelee((upgradedVar as WeaponMeleeSO).itemName);
-        else if (upgradedVar.GetType() == typeof(WeaponRangedSO)) upgradedItem = itemDatabase.GetWeaponRanged((upgradedVar as WeaponRangedSO).itemName);
-        else if (upgradedVar.GetType() == typeof(WeaponMagicSO)) upgradedItem = itemDatabase.GetWeaponMagic((upgradedVar as WeaponMagicSO).itemName);
-        else if (upgradedVar.GetType() == typeof(ArmorSO)) upgradedItem = itemDatabase.GetArmor((upgradedVar as ArmorSO).itemName);
-        else if (upgradedVar.GetType() == typeof(ShieldSO)) upgradedItem = itemDatabase.GetShield((upgradedVar as ShieldSO).itemName);
+        upgradedVersionOfItem = null;
+        if (upgradedVar.GetType() == typeof(WeaponMeleeSO)) upgradedVersionOfItem = itemDatabase.GetWeaponMelee((upgradedVar as WeaponMeleeSO).itemName);
+        else if (upgradedVar.GetType() == typeof(WeaponRangedSO)) upgradedVersionOfItem = itemDatabase.GetWeaponRanged((upgradedVar as WeaponRangedSO).itemName);
+        else if (upgradedVar.GetType() == typeof(WeaponMagicSO)) upgradedVersionOfItem = itemDatabase.GetWeaponMagic((upgradedVar as WeaponMagicSO).itemName);
+        else if (upgradedVar.GetType() == typeof(ArmorSO)) upgradedVersionOfItem = itemDatabase.GetArmor((upgradedVar as ArmorSO).itemName);
+        else if (upgradedVar.GetType() == typeof(ShieldSO)) upgradedVersionOfItem = itemDatabase.GetShield((upgradedVar as ShieldSO).itemName);
 
         // Create recipe
-        foreach (Item item in upgradedItem.GetMaterials())
+        foreach (Item item in upgradedVersionOfItem.GetMaterials())
         {
             GameObject ingredient = Instantiate(ingredientPrefab, upgradeRecipesTransform);
             ingredient.GetComponent<Image>().sprite = item.sprite_inventory;
@@ -110,15 +118,71 @@ public class PlayerCrafting : MonoBehaviour
         }
 
         // Name field
-        nameField.text = itemInUpgradeSlot.itemName + " -> " + upgradedItem.itemName;
+        nameField.text = itemInUpgradeSlot.itemName + " -> " + upgradedVersionOfItem.itemName;
 
         // Upgraded stats
-        // TODO - porovnat staty itemù -> rozdíly vypsat
+        statField.text = "";
+        foreach (string stat in upgradedVersionOfItem.stats.Keys)
+        {
+            if (upgradedVersionOfItem.stats[stat] > itemInUpgradeSlot.stats[stat])
+                statField.text += stat + ": +" + Math.Round(upgradedVersionOfItem.stats[stat] - itemInUpgradeSlot.stats[stat], 2).ToString() + "\n";
+            else if (upgradedVersionOfItem.stats[stat] < itemInUpgradeSlot.stats[stat])
+                statField.text += stat + ": " + Math.Round(upgradedVersionOfItem.stats[stat] - itemInUpgradeSlot.stats[stat], 2).ToString() + "\n";
+        }
     }
 
-    private void DeleteRecipesForUpgrade()
+    public void UpgradeItem()
     {
+        if (itemInUpgradeSlot != null)
+        {
+            Destroy(upgradeSlot.transform.GetChild(0).gameObject);
+            AddItem(GetComponent<PlayerInventory>().itemDatabase.GetItemByNameAndAmount(upgradedVersionOfItem.itemName, 1));
+            itemInUpgradeSlot = null;
+        }
+        else
+            Debug.Log("Kokote");
+    }
 
+    private void AddItem(Item item)
+    {
+        bool done = false;
+        int freeSpaceId = -1;
+        for (int i = 0; i < playerInventorySlots.Count; i++)
+        {
+            if (playerInventorySlots[i].activeInHierarchy && !done)
+            {
+                if (playerInventorySlots[i].transform.childCount == 0)
+                {
+                    if (freeSpaceId == -1)
+                        freeSpaceId = i;
+                }
+                else if (
+                    playerInventorySlots[i].GetComponentInChildren<Item>().itemName == item.itemName &&
+                    playerInventorySlots[i].GetComponentInChildren<Item>().isStackable)
+                {
+                    if (playerInventorySlots[i].GetComponentInChildren<Item>().amount + item.amount <= playerInventorySlots[i].GetComponentInChildren<Item>().stackSize)
+                    {
+                        playerInventorySlots[i].GetComponentInChildren<Item>().amount += item.amount;
+                        done = true;
+                    }
+                    else
+                    {
+                        item.amount -= (playerInventorySlots[i].GetComponentInChildren<Item>().stackSize - playerInventorySlots[i].GetComponentInChildren<Item>().amount);
+                        playerInventorySlots[i].GetComponentInChildren<Item>().amount = playerInventorySlots[i].GetComponentInChildren<Item>().stackSize;
+                    }
+                }
+            }
+        }
+        if (!done && freeSpaceId != -1)
+        {
+            GameObject newItem = Instantiate(itemPrefab, playerInventorySlots[freeSpaceId].transform);
+            newItem.GetComponent<Item>().SetUpByItem(item);
+            done = true;
+        }
+        if (!done)
+        {
+            Debug.Log("No space in inventory!");
+        }
     }
 
     public IEnumerator UpdatePlayerInventory()

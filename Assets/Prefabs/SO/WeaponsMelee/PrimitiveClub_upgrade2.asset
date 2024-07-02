@@ -33,7 +33,7 @@ MonoBehaviour:
   penetration: 1
   armorIgnore: 0.5
   attackSpeed: 1.2
-  staminaCost: 10
+  staminaCost: 9
   manaCost: 0
   rangeX: 1
   rangeY: 1
