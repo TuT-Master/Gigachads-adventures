@@ -133,14 +133,100 @@ public class PlayerCrafting : MonoBehaviour
 
     public void UpgradeItem()
     {
-        if (itemInUpgradeSlot != null)
+        if (itemInUpgradeSlot != null && CanBeCrafted(upgradedVersionOfItem))
         {
+            // Destroy item
             Destroy(upgradeSlot.transform.GetChild(0).gameObject);
+
+            // Consume materials for upgrade
+            ConsumeMaterialsForUpgrade(upgradedVersionOfItem);
+
+            // Spawn new item
             AddItem(GetComponent<PlayerInventory>().itemDatabase.GetItemByNameAndAmount(upgradedVersionOfItem.itemName, 1));
+
+            // Reset itemInUpgradeSlot
             itemInUpgradeSlot = null;
         }
         else
             Debug.Log("Kokote");
+    }
+
+    private bool CanBeCrafted(Item item)
+    {
+        foreach (ScriptableObject so in item.recipe.Keys)
+        {
+            Item itemFromSO = null;
+            if (so.GetType() == typeof(ArmorSO)) itemFromSO = new(so as ArmorSO);
+            else if (so.GetType() == typeof(BackpackSO)) itemFromSO = new(so as BackpackSO);
+            else if (so.GetType() == typeof(BeltSO)) itemFromSO = new(so as BeltSO);
+            else if (so.GetType() == typeof(ConsumableSO)) itemFromSO = new(so as ConsumableSO);
+            else if (so.GetType() == typeof(MaterialSO)) itemFromSO = new(so as MaterialSO);
+            else if (so.GetType() == typeof(ProjectileSO)) itemFromSO = new(so as ProjectileSO);
+            else if (so.GetType() == typeof(ShieldSO)) itemFromSO = new(so as ShieldSO);
+            else if (so.GetType() == typeof(WeaponMeleeSO)) itemFromSO = new(so as WeaponMeleeSO);
+            else if (so.GetType() == typeof(WeaponRangedSO)) itemFromSO = new(so as WeaponRangedSO);
+            else if (so.GetType() == typeof(WeaponMagicSO)) itemFromSO = new(so as WeaponMagicSO);
+
+            List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(itemFromSO.itemName);
+            int totalMaterialAmount = 0;
+            for (int i = 0; i < materials.Count; i++)
+                totalMaterialAmount += materials[i].amount;
+
+            if (totalMaterialAmount < item.recipe[so])
+            {
+                Debug.Log("Not enough materials for upgrading " + itemInUpgradeSlot.itemName);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void ConsumeMaterialsForUpgrade(Item item)
+    {
+        foreach (ScriptableObject so in item.recipe.Keys)
+        {
+            Item itemFromSO = null;
+            if (so.GetType() == typeof(ArmorSO)) itemFromSO = new(so as ArmorSO);
+            else if (so.GetType() == typeof(BackpackSO)) itemFromSO = new(so as BackpackSO);
+            else if (so.GetType() == typeof(BeltSO)) itemFromSO = new(so as BeltSO);
+            else if (so.GetType() == typeof(ConsumableSO)) itemFromSO = new(so as ConsumableSO);
+            else if (so.GetType() == typeof(MaterialSO)) itemFromSO = new(so as MaterialSO);
+            else if (so.GetType() == typeof(ProjectileSO)) itemFromSO = new(so as ProjectileSO);
+            else if (so.GetType() == typeof(ShieldSO)) itemFromSO = new(so as ShieldSO);
+            else if (so.GetType() == typeof(WeaponMeleeSO)) itemFromSO = new(so as WeaponMeleeSO);
+            else if (so.GetType() == typeof(WeaponRangedSO)) itemFromSO = new(so as WeaponRangedSO);
+            else if (so.GetType() == typeof(WeaponMagicSO)) itemFromSO = new(so as WeaponMagicSO);
+
+            int materialNeeded = itemFromSO.recipe[so];
+
+            List<Item> materials = new();
+            for (int i = 0; i < playerInventorySlots.Count; i++)
+                if (playerInventorySlots[i].transform.childCount > 0)
+                    if (playerInventorySlots[i].transform.GetComponentInChildren<Item>().itemName == name)
+                        materials.Add(playerInventorySlots[i].transform.GetComponentInChildren<Item>());
+
+            int totalMaterialAmount = 0;
+            for (int i = 0; i < materials.Count; i++)
+                totalMaterialAmount += materials[i].amount;
+
+            bool crafted = false;
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (crafted)
+                    break;
+
+                if (materials[i].amount >= materialNeeded)
+                {
+                    materials[i].amount -= materialNeeded;
+                    crafted = true;
+                }
+                else
+                {
+                    materialNeeded -= materials[i].amount;
+                    materials[i].amount = 0;
+                }
+            }
+        }
     }
 
     private void AddItem(Item item)

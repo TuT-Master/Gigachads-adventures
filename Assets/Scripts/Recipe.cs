@@ -28,24 +28,16 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         ingredients = new();
         foreach (ScriptableObject so in GetComponent<Item>().recipe.Keys)
         {
-            if (so.GetType().ToString() == "ArmorSO")
-                itemsInRecipe.Add(new(so as ArmorSO));
-            else if (so.GetType().ToString() == "BackpackSO")
-                itemsInRecipe.Add(new(so as BackpackSO));
-            else if (so.GetType().ToString() == "BeltSO")
-                itemsInRecipe.Add(new(so as BeltSO));
-            else if (so.GetType().ToString() == "ConsumableSO")
-                itemsInRecipe.Add(new(so as ConsumableSO));
-            else if (so.GetType().ToString() == "MaterialSO")
-                itemsInRecipe.Add(new(so as MaterialSO));
-            else if (so.GetType().ToString() == "ProjectileSO")
-                itemsInRecipe.Add(new(so as ProjectileSO));
-            else if (so.GetType().ToString() == "ShieldSO")
-                itemsInRecipe.Add(new(so as ShieldSO));
-            else if (so.GetType().ToString() == "WeaponMeleeSO")
-                itemsInRecipe.Add(new(so as WeaponMeleeSO));
-            else if (so.GetType().ToString() == "WeaponRangedSO")
-                itemsInRecipe.Add(new(so as WeaponRangedSO));
+            if (so.GetType() == typeof(ArmorSO)) itemsInRecipe.Add(new(so as ArmorSO));
+            else if (so.GetType() == typeof(BackpackSO)) itemsInRecipe.Add(new(so as BackpackSO));
+            else if (so.GetType() == typeof(BeltSO)) itemsInRecipe.Add(new(so as BeltSO));
+            else if (so.GetType() == typeof(ConsumableSO)) itemsInRecipe.Add(new(so as ConsumableSO));
+            else if (so.GetType() == typeof(MaterialSO)) itemsInRecipe.Add(new(so as MaterialSO));
+            else if (so.GetType() == typeof(ProjectileSO)) itemsInRecipe.Add(new(so as ProjectileSO));
+            else if (so.GetType() == typeof(ShieldSO)) itemsInRecipe.Add(new(so as ShieldSO));
+            else if (so.GetType() == typeof(WeaponMeleeSO)) itemsInRecipe.Add(new(so as WeaponMeleeSO));
+            else if (so.GetType() == typeof(WeaponRangedSO)) itemsInRecipe.Add(new(so as WeaponRangedSO));
+            else if (so.GetType() == typeof(WeaponMagicSO)) itemsInRecipe.Add(new(so as WeaponMagicSO));
 
             var ingredient = Instantiate(ingredientPrefab, transform.Find("Ingredients"));
             ingredient.GetComponent<Image>().sprite = itemsInRecipe[itemsInRecipe.Count - 1].sprite_inventory;
@@ -59,24 +51,16 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         foreach(ScriptableObject so in GetComponent<Item>().recipe.Keys)
         {
             Item itemFromSO = null;
-            if (so.GetType().ToString() == "ArmorSO")
-                itemFromSO = new(so as ArmorSO);
-            else if (so.GetType().ToString() == "BackpackSO")
-                itemFromSO = new(so as BackpackSO);
-            else if (so.GetType().ToString() == "BeltSO")
-                itemFromSO = new(so as BeltSO);
-            else if (so.GetType().ToString() == "ConsumableSO")
-                itemFromSO = new(so as ConsumableSO);
-            else if (so.GetType().ToString() == "MaterialSO")
-                itemFromSO = new(so as MaterialSO);
-            else if (so.GetType().ToString() == "ProjectileSO")
-                itemFromSO = new(so as ProjectileSO);
-            else if (so.GetType().ToString() == "ShieldSO")
-                itemFromSO = new(so as ShieldSO);
-            else if (so.GetType().ToString() == "WeaponMeleeSO")
-                itemFromSO = new(so as WeaponMeleeSO);
-            else if (so.GetType().ToString() == "WeaponRangedSO")
-                itemFromSO = new(so as WeaponRangedSO);
+            if (so.GetType() == typeof(ArmorSO)) itemFromSO = new(so as ArmorSO);
+            else if (so.GetType() == typeof(BackpackSO)) itemFromSO = new(so as BackpackSO);
+            else if (so.GetType() == typeof(BeltSO)) itemFromSO = new(so as BeltSO);
+            else if (so.GetType() == typeof(ConsumableSO)) itemFromSO = new(so as ConsumableSO);
+            else if (so.GetType() == typeof(MaterialSO)) itemFromSO = new(so as MaterialSO);
+            else if (so.GetType() == typeof(ProjectileSO)) itemFromSO = new(so as ProjectileSO);
+            else if (so.GetType() == typeof(ShieldSO)) itemFromSO = new(so as ShieldSO);
+            else if (so.GetType() == typeof(WeaponMeleeSO)) itemFromSO = new(so as WeaponMeleeSO);
+            else if (so.GetType() == typeof(WeaponRangedSO)) itemFromSO = new(so as WeaponRangedSO);
+            else if (so.GetType() == typeof(WeaponMagicSO)) itemFromSO = new(so as WeaponMagicSO);
 
             List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(itemFromSO.itemName);
             int totalMaterialAmount = 0;
