@@ -13088,8 +13088,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clicked: 0
-  sprite_idle: {fileID: 0}
-  sprite_select: {fileID: 0}
+  sprite_idle: {fileID: 3286163911610860551, guid: c6e5e4691ff0cb747af2cac245a79357,
+    type: 3}
+  sprite_select: {fileID: 3286163911610860551, guid: 44a1d926ff9cfa8468c714a01971b583,
+    type: 3}
   playerCrafting: {fileID: 220485088}
   screenId: 3
 --- !u!1001 &378747443
