@@ -22,14 +22,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1b43d55501f0f5643bd26850ffd048ef, type: 2}
   weaponsMagic:
   - {fileID: 11400000, guid: 3fef864a2e75de9449c3d7b3719bfaf8, type: 2}
-  throwables: []
-  traps: []
+  throwables:
+  - {fileID: 11400000, guid: cda64185180382c45994fab3f655d848, type: 2}
+  traps:
+  - {fileID: 11400000, guid: 48ecbc380dffd774499ba63539f44933, type: 2}
   armors:
   - {fileID: 11400000, guid: 6a4d07a578e6de94e86b5e904f7305e8, type: 2}
   - {fileID: 11400000, guid: 482c5cd403d4b5e4bbc435a5cf84c105, type: 2}
   - {fileID: 11400000, guid: 4f924105a3a39704e86ae54ad365efc9, type: 2}
   - {fileID: 11400000, guid: 4a48b2b0ecab3e842a991303b29cfc9a, type: 2}
-  equipables: []
+  equipables:
+  - {fileID: 11400000, guid: 8c3e18838a0d1de43baa77a36701ccf9, type: 2}
+  - {fileID: 11400000, guid: f13f5a625095b184e9e41387eb150e2d, type: 2}
+  - {fileID: 11400000, guid: 343f26b201654e941ab3fce6e177cbb2, type: 2}
+  - {fileID: 11400000, guid: 66e3d90045c1fe34e8c40103869ab88e, type: 2}
   consumables:
   - {fileID: 11400000, guid: a762031ea8bea694789206638365315c, type: 2}
   projectiles:

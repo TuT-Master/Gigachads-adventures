@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class PlayerCrafting : MonoBehaviour
 {
@@ -48,6 +49,11 @@ public class PlayerCrafting : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI statField;
 
+    // Magic weapon management
+    [SerializeField]
+    private GameObject magicWeaponSlot;
+    [SerializeField]
+    private Transform magicCrystalTransform;
 
     void Start()
     {
@@ -92,6 +98,26 @@ public class PlayerCrafting : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.V))
             hudmanager.TogglePlayerCrafting(!isOpened);
+
+        if (magicWeaponSlot.transform.childCount > 0 && lastItemName == "")
+            CreateMagicCrystalSlots(magicWeaponSlot.GetComponentInChildren<Item>());
+        else if (magicWeaponSlot.transform.childCount == 0 && lastItemName != "")
+            DeleteMagicCrystalSlots();
+    }
+
+    public void CreateMagicCrystalSlots(Item item)
+    {
+        lastItemName = item.itemName;
+        if (item == null || item.slotType != Slot.SlotType.MagicWeapon)
+            return;
+
+    }
+
+    public void DeleteMagicCrystalSlots()
+    {
+        for(int i = 0; i < magicCrystalTransform.childCount; i++)
+            Destroy(magicCrystalTransform.GetChild(i).gameObject);
+        lastItemName = "";
     }
 
     private void CreateRecipesForUpgrade()

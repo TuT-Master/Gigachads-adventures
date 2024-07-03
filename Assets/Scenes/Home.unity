@@ -7352,6 +7352,8 @@ MonoBehaviour:
     type: 3}
   nameField: {fileID: 2054137059}
   statField: {fileID: 569244337}
+  magicWeaponSlot: {fileID: 1553846889}
+  magicCrystalTransform: {fileID: 1318775054}
 --- !u!114 &220485089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56826,6 +56828,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1549667240}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1553846889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,
+    type: 3}
+  m_PrefabInstance: {fileID: 2042271931}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1562445045
 GameObject:
   m_ObjectHideFlags: 0
@@ -77846,6 +77854,12 @@ PrefabInstance:
       propertyPath: m_CellSize.y
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 4492876950125508403, guid: 46263f1146e6a4d439fbed09bfa30e62,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3286163911610860551, guid: c08fc9affcd0e7f4882c7d293fad6fdd,
+        type: 3}
     - target: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,
         type: 3}
       propertyPath: m_Name
