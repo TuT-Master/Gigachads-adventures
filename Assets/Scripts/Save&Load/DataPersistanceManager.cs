@@ -42,6 +42,7 @@ public class DataPersistanceManager : MonoBehaviour
         gameData.playerInventory.Add(playerInventory.transform.GetChild(0), "Primitive club-1");
         gameData.playerInventory.Add(playerInventory.transform.GetChild(1), "Primitive bow-1");
         gameData.playerInventory.Add(playerInventory.transform.GetChild(2), "Primitive arrow-20");
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(3), "Primitive magic staff-1");
 
         dataHandler.SaveData(gameData);
     }

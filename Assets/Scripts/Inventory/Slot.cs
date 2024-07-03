@@ -109,6 +109,9 @@ public class Slot : MonoBehaviour, IDropHandler
             case SlotType.SecondaryHand:
                 image.sprite = slotImages[2];
                 break;
+            case SlotType.MagicCrystal:
+                image.sprite = slotImages[13];
+                break;
         }
     }
 

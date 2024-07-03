@@ -8,33 +8,34 @@ using static UnityEditor.Progress;
 
 public class PlayerCrafting : MonoBehaviour
 {
+    [Header("Global stuff")]
     public bool isOpened;
-
     [SerializeField]
-    private GameObject craftingScreen;
-    [SerializeField]
-    private GameObject itemPrefab;
+    private ItemDatabase itemDatabase;
     [SerializeField]
     private List<GameObject> playerInventorySlots;
     [SerializeField]
-    private GameObject recipePrefab;
-    [SerializeField]
-    private Transform recipeTransform;
-
-    [SerializeField]
-    private ItemDatabase itemDatabase;
-
-    private HUDmanager hudmanager;
-    private PlayerInventory playerInventory;
-    [SerializeField]
     private PlayerBase playerBase;
+    private PlayerInventory playerInventory;
+    private HUDmanager hudmanager;
 
+    [Header("Screens & buttons")]
     [SerializeField]
     private List<GameObject> craftingScreens;
     [SerializeField]
     private List<CraftingButtons> craftingButtons;
 
-    // Upgrade screen
+    [Header("Crafting screen")]
+    [SerializeField]
+    private GameObject craftingScreen;
+    [SerializeField]
+    private GameObject itemPrefab;
+    [SerializeField]
+    private Transform recipeTransform;
+    [SerializeField]
+    private GameObject recipePrefab;
+
+    [Header("Upgrade screen")]
     [SerializeField]
     private GameObject upgradeSlot;
     private Item itemInUpgradeSlot;
@@ -49,11 +50,15 @@ public class PlayerCrafting : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI statField;
 
-    // Magic weapon management
+    [Header("Magic weapon management")]
     [SerializeField]
     private GameObject magicWeaponSlot;
     [SerializeField]
     private Transform magicCrystalTransform;
+    [SerializeField]
+    private GameObject crystalSlotPrefab;
+    private Item magicWeaponInSlot;
+
 
     void Start()
     {
@@ -69,6 +74,8 @@ public class PlayerCrafting : MonoBehaviour
     void Update()
     {
         MyInput();
+
+        // Upgrade screen
         if(upgradeSlot.transform.childCount > 0 && upgradeSlot.transform.GetChild(0).TryGetComponent(out itemInUpgradeSlot) && lastItemName != itemInUpgradeSlot.itemName)
         {
             lastItemName = itemInUpgradeSlot.itemName;
@@ -92,17 +99,27 @@ public class PlayerCrafting : MonoBehaviour
             lastItemName = "";
             itemInUpgradeSlot = null;
         }
+
+        // Magic weapon management screen
+        if (magicWeaponSlot.transform.childCount > 0 && lastItemName == "")
+        {
+            magicWeaponInSlot = magicWeaponSlot.GetComponentInChildren<Item>();
+            CreateMagicCrystalSlots(magicWeaponInSlot);
+        }
+        else if (magicWeaponSlot.transform.childCount == 0 && lastItemName != "")
+        {
+            DeleteMagicCrystalSlots(magicWeaponInSlot);
+            magicWeaponInSlot = null;
+        }
+
+        if (magicCrystalTransform.childCount > 0)
+            UpdateMagicCrystals(magicWeaponInSlot);
     }
 
     private void MyInput()
     {
         if (Input.GetKeyDown(KeyCode.V))
             hudmanager.TogglePlayerCrafting(!isOpened);
-
-        if (magicWeaponSlot.transform.childCount > 0 && lastItemName == "")
-            CreateMagicCrystalSlots(magicWeaponSlot.GetComponentInChildren<Item>());
-        else if (magicWeaponSlot.transform.childCount == 0 && lastItemName != "")
-            DeleteMagicCrystalSlots();
     }
 
     public void CreateMagicCrystalSlots(Item item)
@@ -110,14 +127,43 @@ public class PlayerCrafting : MonoBehaviour
         lastItemName = item.itemName;
         if (item == null || item.slotType != Slot.SlotType.MagicWeapon)
             return;
+        for (int i = 0; i < item.magicCrystals.Count; i++)
+        {
+            // Create new empty slot
+            GameObject crystalSlot = Instantiate(crystalSlotPrefab, magicCrystalTransform);
+            crystalSlot.GetComponent<Slot>().slotType = Slot.SlotType.MagicCrystal;
+            crystalSlot.GetComponent<Slot>().isActive = true;
 
+            // Fill slot
+            if (item.magicCrystals[i] != Item.MagicCrystalType.None)
+            {
+                GameObject crystal = Instantiate(itemPrefab, crystalSlot.transform);
+                crystal.GetComponent<Item>().SetUpByItem(itemDatabase.GetCrystalByType(item.magicCrystals[i]));
+                crystal.GetComponent<Item>().amount = 1;
+            }
+        }
     }
 
-    public void DeleteMagicCrystalSlots()
+    public void DeleteMagicCrystalSlots(Item item)
     {
-        for(int i = 0; i < magicCrystalTransform.childCount; i++)
+        UpdateMagicCrystals(item);
+        for (int i = 0; i < magicCrystalTransform.childCount; i++)
             Destroy(magicCrystalTransform.GetChild(i).gameObject);
         lastItemName = "";
+    }
+
+    private void UpdateMagicCrystals(Item item)
+    {
+        if(item == null)
+            return;
+        item.magicCrystals = new();
+        for (int i = 0; i < magicCrystalTransform.childCount; i++)
+        {
+            if (magicCrystalTransform.GetChild(i).childCount > 0 && magicCrystalTransform.GetChild(i).GetChild(0).TryGetComponent(out Item crystal))
+                item.magicCrystals.Add(i, crystal.crystalType);
+            else
+                item.magicCrystals.Add(i, Item.MagicCrystalType.None);
+        }
     }
 
     private void CreateRecipesForUpgrade()

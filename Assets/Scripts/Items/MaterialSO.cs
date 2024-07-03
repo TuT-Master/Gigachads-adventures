@@ -18,6 +18,8 @@ public class MaterialSO : ScriptableObject
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
+    public Item.MagicCrystalType crystalType;
+
     [SerializeField] private float weight = 0;
     public Dictionary<string, float> Stats()
     {

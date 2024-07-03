@@ -194,4 +194,18 @@ public class ItemDatabase : ScriptableObject
 
         return items;
     }
+
+    public Item GetCrystalByType(Item.MagicCrystalType type)
+    {
+        return type switch
+        {
+            Item.MagicCrystalType.Fire => GetMaterial("Fire crystal"),
+            Item.MagicCrystalType.Water => GetMaterial("Water crystal"),
+            Item.MagicCrystalType.Air => GetMaterial("Wind crystal"),
+            Item.MagicCrystalType.Earth => GetMaterial("Earth crystal"),
+            Item.MagicCrystalType.Light => GetMaterial("Light crystal"),
+            Item.MagicCrystalType.Dark => GetMaterial("Dark crystal"),
+            _ => null
+        };
+    }
 }

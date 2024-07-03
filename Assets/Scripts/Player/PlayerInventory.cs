@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour, IDataPersistance
 {
@@ -548,14 +549,17 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         string name = "";
         string amountString = "";
         string currentMagazineString = "";
+        List<int> crystals = new();
 
         int stage = 0;
         foreach (char c in item)
         {
             if (c == '-')
-                stage++;
+                stage = 1;
             else if (c == '/')
-                stage++;
+                stage = 2;
+            else if (c == '|')
+                stage = 3;
             else
             {
                 if (stage == 0)
@@ -564,14 +568,23 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                     amountString += c;
                 else if (stage == 2)
                     currentMagazineString += c;
+                else if (stage == 3 && int.TryParse(c.ToString(), out int id))
+                    crystals.Add(id);
             }
         }
 
+        // Amount
         int.TryParse(amountString, out int amount);
         Item loadedItem = itemDatabase.GetItemByNameAndAmount(name, amount);
 
+        // Current magazine
         if(int.TryParse(currentMagazineString, out int currentMagazine))
             loadedItem.stats["currentMagazine"] = currentMagazine;
+
+        // Magic crystals
+        loadedItem.magicCrystals ??= new();
+        for (int i = 0; i < crystals.Count; i++)
+            loadedItem.magicCrystals.Add(i, loadedItem.GetMagicCrystalTypeByInt(crystals[i]));
 
         return loadedItem;
     }
@@ -599,6 +612,12 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                 inventory[backpackInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
                 if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
                     inventory[backpackInventory.transform.GetChild(i)] += "/" + item.stats["currentMagazine"].ToString();
+                if (item.stats != null && item.magicCrystals != null)
+                {
+                    inventory[backpackInventory.transform.GetChild(i)] += "|";
+                    for (int j = 0; j < item.magicCrystals.Count; j++)
+                        inventory[backpackInventory.transform.GetChild(i)] += (int)item.magicCrystals[j];
+                }
             }
         }
         // Belt inventory
@@ -610,6 +629,12 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                 inventory[beltInventory.transform.GetChild(i)] = item.itemName + "-" + item.amount.ToString();
                 if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
                     inventory[beltInventory.transform.GetChild(i)] += "/" + item.stats["currentMagazine"].ToString();
+                if (item.stats != null && item.magicCrystals != null)
+                {
+                    inventory[backpackInventory.transform.GetChild(i)] += "|";
+                    for (int j = 0; j < item.magicCrystals.Count; j++)
+                        inventory[backpackInventory.transform.GetChild(i)] += (int)item.magicCrystals[j];
+                }
             }
         }
         // Pocket inventory
@@ -631,12 +656,24 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             inventory[LeftHandSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
             if (_item.stats != null && _item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
                 inventory[LeftHandSlot.transform] += "/" + _item.stats["currentMagazine"].ToString();
+            if (_item.stats != null && _item.magicCrystals != null)
+            {
+                inventory[LeftHandSlot.transform] += "|";
+                for (int j = 0; j < _item.magicCrystals.Count; j++)
+                    inventory[LeftHandSlot.transform] += (int)_item.magicCrystals[j];
+            }
         }
         if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out _item))
         {
             inventory[RightHandSlot.transform] = _item.itemName + "-" + _item.amount.ToString();
             if (_item.stats != null && _item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
                 inventory[RightHandSlot.transform] += "/" + _item.stats["currentMagazine"].ToString();
+            if (_item.stats != null && _item.magicCrystals != null)
+            {
+                inventory[RightHandSlot.transform] += "|";
+                for (int j = 0; j < _item.magicCrystals.Count; j++)
+                    inventory[RightHandSlot.transform] += (int)_item.magicCrystals[j];
+            }
         }
         // Armor slots
         for (int i = 0; i < armorSlots.transform.childCount; i++)

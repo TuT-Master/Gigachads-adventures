@@ -110,13 +110,30 @@ public class Item : MonoBehaviour
     // Magic crystals
     public enum MagicCrystalType
     {
-        Fire,
-        Water,
-        Air,
-        Earth,
-        Light,
-        Dark
+        None = 0,
+        Fire = 1,
+        Water = 2,
+        Air = 3,
+        Earth = 4,
+        Light = 5,
+        Dark = 6,
     }
+    public MagicCrystalType GetMagicCrystalTypeByInt(int index)
+    {
+        return index switch
+        {
+            1 => MagicCrystalType.Fire,
+            2 => MagicCrystalType.Water,
+            3 => MagicCrystalType.Air,
+            4 => MagicCrystalType.Earth,
+            5 => MagicCrystalType.Light,
+            6 => MagicCrystalType.Dark,
+            _ => MagicCrystalType.None,
+        };
+    }
+    public MagicCrystalType crystalType;
+
+    // Magic weapons
     public Dictionary<int, MagicCrystalType> magicCrystals;
 
 
@@ -301,12 +318,16 @@ public class Item : MonoBehaviour
         stackSize= materialSO.stackSize;
         isStackable = true;
         stats = materialSO.Stats();
-        slotType = Slot.SlotType.Material;
+        if (itemName.ToLower().Contains("crystal"))
+            slotType = Slot.SlotType.MagicCrystal;
+        else
+            slotType = Slot.SlotType.Material;
         craftedIn = materialSO.craftedIn;
         requieredCraftingLevel = materialSO.requieredCraftingLevel;
         recipe = new();
         for (int i = 0; i < materialSO.recipeMaterials.Count; i++)
             recipe.Add(materialSO.recipeMaterials[i], materialSO.recipeMaterialsAmount[i]);
+        crystalType = materialSO.crystalType;
     }
     public Item(ThrowableSO throwableSO)
     {
@@ -378,6 +399,7 @@ public class Item : MonoBehaviour
         recipe = item.recipe;
         upgradedVersionOfItem = item.upgradedVersionOfItem;
         magicCrystals = item.magicCrystals;
+        crystalType = item.crystalType;
     }
 
 
@@ -494,6 +516,8 @@ public class Item : MonoBehaviour
                 Debug.Log(itemName);
                 break;
         }
+
+        UpdateMagicCrystalsByAge((int)FindAnyObjectByType<PlayerStats>().playerStats["age"]);
     }
 
     private void Update()
@@ -508,6 +532,41 @@ public class Item : MonoBehaviour
             text.text = "nice";
         else
             text.text = amount.ToString();
+    }
+
+    public void UpdateMagicCrystalsByAge(int age)
+    {
+        if (weaponType != WeaponType.MagicWeapon)
+            return;
+
+        Dictionary<int, MagicCrystalType> oldMagicCrystals = new();
+        if(magicCrystals != null)
+            oldMagicCrystals = magicCrystals;
+
+        switch (age)
+        {
+            case < 2:
+                magicCrystals = new(){
+                        {0, MagicCrystalType.None },
+                    };
+                break;
+            case < 4:
+                magicCrystals = new(){
+                        {0, MagicCrystalType.None },
+                        {1, MagicCrystalType.None },
+                    };
+                break;
+            default:
+                magicCrystals = new(){
+                        {0, MagicCrystalType.None },
+                        {1, MagicCrystalType.None },
+                        {2, MagicCrystalType.None },
+                    };
+                break;
+        }
+
+        for (int i = 0; i < oldMagicCrystals.Count; i++)
+            magicCrystals[i] = oldMagicCrystals[i];
     }
 
     private IEnumerator DestroyItem()

@@ -70,6 +70,7 @@ public class GameData
             { "backpackSize", 8 },
             { "beltSize", 0 },
             { "pocketSize", 0 },
+            { "age", 0 },
         };
         playerInventory = new();
         playerPos = new Vector3(-52, 0, -52);

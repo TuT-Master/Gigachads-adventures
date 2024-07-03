@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b3d4845a237f4e9ec5fc5ec39cb2b, type: 3}
   m_Name: FireCrystal
   m_EditorClassIdentifier: 
-  itemName: Fire Crystal
+  itemName: Fire crystal
   description: 
-  stackSize: 69
+  stackSize: 1
   sprite_inventory: {fileID: 3286163911610860551, guid: ed38191d9f7fa374f9209f3fd2051ca9,
     type: 3}
   craftedIn: 6
   requieredCraftingLevel: 0
   recipeMaterials: []
   recipeMaterialsAmount: 
+  crystalType: 1
   weight: 1

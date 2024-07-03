@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483b3d4845a237f4e9ec5fc5ec39cb2b, type: 3}
   m_Name: WaterCrystal
   m_EditorClassIdentifier: 
-  itemName: Water Crystal
+  itemName: Water crystal
   description: 
-  stackSize: 69
+  stackSize: 1
   sprite_inventory: {fileID: 3286163911610860551, guid: fd25b5f947312684e84c72529d8802ac,
     type: 3}
   craftedIn: 6
   requieredCraftingLevel: 0
   recipeMaterials: []
   recipeMaterialsAmount: 
+  crystalType: 2
   weight: 1

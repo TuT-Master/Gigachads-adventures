@@ -107,6 +107,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private float knockback;
     [SerializeField]
     private float increaseArmorByPercentage;
+    [SerializeField]
+    private float age;
     #endregion
 
     public enum WeaponClass
@@ -199,6 +201,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "pocketSize", pocketSize },
             {"knockback", knockback },
             {"increaseArmorByPercentage", increaseArmorByPercentage },
+            {"age", age },
         };
         playerSkillBonusStats_OneHandedDexterity = playerSkillBonusStats_OneHandedStrength =
         playerSkillBonusStats_TwoHandedDexterity = playerSkillBonusStats_TwoHandedStrength =
