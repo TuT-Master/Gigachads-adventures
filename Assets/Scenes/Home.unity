@@ -44493,8 +44493,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clicked: 0
-  sprite_idle: {fileID: 0}
-  sprite_select: {fileID: 0}
+  sprite_idle: {fileID: 3286163911610860551, guid: 857e80a2c9d3eb54cbddbbf8d66593ce,
+    type: 3}
+  sprite_select: {fileID: 3286163911610860551, guid: d2f6efaf44b94b349b914bc31d7e99d1,
+    type: 3}
   playerCrafting: {fileID: 220485088}
   screenId: 0
 --- !u!1 &1143997003
