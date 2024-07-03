@@ -159,12 +159,12 @@ GameObject:
   - component: {fileID: 753915611638186844}
   - component: {fileID: 3730171686350107231}
   m_Layer: 0
-  m_Name: CrystalSlot (2)
+  m_Name: CrystalSlot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7973748719043551903
 RectTransform:
   m_ObjectHideFlags: 0
@@ -525,12 +525,12 @@ GameObject:
   - component: {fileID: 735705899306027931}
   - component: {fileID: 1721461415892721968}
   m_Layer: 0
-  m_Name: CrystalSlot
+  m_Name: CrystalSlot0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2586448283135913185
 RectTransform:
   m_ObjectHideFlags: 0
@@ -602,12 +602,12 @@ GameObject:
   - component: {fileID: 2774978220843419630}
   - component: {fileID: 8278423127907023273}
   m_Layer: 0
-  m_Name: CrystalSlot (1)
+  m_Name: CrystalSlot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5988981111639116799
 RectTransform:
   m_ObjectHideFlags: 0

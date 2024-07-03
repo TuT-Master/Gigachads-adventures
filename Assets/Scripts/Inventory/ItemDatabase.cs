@@ -139,6 +139,9 @@ public class ItemDatabase : ScriptableObject
         foreach (WeaponRangedSO weapon in weaponsRanged)
             if (weapon.itemName == name)
                 item = new(weapon);
+        foreach (WeaponMagicSO weapon in weaponsMagic)
+            if (weapon.itemName == name)
+                item = new(weapon);
         foreach (ArmorSO armor in armors)
             if (armor.itemName == name)
                 item = new(armor);
@@ -171,6 +174,8 @@ public class ItemDatabase : ScriptableObject
         foreach (WeaponMeleeSO weapon in weaponsMelee)
             items.Add(new(weapon));
         foreach (WeaponRangedSO weapon in weaponsRanged)
+            items.Add(new(weapon));
+        foreach (WeaponMagicSO weapon in weaponsMagic)
             items.Add(new(weapon));
         foreach (ArmorSO armor in armors)
             items.Add(new(armor));

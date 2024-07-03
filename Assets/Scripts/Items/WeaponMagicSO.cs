@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Item;
 
 [CreateAssetMenu(fileName = "WeaponMagic", menuName = "Scriptable objects/WeaponMagic")]
 public class WeaponMagicSO : ScriptableObject
@@ -63,4 +64,6 @@ public class WeaponMagicSO : ScriptableObject
     }
 
     public WeaponMagicSO upgradedVersionsOfWeapon;
+
+    public Dictionary<int, MagicCrystalType> magicCrystals;
 }

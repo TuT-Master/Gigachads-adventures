@@ -50,9 +50,15 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     // ItemCard
     private GameObject itemCard;
     private bool isItemCardOpen;
-
+    [SerializeField]
+    private Sprite itemCardGFX;
     private HUDmanager hudManager;
-
+    [SerializeField] private Sprite crystalFire;
+    [SerializeField] private Sprite crystalWater;
+    [SerializeField] private Sprite crystalAir;
+    [SerializeField] private Sprite crystalEarth;
+    [SerializeField] private Sprite crystalLight;
+    [SerializeField] private Sprite crystalDark;
 
     private void Start()
     {
@@ -146,7 +152,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             isItemCardOpen = true;
             
             // ItemCard GFX
-            //itemCard.transform.GetChild(0).GetComponent<Image>().sprite = 
+            itemCard.transform.GetChild(0).GetComponent<Image>().sprite = itemCardGFX;
             
             // Item image
             itemCard.transform.GetChild(1).GetComponent<Image>().sprite = item.sprite_inventory;
@@ -159,6 +165,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
             // Item stats
             string[] rows = new string[12]; // 12 rows
+
             // Melle weapon
             if (item.slotType == Slot.SlotType.WeaponMelee)
             {
@@ -237,6 +244,57 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                 rows[4] = "Magazine: " + item.stats["currentMagazine"].ToString() + "/" + item.stats["magazineSize"].ToString();
 
                 rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+            }
+            // Magic weapon
+            else if (item.slotType == Slot.SlotType.MagicWeapon)
+            {
+                // One handed / two handed
+                if (item.twoHanded)
+                    rows[0] = "Two handed ";
+                else
+                    rows[0] = "One handed ";
+                // Stuff / book / etc.
+                if (item.itemName.ToLower().Contains("book"))
+                    rows[0] += "book";
+                else if (item.itemName.ToLower().Contains("staff"))
+                    rows[0] += "staff";
+
+                rows[1] = "Damage: " + item.stats["damage"].ToString();
+                rows[2] = "Penetration: " + item.stats["penetration"].ToString();
+                rows[3] = "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%";
+
+                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+
+                // Magic crystals
+                if(item.magicCrystals != null)
+                {
+                    for (int i = 0; i < item.magicCrystals.Count; i++)
+                    {
+                        GameObject crystal = itemCard.transform.Find("CrystalSlot" + i).gameObject;
+                        crystal.SetActive(true);
+                        switch (item.magicCrystals[i])
+                        {
+                            case Item.MagicCrystalType.Fire:
+                                crystal.GetComponent<Image>().sprite = crystalFire;
+                                break;
+                            case Item.MagicCrystalType.Water:
+                                crystal.GetComponent<Image>().sprite = crystalWater;
+                                break;
+                            case Item.MagicCrystalType.Air:
+                                crystal.GetComponent<Image>().sprite = crystalAir;
+                                break;
+                            case Item.MagicCrystalType.Earth:
+                                crystal.GetComponent<Image>().sprite = crystalEarth;
+                                break;
+                            case Item.MagicCrystalType.Light:
+                                crystal.GetComponent<Image>().sprite = crystalLight;
+                                break;
+                            case Item.MagicCrystalType.Dark:
+                                crystal.GetComponent<Image>().sprite = crystalDark;
+                                break;
+                        }
+                    }
+                }
             }
             // Armor
             else if (item.slotType == Slot.SlotType.Head | item.slotType == Slot.SlotType.Torso | item.slotType == Slot.SlotType.Legs | item.slotType == Slot.SlotType.Gloves)

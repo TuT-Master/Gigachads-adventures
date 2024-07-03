@@ -18,7 +18,7 @@ public class PlayerCrafting : MonoBehaviour
     [SerializeField]
     private GameObject recipePrefab;
     [SerializeField]
-    private Transform recipesTransform;
+    private Transform recipeTransform;
 
     [SerializeField]
     private ItemDatabase itemDatabase;
@@ -303,8 +303,8 @@ public class PlayerCrafting : MonoBehaviour
 
     private void CreateRecipes()
     {
-        for (int i = 0; i < recipesTransform.childCount; i++)
-            Destroy(recipesTransform.GetChild(i).gameObject);
+        for (int i = 0; i < recipeTransform.childCount; i++)
+            Destroy(recipeTransform.GetChild(i).gameObject);
 
         List<Item> allItems = itemDatabase.GetAllItems();
         int recipesAmount = 0;
@@ -312,12 +312,12 @@ public class PlayerCrafting : MonoBehaviour
             if (item.recipe.Count > 0 && item.requieredCraftingLevel <= playerBase.baseUpgrades[item.craftedIn])
             {
                 // Show recipe
-                GameObject recipe = Instantiate(recipePrefab, recipesTransform);
+                GameObject recipe = Instantiate(recipePrefab, recipeTransform);
                 recipe.GetComponent<Item>().SetUpByItem(item);
                 recipe.GetComponent<Recipe>().CreateRecipe();
                 recipesAmount++;
             }
-        recipesTransform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, recipesAmount * 120);
+        recipeTransform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, recipesAmount * 120);
     }
 
     public void ToggleScreen(bool toggle)

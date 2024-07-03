@@ -21,7 +21,7 @@ MonoBehaviour:
   fullAuto: 0
   twoHanded: 1
   AoE: 0
-  weaponType: 34
+  weaponType: 36
   craftedIn: 5
   requieredCraftingLevel: 0
   recipeMaterials:
@@ -30,7 +30,8 @@ MonoBehaviour:
   recipeMaterialsAmount: 0500000002000000
   sprite_inventory: {fileID: 3286163911610860551, guid: 51ceafb0ea9d9c244a6e0171532347cd,
     type: 3}
-  sprite_hand: {fileID: 0}
+  sprite_hand: {fileID: 3286163911610860551, guid: 51ceafb0ea9d9c244a6e0171532347cd,
+    type: 3}
   damage: 5
   penetration: 0
   armorIgnore: 0.15
@@ -44,3 +45,4 @@ MonoBehaviour:
   rangeY: 1
   defense: 10
   weight: 8
+  upgradedVersionsOfWeapon: {fileID: 0}

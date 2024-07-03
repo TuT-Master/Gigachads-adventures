@@ -104,8 +104,20 @@ public class Item : MonoBehaviour
 
     public bool isRecipe;
 
-    //Upgrading
+    // Upgrading
     public ScriptableObject upgradedVersionOfItem;
+
+    // Magic crystals
+    public enum MagicCrystalType
+    {
+        Fire,
+        Water,
+        Air,
+        Earth,
+        Light,
+        Dark
+    }
+    public Dictionary<int, MagicCrystalType> magicCrystals;
 
 
     private TextMeshProUGUI text;
@@ -159,7 +171,7 @@ public class Item : MonoBehaviour
     {
         itemName = weaponSO.itemName;
         description = weaponSO.description;
-        slotType = Slot.SlotType.WeaponRanged;
+        slotType = Slot.SlotType.MagicWeapon;
         sprite_inventory = weaponSO.sprite_inventory;
         sprite_hand = weaponSO.sprite_hand;
         stats = weaponSO.Stats();
@@ -176,6 +188,7 @@ public class Item : MonoBehaviour
         for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
             recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
+        magicCrystals = weaponSO.magicCrystals;
     }
     public Item(ConsumableSO consumableSO)
     {
@@ -364,6 +377,7 @@ public class Item : MonoBehaviour
         requieredCraftingLevel = item.requieredCraftingLevel;
         recipe = item.recipe;
         upgradedVersionOfItem = item.upgradedVersionOfItem;
+        magicCrystals = item.magicCrystals;
     }
 
 
@@ -465,6 +479,15 @@ public class Item : MonoBehaviour
                 weaponClass = PlayerStats.WeaponClass.Magic;
                 break;
             case WeaponType.MagicWeapon_air:
+                weaponClass = PlayerStats.WeaponClass.Magic;
+                break;
+            case WeaponType.MagicWeapon_light:
+                weaponClass = PlayerStats.WeaponClass.Magic;
+                break;
+            case WeaponType.MagicWeapon_dark:
+                weaponClass = PlayerStats.WeaponClass.Magic;
+                break;
+            case WeaponType.MagicWeapon:
                 weaponClass = PlayerStats.WeaponClass.Magic;
                 break;
             default:

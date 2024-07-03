@@ -20,7 +20,8 @@ MonoBehaviour:
   weaponsRanged:
   - {fileID: 11400000, guid: 248de275aa212584ea2e9778379fc2ca, type: 2}
   - {fileID: 11400000, guid: 1b43d55501f0f5643bd26850ffd048ef, type: 2}
-  weaponsMagic: []
+  weaponsMagic:
+  - {fileID: 11400000, guid: 3fef864a2e75de9449c3d7b3719bfaf8, type: 2}
   throwables: []
   traps: []
   armors:
