@@ -224,9 +224,12 @@ public class ItemDatabase : ScriptableObject
 
     public Item GetBaseUpgradeAsItem(BaseUpgrade baseUpgrade, int level)
     {
+        Item item = null;
         foreach (BaseUpgradeSO upgradeSO in baseUpgradesSO)
             if (upgradeSO.baseUpgradeType == baseUpgrade && upgradeSO.levelOfUpgrade == level)
-                return new(upgradeSO);
-        return null;
+                item = new(upgradeSO);
+        if(item != null)
+            item.amount = 1;
+        return item;
     }
 }

@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3613509fa5e65774b811ffe55276765c, type: 3}
   m_Name: Chest1
   m_EditorClassIdentifier: 
+  itemName: Basic wooden chest
+  description: 
+  sprite_inventory: {fileID: 0}
   requieredAge: 0
   levelOfUpgrade: 1
-  baseUpgradeType: 1
-  recipeMaterials: []
-  recipeMaterialsAmount: 
+  baseUpgradeType: 2
+  recipeMaterials:
+  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
+  - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
+  recipeMaterialsAmount: 0a00000005000000
   nextLevel: {fileID: 0}

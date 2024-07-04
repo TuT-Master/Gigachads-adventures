@@ -211,27 +211,24 @@ public class PlayerCrafting : MonoBehaviour
 
         int recipesAmount = 0;
         foreach (PlayerBase.BaseUpgrade baseUpgrade in playerBase.baseUpgrades.Keys)
-        {
-            GameObject upgrade = Instantiate(recipePrefab, baseUpgradesTransform);
-
-            // Set up an upgrade recipe
-            if (playerBase.baseUpgrades[baseUpgrade] == null)
+            if (baseUpgrade != PlayerBase.BaseUpgrade.Upgrade && baseUpgrade != PlayerBase.BaseUpgrade.None)
             {
-                //upgrade.GetComponent<Item>().SetUpByItem();
-            }
-            else if (playerBase.baseUpgrades[baseUpgrade].nextLevel != null &&
-                    playerBase.baseUpgrades[baseUpgrade].nextLevel.requieredAge <= GetComponent<PlayerStats>().playerStats["age"])
-            {
-                foreach (ScriptableObject so in playerBase.baseUpgrades[baseUpgrade].nextLevel.recipeMaterials)
+                GameObject upgrade = Instantiate(recipePrefab, baseUpgradesTransform);
+                // Set up an upgrade recipe
+                if (playerBase.baseUpgrades[baseUpgrade] == null)
                 {
-                    GameObject upgradeIngredient = Instantiate(ingredientPrefab, upgrade.transform.Find("Ingredients"));
-
-
-
-                    recipesAmount++;
+                    // Not upgraded yet
+                    upgrade.GetComponent<Item>().SetUpByItem(itemDatabase.GetBaseUpgradeAsItem(baseUpgrade, 1));
+                    upgrade.GetComponent<Recipe>().CreateRecipe();
                 }
+                else if (playerBase.baseUpgrades[baseUpgrade].nextLevel != null &&
+                        playerBase.baseUpgrades[baseUpgrade].nextLevel.requieredAge <= GetComponent<PlayerStats>().playerStats["age"])
+                {
+                    // Upgraded already
+
+                }
+                recipesAmount++;
             }
-        }
         baseUpgradesTransform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, recipesAmount * 120);
     }
 

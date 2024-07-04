@@ -180,7 +180,71 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         canCraftAgain = true;
     }
 
-    public void OnPointerClick(PointerEventData eventData) { CraftItem(); }
+    private void CraftBaseUpgrade()
+    {
+        if (CanBeCrafted())
+        {
+            // Consume materials
+            for (int i = 0; i < GetComponent<Item>().nextLevel.recipeMaterials.Count; i++)
+            {
+                Item itemFromSO = null;
+                if (GetComponent<Item>().nextLevel.recipeMaterials[i].GetType().ToString() == "ArmorSO")
+                    itemFromSO = new(GetComponent<Item>().nextLevel.recipeMaterials[i] as ArmorSO);
+                else if (GetComponent<Item>().nextLevel.recipeMaterials[i].GetType().ToString() == "BackpackSO")
+                    itemFromSO = new(GetComponent<Item>().nextLevel.recipeMaterials[i] as BackpackSO);
+                else if (GetComponent<Item>().nextLevel.recipeMaterials[i].GetType().ToString() == "BeltSO")
+                    itemFromSO = new(GetComponent<Item>().nextLevel.recipeMaterials[i] as BeltSO);
+                else if (GetComponent<Item>().nextLevel.recipeMaterials[i].GetType().ToString() == "ConsumableSO")
+                    itemFromSO = new(GetComponent<Item>().nextLevel.recipeMaterials[i] as ConsumableSO);
+                else if (GetComponent<Item>().nextLevel.recipeMaterials[i].GetType().ToString() == "MaterialSO")
+                    itemFromSO = new(GetComponent<Item>().nextLevel.recipeMaterials[i] as MaterialSO);
+                else if (GetComponent<Item>().nextLevel.recipeMaterials[i].GetType().ToString() == "ProjectileSO")
+                    itemFromSO = new(GetComponent<Item>().nextLevel.recipeMaterials[i] as ProjectileSO);
+                else if (GetComponent<Item>().nextLevel.recipeMaterials[i].GetType().ToString() == "ShieldSO")
+                    itemFromSO = new(GetComponent<Item>().nextLevel.recipeMaterials[i] as ShieldSO);
+                else if (GetComponent<Item>().nextLevel.recipeMaterials[i].GetType().ToString() == "WeaponMeleeSO")
+                    itemFromSO = new(GetComponent<Item>().nextLevel.recipeMaterials[i] as WeaponMeleeSO);
+                else if (GetComponent<Item>().nextLevel.recipeMaterials[i].GetType().ToString() == "WeaponRangedSO")
+                    itemFromSO = new(GetComponent<Item>().nextLevel.recipeMaterials[i] as WeaponRangedSO);
+
+
+                int materialNeeded = GetComponent<Item>().recipe[GetComponent<Item>().nextLevel.recipeMaterials[i]];
+                List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(itemFromSO.itemName);
+                int totalMaterialAmount = 0;
+                for (int j = 0; j < materials.Count; j++)
+                    totalMaterialAmount += materials[j].amount;
+
+                bool crafted = false;
+                for (int j = 0; j < materials.Count; j++)
+                {
+                    if (crafted)
+                        break;
+
+                    if (materials[j].amount >= materialNeeded)
+                    {
+                        materials[j].amount -= materialNeeded;
+                        crafted = true;
+                    }
+                    else
+                    {
+                        materialNeeded -= materials[j].amount;
+                        materials[j].amount = 0;
+                    }
+                }
+            }
+            StartCoroutine(FindAnyObjectByType<PlayerCrafting>().UpdatePlayerInventory());
+        }
+        else
+            Debug.Log("Not enough materials for this recipe!");
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(GetComponent<Item>().baseUpgradeType == PlayerBase.BaseUpgrade.None)
+            CraftItem();
+        else
+            CraftBaseUpgrade();
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         FindAnyObjectByType<PlayerInventory>().CloseItemCard();

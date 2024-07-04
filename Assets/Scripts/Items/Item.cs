@@ -141,6 +141,8 @@ public class Item : MonoBehaviour
     public int levelOfUpgrade;
     public PlayerBase.BaseUpgrade baseUpgradeType;
     public BaseUpgradeSO nextLevel;
+
+    // Amount text
     private TextMeshProUGUI text;
 
 
@@ -382,8 +384,6 @@ public class Item : MonoBehaviour
         itemName = baseUpgradeSP.itemName;
         description = baseUpgradeSP.description;
         sprite_inventory = baseUpgradeSP.sprite_inventory;
-        isStackable = true;
-
         recipe = new();
         for (int i = 0; i < baseUpgradeSP.recipeMaterials.Count; i++)
             recipe.Add(baseUpgradeSP.recipeMaterials[i], baseUpgradeSP.recipeMaterialsAmount[i]);

@@ -9,6 +9,7 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
 
     public enum BaseUpgrade
     {
+        None,
         Bed,
         Chest,
         Kitchen,
