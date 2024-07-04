@@ -136,7 +136,11 @@ public class Item : MonoBehaviour
     // Magic weapons
     public Dictionary<int, MagicCrystalType> magicCrystals;
 
-
+    // Base upgrading
+    public int requieredAge;
+    public int levelOfUpgrade;
+    public PlayerBase.BaseUpgrade baseUpgradeType;
+    public BaseUpgradeSO nextLevel;
     private TextMeshProUGUI text;
 
 
@@ -372,6 +376,17 @@ public class Item : MonoBehaviour
         recipe = new();
         for (int i = 0; i < trapSO.recipeMaterials.Count; i++)
             recipe.Add(trapSO.recipeMaterials[i], trapSO.recipeMaterialsAmount[i]);
+    }
+    public Item(BaseUpgradeSO baseUpgradeSP)
+    {
+        itemName = baseUpgradeSP.itemName;
+        description = baseUpgradeSP.description;
+        sprite_inventory = baseUpgradeSP.sprite_inventory;
+        isStackable = true;
+
+        recipe = new();
+        for (int i = 0; i < baseUpgradeSP.recipeMaterials.Count; i++)
+            recipe.Add(baseUpgradeSP.recipeMaterials[i], baseUpgradeSP.recipeMaterialsAmount[i]);
     }
     public void SetUpByItem(Item item)
     {

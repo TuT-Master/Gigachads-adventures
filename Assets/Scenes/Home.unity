@@ -6625,14 +6625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doors:
   - {fileID: 1882413290}
-  baseUpgradesSO:
-  - {fileID: 11400000, guid: befac37e7a68c954bba54312eb155588, type: 2}
-  - {fileID: 11400000, guid: f6c7dfdf430b9e14bb635418f7e836c7, type: 2}
-  - {fileID: 11400000, guid: 1b230c437aaedf94d97d9b870bd13569, type: 2}
-  - {fileID: 11400000, guid: 70ae3a36372771d42aeff5382653ae21, type: 2}
-  - {fileID: 11400000, guid: 9c568326357b66541b061ec14c51d63f, type: 2}
-  - {fileID: 11400000, guid: 67a70bd28e9a7c249af434c48226c0f0, type: 2}
-  - {fileID: 11400000, guid: d81179d2367dbde42a6b3415491a042f, type: 2}
+  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
 --- !u!4 &213958366
 Transform:
   m_ObjectHideFlags: 0
@@ -7366,8 +7359,6 @@ MonoBehaviour:
   crystalSlotPrefab: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,
     type: 3}
   baseUpgradesTransform: {fileID: 1567937153}
-  baseUpgradePrefab: {fileID: 3608504361725833457, guid: f38e18a2fd3ca194399c33232596046e,
-    type: 3}
 --- !u!114 &220485089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44265,7 +44256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doors:
   - {fileID: 1926654796}
-  baseUpgradesSO: []
+  itemDatabase: {fileID: 0}
 --- !u!4 &1140231777
 Transform:
   m_ObjectHideFlags: 0
@@ -56409,7 +56400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doors:
   - {fileID: 2041865395}
-  baseUpgradesSO: []
+  itemDatabase: {fileID: 0}
 --- !u!4 &1546392232
 Transform:
   m_ObjectHideFlags: 0

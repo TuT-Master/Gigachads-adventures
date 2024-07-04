@@ -5,6 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BaseUpgrade", menuName = "Scriptable objects/Base upgrade")]
 public class BaseUpgradeSO : ScriptableObject
 {
+    public string itemName;
+    [TextArea]
+    public string description;
+
+    public Sprite sprite_inventory;
+
     public int requieredAge;
 
     public int levelOfUpgrade;

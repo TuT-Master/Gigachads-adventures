@@ -62,8 +62,6 @@ public class PlayerCrafting : MonoBehaviour
     [Header("Base upgrading")]
     [SerializeField]
     private Transform baseUpgradesTransform;
-    [SerializeField]
-    private GameObject baseUpgradePrefab;
 
 
     void Start()
@@ -211,14 +209,30 @@ public class PlayerCrafting : MonoBehaviour
         for (int i = 0; i < baseUpgradesTransform.childCount; i++)
             Destroy(baseUpgradesTransform.GetChild(i).gameObject);
 
-        foreach(PlayerBase.BaseUpgrade baseUpgrade in playerBase.baseUpgrades.Keys)
-            if (playerBase.baseUpgrades[baseUpgrade].nextLevel != null &&
-                playerBase.baseUpgrades[baseUpgrade].nextLevel.requieredAge <= GetComponent<PlayerStats>().playerStats["age"])
+        int recipesAmount = 0;
+        foreach (PlayerBase.BaseUpgrade baseUpgrade in playerBase.baseUpgrades.Keys)
+        {
+            GameObject upgrade = Instantiate(recipePrefab, baseUpgradesTransform);
+
+            // Set up an upgrade recipe
+            if (playerBase.baseUpgrades[baseUpgrade] == null)
             {
-                // Set up upgrade recipe
-                GameObject upgrade = Instantiate(baseUpgradePrefab, baseUpgradesTransform);
-                
+                //upgrade.GetComponent<Item>().SetUpByItem();
             }
+            else if (playerBase.baseUpgrades[baseUpgrade].nextLevel != null &&
+                    playerBase.baseUpgrades[baseUpgrade].nextLevel.requieredAge <= GetComponent<PlayerStats>().playerStats["age"])
+            {
+                foreach (ScriptableObject so in playerBase.baseUpgrades[baseUpgrade].nextLevel.recipeMaterials)
+                {
+                    GameObject upgradeIngredient = Instantiate(ingredientPrefab, upgrade.transform.Find("Ingredients"));
+
+
+
+                    recipesAmount++;
+                }
+            }
+        }
+        baseUpgradesTransform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, recipesAmount * 120);
     }
 
     public void UpgradeItem()

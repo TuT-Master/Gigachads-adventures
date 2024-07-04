@@ -31,7 +31,7 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
     };
 
     [SerializeField]
-    private List<BaseUpgradeSO> baseUpgradesSO;
+    private ItemDatabase itemDatabase;
 
 
     private void OnEnable()
@@ -44,13 +44,6 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
     }
 
 
-    private BaseUpgradeSO GetBaseUpgradeByTypeAndLevel(BaseUpgrade baseUpgrade, int level)
-    {
-        foreach (BaseUpgradeSO upgradeSO in baseUpgradesSO)
-            if(upgradeSO.baseUpgradeType == baseUpgrade && upgradeSO.levelOfUpgrade == level)
-                return upgradeSO;
-        return null;
-    }
 
     public void LoadData(GameData data)
     {
@@ -58,7 +51,7 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
         foreach (BaseUpgrade upgrade in data.baseUpgrades.Keys)
         {
             if (data.baseUpgrades[upgrade] != 0)
-                baseUpgrades.Add(upgrade, GetBaseUpgradeByTypeAndLevel(upgrade, data.baseUpgrades[upgrade]));
+                baseUpgrades.Add(upgrade, itemDatabase.GetBaseUpgrade(upgrade, data.baseUpgrades[upgrade]));
             else
                 baseUpgrades.Add(upgrade, null);
         }

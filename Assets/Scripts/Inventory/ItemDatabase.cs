@@ -31,6 +31,10 @@ public class ItemDatabase : ScriptableObject
 
     public List<MaterialSO> materials;
 
+    public List<BaseUpgradeSO> baseUpgradesSO;
+
+
+
 
     public Item GetWeaponMelee(string weaponName)
     {
@@ -208,5 +212,21 @@ public class ItemDatabase : ScriptableObject
             Item.MagicCrystalType.Dark => GetMaterial("Dark crystal"),
             _ => null
         };
+    }
+
+    public BaseUpgradeSO GetBaseUpgrade(BaseUpgrade baseUpgrade, int level)
+    {
+        foreach (BaseUpgradeSO upgradeSO in baseUpgradesSO)
+            if (upgradeSO.baseUpgradeType == baseUpgrade && upgradeSO.levelOfUpgrade == level)
+                return upgradeSO;
+        return null;
+    }
+
+    public Item GetBaseUpgradeAsItem(BaseUpgrade baseUpgrade, int level)
+    {
+        foreach (BaseUpgradeSO upgradeSO in baseUpgradesSO)
+            if (upgradeSO.baseUpgradeType == baseUpgrade && upgradeSO.levelOfUpgrade == level)
+                return new(upgradeSO);
+        return null;
     }
 }
