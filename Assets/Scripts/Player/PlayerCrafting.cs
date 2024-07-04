@@ -25,7 +25,7 @@ public class PlayerCrafting : MonoBehaviour
     [SerializeField]
     private List<CraftingButtons> craftingButtons;
 
-    [Header("Crafting screen")]
+    [Header("Item crafting")]
     [SerializeField]
     private GameObject craftingScreen;
     [SerializeField]
@@ -35,7 +35,7 @@ public class PlayerCrafting : MonoBehaviour
     [SerializeField]
     private GameObject recipePrefab;
 
-    [Header("Upgrade screen")]
+    [Header("Item upgrading")]
     [SerializeField]
     private GameObject upgradeSlot;
     private Item itemInUpgradeSlot;
@@ -59,6 +59,12 @@ public class PlayerCrafting : MonoBehaviour
     private GameObject crystalSlotPrefab;
     private Item magicWeaponInSlot;
 
+    [Header("Base upgrading")]
+    [SerializeField]
+    private Transform baseUpgradesTransform;
+    [SerializeField]
+    private GameObject baseUpgradePrefab;
+
 
     void Start()
     {
@@ -66,9 +72,6 @@ public class PlayerCrafting : MonoBehaviour
         playerInventory = GetComponent<PlayerInventory>();
         ToggleScreen(true);
         ToggleScreen(false);
-
-        // TODO - load crafting leves from upgrades in player's base
-
     }
 
     void Update()
@@ -201,6 +204,21 @@ public class PlayerCrafting : MonoBehaviour
             else if (upgradedVersionOfItem.stats[stat] < itemInUpgradeSlot.stats[stat])
                 statField.text += stat + ": " + Math.Round(upgradedVersionOfItem.stats[stat] - itemInUpgradeSlot.stats[stat], 2).ToString() + "\n";
         }
+    }
+
+    public void CreateBaseUpgrades()
+    {
+        for (int i = 0; i < baseUpgradesTransform.childCount; i++)
+            Destroy(baseUpgradesTransform.GetChild(i).gameObject);
+
+        foreach(PlayerBase.BaseUpgrade baseUpgrade in playerBase.baseUpgrades.Keys)
+            if (playerBase.baseUpgrades[baseUpgrade].nextLevel != null &&
+                playerBase.baseUpgrades[baseUpgrade].nextLevel.requieredAge <= GetComponent<PlayerStats>().playerStats["age"])
+            {
+                // Set up upgrade recipe
+                GameObject upgrade = Instantiate(baseUpgradePrefab, baseUpgradesTransform);
+                
+            }
     }
 
     public void UpgradeItem()
@@ -381,7 +399,9 @@ public class PlayerCrafting : MonoBehaviour
         List<Item> allItems = itemDatabase.GetAllItems();
         int recipesAmount = 0;
         foreach (Item item in allItems)
-            if (item.recipe.Count > 0 && item.requieredCraftingLevel <= playerBase.baseUpgrades[item.craftedIn])
+            if (item.recipe.Count > 0 &&
+                    (item.requieredCraftingLevel == 0 ||
+                    (playerBase.baseUpgrades[item.craftedIn] != null && item.requieredCraftingLevel <= playerBase.baseUpgrades[item.craftedIn].levelOfUpgrade)))
             {
                 // Show recipe
                 GameObject recipe = Instantiate(recipePrefab, recipeTransform);
@@ -400,6 +420,7 @@ public class PlayerCrafting : MonoBehaviour
             StartCoroutine(UpdatePlayerInventory());
             isOpened = toggle;
             CreateRecipes();
+            CreateBaseUpgrades();
             craftingScreen.SetActive(toggle);
             OpenTab(0);
         }

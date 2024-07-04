@@ -6625,6 +6625,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doors:
   - {fileID: 1882413290}
+  baseUpgradesSO:
+  - {fileID: 11400000, guid: befac37e7a68c954bba54312eb155588, type: 2}
+  - {fileID: 11400000, guid: f6c7dfdf430b9e14bb635418f7e836c7, type: 2}
+  - {fileID: 11400000, guid: 1b230c437aaedf94d97d9b870bd13569, type: 2}
+  - {fileID: 11400000, guid: 70ae3a36372771d42aeff5382653ae21, type: 2}
+  - {fileID: 11400000, guid: 9c568326357b66541b061ec14c51d63f, type: 2}
+  - {fileID: 11400000, guid: 67a70bd28e9a7c249af434c48226c0f0, type: 2}
+  - {fileID: 11400000, guid: d81179d2367dbde42a6b3415491a042f, type: 2}
 --- !u!4 &213958366
 Transform:
   m_ObjectHideFlags: 0
@@ -7356,6 +7364,9 @@ MonoBehaviour:
   magicWeaponSlot: {fileID: 1553846889}
   magicCrystalTransform: {fileID: 1318775054}
   crystalSlotPrefab: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,
+    type: 3}
+  baseUpgradesTransform: {fileID: 1567937153}
+  baseUpgradePrefab: {fileID: 3608504361725833457, guid: f38e18a2fd3ca194399c33232596046e,
     type: 3}
 --- !u!114 &220485089
 MonoBehaviour:
@@ -11291,7 +11302,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318614460}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -18456,10 +18467,10 @@ RectTransform:
   m_Father: {fileID: 2007381213}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: -0}
+  m_SizeDelta: {x: -317, y: -0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &520378421
 MonoBehaviour:
@@ -18504,8 +18515,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2003244088}
   m_HandleRect: {fileID: 2003244087}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.8909643
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -38890,7 +38901,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 200, y: 100}
-  m_Spacing: {x: 0, y: 20}
+  m_Spacing: {x: 0, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 1
 --- !u!1001 &964336993
@@ -44254,6 +44265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doors:
   - {fileID: 1926654796}
+  baseUpgradesSO: []
 --- !u!4 &1140231777
 Transform:
   m_ObjectHideFlags: 0
@@ -56397,6 +56409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doors:
   - {fileID: 2041865395}
+  baseUpgradesSO: []
 --- !u!4 &1546392232
 Transform:
   m_ObjectHideFlags: 0
@@ -57149,10 +57162,10 @@ RectTransform:
   m_Father: {fileID: 318614461}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -104.658325, y: 0}
-  m_SizeDelta: {x: 156, y: 800}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 55, y: 0}
+  m_SizeDelta: {x: -54.99997, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1567937154
 MonoBehaviour:
@@ -57174,8 +57187,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 200, y: 100}
-  m_Spacing: {x: 0, y: 20}
+  m_CellSize: {x: 250, y: 100}
+  m_Spacing: {x: 0, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 1
 --- !u!1001 &1568856096
@@ -76010,7 +76023,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007381212}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -76019,10 +76032,10 @@ RectTransform:
   m_Father: {fileID: 826610899}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -160, y: -40}
-  m_SizeDelta: {x: 253.5168, y: 712.7715}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 462.5, y: -40}
+  m_SizeDelta: {x: -988.18787, y: -143.22852}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2007381214
 MonoBehaviour:
@@ -76050,7 +76063,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: -20
-  m_VerticalScrollbarSpacing: 20
+  m_VerticalScrollbarSpacing: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static PlayerBase;
 
 [Serializable]
 public class GameData
@@ -18,6 +19,9 @@ public class GameData
 
     // Other inventories
     public SerializableDictionary<Transform, SerializableDictionary<int, string>> otherInventories;
+
+    // PlayerBase
+    public SerializableDictionary<PlayerBase.BaseUpgrade, int> baseUpgrades;
 
 
 
@@ -76,5 +80,17 @@ public class GameData
         playerPos = new Vector3(-52, 0, -52);
 
         otherInventories = new();
+
+        baseUpgrades = new()
+        {
+            {BaseUpgrade.Bed, 0},
+            {BaseUpgrade.Chest, 0},
+            {BaseUpgrade.Kitchen, 0},
+            {BaseUpgrade.AlchemyLab, 0},
+            {BaseUpgrade.Smithy, 0},
+            {BaseUpgrade.EnchantingTable, 0},
+            {BaseUpgrade.Materials, 0},
+            {BaseUpgrade.Upgrade, 0},
+        };
     }
 }

@@ -18,17 +18,21 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
         Materials,
         Upgrade,
     }
-    public Dictionary<BaseUpgrade, int> baseUpgrades = new()
+    public Dictionary<BaseUpgrade, BaseUpgradeSO> baseUpgrades = new()
     {
-        {BaseUpgrade.Bed, 0},
-        {BaseUpgrade.Chest, 0},
-        {BaseUpgrade.Kitchen, 0},
-        {BaseUpgrade.AlchemyLab, 0},
-        {BaseUpgrade.Smithy, 0},
-        {BaseUpgrade.EnchantingTable, 0},
-        {BaseUpgrade.Materials, 0},
-        {BaseUpgrade.Upgrade, 0},
+        {BaseUpgrade.Bed, null},
+        {BaseUpgrade.Chest, null},
+        {BaseUpgrade.Kitchen, null},
+        {BaseUpgrade.AlchemyLab, null},
+        {BaseUpgrade.Smithy, null},
+        {BaseUpgrade.EnchantingTable, null},
+        {BaseUpgrade.Materials, null},
+        {BaseUpgrade.Upgrade, null},
     };
+
+    [SerializeField]
+    private List<BaseUpgradeSO> baseUpgradesSO;
+
 
     private void OnEnable()
     {
@@ -40,13 +44,34 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
     }
 
 
+    private BaseUpgradeSO GetBaseUpgradeByTypeAndLevel(BaseUpgrade baseUpgrade, int level)
+    {
+        foreach (BaseUpgradeSO upgradeSO in baseUpgradesSO)
+            if(upgradeSO.baseUpgradeType == baseUpgrade && upgradeSO.levelOfUpgrade == level)
+                return upgradeSO;
+        return null;
+    }
+
     public void LoadData(GameData data)
     {
-        // TODO - load crafting levels from baseUpgrades
+        baseUpgrades = new();
+        foreach (BaseUpgrade upgrade in data.baseUpgrades.Keys)
+        {
+            if (data.baseUpgrades[upgrade] != 0)
+                baseUpgrades.Add(upgrade, GetBaseUpgradeByTypeAndLevel(upgrade, data.baseUpgrades[upgrade]));
+            else
+                baseUpgrades.Add(upgrade, null);
+        }
     }
 
     public void SaveData(ref GameData data)
     {
-        // TODO - save crafting levels from baseUpgrades
+        foreach (BaseUpgrade upgrade in baseUpgrades.Keys)
+        {
+            if (baseUpgrades[upgrade] != null)
+                data.baseUpgrades[upgrade] = baseUpgrades[upgrade].levelOfUpgrade;
+            else
+                data.baseUpgrades[upgrade] = 0;
+        }
     }
 }
