@@ -50,8 +50,14 @@ public class Slot : MonoBehaviour, IDropHandler
             gameObject.SetActive(true);
         else
             gameObject.SetActive(false);
-        // setting slot image
-        if(transform.childCount > 0)
+
+        // Setting slot image
+        if(transform.childCount > 0 && slotType == SlotType.MagicCrystal)
+        {
+            image.sprite = slotImages[13];
+            isOcupied = true;
+        }
+        else if (transform.childCount > 0)
         {
             image.sprite = slotImages[0];
             isOcupied = true;
