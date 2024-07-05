@@ -18,6 +18,8 @@ public class PlayerCrafting : MonoBehaviour
     private PlayerBase playerBase;
     private PlayerInventory playerInventory;
     private HUDmanager hudmanager;
+    [SerializeField]
+    private GameObject UImessagePrefab;
 
     [Header("Screens & buttons")]
     [SerializeField]
@@ -72,6 +74,10 @@ public class PlayerCrafting : MonoBehaviour
         playerInventory = GetComponent<PlayerInventory>();
         ToggleScreen(true);
         ToggleScreen(false);
+        upgradeButton.GetComponent<UpgradeButton>().isActive = false;
+        upgradeButton.GetComponent<Image>().color = new(0.75f, 0.75f, 0.75f);
+        nameField.text = "";
+        statField.text = "";
     }
 
     void Update()
@@ -79,11 +85,6 @@ public class PlayerCrafting : MonoBehaviour
         MyInput();
 
         // Upgrade screen
-        upgradeButton.GetComponent<UpgradeButton>().isActive = false;
-        upgradeButton.GetComponent<Image>().color = new(0.75f, 0.75f, 0.75f);
-        nameField.text = "";
-        statField.text = "";
-
         if (upgradeSlot.transform.childCount > 0 && upgradeSlot.transform.GetChild(0).TryGetComponent(out itemInUpgradeSlot) && lastItemName != itemInUpgradeSlot.itemName)
         {
             lastItemName = itemInUpgradeSlot.itemName;
@@ -107,6 +108,8 @@ public class PlayerCrafting : MonoBehaviour
             statField.text = "";
             lastItemName = "";
             itemInUpgradeSlot = null;
+            upgradeButton.GetComponent<UpgradeButton>().isActive = false;
+            upgradeButton.GetComponent<Image>().color = new(0.75f, 0.75f, 0.75f);
         }
 
         // Magic weapon management screen
@@ -244,22 +247,26 @@ public class PlayerCrafting : MonoBehaviour
 
     public void UpgradeItem()
     {
-        if (itemInUpgradeSlot != null && CanBeCrafted())
+        if (itemInUpgradeSlot == null)
+            return;
+        if (!CanBeCrafted())
         {
-            // Destroy item
-            Destroy(upgradeSlot.transform.GetChild(0).gameObject);
-
-            // Consume materials for upgrade
-            ConsumeMaterialsForUpgrade();
-
-            // Spawn new item
-            AddItem(GetComponent<PlayerInventory>().itemDatabase.GetItemByNameAndAmount(upgradedVersionOfItem.itemName, 1));
-
-            // Reset itemInUpgradeSlot
-            itemInUpgradeSlot = null;
+            GameObject message = Instantiate(UImessagePrefab, Input.mousePosition, Quaternion.identity, transform.Find("UI"));
+            message.GetComponent<UIMessage>().SetUpMessage("Not enough materials");
+            return;
         }
-        else
-            Debug.Log("Kokote");
+
+        // Destroy item
+        Destroy(upgradeSlot.transform.GetChild(0).gameObject);
+
+        // Consume materials for upgrade
+        ConsumeMaterialsForUpgrade();
+
+        // Spawn new item
+        AddItem(GetComponent<PlayerInventory>().itemDatabase.GetItemByNameAndAmount(upgradedVersionOfItem.itemName, 1));
+
+        // Reset itemInUpgradeSlot
+        itemInUpgradeSlot = null;
     }
 
     private bool CanBeCrafted()
@@ -284,10 +291,7 @@ public class PlayerCrafting : MonoBehaviour
                 totalMaterialAmount += materials[i].amount;
 
             if (totalMaterialAmount < upgradedVersionOfItem.recipe[so])
-            {
-                Debug.Log("Not enough materials for upgrading " + itemInUpgradeSlot.itemName);
                 return false;
-            }
         }
         return true;
     }

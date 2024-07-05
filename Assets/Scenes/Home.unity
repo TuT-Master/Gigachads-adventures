@@ -7468,6 +7468,8 @@ MonoBehaviour:
   - {fileID: 900837224}
   - {fileID: 1868624070}
   playerBase: {fileID: 213958365}
+  UImessagePrefab: {fileID: 2420833189438708441, guid: 6ffb0db09b8e876448f2c47c46a85858,
+    type: 3}
   craftingScreens:
   - {fileID: 112698375}
   - {fileID: 1708808944}
@@ -52833,7 +52835,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 347.5, y: -72.5}
+  m_AnchoredPosition: {x: 347.5, y: -180}
   m_SizeDelta: {x: -1480, y: -520}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1355918611

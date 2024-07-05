@@ -20,7 +20,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public bool isActive = true;
 
     private Image buttonImage;
-
+    private bool pointerAtButton;
 
     void Start()
     {
@@ -39,12 +39,14 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!isActive)
             return;
         buttonImage.sprite = sprite_active;
+        pointerAtButton = true;
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         if (!isActive)
             return;
         buttonImage.sprite = sprite_default;
+        pointerAtButton = false;
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -57,6 +59,9 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private IEnumerator ResetSprite()
     {
         yield return new WaitForSecondsRealtime(0.1f);
-        buttonImage.sprite = sprite_default;
+        if (pointerAtButton)
+            buttonImage.sprite = sprite_active;
+        else
+            buttonImage.sprite = sprite_default;
     }
 }
