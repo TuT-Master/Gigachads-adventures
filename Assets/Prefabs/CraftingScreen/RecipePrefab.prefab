@@ -148,7 +148,6 @@ MonoBehaviour:
   description: 
   slotType: 0
   weaponType: 0
-  magicType: 
   weaponClass: 0
   isStackable: 0
   stackSize: 0
@@ -163,8 +162,15 @@ MonoBehaviour:
   sprite_equip: {fileID: 0}
   sprite_equipBack: {fileID: 0}
   ammo: []
+  craftedIn: 0
   requieredCraftingLevel: 0
   isRecipe: 1
+  upgradedVersionOfItem: {fileID: 0}
+  crystalType: 0
+  requieredAge: 0
+  levelOfUpgrade: 0
+  baseUpgradeType: 0
+  nextLevel: {fileID: 0}
 --- !u!1 &7932668094796252047
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,8 +225,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
+  m_ChildAlignment: 2
+  m_StartCorner: 1
   m_StartAxis: 0
   m_CellSize: {x: 30, y: 30}
   m_Spacing: {x: 5, y: 5}
