@@ -43,6 +43,23 @@ public class DataPersistanceManager : MonoBehaviour
         gameData.playerInventory.Add(playerInventory.transform.GetChild(1), "Primitive bow-1");
         gameData.playerInventory.Add(playerInventory.transform.GetChild(2), "Primitive arrow-20");
         gameData.playerInventory.Add(playerInventory.transform.GetChild(3), "Primitive magic staff-1");
+        string rndCrystalName = "";
+        switch (new System.Random().Next(4))
+        {
+            case 0:
+                rndCrystalName = "Fire crystal-1";
+                break;
+            case 1:
+                rndCrystalName = "Water crystal-1";
+                break;
+            case 2:
+                rndCrystalName = "Wind crystal-1";
+                break;
+            case 3:
+                rndCrystalName = "Earth crystal-1";
+                break;
+        }
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(4), rndCrystalName);
 
         dataHandler.SaveData(gameData);
     }
