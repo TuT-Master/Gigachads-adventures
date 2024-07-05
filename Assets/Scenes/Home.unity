@@ -23877,8 +23877,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -23895,8 +23895,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 28.5
+  m_fontSizeBase: 28.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -60627,7 +60627,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 3286163911610860551, guid: 1f22d9767989da74da4fb7d5c4c6adfb,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -60658,9 +60659,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCrafting: {fileID: 220485088}
-  sprite_default: {fileID: 0}
-  sprite_active: {fileID: 0}
-  sprite_clicked: {fileID: 0}
+  sprite_default: {fileID: 3286163911610860551, guid: 1f22d9767989da74da4fb7d5c4c6adfb,
+    type: 3}
+  sprite_active: {fileID: 3286163911610860551, guid: 934e91e043933a241a96e9c5661dcdc1,
+    type: 3}
+  sprite_clicked: {fileID: 3286163911610860551, guid: 5e95902e2fa1b5f43a07d28200117282,
+    type: 3}
   isActive: 1
 --- !u!1 &1641582928
 GameObject:
