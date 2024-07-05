@@ -379,14 +379,18 @@ public class Item : MonoBehaviour
         for (int i = 0; i < trapSO.recipeMaterials.Count; i++)
             recipe.Add(trapSO.recipeMaterials[i], trapSO.recipeMaterialsAmount[i]);
     }
-    public Item(BaseUpgradeSO baseUpgradeSP)
+    public Item(BaseUpgradeSO baseUpgradeSO)
     {
-        itemName = baseUpgradeSP.itemName;
-        description = baseUpgradeSP.description;
-        sprite_inventory = baseUpgradeSP.sprite_inventory;
+        itemName = baseUpgradeSO.itemName;
+        description = baseUpgradeSO.description;
+        sprite_inventory = baseUpgradeSO.sprite_inventory;
+        baseUpgradeType = baseUpgradeSO.baseUpgradeType;
+        nextLevel = baseUpgradeSO.nextLevel;
+        levelOfUpgrade = baseUpgradeSO.levelOfUpgrade;
+        requieredAge = baseUpgradeSO .requieredAge;
         recipe = new();
-        for (int i = 0; i < baseUpgradeSP.recipeMaterials.Count; i++)
-            recipe.Add(baseUpgradeSP.recipeMaterials[i], baseUpgradeSP.recipeMaterialsAmount[i]);
+        for (int i = 0; i < baseUpgradeSO.recipeMaterials.Count; i++)
+            recipe.Add(baseUpgradeSO.recipeMaterials[i], baseUpgradeSO.recipeMaterialsAmount[i]);
     }
     public void SetUpByItem(Item item)
     {
@@ -415,6 +419,10 @@ public class Item : MonoBehaviour
         upgradedVersionOfItem = item.upgradedVersionOfItem;
         magicCrystals = item.magicCrystals;
         crystalType = item.crystalType;
+        baseUpgradeType = item.baseUpgradeType;
+        nextLevel = item.nextLevel;
+        levelOfUpgrade = item.levelOfUpgrade;
+        requieredAge = item.requieredAge;
     }
 
 

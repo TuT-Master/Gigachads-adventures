@@ -213,11 +213,11 @@ public class PlayerCrafting : MonoBehaviour
         foreach (PlayerBase.BaseUpgrade baseUpgrade in playerBase.baseUpgrades.Keys)
             if (baseUpgrade != PlayerBase.BaseUpgrade.Upgrade && baseUpgrade != PlayerBase.BaseUpgrade.None)
             {
-                GameObject upgrade = Instantiate(recipePrefab, baseUpgradesTransform);
                 // Set up an upgrade recipe
                 if (playerBase.baseUpgrades[baseUpgrade] == null)
                 {
                     // Not upgraded yet
+                    GameObject upgrade = Instantiate(recipePrefab, baseUpgradesTransform);
                     upgrade.GetComponent<Item>().SetUpByItem(itemDatabase.GetBaseUpgradeAsItem(baseUpgrade, 1));
                     upgrade.GetComponent<Recipe>().CreateRecipe();
                 }
@@ -225,7 +225,9 @@ public class PlayerCrafting : MonoBehaviour
                         playerBase.baseUpgrades[baseUpgrade].nextLevel.requieredAge <= GetComponent<PlayerStats>().playerStats["age"])
                 {
                     // Upgraded already
-
+                    GameObject upgrade = Instantiate(recipePrefab, baseUpgradesTransform);
+                    upgrade.GetComponent<Item>().SetUpByItem(itemDatabase.GetBaseUpgradeAsItem(baseUpgrade, playerBase.baseUpgrades[baseUpgrade].nextLevel.levelOfUpgrade));
+                    upgrade.GetComponent<Recipe>().CreateRecipe();
                 }
                 recipesAmount++;
             }

@@ -45,6 +45,23 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
     }
 
 
+    public void UpgradeBase(BaseUpgrade upgrade)
+    {
+        if (baseUpgrades[upgrade] == null)
+            baseUpgrades[upgrade] = itemDatabase.GetBaseUpgrade(upgrade, 1);
+        else
+            baseUpgrades[upgrade] = baseUpgrades[upgrade].nextLevel;
+
+        if (baseUpgrades[upgrade].nextLevel == null)
+            Debug.Log("No more possible upgrades for " + upgrade.ToString());
+
+        StartCoroutine(RefreshBaseUpgradeRecipes());
+    }
+    private IEnumerator RefreshBaseUpgradeRecipes()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        FindAnyObjectByType<PlayerCrafting>().CreateBaseUpgrades();
+    }
 
     public void LoadData(GameData data)
     {

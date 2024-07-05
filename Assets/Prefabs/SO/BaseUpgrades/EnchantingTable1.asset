@@ -22,4 +22,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
   - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
   recipeMaterialsAmount: 0a00000005000000
-  nextLevel: {fileID: 0}
+  nextLevel: {fileID: 11400000, guid: 3c165adced9cda545bf9526f01058da4, type: 2}
