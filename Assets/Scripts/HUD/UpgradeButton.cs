@@ -51,8 +51,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!isActive)
             return;
         buttonImage.sprite = sprite_clicked;
-        StartCoroutine(ResetSprite());
         playerCrafting.UpgradeItem();
+        StartCoroutine(ResetSprite());
     }
     private IEnumerator ResetSprite()
     {

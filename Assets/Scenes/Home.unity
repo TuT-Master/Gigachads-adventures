@@ -7490,6 +7490,7 @@ MonoBehaviour:
     type: 3}
   nameField: {fileID: 2054137059}
   statField: {fileID: 569244337}
+  upgradeButton: {fileID: 1640317171}
   magicWeaponSlot: {fileID: 1553846889}
   magicCrystalTransform: {fileID: 1318775054}
   crystalSlotPrefab: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,

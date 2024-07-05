@@ -49,6 +49,8 @@ public class PlayerCrafting : MonoBehaviour
     private TextMeshProUGUI nameField;
     [SerializeField]
     private TextMeshProUGUI statField;
+    [SerializeField]
+    private GameObject upgradeButton;
 
     [Header("Magic weapon management")]
     [SerializeField]
@@ -77,18 +79,24 @@ public class PlayerCrafting : MonoBehaviour
         MyInput();
 
         // Upgrade screen
-        if(upgradeSlot.transform.childCount > 0 && upgradeSlot.transform.GetChild(0).TryGetComponent(out itemInUpgradeSlot) && lastItemName != itemInUpgradeSlot.itemName)
+        upgradeButton.GetComponent<UpgradeButton>().isActive = false;
+        upgradeButton.GetComponent<Image>().color = new(0.75f, 0.75f, 0.75f);
+        nameField.text = "";
+        statField.text = "";
+
+        if (upgradeSlot.transform.childCount > 0 && upgradeSlot.transform.GetChild(0).TryGetComponent(out itemInUpgradeSlot) && lastItemName != itemInUpgradeSlot.itemName)
         {
             lastItemName = itemInUpgradeSlot.itemName;
             if (itemInUpgradeSlot.upgradedVersionOfItem != null)
+            {
                 CreateRecipesForUpgrade();
+                upgradeButton.GetComponent<Image>().color = Color.white;
+                upgradeButton.GetComponent<UpgradeButton>().isActive = true;
+            }
             else
             {
                 nameField.text = "No possible upgrades!";
                 statField.text = "";
-
-                // TODO - zatmavit upgrade button, some hláška že no possible upgrades
-
             }
         }
         else if (upgradeSlot.transform.childCount == 0 && nameField.text != "")
