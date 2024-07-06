@@ -5,13 +5,21 @@ using UnityEngine.UI;
 
 public class CraftingScreenScrollBar : MonoBehaviour
 {
-    private Transform parent;
-    private float scrollBarValue;
-
-    void Start() { parent = transform.parent; }
     void Update()
     {
-        scrollBarValue = transform.parent.parent.GetComponentInParent<Scrollbar>().value;
-        float height = parent.GetComponent<RectTransform>().sizeDelta.y * scrollBarValue;
+        // Update scrollBar value
+        float scrollBarValue = transform.parent.parent.parent.GetComponent<Scrollbar>().value;
+        
+        // Get height of scrollBar handle
+        float height = transform.parent.GetComponent<RectTransform>().rect.height;
+        
+        // Get height of stone
+        float heightOfStone = GetComponent<RectTransform>().rect.height;
+
+        // Calculate Y position relative to scrollBar handle
+        float relativeYpos = (height * scrollBarValue) + (heightOfStone / 2);
+
+        // Apply relative Y position to RectTransform of this obj
+        GetComponent<RectTransform>().SetLocalPositionAndRotation(new(0, relativeYpos, 0), Quaternion.identity);
     }
 }
