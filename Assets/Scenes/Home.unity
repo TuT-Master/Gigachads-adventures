@@ -5462,7 +5462,7 @@ GameObject:
   - component: {fileID: 169862320}
   - component: {fileID: 169862319}
   m_Layer: 5
-  m_Name: Beards
+  m_Name: Beard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7142,6 +7142,15 @@ MonoBehaviour:
     type: 3}
   crystalLight: {fileID: 0}
   crystalDark: {fileID: 0}
+  body: {fileID: 16486132}
+  beard: {fileID: 169862319}
+  hair: {fileID: 990378366}
+  headArmor: {fileID: 510653006}
+  headEquipment: {fileID: 406135684}
+  torsoArmor: {fileID: 1007078683}
+  torsoEquipment: {fileID: 559973818}
+  mainHand: {fileID: 810701624}
+  secondaryHand: {fileID: 109335161}
 --- !u!114 &220485076
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,26 +4,15 @@ using UnityEngine;
 
 public class PlayerGFXManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject hairObj;
-    [SerializeField]
-    private GameObject beardObj;
-    [SerializeField]
-    private GameObject torsoObj;
-    [SerializeField]
-    private GameObject headArmorObj;
-    [SerializeField]
-    private GameObject headEquipmentObj;
-    [SerializeField]
-    private GameObject torsoArmorObj;
-    [SerializeField]
-    private GameObject torsoEquipmentObj;
-    [SerializeField]
-    private GameObject weaponObj;
-    [SerializeField]
-    private GameObject secondaryWeaponObj;
-
-
+    public GameObject hairObj;
+    public GameObject beardObj;
+    public GameObject torsoObj;
+    public GameObject headArmorObj;
+    public GameObject headEquipmentObj;
+    public GameObject torsoArmorObj;
+    public GameObject torsoEquipmentObj;
+    public GameObject weaponObj;
+    public GameObject secondaryWeaponObj;
 
 
     [SerializeField]

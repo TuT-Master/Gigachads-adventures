@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class PlayerInventory : MonoBehaviour, IDataPersistance
 {
@@ -61,6 +60,19 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     [SerializeField] private Sprite crystalLight;
     [SerializeField] private Sprite crystalDark;
 
+    [Header("Player image")]
+    [SerializeField] private Image body;
+    [SerializeField] private Image beard;
+    [SerializeField] private Image hair;
+    [SerializeField] private Image headArmor;
+    [SerializeField] private Image headEquipment;
+    [SerializeField] private Image torsoArmor;
+    [SerializeField] private Image torsoEquipment;
+    [SerializeField] private Image mainHand;
+    [SerializeField] private Image secondaryHand;
+
+
+
     private void Start()
     {
         playerStats = GetComponent<PlayerStats>();
@@ -79,6 +91,22 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         UpdateBelt();
         UpdatePockets();
         UpdateHands();
+
+        if(playerInventoryOpen)
+            UpdatePlayerPicInInventory();
+    }
+
+    void UpdatePlayerPicInInventory()
+    {
+        body.sprite = GetComponent<PlayerGFXManager>().torsoObj.GetComponent<SpriteRenderer>().sprite;
+        hair.sprite = GetComponent<PlayerGFXManager>().hairObj.GetComponent<SpriteRenderer>().sprite;
+        beard.sprite = GetComponent<PlayerGFXManager>().beardObj.GetComponent<SpriteRenderer>().sprite;
+        torsoArmor.sprite = GetComponent<PlayerGFXManager>().torsoArmorObj.GetComponent<SpriteRenderer>().sprite;
+        torsoEquipment.sprite = GetComponent<PlayerGFXManager>().torsoEquipmentObj.GetComponent<SpriteRenderer>().sprite;
+        headArmor.sprite = GetComponent<PlayerGFXManager>().headArmorObj.GetComponent<SpriteRenderer>().sprite;
+        headEquipment.sprite = GetComponent<PlayerGFXManager>().headEquipmentObj.GetComponent<SpriteRenderer>().sprite;
+        mainHand.sprite = GetComponent<PlayerGFXManager>().weaponObj.GetComponent<SpriteRenderer>().sprite;
+        secondaryHand.sprite = GetComponent<PlayerGFXManager>().secondaryWeaponObj.GetComponent<SpriteRenderer>().sprite;
     }
 
     void UpdateHands()
