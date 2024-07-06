@@ -18,8 +18,6 @@ public class PlayerCrafting : MonoBehaviour
     private PlayerBase playerBase;
     private PlayerInventory playerInventory;
     private HUDmanager hudmanager;
-    [SerializeField]
-    private GameObject UImessagePrefab;
 
     [Header("Screens & buttons")]
     [SerializeField]
@@ -91,8 +89,17 @@ public class PlayerCrafting : MonoBehaviour
             if (itemInUpgradeSlot.upgradedVersionOfItem != null)
             {
                 CreateRecipesForUpgrade();
-                upgradeButton.GetComponent<Image>().color = Color.white;
-                upgradeButton.GetComponent<UpgradeButton>().isActive = true;
+                if (!CanBeCrafted())
+                {
+                    nameField.text = "Not enough materials";
+                    upgradeButton.GetComponent<UpgradeButton>().isActive = false;
+                    upgradeButton.GetComponent<Image>().color = new(0.75f, 0.75f, 0.75f);
+                }
+                else
+                {
+                    upgradeButton.GetComponent<Image>().color = Color.white;
+                    upgradeButton.GetComponent<UpgradeButton>().isActive = true;
+                }
             }
             else
             {
@@ -247,14 +254,8 @@ public class PlayerCrafting : MonoBehaviour
 
     public void UpgradeItem()
     {
-        if (itemInUpgradeSlot == null)
+        if (itemInUpgradeSlot == null || !CanBeCrafted())
             return;
-        if (!CanBeCrafted())
-        {
-            GameObject message = Instantiate(UImessagePrefab, Input.mousePosition, Quaternion.identity, transform.Find("UI"));
-            message.GetComponent<UIMessage>().SetUpMessage("Not enough materials");
-            return;
-        }
 
         // Destroy item
         Destroy(upgradeSlot.transform.GetChild(0).gameObject);

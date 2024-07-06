@@ -7468,8 +7468,6 @@ MonoBehaviour:
   - {fileID: 900837224}
   - {fileID: 1868624070}
   playerBase: {fileID: 213958365}
-  UImessagePrefab: {fileID: 2420833189438708441, guid: 6ffb0db09b8e876448f2c47c46a85858,
-    type: 3}
   craftingScreens:
   - {fileID: 112698375}
   - {fileID: 1708808944}
