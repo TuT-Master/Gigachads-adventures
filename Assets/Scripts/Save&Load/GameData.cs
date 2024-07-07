@@ -23,6 +23,10 @@ public class GameData
     // PlayerBase
     public SerializableDictionary<PlayerBase.BaseUpgrade, int> baseUpgrades;
 
+    // Character creation
+    public int[] characterSprites;
+    public int difficulty;
+
 
 
     public GameData()
@@ -92,5 +96,8 @@ public class GameData
             {BaseUpgrade.Materials, 0},
             {BaseUpgrade.Upgrade, 0},
         };
+
+        characterSprites = new int[3] { 0, 0, 0 };
+        difficulty = 0;
     }
 }

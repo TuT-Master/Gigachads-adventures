@@ -61,6 +61,8 @@ public class DataPersistanceManager : MonoBehaviour
         }
         gameData.playerInventory.Add(playerInventory.transform.GetChild(4), rndCrystalName);
 
+        FindAnyObjectByType<StartScreen>().CreateNewCharacter();
+
         dataHandler.SaveData(gameData);
     }
 

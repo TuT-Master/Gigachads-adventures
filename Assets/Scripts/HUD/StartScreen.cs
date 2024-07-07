@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StartScreen : MonoBehaviour
+public class StartScreen : MonoBehaviour, IDataPersistance
 {
     [Header("Global stuff")]
     [SerializeField]
@@ -38,10 +38,13 @@ public class StartScreen : MonoBehaviour
     }
 
 
+    // Saving
+    private int[] savedCharacterSprites = new int[3] { 0, 0, 0};
+    private int difficulty;
 
 
 
-    public void Start()
+    public void CreateNewCharacter()
     {
         screen_1.SetActive(true);
         screen_2.SetActive(false);
@@ -77,6 +80,7 @@ public class StartScreen : MonoBehaviour
                 // TODO - spawn player into tutorial dungeon
 
                 gameObject.SetActive(false);
+                FindAnyObjectByType<DataPersistanceManager>().SaveGame();
                 break;
         }
     }
@@ -115,15 +119,39 @@ public class StartScreen : MonoBehaviour
             case PicType.Hair:
                 hairImage.sprite = sprites[newIndex];
                 hairText.text = text;
+                savedCharacterSprites[0] = newIndex;
                 break;
             case PicType.Beard:
                 beardImage.sprite = sprites[newIndex];
                 beardText.text = text;
+                savedCharacterSprites[1] = newIndex;
                 break;
             case PicType.Body:
                 bodyImage.sprite = sprites[newIndex];
                 bodyText.text = text;
+                savedCharacterSprites[2] = newIndex;
                 break;
         }
+    }
+
+
+    public void LoadData(GameData data)
+    {
+        savedCharacterSprites = data.characterSprites;
+        difficulty = data.difficulty;
+        StartCoroutine(LoadingDelay());
+    }
+    private IEnumerator LoadingDelay()
+    {
+        yield return new WaitForEndOfFrame();
+        PlayerGFXManager playerGFXManager = transform.parent.parent.GetComponent<PlayerGFXManager>();
+        playerGFXManager.hairObj.GetComponent<SpriteRenderer>().sprite = hairImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[0]];
+        playerGFXManager.beardObj.GetComponent<SpriteRenderer>().sprite = beardImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[1]];
+        playerGFXManager.torsoObj.GetComponent<SpriteRenderer>().sprite = bodyImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[2]];
+    }
+    public void SaveData(ref GameData data)
+    {
+        data.characterSprites = savedCharacterSprites;
+        data.difficulty = difficulty;
     }
 }
