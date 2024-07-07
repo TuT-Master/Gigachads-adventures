@@ -41,7 +41,7 @@ public class StartScreen : MonoBehaviour
 
 
 
-    public void CreateNewCharacter()
+    public void Start()
     {
         screen_1.SetActive(true);
         screen_2.SetActive(false);
@@ -76,6 +76,7 @@ public class StartScreen : MonoBehaviour
 
                 // TODO - spawn player into tutorial dungeon
 
+                gameObject.SetActive(false);
                 break;
         }
     }
