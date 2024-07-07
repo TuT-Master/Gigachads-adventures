@@ -73,6 +73,9 @@ public class DataPersistanceManager : MonoBehaviour
 
         if (gameData == null)
             NewGame();
+        else
+            for(int i = 0; i < FindAnyObjectByType<StartScreen>().transform.childCount; i++)
+                FindAnyObjectByType<StartScreen>().transform.GetChild(i).gameObject.SetActive(false);
 
 
         foreach (IDataPersistance obj in dataPersistanceObjects)

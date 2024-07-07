@@ -16,7 +16,6 @@ public class StartScreen : MonoBehaviour, IDataPersistance
     private GameObject screen_3;
     private GameObject buttonDone;
 
-
     [Header("Character creation")]
     [SerializeField]
     private Image hairImage;
@@ -37,10 +36,33 @@ public class StartScreen : MonoBehaviour, IDataPersistance
         Body,
     }
 
+    [Header("Class")]
+    [SerializeField]
+    private List<string> classDescriptions;
+    [SerializeField]
+    private TextMeshProUGUI descriptionTextField;
+    public enum ClassType
+    {
+        OneHandDexterity,
+        OneHandStrenght,
+        TwoHandDexterity,
+        TwoHandStrenght,
+        RangeDexterity,
+        RangeStrenght,
+        Magic
+    }
+
+    [Header("Difficulty")]
+    [HideInInspector]
+    public int difficulty;
+    [SerializeField]
+    private List<string> difficultyDescriptions;
+    [SerializeField]
+    private TextMeshProUGUI diffDescriptionTextField;
+
 
     // Saving
     private int[] savedCharacterSprites = new int[3] { 0, 0, 0};
-    private int difficulty;
 
 
 
@@ -56,10 +78,10 @@ public class StartScreen : MonoBehaviour, IDataPersistance
         bodyImage.sprite = bodyImage.GetComponent<SpriteLibrary>().sprites[0];
 
         // Difficulty settings
-
+        descriptionTextField.text = "Click on any class to see some description here.";
 
         // Class settings
-
+        diffDescriptionTextField.text = "Click on any difficulty to see some description here.";
     }
 
     public void ButtonDoneClicked(int screenIndex)
@@ -69,6 +91,12 @@ public class StartScreen : MonoBehaviour, IDataPersistance
             case 0:
                 screen_1.SetActive(false);
                 screen_2.SetActive(true);
+
+                // Apply gfx to player obj
+                PlayerGFXManager playerGFXManager = transform.parent.parent.GetComponent<PlayerGFXManager>();
+                playerGFXManager.hairObj.GetComponent<SpriteRenderer>().sprite = hairImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[0]];
+                playerGFXManager.beardObj.GetComponent<SpriteRenderer>().sprite = beardImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[1]];
+                playerGFXManager.torsoObj.GetComponent<SpriteRenderer>().sprite = bodyImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[2]];
                 break;
             case 1:
                 screen_2.SetActive(false);
@@ -83,6 +111,91 @@ public class StartScreen : MonoBehaviour, IDataPersistance
                 FindAnyObjectByType<DataPersistanceManager>().SaveGame();
                 break;
         }
+    }
+    public void ClassButtonClicked(ClassType type)
+    {
+        switch(type)
+        {
+            case ClassType.OneHandDexterity:
+                if (classDescriptions[0] != null)
+                    descriptionTextField.text = classDescriptions[0];
+                else
+                    descriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case ClassType.OneHandStrenght:
+                if (classDescriptions[1] != null)
+                    descriptionTextField.text = classDescriptions[1];
+                else
+                    descriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case ClassType.TwoHandDexterity:
+                if (classDescriptions[2] != null)
+                    descriptionTextField.text = classDescriptions[2];
+                else
+                    descriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case ClassType.TwoHandStrenght:
+                if (classDescriptions[3] != null)
+                    descriptionTextField.text = classDescriptions[3];
+                else
+                    descriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case ClassType.RangeDexterity:
+                if (classDescriptions[4] != null)
+                    descriptionTextField.text = classDescriptions[4];
+                else
+                    descriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case ClassType.RangeStrenght:
+                if (classDescriptions[5] != null)
+                    descriptionTextField.text = classDescriptions[5];
+                else
+                    descriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case ClassType.Magic:
+                if (classDescriptions[6] != null)
+                    descriptionTextField.text = classDescriptions[6];
+                else
+                    descriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+        }
+    }
+    public void DifficutlyButtonClicked(int dif)
+    {
+        switch (dif)
+        {
+            case 0:
+                if(difficultyDescriptions[0] != null)
+                    diffDescriptionTextField.text = difficultyDescriptions[0];
+                else
+                    diffDescriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case 1:
+                if (difficultyDescriptions[1] != null)
+                    diffDescriptionTextField.text = difficultyDescriptions[1];
+                else
+                    diffDescriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case 2:
+                if (difficultyDescriptions[2] != null)
+                    diffDescriptionTextField.text = difficultyDescriptions[2];
+                else
+                    diffDescriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case 3:
+                if (difficultyDescriptions[3] != null)
+                    diffDescriptionTextField.text = difficultyDescriptions[3];
+                else
+                    diffDescriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+            case 4:
+                if (difficultyDescriptions[4] != null)
+                    diffDescriptionTextField.text = difficultyDescriptions[4];
+                else
+                    diffDescriptionTextField.text = "No description yet... (Devs are noobs)";
+                break;
+        }
+        difficulty = dif;
     }
 
     public void ChangePic(PicType type, int index, out int newIndex)
