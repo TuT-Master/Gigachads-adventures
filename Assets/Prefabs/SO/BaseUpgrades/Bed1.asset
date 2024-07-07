@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Stone with fur
   description: 
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: ed85b9bd4f3df224f990c4a62750ab2e,
+    type: 3}
   requieredAge: 0
   levelOfUpgrade: 1
   baseUpgradeType: 1
