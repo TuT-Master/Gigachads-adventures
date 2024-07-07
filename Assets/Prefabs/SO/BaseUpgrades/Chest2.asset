@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Basic wooden chest 2
   description: 
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: 2bb799be301ba7b42a6d2dd1f6f42306,
+    type: 3}
   requieredAge: 0
   levelOfUpgrade: 2
   baseUpgradeType: 2
