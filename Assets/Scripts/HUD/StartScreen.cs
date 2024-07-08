@@ -72,6 +72,7 @@ public class StartScreen : MonoBehaviour, IDataPersistance
         screen_2.SetActive(false);
         screen_3.SetActive(false);
         buttonDone = screen_1.transform.Find("Button_done").gameObject;
+        buttonDone.GetComponent<Button_Done>().isActive = true;
         // Character creation
         hairImage.sprite = hairImage.GetComponent<SpriteLibrary>().sprites[0];
         beardImage.sprite = beardImage.GetComponent<SpriteLibrary>().sprites[0];
@@ -91,16 +92,17 @@ public class StartScreen : MonoBehaviour, IDataPersistance
             case 0:
                 screen_1.SetActive(false);
                 screen_2.SetActive(true);
+                buttonDone = screen_2.transform.Find("Button_done").gameObject;
+                buttonDone.GetComponent<Button_Done>().isActive = false;
 
                 // Apply gfx to player obj
-                PlayerGFXManager playerGFXManager = transform.parent.parent.GetComponent<PlayerGFXManager>();
-                playerGFXManager.hairObj.GetComponent<SpriteRenderer>().sprite = hairImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[0]];
-                playerGFXManager.beardObj.GetComponent<SpriteRenderer>().sprite = beardImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[1]];
-                playerGFXManager.torsoObj.GetComponent<SpriteRenderer>().sprite = bodyImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[2]];
+                StartCoroutine(LoadingDelay());
                 break;
             case 1:
                 screen_2.SetActive(false);
                 screen_3.SetActive(true);
+                buttonDone = screen_3.transform.Find("Button_done").gameObject;
+                buttonDone.GetComponent<Button_Done>().isActive = false;
                 break;
             case 2:
                 screen_3.SetActive(false);
@@ -159,6 +161,7 @@ public class StartScreen : MonoBehaviour, IDataPersistance
                     descriptionTextField.text = "No description yet... (Devs are noobs)";
                 break;
         }
+        buttonDone.GetComponent<Button_Done>().isActive = true;
     }
     public void DifficutlyButtonClicked(int dif)
     {
@@ -196,6 +199,7 @@ public class StartScreen : MonoBehaviour, IDataPersistance
                 break;
         }
         difficulty = dif;
+        buttonDone.GetComponent<Button_Done>().isActive = true;
     }
 
     public void ChangePic(PicType type, int index, out int newIndex)
@@ -261,6 +265,9 @@ public class StartScreen : MonoBehaviour, IDataPersistance
         playerGFXManager.hairObj.GetComponent<SpriteRenderer>().sprite = hairImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[0]];
         playerGFXManager.beardObj.GetComponent<SpriteRenderer>().sprite = beardImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[1]];
         playerGFXManager.torsoObj.GetComponent<SpriteRenderer>().sprite = bodyImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[2]];
+        playerGFXManager.defaultHair = hairImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[0]];
+        playerGFXManager.defaultBeard = beardImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[1]];
+        playerGFXManager.defaultBody = bodyImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[2]];
     }
     public void SaveData(ref GameData data)
     {
