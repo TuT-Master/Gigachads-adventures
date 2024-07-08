@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Basic alchemy lab 2
   description: 
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: 43e37ff8f5a098443a4bbb96cccdbe28,
+    type: 3}
   requieredAge: 0
   levelOfUpgrade: 2
   baseUpgradeType: 4
