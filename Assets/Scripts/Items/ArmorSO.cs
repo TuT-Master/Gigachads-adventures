@@ -20,6 +20,10 @@ public class ArmorSO : ScriptableObject
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
+    public bool hideHairWhenEquiped;
+    public bool hideBeardWhenEquiped;
+    public bool hideBodyWhenEquiped;
+
     // Armor bonuses
     [SerializeField] private float armor;
     [SerializeField] private float weight;

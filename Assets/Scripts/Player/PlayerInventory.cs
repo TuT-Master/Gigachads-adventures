@@ -98,54 +98,50 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
     void UpdatePlayerPicInInventory()
     {
+        // Body
         body.sprite = GetComponent<PlayerGFXManager>().torsoObj.GetComponent<SpriteRenderer>().sprite;
-        if (body.sprite == null)
+        if (body.sprite == null || GetComponent<PlayerGFXManager>().hideBody)
             body.color = new(1, 1, 1, 0);
         else
             body.color = Color.white;
-
-        hair.sprite = GetComponent<PlayerGFXManager>().hairObj.GetComponent<SpriteRenderer>().sprite;
-        if (hair.sprite == null)
-            hair.color = new(1, 1, 1, 0);
-        else
-            hair.color = Color.white;
-
-        beard.sprite = GetComponent<PlayerGFXManager>().beardObj.GetComponent<SpriteRenderer>().sprite;
-        if (beard.sprite == null)
-            beard.color = new(1, 1, 1, 0);
-        else
-            beard.color = Color.white;
-
         torsoArmor.sprite = GetComponent<PlayerGFXManager>().torsoArmorObj.GetComponent<SpriteRenderer>().sprite;
         if (torsoArmor.sprite == null)
             torsoArmor.color = new(1, 1, 1, 0);
         else
             torsoArmor.color = Color.white;
-
         torsoEquipment.sprite = GetComponent<PlayerGFXManager>().torsoEquipmentObj.GetComponent<SpriteRenderer>().sprite;
         if (torsoEquipment.sprite == null)
             torsoEquipment.color = new(1, 1, 1, 0);
         else
             torsoEquipment.color = Color.white;
-
+        // Head
+        hair.sprite = GetComponent<PlayerGFXManager>().hairObj.GetComponent<SpriteRenderer>().sprite;
+        if (hair.sprite == null || GetComponent<PlayerGFXManager>().hideHair)
+            hair.color = new(1, 1, 1, 0);
+        else
+            hair.color = Color.white;
         headArmor.sprite = GetComponent<PlayerGFXManager>().headArmorObj.GetComponent<SpriteRenderer>().sprite;
         if (headArmor.sprite == null)
             headArmor.color = new(1, 1, 1, 0);
         else
             headArmor.color = Color.white;
-
         headEquipment.sprite = GetComponent<PlayerGFXManager>().headEquipmentObj.GetComponent<SpriteRenderer>().sprite;
         if (headEquipment.sprite == null)
             headEquipment.color = new(1, 1, 1, 0);
         else
             headEquipment.color = Color.white;
-
+        // Beard
+        beard.sprite = GetComponent<PlayerGFXManager>().beardObj.GetComponent<SpriteRenderer>().sprite;
+        if (beard.sprite == null || GetComponent<PlayerGFXManager>().hideBeard)
+            beard.color = new(1, 1, 1, 0);
+        else
+            beard.color = Color.white;
+        // Hands
         mainHand.sprite = GetComponent<PlayerGFXManager>().weaponObj.GetComponent<SpriteRenderer>().sprite;
         if (mainHand.sprite == null)
             mainHand.color = new(1, 1, 1, 0);
         else
             mainHand.color = Color.white;
-
         secondaryHand.sprite = GetComponent<PlayerGFXManager>().secondaryWeaponObj.GetComponent<SpriteRenderer>().sprite;
         if (secondaryHand.sprite == null)
             secondaryHand.color = new(1, 1, 1, 0);

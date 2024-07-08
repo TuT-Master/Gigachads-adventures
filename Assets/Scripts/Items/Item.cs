@@ -97,6 +97,10 @@ public class Item : MonoBehaviour
 
     public List<ProjectileSO> ammo;
 
+    public bool hideHairWhenEquiped;
+    public bool hideBeardWhenEquiped;
+    public bool hideBodyWhenEquiped;
+
     // Crafting
     public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
@@ -261,6 +265,9 @@ public class Item : MonoBehaviour
         for (int i = 0; i < armorSO.recipeMaterials.Count; i++)
             recipe.Add(armorSO.recipeMaterials[i], armorSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = armorSO.upgradedVersionsOfArmor;
+        hideHairWhenEquiped = armorSO.hideHairWhenEquiped;
+        hideBeardWhenEquiped = armorSO.hideBeardWhenEquiped;
+        hideBodyWhenEquiped = armorSO.hideBodyWhenEquiped;
     }
     public Item(BackpackSO backpackSO)
     {
@@ -423,6 +430,9 @@ public class Item : MonoBehaviour
         nextLevel = item.nextLevel;
         levelOfUpgrade = item.levelOfUpgrade;
         requieredAge = item.requieredAge;
+        hideHairWhenEquiped = item.hideHairWhenEquiped;
+        hideBeardWhenEquiped = item.hideBeardWhenEquiped;
+        hideBodyWhenEquiped = item.hideBodyWhenEquiped;
     }
 
 
