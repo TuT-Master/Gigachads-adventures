@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Primitive enchanting table
   description: 
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: 521aef37b751f6b4ca8cb098fb459226,
+    type: 3}
   requieredAge: 0
   levelOfUpgrade: 1
   baseUpgradeType: 6
