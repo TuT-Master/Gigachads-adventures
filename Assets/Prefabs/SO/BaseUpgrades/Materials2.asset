@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Mortar and pestle 2
   description: 
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: 243c5ae2e1cb2f343981cab5b5cc5eb8,
+    type: 3}
   requieredAge: 0
   levelOfUpgrade: 2
   baseUpgradeType: 7
