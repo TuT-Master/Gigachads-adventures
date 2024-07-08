@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Primitive smithy 2
   description: 
-  sprite_inventory: {fileID: 0}
+  sprite_inventory: {fileID: 3286163911610860551, guid: c63f9e2682c472843a21ee250c37c388,
+    type: 3}
   requieredAge: 0
   levelOfUpgrade: 2
   baseUpgradeType: 5
