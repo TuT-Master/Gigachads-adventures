@@ -37,7 +37,7 @@ public class Button_Difficulty : MonoBehaviour, IPointerClickHandler, IPointerEn
     public void OnPointerExit(PointerEventData eventData) { isPointerOnButton = false; }
     public void OnPointerClick(PointerEventData eventData)
     {
-        FindAnyObjectByType<StartScreen>().DifficutlyButtonClicked(difficulty);
+        FindAnyObjectByType<StartScreen>().DifficultyButtonClicked(difficulty);
         foreach (Button_Difficulty button in FindObjectsByType<Button_Difficulty>(FindObjectsSortMode.None))
             button.isChosen = false;
         isPressed = true;

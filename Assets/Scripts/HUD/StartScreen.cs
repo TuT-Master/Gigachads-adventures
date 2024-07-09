@@ -163,7 +163,7 @@ public class StartScreen : MonoBehaviour, IDataPersistance
         }
         buttonDone.GetComponent<Button_Done>().isActive = true;
     }
-    public void DifficutlyButtonClicked(int dif)
+    public void DifficultyButtonClicked(int dif)
     {
         switch (dif)
         {
@@ -224,7 +224,7 @@ public class StartScreen : MonoBehaviour, IDataPersistance
 
         if (index < 0)
             newIndex = sprites.Count - 1;
-        else if (index >= sprites.Count)
+        else if (index > sprites.Count - 1)
             newIndex = 0;
         else
             newIndex = index;

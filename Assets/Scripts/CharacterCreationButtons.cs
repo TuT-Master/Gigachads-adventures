@@ -13,7 +13,6 @@ public class CharacterCreationButtons : MonoBehaviour, IPointerClickHandler, IPo
     private bool next;
 
     private int index = 0;
-    private int indexChange = 0;
 
     [SerializeField]
     private Sprite sprite_inactive;
@@ -23,20 +22,17 @@ public class CharacterCreationButtons : MonoBehaviour, IPointerClickHandler, IPo
     private Sprite sprite_clicked;
 
 
-    void Start()
-    {
-        if (next)
-            indexChange = 1;
-        else
-            indexChange = -1;
-    }
 
     public void OnPointerEnter(PointerEventData eventData) { GetComponent<Image>().sprite = sprite_active; }
     public void OnPointerExit(PointerEventData eventData) { GetComponent<Image>().sprite = sprite_inactive; }
     public void OnPointerClick(PointerEventData eventData)
     {
-        index += indexChange;
-        FindAnyObjectByType<StartScreen>().ChangePic(picType, index, out index);
+        if (next)
+            index++;
+        else
+            index--;
+        FindAnyObjectByType<StartScreen>().ChangePic(picType, index, out int newIndex);
+        index = newIndex;
         GetComponent<Image>().sprite = sprite_clicked;
         StartCoroutine(ResetSprite());
     }

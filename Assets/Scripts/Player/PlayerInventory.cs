@@ -196,6 +196,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     }
 
 
+    // ItemCard
     public void OpenItemCard(Item item)
     {
         if(isItemCardOpen)
@@ -269,7 +270,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                 else if (item.weaponType == Item.WeaponType.Zweihander)
                     rows[0] += "zweihander";
 
-                rows[1] = "Damage: " + item.stats["damage"].ToString();
+                rows[1] = "Damage: <color=#ff5050ff>" + item.stats["damage"].ToString() + "</color>";
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
                 rows[3] = "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%";
 
