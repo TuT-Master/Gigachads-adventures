@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -136,6 +137,17 @@ public class Item : MonoBehaviour
         };
     }
     public MagicCrystalType crystalType;
+    public enum Spell
+    {
+        None,
+        Fireball,
+        Windblow,
+        Watersplash,
+        Stone,
+        Lightning,
+        Lifesteal,
+    }
+    public Spell spell;
 
     // Magic weapons
     public Dictionary<int, MagicCrystalType> magicCrystals;
@@ -565,6 +577,41 @@ public class Item : MonoBehaviour
             text.text = "nice";
         else
             text.text = amount.ToString();
+
+        // Used spell
+        UsedSpell();
+    }
+
+    private void UsedSpell()
+    {
+        // One crystal slot available
+        if(magicCrystals.Count == 1)
+        {
+            if (magicCrystals[0] == MagicCrystalType.Fire)
+                spell = Spell.Fireball;
+            else if (magicCrystals[0] == MagicCrystalType.Water)
+                spell = Spell.Watersplash;
+            else if (magicCrystals[0] == MagicCrystalType.Air)
+                spell = Spell.Windblow;
+            else if (magicCrystals[0] == MagicCrystalType.Earth)
+                spell = Spell.Stone;
+            else if (magicCrystals[0] == MagicCrystalType.Light)
+                spell = Spell.Lightning;
+            else if (magicCrystals[0] == MagicCrystalType.Dark)
+                spell = Spell.Lifesteal;
+            else
+                spell = Spell.None;
+        }
+        // Two crystal slots available
+        else if (magicCrystals.Count == 2)
+        {
+
+        }
+        // Three crystal slots available
+        else if (magicCrystals.Count == 3)
+        {
+
+        }
     }
 
     public void UpdateMagicCrystalsByAge(int age)

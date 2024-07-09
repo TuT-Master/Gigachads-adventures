@@ -215,11 +215,48 @@ public class PlayerCrafting : MonoBehaviour
         statField.text = "";
         foreach (string stat in upgradedVersionOfItem.stats.Keys)
         {
+            string deltaStat = Math.Round(upgradedVersionOfItem.stats[stat] - itemInUpgradeSlot.stats[stat], 2).ToString();
+            // Text color
+            string textColor;
+            if (stat == "weight" || stat == "reloadTime")
+                textColor = "#ff0000ff";
+            else
+                textColor = "#00ff00ff";
+
             if (upgradedVersionOfItem.stats[stat] > itemInUpgradeSlot.stats[stat])
-                statField.text += stat + ": +" + Math.Round(upgradedVersionOfItem.stats[stat] - itemInUpgradeSlot.stats[stat], 2).ToString() + "\n";
+                statField.text += GetTextFromStat(stat) + "<color=" + textColor + "> +" + deltaStat + "</color>" + "\n";
             else if (upgradedVersionOfItem.stats[stat] < itemInUpgradeSlot.stats[stat])
-                statField.text += stat + ": " + Math.Round(upgradedVersionOfItem.stats[stat] - itemInUpgradeSlot.stats[stat], 2).ToString() + "\n";
+                statField.text += GetTextFromStat(stat) + ": " + "<color=" + textColor + ">" + deltaStat + "</color>" + "\n";
         }
+    }
+    private string GetTextFromStat(string stat)
+    {
+        return stat switch
+        {
+            "armor" => "Armor",
+            "weight" => "Weight",
+            "hpMax" => "Max hp",
+            "manaMax" => "Max mana",
+            "staminaMax" => "Max stamina",
+            "defense" => "Defense",
+            "damage" => "Damage",
+            "penetration" => "Penetration",
+            "armorIgnore" => "Armor ignore",
+            "attackSpeed" => "Attack speed",
+            "staminaCost" => "Stamina cost",
+            "manaCost" => "Mana cost",
+            "poisonDamage" => "Poison damage",
+            "bleedingDamage" => "Bleeding damage",
+            "knockback" => "Knockback",
+            "spread" => "Spread",
+            "magazineSize" => "Magazine size",
+            "reloadTime" => "Reload time",
+            "splashDamage" => "Splash damage",
+            "splashRadius" => "Splash radius",
+            "rangeX" => "Wide range",
+            "rangeY" => "Long range",
+            _ => null,
+        };
     }
 
     public void CreateBaseUpgrades()

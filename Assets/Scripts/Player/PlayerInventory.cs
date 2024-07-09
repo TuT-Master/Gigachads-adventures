@@ -270,9 +270,11 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                 else if (item.weaponType == Item.WeaponType.Zweihander)
                     rows[0] += "zweihander";
 
-                rows[1] = "Damage: <color=#ff5050ff>" + item.stats["damage"].ToString() + "</color>";
+                rows[1] = "Damage: " + item.stats["damage"].ToString();
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
-                rows[3] = "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%";
+                rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
+                rows[4] = "Stamina cost: " + item.stats["staminaCost"].ToString();
+                rows[5] = "Attack speed: " + item.stats["attackSpeed"].ToString() + " /sec";
 
                 rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
@@ -298,7 +300,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                 else if (item.weaponType == Item.WeaponType.Crossbow)
                     rows[0] += "crossbow";
                 else if (item.weaponType == Item.WeaponType.Shotgun)
-                    rows[0] += "shotugun";
+                    rows[0] += "shotgun";
                 else if (item.weaponType == Item.WeaponType.Revolver)
                     rows[0] += "revolver";
                 else if (item.weaponType == Item.WeaponType.Machinegun)
@@ -310,8 +312,10 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
                 rows[1] = "Damage: " + item.stats["damage"].ToString();
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
-                rows[3] = "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%";
+                rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
                 rows[4] = "Magazine: " + item.stats["currentMagazine"].ToString() + "/" + item.stats["magazineSize"].ToString();
+                rows[5] = "Attack speed: " + item.stats["attackSpeed"].ToString() + " /sec";
+                rows[6] = "Reload time: " + item.stats["reloadTime"].ToString() + " sec";
 
                 rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
@@ -331,7 +335,10 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
                 rows[1] = "Damage: " + item.stats["damage"].ToString();
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
-                rows[3] = "Armor ignore: " + (item.stats["armorIgnore"] * 100).ToString() + "%";
+                rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
+
+                // Used spell
+                rows[5] = "Using " + item.spell.ToString();
 
                 rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
 
@@ -410,7 +417,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             {
                 rows[1] = "Damage: " + item.stats["damage"].ToString();
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
-                rows[3] = "Armor ignore: " + item.stats["armorIgnore"].ToString();
+                rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
                 if (item.stats["splashDamage"] > 0)
                 {
                     rows[4] = "Splash damage: " + item.stats["splashDamage"].ToString();
@@ -439,9 +446,17 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
                 rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
-            else
-                rows[1] = "Tak na tohle jsem zapomnìl.";
+            // Material
+            else if (item.slotType == Slot.SlotType.MagicCrystal)
+            {
+                rows[1] = item.crystalType.ToString() + " crystal";
 
+                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+            }
+            else
+                rows[1] = "Tak na tohle (" + item.slotType.ToString() + ") jsem zapomnìl.";
+
+            // Write text
             string text = "";
             for (int i = 0; i < rows.Length; i++)
             {
