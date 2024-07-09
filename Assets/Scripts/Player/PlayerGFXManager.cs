@@ -81,7 +81,7 @@ public class PlayerGFXManager : MonoBehaviour
         else
         {
             hairObj.SetActive(true);
-            if(defaultHair != null)
+            if (defaultHair != null)
                 hairObj.GetComponent<SpriteRenderer>().sprite = defaultHair;
         }
         if (hideBeard)
@@ -104,6 +104,10 @@ public class PlayerGFXManager : MonoBehaviour
 
     public void UpdateGFX()
     {
+        hideHair = false;
+        hideBeard = false;
+        hideBody = false;
+
         // Head
         hairObj.GetComponent<SpriteRenderer>().sprite = defaultHair;
         // Beard
