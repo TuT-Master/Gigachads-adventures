@@ -386,22 +386,21 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         float finalDamage = damage;
         float armor = playerStats["armor"];
 
+        if (playerFight.defending && playerStats["defense"] > 0)
+        {
+            finalDamage *= (100 - playerStats["defense"]) / 100;
+            playerStats["stamina"] -= 10;
+        }
+
         if (armorIgnore > 0)
             armor *= armorIgnore;
 
         if (armor - penetration > 0)
             finalDamage -= armor - penetration;
 
-        if (playerStats["defense"] > 0)
-            finalDamage *= playerStats["defense"] / 100;
 
         if (finalDamage > 0)
         {
-            if(playerFight.defending)
-            {
-                finalDamage *= 0.5f;
-                playerStats["stamina"] -= 10;
-            }
             getsDamage = true;
             playerStats["hp"] -= finalDamage;
 
@@ -416,7 +415,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     {
         StopCoroutine(StatRegen());
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3f);
 
         getsDamage = false;
     }

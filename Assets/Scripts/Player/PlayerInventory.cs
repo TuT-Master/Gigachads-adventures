@@ -446,7 +446,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
                 rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
             }
-            // Material
+            // Magic crystal
             else if (item.slotType == Slot.SlotType.MagicCrystal)
             {
                 rows[1] = item.crystalType.ToString() + " crystal";
