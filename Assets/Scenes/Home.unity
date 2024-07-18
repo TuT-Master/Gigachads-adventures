@@ -16947,7 +16947,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 400, y: 100}
+  m_CellSize: {x: 450, y: 100}
   m_Spacing: {x: 0, y: 15}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -34359,7 +34359,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -80, y: 80}
-  m_SizeDelta: {x: -1720, y: -980}
+  m_SizeDelta: {x: -1680, y: -980}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &812481581
 MonoBehaviour:
@@ -40780,8 +40780,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - {fileID: 21300000, guid: dc9635c61710b814681ae01b4ed7b8b6, type: 3}
-  - {fileID: 3286163911610860551, guid: 1f7137c4491bc3c4d9ba90463050ddf4, type: 3}
-  - {fileID: 3286163911610860551, guid: f2a7c6442884b9047be3b8edd092c9b2, type: 3}
 --- !u!1 &998751173 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4905618838201029979, guid: 46263f1146e6a4d439fbed09bfa30e62,
@@ -41406,8 +41404,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - {fileID: 21300000, guid: f5bf8a673b7f5484f951974b8d43e558, type: 3}
-  - {fileID: 3286163911610860551, guid: 82a4c6b8087ad0647972c20a46e90717, type: 3}
-  - {fileID: 3286163911610860551, guid: a7c06b224f11156428481481550570aa, type: 3}
 --- !u!1001 &1020008463
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50095,8 +50091,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - {fileID: 21300000, guid: 59e88c2ef22c0f14788516d49dddde1b, type: 3}
-  - {fileID: 21300000, guid: 02290baebff8daf4bb1415cec7e342e0, type: 3}
-  - {fileID: 3286163911610860551, guid: d89b8063ec0a29646a43e38b09d2c844, type: 3}
 --- !u!1001 &1268684035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50818,7 +50812,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -80, y: 80}
-  m_SizeDelta: {x: -1720, y: -980}
+  m_SizeDelta: {x: -1680, y: -980}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1286357007
 MonoBehaviour:
@@ -51885,7 +51879,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -80, y: 80}
-  m_SizeDelta: {x: -1720, y: -980}
+  m_SizeDelta: {x: -1680, y: -980}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1316978967
 MonoBehaviour:
@@ -65914,9 +65908,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c428dca1f515d5943bd802c5918e17f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  homeScene: {fileID: 0}
-  spawnPoint: {fileID: 0}
-  entranceFromDungeon: {fileID: 0}
+  homeScene: {fileID: 213958364}
+  spawnPoint: {fileID: 1079752111}
+  entranceFromDungeon: {fileID: 1882413291}
   dungeonScene: {fileID: 1918773566}
 --- !u!1 &1756230582
 GameObject:

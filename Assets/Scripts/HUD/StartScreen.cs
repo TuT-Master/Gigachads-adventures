@@ -74,9 +74,9 @@ public class StartScreen : MonoBehaviour, IDataPersistance
         buttonDone = screen_1.transform.Find("Button_done").gameObject;
         buttonDone.GetComponent<Button_Done>().isActive = true;
         // Character creation
-        hairImage.sprite = hairImage.GetComponent<SpriteLibrary>().sprites[0];
-        beardImage.sprite = beardImage.GetComponent<SpriteLibrary>().sprites[0];
-        bodyImage.sprite = bodyImage.GetComponent<SpriteLibrary>().sprites[0];
+        ChangePic(PicType.Hair, 0, out int nothing);
+        ChangePic(PicType.Beard, 0, out nothing);
+        ChangePic(PicType.Body, 0, out nothing);
 
         // Difficulty settings
         descriptionTextField.text = "Click on any class to see some description here.";
