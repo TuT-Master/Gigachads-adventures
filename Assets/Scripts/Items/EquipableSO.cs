@@ -20,11 +20,13 @@ public class EquipableSO : ScriptableObject
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
-    // Bonuses
+
+    [Header("Stats")]
     [SerializeField] private float hpMax;
     [SerializeField] private float staminaMax;
     [SerializeField] private float manaMax;
     [SerializeField] private float weight;
+    [SerializeField] private float price;
 
 
     public Dictionary<string, float> ArmorStats()
@@ -35,6 +37,7 @@ public class EquipableSO : ScriptableObject
             {"staminaMax", staminaMax },
             {"manaMax", manaMax },
             {"weight", weight },
+            {"price", price},
         };
     }
 }

@@ -27,6 +27,7 @@ public class WeaponMeleeSO : ScriptableObject
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
 
+    [Header("Stats")]
     [SerializeField] private float damage = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
@@ -37,6 +38,7 @@ public class WeaponMeleeSO : ScriptableObject
     [SerializeField] private float rangeY = 1;
     [SerializeField] private float defense = 0;
     [SerializeField] private float weight = 0;
+    [SerializeField] private float price;
 
     public Dictionary<string, float> Stats()
     {
@@ -52,8 +54,10 @@ public class WeaponMeleeSO : ScriptableObject
             {"rangeY", rangeY},
             {"defense", defense},
             {"weight", weight},
+            {"price", price},
         };
     }
 
+    [Header("Upgrade")]
     public WeaponMeleeSO upgradedVersionsOfWeapon;
 }

@@ -30,6 +30,7 @@ public class WeaponMagicSO : ScriptableObject
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
 
+    [Header("Stats")]
     [SerializeField] private float damage = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
@@ -43,6 +44,7 @@ public class WeaponMagicSO : ScriptableObject
     [SerializeField] private float rangeY = 1;
     [SerializeField] private float defense = 0;
     [SerializeField] private float weight = 0;
+    [SerializeField] private float price;
     public Dictionary<string, float> Stats()
     {
         return new Dictionary<string, float>()
@@ -60,10 +62,13 @@ public class WeaponMagicSO : ScriptableObject
             {"rangeY", rangeY},
             {"defense", defense},
             {"weight", weight},
+            {"price", price},
         };
     }
 
+    [Header("Upgrade")]
     public WeaponMagicSO upgradedVersionsOfWeapon;
+
 
     public Dictionary<int, MagicCrystalType> magicCrystals;
 }

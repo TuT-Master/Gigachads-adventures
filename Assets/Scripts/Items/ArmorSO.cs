@@ -24,9 +24,10 @@ public class ArmorSO : ScriptableObject
     public bool hideBeardWhenEquiped;
     public bool hideBodyWhenEquiped;
 
-    // Armor bonuses
+    [Header("Stats")]
     [SerializeField] private float armor;
     [SerializeField] private float weight;
+    [SerializeField] private float price;
 
 
     public Dictionary <string, float> ArmorStats()
@@ -35,8 +36,10 @@ public class ArmorSO : ScriptableObject
         {
             {"armor", armor },
             {"weight", weight },
+            {"price", price},
         };
     }
 
+    [Header("Upgrade")]
     public ArmorSO upgradedVersionsOfArmor;
 }

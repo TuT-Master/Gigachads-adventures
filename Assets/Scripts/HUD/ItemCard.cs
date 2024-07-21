@@ -94,10 +94,11 @@ public class ItemCard : MonoBehaviour
                 rows[1] = "Damage: " + item.stats["damage"].ToString();
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
                 rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
-                rows[4] = "Stamina cost: " + item.stats["staminaCost"].ToString();
-                rows[5] = "Attack speed: " + item.stats["attackSpeed"].ToString() + " /sec";
+                rows[4] = "Crit chance: doplnit stat";
+                rows[5] = "Crit damage: doplnit stat";
 
-                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             // Ranged weapon
             else if (item.slotType == Slot.SlotType.WeaponRanged)
@@ -138,7 +139,8 @@ public class ItemCard : MonoBehaviour
                 rows[5] = "Attack speed: " + item.stats["attackSpeed"].ToString() + " /sec";
                 rows[6] = "Reload time: " + item.stats["reloadTime"].ToString() + " sec";
 
-                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             // Magic weapon
             else if (item.slotType == Slot.SlotType.MagicWeapon)
@@ -161,7 +163,9 @@ public class ItemCard : MonoBehaviour
                 // Used spell
                 rows[5] = "Using " + item.spell.ToString();
 
-                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
 
                 // Magic crystals
                 if (item.magicCrystals != null)
@@ -198,12 +202,15 @@ public class ItemCard : MonoBehaviour
             else if (item.slotType == Slot.SlotType.Head | item.slotType == Slot.SlotType.Torso | item.slotType == Slot.SlotType.Legs | item.slotType == Slot.SlotType.Gloves)
             {
                 rows[1] = "Armor: " + item.armorStats["armor"].ToString();
-                rows[11] = "Weight: " + (item.armorStats["weight"] * item.amount).ToString() + " Kg";
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             // Equipable
             else if (item.slotType == Slot.SlotType.HeadEquipment | item.slotType == Slot.SlotType.TorsoEquipment | item.slotType == Slot.SlotType.LegsEquipment | item.slotType == Slot.SlotType.GlovesEquipment)
             {
 
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             // Consumable
             else if (item.slotType == Slot.SlotType.Consumable)
@@ -230,7 +237,8 @@ public class ItemCard : MonoBehaviour
                             row++;
                             break;
                     }
-                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             // Projectile
             else if (item.slotType == Slot.SlotType.Ammo)
@@ -244,34 +252,39 @@ public class ItemCard : MonoBehaviour
                     rows[5] = "Splash radius: " + item.stats["splashRadius"].ToString();
                 }
 
-                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             // Shield
             else if (item.slotType == Slot.SlotType.Shield)
             {
                 rows[1] = "Defense: " + item.stats["defense"].ToString();
 
-                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             // Backpack/Belt
             else if (item.slotType == Slot.SlotType.Backpack | item.slotType == Slot.SlotType.Belt)
             {
                 rows[1] = "Inventory slots: +" + item.stats["backpackSize"].ToString();
 
-                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             // Material
             else if (item.slotType == Slot.SlotType.Material)
             {
 
-                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             // Magic crystal
             else if (item.slotType == Slot.SlotType.MagicCrystal)
             {
                 rows[1] = item.crystalType.ToString() + " crystal";
 
-                rows[11] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
+                rows[11] = "Cost: " + item.stats["price"].ToString();
             }
             else
                 rows[1] = "Tak na tohle (" + item.slotType.ToString() + ") jsem zapomnìl.";

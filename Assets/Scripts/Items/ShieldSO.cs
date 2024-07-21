@@ -25,8 +25,10 @@ public class ShieldSO : ScriptableObject
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
+    [Header("Stats")]
     [SerializeField] private float defense = 0;
     [SerializeField] private float weight = 0;
+    [SerializeField] private float price;
 
     public Dictionary<string, float> Stats()
     {
@@ -34,8 +36,10 @@ public class ShieldSO : ScriptableObject
         {
             {"defense", defense},
             {"weight", weight},
+            {"price", price},
         };
     }
 
+    [Header("Upgrade")]
     public ShieldSO upgradedVersionsOfShield;
 }

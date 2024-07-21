@@ -27,6 +27,7 @@ public class ThrowableSO : ScriptableObject
     public Sprite sprite_inventory;
     public Sprite sprite_projectile;
 
+    [Header("Stats")]
     [SerializeField] private float damage = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
@@ -39,6 +40,7 @@ public class ThrowableSO : ScriptableObject
     [SerializeField] private float rangeX = 1;
     [SerializeField] private float rangeY = 1;
     [SerializeField] private float weight = 0;
+    [SerializeField] private float price;
     public Dictionary<string, float> Stats()
     {
         return new Dictionary<string, float>()
@@ -55,6 +57,7 @@ public class ThrowableSO : ScriptableObject
             {"rangeX", rangeX},
             {"rangeY", rangeY},
             {"weight", weight},
+            {"price", price},
         };
     }
 }

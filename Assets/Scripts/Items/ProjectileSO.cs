@@ -20,6 +20,7 @@ public class ProjectileSO : ScriptableObject
     public List<int> recipeMaterialsAmount;
 
 
+    [Header("Stats")]
     [SerializeField] private float damage = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
@@ -27,6 +28,7 @@ public class ProjectileSO : ScriptableObject
     [SerializeField] private float splashDamage = 0;
     [SerializeField] private float splashRadius = 0;
     [SerializeField] private float weight = 0;
+    [SerializeField] private float price;
     public Dictionary<string, float> ProjectileStats()
     {
         return new()
@@ -38,7 +40,7 @@ public class ProjectileSO : ScriptableObject
             { "splashDamage", splashDamage },
             { "splashRadius", splashRadius},
             { "weight", weight},
-
+            {"price", price},
         };
     }
 }

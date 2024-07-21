@@ -29,6 +29,7 @@ public class WeaponRangedSO : ScriptableObject
     public Sprite sprite_inventory;
     public Sprite sprite_hand;
 
+    [Header("Stats")]
     [SerializeField] private float damage = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
@@ -45,6 +46,7 @@ public class WeaponRangedSO : ScriptableObject
     [SerializeField] private float rangeY = 1;
     [SerializeField] private float defense = 0;
     [SerializeField] private float weight = 0;
+    [SerializeField] private float price;
     public Dictionary<string, float> Stats()
     {
         return new Dictionary<string, float>()
@@ -65,10 +67,13 @@ public class WeaponRangedSO : ScriptableObject
             {"rangeY", rangeY},
             {"defense", defense},
             {"weight", weight},
+            {"price", price},
         };
     }
 
-    public List<ProjectileSO> ammo;
-
+    [Header("Upgrade")]
     public WeaponRangedSO upgradedVersionsOfWeapon;
+
+    [Header("Ammo types")]
+    public List<ProjectileSO> ammo;
 }

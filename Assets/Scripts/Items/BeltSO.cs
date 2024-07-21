@@ -18,9 +18,10 @@ public class BeltSO : ScriptableObject
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
+    [Header("Stats")]
     public int inventoryCapacity;
-
-    public float weight;
+    [SerializeField] private float weight;
+    [SerializeField] private float price;
 
     public Dictionary<string, float> BeltStats()
     {
@@ -28,6 +29,7 @@ public class BeltSO : ScriptableObject
         {
             {"backpackSize", inventoryCapacity },
             {"weight", weight},
+            {"price", price},
         };
     }
 }
