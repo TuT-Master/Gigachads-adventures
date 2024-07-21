@@ -9,6 +9,8 @@ public class HUDmanager : MonoBehaviour
     private DungeonMap map;
     private PlayerOtherInventoryScreen playerOtherInventory;
     private PlayerCrafting playerCrafting;
+    private ItemCard itemCard;
+
 
     [SerializeField]
     private SkillDescription skillDescription;
@@ -24,6 +26,7 @@ public class HUDmanager : MonoBehaviour
         map = GetComponent<DungeonMap>();
         playerOtherInventory = GetComponent<PlayerOtherInventoryScreen>();
         playerCrafting = GetComponent<PlayerCrafting>();
+        itemCard = FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include);
     }
 
     private void Update()
@@ -34,6 +37,8 @@ public class HUDmanager : MonoBehaviour
             StartCoroutine(CanOpenESCScreen());
         if (AnyScreenOpen())
             canOpenESCScreen = false;
+        else
+            itemCard.HideItemCard();
     }
 
     IEnumerator CanOpenESCScreen()
@@ -56,7 +61,7 @@ public class HUDmanager : MonoBehaviour
         map.ToggleMap(false);
         playerOtherInventory.ToggleOtherInventoryScreen(false);
         inventory.ToggleInventory(false);
-        inventory.CloseItemCard();
+        itemCard.HideItemCard();
         playerCrafting.ToggleScreen(false);
     }
 

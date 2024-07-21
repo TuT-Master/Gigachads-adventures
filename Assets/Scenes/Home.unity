@@ -7130,18 +7130,6 @@ MonoBehaviour:
     type: 3}
   itemCardPrefab: {fileID: 7688285658852871474, guid: 3753a1bef096b8c42a44bbfee4a5582a,
     type: 3}
-  itemCardGFX: {fileID: 3286163911610860551, guid: a0c01b111b20b634d8b73655f586d759,
-    type: 3}
-  crystalFire: {fileID: 3286163911610860551, guid: ed38191d9f7fa374f9209f3fd2051ca9,
-    type: 3}
-  crystalWater: {fileID: 3286163911610860551, guid: fd25b5f947312684e84c72529d8802ac,
-    type: 3}
-  crystalAir: {fileID: 3286163911610860551, guid: 25bc8e67c14ebe845be834f34c38b47a,
-    type: 3}
-  crystalEarth: {fileID: 3286163911610860551, guid: 135475cf78703f0439209d65215f6b90,
-    type: 3}
-  crystalLight: {fileID: 0}
-  crystalDark: {fileID: 0}
   body: {fileID: 16486132}
   beard: {fileID: 169862319}
   hair: {fileID: 990378366}
@@ -7341,6 +7329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abaa02ad987363944ae983876476b35c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemCard: {fileID: 7688285660187953022}
   skillDescription: {fileID: 1488603244}
   canOpenScreen: 0
   canOpenESCScreen: 0
@@ -84263,6 +84252,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 258ac1a7c2424f44a806261a7b7053a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemCardGFX: {fileID: 3286163911610860551, guid: a0c01b111b20b634d8b73655f586d759,
+    type: 3}
+  crystalFire: {fileID: 3286163911610860551, guid: ed38191d9f7fa374f9209f3fd2051ca9,
+    type: 3}
+  crystalWater: {fileID: 3286163911610860551, guid: fd25b5f947312684e84c72529d8802ac,
+    type: 3}
+  crystalAir: {fileID: 3286163911610860551, guid: 25bc8e67c14ebe845be834f34c38b47a,
+    type: 3}
+  crystalEarth: {fileID: 3286163911610860551, guid: 135475cf78703f0439209d65215f6b90,
+    type: 3}
+  crystalLight: {fileID: 0}
+  crystalDark: {fileID: 0}
 --- !u!224 &7973748719840225488
 RectTransform:
   m_ObjectHideFlags: 0

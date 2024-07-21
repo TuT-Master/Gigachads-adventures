@@ -253,13 +253,13 @@ public class Recipe : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        FindAnyObjectByType<PlayerInventory>().CloseItemCard();
+        FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include).HideItemCard();
         isBeingClicked = true;
         time = 0f;
         craftingSpeed = 1;
     }
     public void OnPointerUp(PointerEventData eventData) { isBeingClicked = false; }
-    public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().OpenItemCard(GetComponent<Item>()); }
-    public void OnPointerExit(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }
+    public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include).ShowItemCard(GetComponent<Item>()); }
+    public void OnPointerExit(PointerEventData eventData) { FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include).HideItemCard(); }
 
 }

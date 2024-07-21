@@ -19,7 +19,7 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (Input.GetMouseButton(1) || Input.GetMouseButton(2))
             return;
         transform.parent.GetComponent<Slot>().SetDefaultImage();
-        FindAnyObjectByType<PlayerInventory>().CloseItemCard();
+        FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include).HideItemCard();
         canvasGroup.blocksRaycasts = false;
         parentBeforeDrag = transform.parent;
         parentAfterDrag = transform.parent;
@@ -42,7 +42,7 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             return;
         transform.position = Input.mousePosition;
     }
-    public void OnPointerDown(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }
-    public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().OpenItemCard(GetComponent<Item>()); }
-    public void OnPointerExit(PointerEventData eventData) { FindAnyObjectByType<PlayerInventory>().CloseItemCard(); }
+    public void OnPointerDown(PointerEventData eventData) { FindAnyObjectByType<ItemCard>().HideItemCard(); }
+    public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include).ShowItemCard(GetComponent<Item>()); }
+    public void OnPointerExit(PointerEventData eventData) { FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include).HideItemCard(); }
 }
