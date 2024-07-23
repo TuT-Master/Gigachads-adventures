@@ -23,12 +23,13 @@ public class MaterialSO : ScriptableObject
     [Header("Stats")]
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
+
     public Dictionary<string, float> Stats()
     {
         return new()
         {
             { "weight", weight},
-            {"price", price},
+            { "price", price},
         };
     }
 }

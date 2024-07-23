@@ -27,6 +27,8 @@ public class ConsumableSO : ScriptableObject
     [SerializeField] private float cooldown = 0;
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
+
+
     public Dictionary<string, float> Stats()
     {
         return new()

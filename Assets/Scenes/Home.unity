@@ -7329,7 +7329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abaa02ad987363944ae983876476b35c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemCard: {fileID: 7688285660187953022}
   skillDescription: {fileID: 1488603244}
   canOpenScreen: 0
   canOpenESCScreen: 0

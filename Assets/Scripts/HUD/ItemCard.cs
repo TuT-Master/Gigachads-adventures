@@ -94,8 +94,8 @@ public class ItemCard : MonoBehaviour
                 rows[1] = "Damage: " + item.stats["damage"].ToString();
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
                 rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
-                rows[4] = "Crit chance: doplnit stat";
-                rows[5] = "Crit damage: doplnit stat";
+                rows[4] = "Has " + (item.stats["critChance"] / 100).ToString() + "% chance for dealing critical damage";
+                rows[5] = "Crit damage: " + item.stats["critDamage"].ToString();
 
                 rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
                 rows[11] = "Cost: " + item.stats["price"].ToString();

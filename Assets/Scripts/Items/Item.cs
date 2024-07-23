@@ -252,7 +252,7 @@ public class Item : MonoBehaviour
         description = projectile.description;
         sprite_inventory = projectile.sprite_inventory;
         sprite_equip = projectile.sprite_projectile;
-        stats = projectile.ProjectileStats();
+        stats = projectile.Stats();
         isStackable = true;
         stackSize = projectile.stackSize;
         craftedIn = projectile.craftedIn;
@@ -265,7 +265,7 @@ public class Item : MonoBehaviour
     {
         itemName = armorSO.itemName;
         description = armorSO.description;
-        armorStats = armorSO.ArmorStats();
+        armorStats = armorSO.Stats();
         amount = 1;
         slotType = armorSO.slotType;
         sprite_inventory = armorSO.sprite_inventory;
@@ -291,7 +291,7 @@ public class Item : MonoBehaviour
         inventoryCapacity = backpackSO.inventoryCapacity;
         isStackable = false;
         stackSize = 1;
-        stats = backpackSO.BackpackStats();
+        stats = backpackSO.Stats();
         slotType = Slot.SlotType.Backpack;
         craftedIn = backpackSO.craftedIn;
         requieredCraftingLevel = backpackSO.requieredCraftingLevel;
@@ -375,7 +375,7 @@ public class Item : MonoBehaviour
         description = equipableSO.description;
         sprite_inventory = equipableSO.sprite_inventory;
         isStackable = true;
-        stats = equipableSO.ArmorStats();
+        stats = equipableSO.Stats();
         slotType = Slot.SlotType.Material;
         craftedIn = equipableSO.craftedIn;
         requieredCraftingLevel = equipableSO.requieredCraftingLevel;

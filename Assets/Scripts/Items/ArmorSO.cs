@@ -29,14 +29,29 @@ public class ArmorSO : ScriptableObject
     [SerializeField] private float weight;
     [SerializeField] private float price;
 
+    [Header("Full-set bonus")]
+    public string armorSetName;
+    [SerializeField] private float hpMax;
+    [SerializeField] private float staminaMax;
+    [SerializeField] private float manaMax;
 
-    public Dictionary <string, float> ArmorStats()
+    public Dictionary <string, float> Stats()
     {
         return new()
         {
             {"armor", armor },
             {"weight", weight },
             {"price", price},
+        };
+    }
+
+    public Dictionary<string, float> FullsetBonus()
+    {
+        return new()
+        {
+            {"hpMax", hpMax },
+            {"staminaMax", staminaMax },
+            {"manaMax", manaMax },
         };
     }
 

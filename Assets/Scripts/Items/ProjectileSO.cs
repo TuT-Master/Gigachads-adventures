@@ -29,7 +29,8 @@ public class ProjectileSO : ScriptableObject
     [SerializeField] private float splashRadius = 0;
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
-    public Dictionary<string, float> ProjectileStats()
+    public bool selfHoming;
+    public Dictionary<string, float> Stats()
     {
         return new()
         {

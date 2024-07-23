@@ -23,7 +23,7 @@ public class BackpackSO : ScriptableObject
     [SerializeField] private float weight;
     [SerializeField] private float price;
 
-    public Dictionary<string, float> BackpackStats()
+    public Dictionary<string, float> Stats()
     {
         return new()
         {

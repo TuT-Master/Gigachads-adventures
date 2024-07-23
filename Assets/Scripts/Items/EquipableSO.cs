@@ -22,22 +22,30 @@ public class EquipableSO : ScriptableObject
 
 
     [Header("Stats")]
-    [SerializeField] private float hpMax;
-    [SerializeField] private float staminaMax;
-    [SerializeField] private float manaMax;
     [SerializeField] private float weight;
     [SerializeField] private float price;
 
+    [Header("Bonuses")]
+    [SerializeField] private float hpMax;
+    [SerializeField] private float staminaMax;
+    [SerializeField] private float manaMax;
 
-    public Dictionary<string, float> ArmorStats()
+
+    public Dictionary<string, float> Stats()
+    {
+        return new()
+        {
+            {"weight", weight },
+            {"price", price},
+        };
+    }
+    public Dictionary<string, float> Bonus()
     {
         return new()
         {
             {"hpMax", hpMax },
             {"staminaMax", staminaMax },
             {"manaMax", manaMax },
-            {"weight", weight },
-            {"price", price},
         };
     }
 }

@@ -27,6 +27,7 @@ public class ShieldSO : ScriptableObject
 
     [Header("Stats")]
     [SerializeField] private float defense = 0;
+    [SerializeField] private float staminaPerBlock = 0;
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
 
@@ -35,6 +36,7 @@ public class ShieldSO : ScriptableObject
         return new Dictionary<string, float>()
         {
             {"defense", defense},
+            {"staminaPerBlock", staminaPerBlock},
             {"weight", weight},
             {"price", price},
         };

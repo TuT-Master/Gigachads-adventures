@@ -35,6 +35,8 @@ public class WeaponMagicSO : ScriptableObject
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
     [SerializeField] private float attackSpeed = 0;
+    [SerializeField] private float critDamage = 0;
+    [SerializeField] private float critChance = 0;
     [SerializeField] private float staminaCost = 0;
     [SerializeField] private float manaCost = 0;
     [SerializeField] private float spread = 0;
@@ -53,6 +55,8 @@ public class WeaponMagicSO : ScriptableObject
             {"penetration", penetration},
             {"armorIgnore", armorIgnore},
             {"attackSpeed", attackSpeed},
+            {"critDamage", critDamage},
+            {"critChance", critChance},
             {"staminaCost", staminaCost},
             {"manaCost", manaCost},
             {"spread", spread},
