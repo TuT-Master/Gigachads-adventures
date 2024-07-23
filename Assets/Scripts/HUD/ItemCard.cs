@@ -20,6 +20,9 @@ public class ItemCard : MonoBehaviour
 
     [SerializeField] private GameObject statPrefab;
 
+    private List<GameObject> stats = new();
+
+
 
     private void Start() { HideItemCard(); }
     public void ShowItemCard(Item item)
@@ -94,7 +97,10 @@ public class ItemCard : MonoBehaviour
                 else if (item.weaponType == Item.WeaponType.Zweihander)
                     transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "zweihander";
 
-                rows[1] = "Damage: " + item.stats["damage"].ToString();
+                for (int i = 0; i < 6; i++)
+                    stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")));
+                stats[0].GetComponent<ItemCardStat>().SetUp("damage", item.stats["damage"]);
+
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
                 rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
                 rows[4] = "Has " + (item.stats["critChance"] / 100).ToString() + "% chance for dealing critical damage";
