@@ -16,13 +16,14 @@ public class ItemCard : MonoBehaviour
     [SerializeField] private Sprite crystalLight;
     [SerializeField] private Sprite crystalDark;
 
+    [SerializeField] private List<GameObject> crystalSlots;
+
+    [SerializeField] private GameObject statPrefab;
+
 
     private void Start() { HideItemCard(); }
     public void ShowItemCard(Item item)
     {
-        // Reset magic crystals
-        for (int i = 0; i < item.magicCrystals.Count; i++)
-            transform.Find("CrystalSlot" + i).gameObject.SetActive(false);
 
         if (isOpen)
         {
@@ -35,6 +36,7 @@ public class ItemCard : MonoBehaviour
             isOpen = true;
             gameObject.SetActive(true);
 
+            // Correcting position
             Vector3 itemPos = item.gameObject.transform.position;
             if (itemPos.x > 1300)
                 itemPos = new(itemPos.x - 570, itemPos.y);
@@ -55,9 +57,6 @@ public class ItemCard : MonoBehaviour
             // Item name
             transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = item.itemName;
 
-            // Item description
-            transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = item.description;
-
             // Item stats
             string[] rows = new string[12]; // 12 rows
 
@@ -65,35 +64,35 @@ public class ItemCard : MonoBehaviour
             if (item.slotType == Slot.SlotType.WeaponMelee)
             {
                 if (item.twoHanded)
-                    rows[0] = "Two handed ";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Two handed ";
                 else
-                    rows[0] = "One handed ";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "One handed ";
                 if (item.weaponType == Item.WeaponType.Whip)
-                    rows[0] += "whip";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "whip";
                 else if (item.weaponType == Item.WeaponType.Dagger)
-                    rows[0] += "dagger";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "dagger";
                 else if (item.weaponType == Item.WeaponType.Sword)
-                    rows[0] += "sword";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "sword";
                 else if (item.weaponType == Item.WeaponType.Rapier)
-                    rows[0] += "rapier";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "rapier";
                 else if (item.weaponType == Item.WeaponType.Axe)
-                    rows[0] += "axe";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "axe";
                 else if (item.weaponType == Item.WeaponType.Mace)
-                    rows[0] += "mace";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "mace";
                 else if (item.weaponType == Item.WeaponType.Hammer_oneHanded)
-                    rows[0] += "hammer";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "hammer";
                 else if (item.weaponType == Item.WeaponType.QuarterStaff)
-                    rows[0] += "quarter staff";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "quarter staff";
                 else if (item.weaponType == Item.WeaponType.Spear)
-                    rows[0] += "spear";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "spear";
                 else if (item.weaponType == Item.WeaponType.Longsword)
-                    rows[0] += "longsword";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "longsword";
                 else if (item.weaponType == Item.WeaponType.Halbert)
-                    rows[0] += "halbert";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "halbert";
                 else if (item.weaponType == Item.WeaponType.Hammer_twoHanded)
-                    rows[0] += "hammer";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "hammer";
                 else if (item.weaponType == Item.WeaponType.Zweihander)
-                    rows[0] += "zweihander";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "zweihander";
 
                 rows[1] = "Damage: " + item.stats["damage"].ToString();
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
@@ -108,33 +107,33 @@ public class ItemCard : MonoBehaviour
             else if (item.slotType == Slot.SlotType.WeaponRanged)
             {
                 if (item.twoHanded)
-                    rows[0] = "Two handed ";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Two handed ";
                 else
-                    rows[0] = "One handed ";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "One handed ";
                 if (item.weaponType == Item.WeaponType.Bow)
-                    rows[0] += "bow";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "bow";
                 else if (item.weaponType == Item.WeaponType.SMG)
-                    rows[0] += "smg";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "smg";
                 else if (item.weaponType == Item.WeaponType.Pistol)
-                    rows[0] += "pistol";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "pistol";
                 else if (item.weaponType == Item.WeaponType.AttackRifle)
-                    rows[0] += "attack rifle";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "attack rifle";
                 else if (item.weaponType == Item.WeaponType.Thrower)
-                    rows[0] += "thrower";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "thrower";
                 else if (item.weaponType == Item.WeaponType.Longbow)
-                    rows[0] += "longbow";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "longbow";
                 else if (item.weaponType == Item.WeaponType.Crossbow)
-                    rows[0] += "crossbow";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "crossbow";
                 else if (item.weaponType == Item.WeaponType.Shotgun)
-                    rows[0] += "shotgun";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "shotgun";
                 else if (item.weaponType == Item.WeaponType.Revolver)
-                    rows[0] += "revolver";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "revolver";
                 else if (item.weaponType == Item.WeaponType.Machinegun)
-                    rows[0] += "machinegun";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "machinegun";
                 else if (item.weaponType == Item.WeaponType.SniperRifle)
-                    rows[0] += "sniper rifle";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "sniper rifle";
                 else if (item.weaponType == Item.WeaponType.Launcher)
-                    rows[0] += "launcher";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "launcher";
 
                 rows[1] = "Damage: " + item.stats["damage"].ToString();
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
@@ -151,14 +150,14 @@ public class ItemCard : MonoBehaviour
             {
                 // One handed / two handed
                 if (item.twoHanded)
-                    rows[0] = "Two handed ";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Two handed ";
                 else
-                    rows[0] = "One handed ";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "One handed ";
                 // Stuff / book / etc.
                 if (item.itemName.ToLower().Contains("book"))
-                    rows[0] += "book";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "book";
                 else if (item.itemName.ToLower().Contains("staff"))
-                    rows[0] += "staff";
+                    transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "staff";
 
                 rows[1] = "Damage: " + item.stats["damage"].ToString();
                 rows[2] = "Penetration: " + item.stats["penetration"].ToString();
@@ -176,7 +175,7 @@ public class ItemCard : MonoBehaviour
                 {
                     for (int i = 0; i < item.magicCrystals.Count; i++)
                     {
-                        GameObject crystal = transform.Find("CrystalSlot" + i).gameObject;
+                        GameObject crystal = crystalSlots[i];
                         crystal.SetActive(true);
                         switch (item.magicCrystals[i])
                         {
@@ -302,12 +301,24 @@ public class ItemCard : MonoBehaviour
                 text += "\n";
             }
             transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = text;
+
+            // Item description
+            transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "\n" + item.description;
         }
     }
 
     public void HideItemCard()
     {
-        gameObject.SetActive(false);
         isOpen = false;
+
+        // Reset magic crystals
+        foreach (GameObject go in crystalSlots)
+            go.SetActive(false);
+
+        // Reset stats
+        for (int i = 0; i < transform.Find("ItemStats").transform.childCount; i++)
+            Destroy(transform.Find("ItemStats").transform.GetChild(i).gameObject);
+
+        gameObject.SetActive(false);
     }
 }

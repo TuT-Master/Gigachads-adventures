@@ -69243,7 +69243,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1837913412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000000097723}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -84136,7 +84136,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3734202625462859643}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.4552e-10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -84205,7 +84205,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8412402865527111170}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.000000018625}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -84431,7 +84431,7 @@ GameObject:
   - component: {fileID: 2546582180596510546}
   - component: {fileID: 897747799721506647}
   m_Layer: 0
-  m_Name: ItemCardGFX
+  m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84480,7 +84480,7 @@ GameObject:
   - component: {fileID: 9110785555648078617}
   - component: {fileID: 4952626116490624928}
   m_Layer: 0
-  m_Name: Image
+  m_Name: ItemImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84499,8 +84499,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1259219900491848412}
-  - {fileID: 4380106914899490923}
   - {fileID: 1374179264072203714}
+  - {fileID: 4380106914899490923}
   - {fileID: 2139689774515369254}
   - {fileID: 471272224}
   - {fileID: 1837913413}
@@ -84613,6 +84613,12 @@ MonoBehaviour:
     type: 3}
   crystalLight: {fileID: 0}
   crystalDark: {fileID: 0}
+  crystalSlots:
+  - {fileID: 6353194016708761377}
+  - {fileID: 7662935154071824337}
+  - {fileID: 1779081820562276510}
+  statPrefab: {fileID: 5486964600627827273, guid: 17590dc8068063844905639978c33db3,
+    type: 3}
 --- !u!224 &7973748719840225488
 RectTransform:
   m_ObjectHideFlags: 0
@@ -84676,7 +84682,7 @@ GameObject:
   - component: {fileID: 4141178247155989533}
   - component: {fileID: 420908200490094956}
   m_Layer: 0
-  m_Name: Description
+  m_Name: ItemDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
