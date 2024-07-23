@@ -20,6 +20,10 @@ public class ItemCard : MonoBehaviour
     private void Start() { HideItemCard(); }
     public void ShowItemCard(Item item)
     {
+        // Reset magic crystals
+        for (int i = 0; i < item.magicCrystals.Count; i++)
+            transform.Find("CrystalSlot" + i).gameObject.SetActive(false);
+
         if (isOpen)
         {
             if (isOpen)
