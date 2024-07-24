@@ -18,6 +18,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     public Dictionary<string, float> playerSkillBonusStats_MagicWater;
     public Dictionary<string, float> playerSkillBonusStats_MagicEarth;
     public Dictionary<string, float> playerSkillBonusStats_MagicAir;
+    public Dictionary<string, float> playerSkillBonusStats_MagicLight;
+    public Dictionary<string, float> playerSkillBonusStats_MagicDark;
 
     [Header("Player default stats")]
     #region Default stats setup
@@ -93,6 +95,14 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private int exp_magicEarth;
     [SerializeField]
     private int level_magicEarth;
+    [SerializeField]
+    private int exp_magicLight;
+    [SerializeField]
+    private int level_magicLight;
+    [SerializeField]
+    private int exp_magicDark;
+    [SerializeField]
+    private int level_magicDark;
     [SerializeField]
     private int skillPoints;
     [SerializeField]
@@ -194,6 +204,10 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "level_magicWater", level_magicWater },
             { "exp_magicEarth", exp_magicEarth },
             { "level_magicEarth", level_magicEarth },
+            { "exp_magicLight", exp_magicLight },
+            { "level_magicLight", level_magicLight},
+            { "exp_magicDark", exp_magicDark },
+            { "level_magicDark", level_magicDark },
             { "skillPoints", skillPoints },
             { "skillIssue", skillIssue },
             { "backpackSize", backpackSize },
@@ -207,7 +221,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         playerSkillBonusStats_TwoHandedDexterity = playerSkillBonusStats_TwoHandedStrength =
         playerSkillBonusStats_RangedDexterity = playerSkillBonusStats_RangedStrength =
         playerSkillBonusStats_MagicAir = playerSkillBonusStats_MagicEarth =
-        playerSkillBonusStats_MagicWater = playerSkillBonusStats_MagicFire = new()
+        playerSkillBonusStats_MagicWater = playerSkillBonusStats_MagicFire =
+        playerSkillBonusStats_MagicLight = playerSkillBonusStats_MagicDark = new()
         {
             {"damage", 0 },
             {"accuracyBonus", 0 },
@@ -315,6 +330,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         { "level_magicAir", "exp_magicAir" },
         { "level_magicWater", "exp_magicWater" },
         { "level_magicEarth", "exp_magicEarth" },
+        { "level_magicLight", "exp_magicLight" },
+        { "level_magicDark", "exp_magicDark" },
     };
     private void CheckForLevelUp()
     {
@@ -418,6 +435,33 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         yield return new WaitForSeconds(3f);
 
         getsDamage = false;
+    }
+
+    public Dictionary<string, float> GetNonMagicSkillBonusStats(WeaponClass weaponClass)
+    {
+        return weaponClass switch
+        {
+            WeaponClass.OneHandDexterity => playerSkillBonusStats_OneHandedDexterity,
+            WeaponClass.OneHandStrenght => playerSkillBonusStats_OneHandedStrength,
+            WeaponClass.TwoHandDexterity => playerSkillBonusStats_TwoHandedDexterity,
+            WeaponClass.TwoHandStrenght => playerSkillBonusStats_TwoHandedStrength,
+            WeaponClass.RangeDexterity => playerSkillBonusStats_RangedDexterity,
+            WeaponClass.RangeStrenght => playerSkillBonusStats_RangedStrength,
+            _ => null
+        };
+    }
+    public Dictionary<string, float> GetMagicSkillBonusStats(Item.MagicCrystalType crystalType)
+    {
+        return crystalType switch
+        {
+            Item.MagicCrystalType.Fire => playerSkillBonusStats_MagicFire,
+            Item.MagicCrystalType.Water => playerSkillBonusStats_MagicWater,
+            Item.MagicCrystalType.Air => playerSkillBonusStats_MagicAir,
+            Item.MagicCrystalType.Earth => playerSkillBonusStats_MagicEarth,
+            Item.MagicCrystalType.Light => playerSkillBonusStats_MagicLight,
+            Item.MagicCrystalType.Dark => playerSkillBonusStats_MagicDark,
+            _ => null
+        };
     }
 
     public void UpdateEquipment()
