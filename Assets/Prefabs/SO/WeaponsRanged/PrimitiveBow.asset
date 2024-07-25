@@ -35,11 +35,13 @@ MonoBehaviour:
   penetration: 3
   armorIgnore: 0
   attackSpeed: 0.5
+  critDamage: 0
+  critChance: 0
   staminaCost: 10
   manaCost: 0
   currentMagazine: 0
   magazineSize: 1
-  reloadTime: 0
+  reloadTime: 2
   spread: 3
   splashDamage: 0
   splashRadius: 0
@@ -47,5 +49,7 @@ MonoBehaviour:
   rangeY: 1
   defense: 10
   weight: 3
+  price: 0
+  upgradedVersionsOfWeapon: {fileID: 0}
   ammo:
   - {fileID: 11400000, guid: 0a9aa93304c54b84aacc6b88bbfae12d, type: 2}

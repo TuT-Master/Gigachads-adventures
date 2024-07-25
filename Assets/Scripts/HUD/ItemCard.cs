@@ -100,30 +100,17 @@ public class ItemCard : MonoBehaviour
                 else if (item.weaponType == Item.WeaponType.Zweihander)
                     transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "zweihander";
 
-                for (int i = 0; i < 5; i++)
+                // Generating stats
+                List<string> _stats = new() { "damage", "penetration", "armorIgnore", "critChance", "critDamage" };
+                for (int i = 0; i < _stats.Count; i++)
+                {
                     stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
-
-                if(playerStats.GetNonMagicSkillBonusStats(item.weaponClass).TryGetValue("damage", out float bonus))
-                    stats[0].SetUp("damage", item.stats["damage"], bonus);
-                else
-                    stats[0].SetUp("damage", item.stats["damage"], 0);
-                if (playerStats.GetNonMagicSkillBonusStats(item.weaponClass).TryGetValue("penetration", out bonus))
-                    stats[0].SetUp("penetration", item.stats["penetration"], bonus);
-                else
-                    stats[0].SetUp("penetration", item.stats["penetration"], 0);
-                if (playerStats.GetNonMagicSkillBonusStats(item.weaponClass).TryGetValue("armorIgnore", out bonus))
-                    stats[0].SetUp("armorIgnore", item.stats["armorIgnore"], bonus);
-                else
-                    stats[0].SetUp("armorIgnore", item.stats["armorIgnore"], 0);
-                if (playerStats.GetNonMagicSkillBonusStats(item.weaponClass).TryGetValue("critChance", out bonus))
-                    stats[0].SetUp("critChance", item.stats["critChance"], bonus);
-                else
-                    stats[0].SetUp("critChance", item.stats["critChance"], 0);
-                if (playerStats.GetNonMagicSkillBonusStats(item.weaponClass).TryGetValue("critDamage", out bonus))
-                    stats[0].SetUp("critDamage", item.stats["critDamage"], bonus);
-                else
-                    stats[0].SetUp("critDamage", item.stats["critDamage"], 0);
-
+                    stats[i].age = (int)playerStats.playerStats["age"];
+                    if (playerStats.GetNonMagicSkillBonusStats(item.weaponClass).TryGetValue(_stats[i], out float bonus))
+                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], bonus);
+                    else
+                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                }
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
@@ -159,15 +146,19 @@ public class ItemCard : MonoBehaviour
                 else if (item.weaponType == Item.WeaponType.Launcher)
                     transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "launcher";
 
-                rows[1] = "Damage: " + item.stats["damage"].ToString();
-                rows[2] = "Penetration: " + item.stats["penetration"].ToString();
-                rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
-                rows[4] = "Magazine: " + item.stats["currentMagazine"].ToString() + "/" + item.stats["magazineSize"].ToString();
-                rows[5] = "Attack speed: " + item.stats["attackSpeed"].ToString() + " /sec";
-                rows[6] = "Reload time: " + item.stats["reloadTime"].ToString() + " sec";
-
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
+                // Generating stats
+                List<string> _stats = new() { "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime" };
+                for (int i = 0; i < _stats.Count; i++)
+                {
+                    stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
+                    stats[i].age = (int)playerStats.playerStats["age"];
+                    if (playerStats.GetNonMagicSkillBonusStats(item.weaponClass).TryGetValue(_stats[i], out float bonus))
+                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], bonus);
+                    else
+                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                }
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
             }
             // Magic weapon
             else if (item.slotType == Slot.SlotType.MagicWeapon)

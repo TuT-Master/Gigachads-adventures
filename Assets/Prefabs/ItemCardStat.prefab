@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Gay
+  m_text: gay
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -96,9 +96,9 @@ MonoBehaviour:
   m_fontSize: 20
   m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 12
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 1024
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 5542231098669592162}
   - component: {fileID: 1689037165145120722}
   m_Layer: 0
-  m_Name: Fill-0
+  m_Name: FillBar_main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,12 +201,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 3286163911610860551, guid: 5cdc280942a357d42836d7597b66b8a4,
+    type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillMethod: 0
+  m_FillAmount: 0.302
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -376,8 +377,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5558617623267723486}
   - {fileID: 5497213419883674646}
+  - {fileID: 5558617623267723486}
   m_Father: {fileID: 915576433251463293}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -414,7 +415,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 3286163911610860551, guid: d58fe0754b85c934a908c4b9765a747a,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -512,7 +514,7 @@ GameObject:
   - component: {fileID: 547846613714847150}
   - component: {fileID: 3259053867274647556}
   m_Layer: 0
-  m_Name: Fill-1
+  m_Name: FillBar_bonus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -566,12 +568,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 3286163911610860551, guid: 87b521333c7ff3b4382488d72f8edb79,
+    type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillMethod: 0
+  m_FillAmount: 0.406
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -635,8 +638,22 @@ MonoBehaviour:
   statValue: {fileID: 4086255796025218071}
   statEffects: {fileID: 100753871238517392}
   bar: {fileID: 1051489491300644655}
-  bar_fill_0: {fileID: 367189750638546592}
-  bar_fill_1: {fileID: 1925546462624496043}
+  fillBar_main: {fileID: 367189750638546592}
+  fillBar_bonus: {fileID: 1925546462624496043}
+  age: 0
+  fillBarMain: {fileID: 3286163911610860551, guid: 41333e18970d69f4385891e25c0aac26,
+    type: 3}
+  fillBarBonus_plus: {fileID: 3286163911610860551, guid: 87b521333c7ff3b4382488d72f8edb79,
+    type: 3}
+  fillBarBonus_minus: {fileID: 3286163911610860551, guid: 5cdc280942a357d42836d7597b66b8a4,
+    type: 3}
+  fillBarBackground: {fileID: 3286163911610860551, guid: d58fe0754b85c934a908c4b9765a747a,
+    type: 3}
+  damage: {fileID: 0}
+  penetration: {fileID: 0}
+  armorIgnore: {fileID: 0}
+  critChance: {fileID: 0}
+  critDamage: {fileID: 0}
 --- !u!1 &6258804391178214900
 GameObject:
   m_ObjectHideFlags: 0

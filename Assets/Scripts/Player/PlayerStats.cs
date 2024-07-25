@@ -213,9 +213,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "backpackSize", backpackSize },
             { "beltSize", beltSize },
             { "pocketSize", pocketSize },
-            {"knockback", knockback },
-            {"increaseArmorByPercentage", increaseArmorByPercentage },
-            {"age", age },
+            { "knockback", knockback },
+            { "increaseArmorByPercentage", increaseArmorByPercentage },
+            { "age", age },
         };
         playerSkillBonusStats_OneHandedDexterity = playerSkillBonusStats_OneHandedStrength =
         playerSkillBonusStats_TwoHandedDexterity = playerSkillBonusStats_TwoHandedStrength =

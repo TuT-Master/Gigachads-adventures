@@ -65,9 +65,14 @@ public class StartScreen : MonoBehaviour, IDataPersistance
     private int[] savedCharacterSprites = new int[3] { 0, 0, 0};
 
 
-
+    void Start()
+    {
+        GetComponent<Image>().color = new Color(1, 1, 1, 0);
+    }
     public void CreateNewCharacter()
     {
+        GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        gameObject.SetActive(true);
         screen_1.SetActive(true);
         screen_2.SetActive(false);
         screen_3.SetActive(false);
