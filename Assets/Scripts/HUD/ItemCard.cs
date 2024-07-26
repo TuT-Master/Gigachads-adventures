@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class ItemCard : MonoBehaviour
 {
@@ -173,17 +174,24 @@ public class ItemCard : MonoBehaviour
                     transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "book";
                 else if (item.itemName.ToLower().Contains("staff"))
                     transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "staff";
-
-                rows[1] = "Damage: " + item.stats["damage"].ToString();
-                rows[2] = "Penetration: " + item.stats["penetration"].ToString();
-                rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
+                // Generating stats
+                List<string> _stats = new() { "damage", "penetration", "armorIgnore" };
+                for (int i = 0; i < _stats.Count; i++)
+                {
+                    stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
+                    stats[i].age = (int)playerStats.playerStats["age"];
+                    // Get skill bonuses depending on magic crystals type and count
+                    float finalBonus = 0f;
+                    foreach(Item.MagicCrystalType crystalType in item.magicSkillBonuses.Keys)
+                        if (playerStats.GetMagicSkillBonusStats(crystalType, item.magicSkillBonuses[crystalType]).TryGetValue(_stats[i], out float bonus))
+                            finalBonus += bonus;
+                    stats[i].SetUp(_stats[i], item.stats[_stats[i]], finalBonus);
+                }
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
 
                 // Used spell
-                rows[5] = "Using " + item.spell.ToString();
 
-
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
 
                 // Magic crystals
                 if (item.magicCrystals != null)
@@ -219,16 +227,26 @@ public class ItemCard : MonoBehaviour
             // Armor
             else if (item.slotType == Slot.SlotType.Head | item.slotType == Slot.SlotType.Torso | item.slotType == Slot.SlotType.Legs | item.slotType == Slot.SlotType.Gloves)
             {
-                rows[1] = "Armor: " + item.armorStats["armor"].ToString();
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
+                // Generating stats
+                List<string> _stats = new() { "armor" };
+                for (int i = 0; i < _stats.Count; i++)
+                {
+                    stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
+                    stats[i].age = (int)playerStats.playerStats["age"];
+                    if (playerStats.GetNonMagicSkillBonusStats(item.weaponClass).TryGetValue(_stats[i], out float bonus))
+                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], bonus);
+                    else
+                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                }
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
             }
             // Equipable
             else if (item.slotType == Slot.SlotType.HeadEquipment | item.slotType == Slot.SlotType.TorsoEquipment | item.slotType == Slot.SlotType.LegsEquipment | item.slotType == Slot.SlotType.GlovesEquipment)
             {
 
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
             }
             // Consumable
             else if (item.slotType == Slot.SlotType.Consumable)
@@ -261,48 +279,59 @@ public class ItemCard : MonoBehaviour
             // Projectile
             else if (item.slotType == Slot.SlotType.Ammo)
             {
-                rows[1] = "Damage: " + item.stats["damage"].ToString();
-                rows[2] = "Penetration: " + item.stats["penetration"].ToString();
-                rows[3] = "Ignores " + (item.stats["armorIgnore"] * 100).ToString() + "% of armor";
-                if (item.stats["splashDamage"] > 0)
+                // Generating stats
+                List<string> _stats = new() { "damage", "penetration", "armorIgnore" };
+                for (int i = 0; i < _stats.Count; i++)
                 {
-                    rows[4] = "Splash damage: " + item.stats["splashDamage"].ToString();
-                    rows[5] = "Splash radius: " + item.stats["splashRadius"].ToString();
+                    stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
+                    stats[i].age = (int)playerStats.playerStats["age"];
+                    stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
                 }
-
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
             }
             // Shield
             else if (item.slotType == Slot.SlotType.Shield)
             {
-                rows[1] = "Defense: " + item.stats["defense"].ToString();
-
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
+                // Generating stats
+                List<string> _stats = new() { "defense" };
+                for (int i = 0; i < _stats.Count; i++)
+                {
+                    stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
+                    stats[i].age = (int)playerStats.playerStats["age"];
+                    stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                }
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
             }
             // Backpack/Belt
             else if (item.slotType == Slot.SlotType.Backpack | item.slotType == Slot.SlotType.Belt)
             {
-                rows[1] = "Inventory slots: +" + item.stats["backpackSize"].ToString();
-
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
+                // Generating stats
+                List<string> _stats = new() { "backpackSize" };
+                for (int i = 0; i < _stats.Count; i++)
+                {
+                    stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
+                    stats[i].age = (int)playerStats.playerStats["age"];
+                    stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                }
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
             }
             // Material
             else if (item.slotType == Slot.SlotType.Material)
             {
 
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
             }
             // Magic crystal
             else if (item.slotType == Slot.SlotType.MagicCrystal)
             {
-                rows[1] = item.crystalType.ToString() + " crystal";
+                transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Magic crystal";
 
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
             }
             else
                 rows[1] = "Tak na tohle (" + item.slotType.ToString() + ") jsem zapomnìl.";

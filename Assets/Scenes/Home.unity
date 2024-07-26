@@ -58003,6 +58003,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8248644224333491186, guid: 46263f1146e6a4d439fbed09bfa30e62,
         type: 3}
+      propertyPath: isActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8248644224333491186, guid: 46263f1146e6a4d439fbed09bfa30e62,
+        type: 3}
       propertyPath: slotType
       value: 4
       objectReference: {fileID: 0}

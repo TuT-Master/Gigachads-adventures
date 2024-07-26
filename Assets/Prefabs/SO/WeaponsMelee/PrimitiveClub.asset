@@ -20,7 +20,7 @@ MonoBehaviour:
   twoHanded: 0
   AoE: 0
   weaponType: 7
-  craftedIn: 4
+  craftedIn: 5
   requieredCraftingLevel: 0
   recipeMaterials:
   - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
@@ -34,11 +34,14 @@ MonoBehaviour:
   penetration: 0
   armorIgnore: 0.5
   attackSpeed: 1
+  critDamage: 0
+  critChance: 0
   staminaCost: 10
   manaCost: 0
   rangeX: 1
   rangeY: 1
   defense: 15
   weight: 3
+  price: 0
   upgradedVersionsOfWeapon: {fileID: 11400000, guid: ad172e728b7382343af51ae61ca283f3,
     type: 2}

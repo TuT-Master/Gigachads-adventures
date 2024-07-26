@@ -439,6 +439,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     public Dictionary<string, float> GetNonMagicSkillBonusStats(WeaponClass weaponClass)
     {
+        Debug.Log(weaponClass.ToString());
         return weaponClass switch
         {
             WeaponClass.OneHandDexterity => playerSkillBonusStats_OneHandedDexterity,
@@ -450,18 +451,38 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             _ => null
         };
     }
-    public Dictionary<string, float> GetMagicSkillBonusStats(Item.MagicCrystalType crystalType)
+    public Dictionary<string, float> GetMagicSkillBonusStats(Item.MagicCrystalType crystalType, float multiplier)
     {
-        return crystalType switch
+        Dictionary<string, float> magicBonuses = new();
+        switch(crystalType)
         {
-            Item.MagicCrystalType.Fire => playerSkillBonusStats_MagicFire,
-            Item.MagicCrystalType.Water => playerSkillBonusStats_MagicWater,
-            Item.MagicCrystalType.Air => playerSkillBonusStats_MagicAir,
-            Item.MagicCrystalType.Earth => playerSkillBonusStats_MagicEarth,
-            Item.MagicCrystalType.Light => playerSkillBonusStats_MagicLight,
-            Item.MagicCrystalType.Dark => playerSkillBonusStats_MagicDark,
-            _ => null
-        };
+            case Item.MagicCrystalType.Fire:
+                foreach(string key in playerSkillBonusStats_MagicFire.Keys)
+                    magicBonuses.Add(key, playerSkillBonusStats_MagicFire[key] * multiplier);
+                break;
+            case Item.MagicCrystalType.Water:
+                foreach (string key in playerSkillBonusStats_MagicWater.Keys)
+                    magicBonuses.Add(key, playerSkillBonusStats_MagicFire[key] * multiplier);
+                break;
+            case Item.MagicCrystalType.Air:
+                foreach (string key in playerSkillBonusStats_MagicAir.Keys)
+                    magicBonuses.Add(key, playerSkillBonusStats_MagicFire[key] * multiplier);
+                break;
+            case Item.MagicCrystalType.Earth:
+                foreach (string key in playerSkillBonusStats_MagicEarth.Keys)
+                    magicBonuses.Add(key, playerSkillBonusStats_MagicFire[key] * multiplier);
+                break;
+            case Item.MagicCrystalType.Light:
+                foreach (string key in playerSkillBonusStats_MagicLight.Keys)
+                    magicBonuses.Add(key, playerSkillBonusStats_MagicFire[key] * multiplier);
+                break;
+            case Item.MagicCrystalType.Dark:
+                foreach (string key in playerSkillBonusStats_MagicDark.Keys)
+                    magicBonuses.Add(key, playerSkillBonusStats_MagicFire[key] * multiplier);
+                break;
+        }
+
+        return magicBonuses;
     }
 
     public void UpdateEquipment()

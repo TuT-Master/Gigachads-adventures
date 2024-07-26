@@ -42,7 +42,7 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             return;
         transform.position = Input.mousePosition;
     }
-    public void OnPointerDown(PointerEventData eventData) { FindAnyObjectByType<ItemCard>().HideItemCard(); }
+    public void OnPointerDown(PointerEventData eventData) { FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include).HideItemCard(); }
     public void OnPointerEnter(PointerEventData eventData) { FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include).ShowItemCard(GetComponent<Item>()); }
     public void OnPointerExit(PointerEventData eventData) { FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include).HideItemCard(); }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -149,6 +150,7 @@ public class Item : MonoBehaviour
 
     // Magic weapons
     public Dictionary<int, MagicCrystalType> magicCrystals;
+    public Dictionary<MagicCrystalType, float> magicSkillBonuses;
 
     // Base upgrading
     public int requieredAge;
@@ -561,6 +563,9 @@ public class Item : MonoBehaviour
         }
 
         UpdateMagicCrystalsByAge((int)FindAnyObjectByType<PlayerStats>().playerStats["age"]);
+
+        if(weaponClass == PlayerStats.WeaponClass.Magic)
+            magicSkillBonuses = new();
     }
 
     private void Update()
@@ -575,6 +580,118 @@ public class Item : MonoBehaviour
             text.text = "nice";
         else
             text.text = amount.ToString();
+
+        // Magic skills bonus
+        if (weaponClass == PlayerStats.WeaponClass.Magic)
+        {
+            Dictionary<MagicCrystalType, int> crystals = new()
+            {
+                { MagicCrystalType.Fire, 0 },
+                { MagicCrystalType.Water, 0 },
+                { MagicCrystalType.Air, 0 },
+                { MagicCrystalType.Earth, 0 },
+                { MagicCrystalType.Light, 0 },
+                { MagicCrystalType.Dark, 0 }
+            };
+
+            for (int i = 0; i < magicCrystals.Count; i++)
+                if (magicCrystals[i] != MagicCrystalType.None)
+                    crystals[magicCrystals[i]]++;
+
+            switch (magicCrystals.Count)
+            {
+                case 1:
+                    if (crystals.Count == 1)
+                    {
+                        foreach (MagicCrystalType type in crystals.Keys)
+                            if (crystals[type] == 1)
+                            {
+                                magicSkillBonuses[type] = 1f;
+                                break;
+                            }
+                    }
+                    break;
+                case 2:
+                    if (crystals.Count == 1)
+                    {
+                        foreach (MagicCrystalType type in crystals.Keys)
+                        {
+                            if (crystals[type] == 1)
+                            {
+                                magicSkillBonuses[type] = 1f;
+                                break;
+                            }
+                            else if (crystals[type] == 2)
+                            {
+                                magicSkillBonuses[type] = 1.15f;
+                                break;
+                            }
+                        }
+                    }
+                    else if (crystals.Count == 2)
+                    {
+                        foreach (MagicCrystalType type in crystals.Keys)
+                        {
+                            if (crystals[type] == 1)
+                            {
+                                magicSkillBonuses[type] = 0.5f;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case 3:
+                    if (crystals.Count == 1)
+                    {
+                        foreach (MagicCrystalType type in crystals.Keys)
+                        {
+                            if (crystals[type] == 1)
+                            {
+                                magicSkillBonuses[type] = 1f;
+                                break;
+                            }
+                            else if (crystals[type] == 2)
+                            {
+                                magicSkillBonuses[type] = 1.15f;
+                                break;
+                            }
+                            else if (crystals[type] == 3)
+                            {
+                                magicSkillBonuses[type] = 1.3f;
+                                break;
+                            }
+                        }
+                    }
+                    else if (crystals.Count == 2)
+                    {
+                        foreach (MagicCrystalType type in crystals.Keys)
+                        {
+                            if (crystals[type] == 1)
+                            {
+                                magicSkillBonuses[type] = 0.5f;
+                                break;
+                            }
+                            else if (crystals[type] == 2)
+                            {
+                                magicSkillBonuses[type] = 1f;
+                                break;
+                            }
+                        }
+                    }
+                    else if (crystals.Count == 3)
+                    {
+                        foreach (MagicCrystalType type in crystals.Keys)
+                        {
+                            if (crystals[type] == 1)
+                            {
+                                magicSkillBonuses[type] = 0.5f;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
 
         // Used spell
         UsedSpell();
