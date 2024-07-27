@@ -649,14 +649,21 @@ MonoBehaviour:
     type: 3}
   fillBarBackground: {fileID: 3286163911610860551, guid: d58fe0754b85c934a908c4b9765a747a,
     type: 3}
-  damage: {fileID: 0}
-  penetration: {fileID: 0}
+  damage: {fileID: 3286163911610860551, guid: cc79e9e04a9b0bc41a9287aa16cd5159, type: 3}
+  penetration: {fileID: 3286163911610860551, guid: ca7a1970bc5d85c43aafad3eafe06646,
+    type: 3}
   armorIgnore: {fileID: 0}
   critChance: {fileID: 0}
   critDamage: {fileID: 0}
   magazineSize: {fileID: 0}
   attackSpeed: {fileID: 0}
   reloadTime: {fileID: 0}
+  statEffectPrefab: {fileID: 4086770601602267188, guid: e36c870d79f73a04e96c6e3f656e9bff,
+    type: 3}
+  _statEffect: 0000000001000000
+  _statEffectSprites:
+  - {fileID: 3286163911610860551, guid: dad01e6b91fcac640b79fcc35633e4a1, type: 3}
+  - {fileID: 3286163911610860551, guid: 639aa393433c1bc46b41c45dc9a8fcc5, type: 3}
 --- !u!1 &6258804391178214900
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +675,7 @@ GameObject:
   - component: {fileID: 100753871238517392}
   - component: {fileID: 3383007095814897957}
   m_Layer: 0
-  m_Name: Stat_smallIcons
+  m_Name: Stat_effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -41,9 +41,11 @@ public class ItemCardStat : MonoBehaviour
     [SerializeField] List<Sprite> _statEffectSprites;
     private Dictionary<ItemCard.StatEffect, Sprite> statEffect_Sprite_pairs;
 
+
     // Its own values
     private float defaultValue;
     private float bonusValue;
+
     // Each stat has its own fillbar max values per age
     private readonly Dictionary<string, List<float>> fillBarMaxValues = new()
     {
@@ -56,11 +58,13 @@ public class ItemCardStat : MonoBehaviour
         {"attackSpeed", new List<float>(){ 5, 10, 15, 20, 40 } },
         {"reloadTime", new List<float>(){ 5, 5, 5, 5, 5 } },
     };
-    //"magazineSize", "attackSpeed", "reloadTime" 
+
+
+
     public void SetUp(string stat, float defaultValue, float bonusValue)
     {
         statEffect_Sprite_pairs = new();
-        for(int i = 0; i < statEffect_Sprite_pairs.Count;  i++)
+        for(int i = 0; i < statEffect_Sprite_pairs.Count; i++)
             statEffect_Sprite_pairs.Add(_statEffect[i], _statEffectSprites[i]);
         this.defaultValue = defaultValue;
         this.bonusValue = bonusValue;
@@ -70,6 +74,7 @@ public class ItemCardStat : MonoBehaviour
             case "damage":
                 statName.text = "Damage";
                 statImage.sprite = damage;
+                AddStatEffect(ItemCard.StatEffect.Poison, 45f);
                 break;
             case "penetration":
                 statName.text = "Penetration";
