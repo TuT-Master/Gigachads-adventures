@@ -654,6 +654,9 @@ MonoBehaviour:
   armorIgnore: {fileID: 0}
   critChance: {fileID: 0}
   critDamage: {fileID: 0}
+  magazineSize: {fileID: 0}
+  attackSpeed: {fileID: 0}
+  reloadTime: {fileID: 0}
 --- !u!1 &6258804391178214900
 GameObject:
   m_ObjectHideFlags: 0
