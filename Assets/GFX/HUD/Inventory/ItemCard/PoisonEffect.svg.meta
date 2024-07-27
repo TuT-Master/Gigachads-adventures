@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a9aecd99ee5918d4397fab8ad86605d2
+guid: dad01e6b91fcac640b79fcc35633e4a1
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -39,16 +39,16 @@ ScriptedImporter:
   spriteData:
     TessellationDetail: 0
     SpriteRect:
-      name: WeightIkonSprite
+      name: 
       originalName: 
-      pivot: {x: 0.5000058, y: 0.49988696}
+      pivot: {x: 0, y: 0}
       alignment: 0
       border: {x: 0, y: 0, z: 0, w: 0}
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 502
-        height: 503
-      spriteID: 27fc3a06258b11d4eb0a6a1d9be7e17b
+        width: 0
+        height: 0
+      spriteID: f848f7ef0c2a3dc4ca6355b0898f321e
     PhysicsOutlines: []
