@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,12 @@ public class ItemCardStat : MonoBehaviour
     [SerializeField] private Sprite attackSpeed;
     [SerializeField] private Sprite reloadTime;
 
+    [Header("Stat effects")]
+    [SerializeField] private GameObject statEffectPrefab;
+    [SerializeField] List<ItemCard.StatEffect> _statEffect;
+    [SerializeField] List<Sprite> _statEffectSprites;
+    private Dictionary<ItemCard.StatEffect, Sprite> statEffect_Sprite_pairs;
+
     // Its own values
     private float defaultValue;
     private float bonusValue;
@@ -52,6 +59,9 @@ public class ItemCardStat : MonoBehaviour
     //"magazineSize", "attackSpeed", "reloadTime" 
     public void SetUp(string stat, float defaultValue, float bonusValue)
     {
+        statEffect_Sprite_pairs = new();
+        for(int i = 0; i < statEffect_Sprite_pairs.Count;  i++)
+            statEffect_Sprite_pairs.Add(_statEffect[i], _statEffectSprites[i]);
         this.defaultValue = defaultValue;
         this.bonusValue = bonusValue;
         // Set up name of stat
@@ -136,8 +146,14 @@ public class ItemCardStat : MonoBehaviour
         }
     }
 
-    public void AddStatEffect()
+    public void AddStatEffect(ItemCard.StatEffect statEffect, float value)
     {
-
+        GameObject newStatEffect = Instantiate(statEffectPrefab, statEffects);
+        newStatEffect.GetComponent<ItemCardStatEffect>().SetUp(statEffect, value, statEffect_Sprite_pairs[statEffect]);
+    }
+    public void RemoveStatEffects()
+    {
+        for (int i = 0; i < statEffects.childCount; i++)
+            Destroy(statEffects.GetChild(i).gameObject);
     }
 }

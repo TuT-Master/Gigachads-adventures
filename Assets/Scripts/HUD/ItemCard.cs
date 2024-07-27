@@ -3,10 +3,28 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR;
 
 public class ItemCard : MonoBehaviour
 {
+    public enum StatEffect
+    {
+        Poison,
+        Bleeding,
+        Burning,
+        Homing,
+        FullSetBonus,
+        AoE,
+        Piercing,
+        FireMagic,
+        WaterMagic,
+        EarthMagic,
+        AirMagic,
+        LightMagic,
+        DarkMagic,
+        BleedingResistance,
+        PoisonResistance,
+    }
+
     private bool isOpen;
     [SerializeField]
     private Sprite itemCardGFX;

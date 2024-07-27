@@ -439,7 +439,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
     public Dictionary<string, float> GetNonMagicSkillBonusStats(WeaponClass weaponClass)
     {
-        Debug.Log(weaponClass.ToString());
         return weaponClass switch
         {
             WeaponClass.OneHandDexterity => playerSkillBonusStats_OneHandedDexterity,
