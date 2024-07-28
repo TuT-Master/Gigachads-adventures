@@ -372,19 +372,29 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
     }
     private void AddStatEffects(Item item, ItemCardStat itemCardStat, string stat)
     {
+        float value = 0f;
         switch (stat)
         {
             case "damage":
                 if (item.AoE)
                     itemCardStat.AddStatEffect(StatEffect.AoE, 0);
-                if (item.stats["poisonDamage"] > 0)
-                    itemCardStat.AddStatEffect(StatEffect.Poison, item.stats["poisonDamage"]);
-                if (item.stats["bleedingDamage"] > 0)
-                    itemCardStat.AddStatEffect(StatEffect.Bleeding, item.stats["bleedingDamage"]);
+                if (item.stats.TryGetValue("poisonDamage", out value) && value > 0)
+                {
+                    itemCardStat.AddStatEffect(StatEffect.Poison, value);
+                    value = 0f;
+                }
+                if (item.stats.TryGetValue("bleedingDamage", out value) && value > 0)
+                {
+                    itemCardStat.AddStatEffect(StatEffect.Bleeding, value);
+                    value = 0f;
+                }
                 break;
             case "penetration":
-                if (item.stats["piercing"] > 0)
-                    itemCardStat.AddStatEffect(StatEffect.Piercing, item.stats["piercing"]);
+                if (item.stats.TryGetValue("piercing", out value) && value > 0)
+                {
+                    itemCardStat.AddStatEffect(StatEffect.Piercing, value);
+                    value = 0f;
+                }
                 break;
         }
     }
