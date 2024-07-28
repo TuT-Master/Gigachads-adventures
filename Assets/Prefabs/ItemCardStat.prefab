@@ -652,7 +652,8 @@ MonoBehaviour:
   damage: {fileID: 3286163911610860551, guid: cc79e9e04a9b0bc41a9287aa16cd5159, type: 3}
   penetration: {fileID: 3286163911610860551, guid: ca7a1970bc5d85c43aafad3eafe06646,
     type: 3}
-  armorIgnore: {fileID: 0}
+  armorIgnore: {fileID: 3286163911610860551, guid: 41502b12e8e58514b9e8c0c1a75c48fa,
+    type: 3}
   critChance: {fileID: 0}
   critDamage: {fileID: 0}
   magazineSize: {fileID: 0}
