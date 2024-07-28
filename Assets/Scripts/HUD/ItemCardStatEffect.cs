@@ -26,7 +26,7 @@ public class ItemCardStatEffect : MonoBehaviour, IPointerEnterHandler, IPointerE
                 effectName.text = "Bleeding";
                 effectDescription.text = "Each hit with this weapon stacks up " + value.ToString() + " bleeding to enemy.";
                 break;
-            case ItemCard.StatEffect.Burning:
+            case ItemCard.StatEffect.BurningChance:
                 effectName.text = "Burning";
                 effectDescription.text = "Each hit has a chance to set enemy on fire.";
                 break;

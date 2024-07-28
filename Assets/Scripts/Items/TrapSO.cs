@@ -32,6 +32,7 @@ public class TrapSO : ScriptableObject
     [SerializeField] private float damage = 0;
     [SerializeField] private float poisonDamage = 0;
     [SerializeField] private float bleedingDamage = 0;
+    [SerializeField] private float burningChance = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
     [SerializeField] private float knockback = 0;
@@ -45,6 +46,7 @@ public class TrapSO : ScriptableObject
             {"damage", damage},
             {"poisonDamage", poisonDamage},
             {"bleedingDamage", bleedingDamage},
+            {"burningChance", burningChance},
             {"penetration", penetration},
             {"armorIgnore", armorIgnore},
             {"knockback", knockback},

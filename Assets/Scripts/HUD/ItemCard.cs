@@ -11,7 +11,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
     {
         Poison,
         Bleeding,
-        Burning,
+        BurningChance,
         Homing,
         FullSetBonus,
         AoE,
@@ -188,6 +188,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         stats[i].SetUp(_stats[i], item.stats[_stats[i]], bonus);
                     else
                         stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                    AddStatEffects(item, stats[i], _stats[i]);
                 }
                 // Adding effects
                 
@@ -222,6 +223,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         if (playerStats.GetMagicSkillBonusStats(crystalType, item.magicSkillBonuses[crystalType]).TryGetValue(_stats[i], out float bonus))
                             finalBonus += bonus;
                     stats[i].SetUp(_stats[i], item.stats[_stats[i]], finalBonus);
+                    AddStatEffects(item, stats[i], _stats[i]);
                 }
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
@@ -275,6 +277,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         stats[i].SetUp(_stats[i], item.stats[_stats[i]], bonus);
                     else
                         stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                    AddStatEffects(item, stats[i], _stats[i]);
                 }
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
@@ -326,6 +329,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
                     stats[i].age = (int)playerStats.playerStats["age"];
                     stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                    AddStatEffects(item, stats[i], _stats[i]);
                 }
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
@@ -378,6 +382,8 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
             case "damage":
                 if (item.AoE)
                     itemCardStat.AddStatEffect(StatEffect.AoE, 0);
+                if (item.selfHoming)
+                    itemCardStat.AddStatEffect(StatEffect.Homing, 0);
                 if (item.stats.TryGetValue("poisonDamage", out value) && value > 0)
                 {
                     itemCardStat.AddStatEffect(StatEffect.Poison, value);
@@ -388,11 +394,28 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     itemCardStat.AddStatEffect(StatEffect.Bleeding, value);
                     value = 0f;
                 }
+                if (item.stats.TryGetValue("burningChance", out value) && value > 0)
+                {
+                    itemCardStat.AddStatEffect(StatEffect.BurningChance, value);
+                    value = 0f;
+                }
                 break;
             case "penetration":
                 if (item.stats.TryGetValue("piercing", out value) && value > 0)
                 {
                     itemCardStat.AddStatEffect(StatEffect.Piercing, value);
+                    value = 0f;
+                }
+                break;
+            case "armor" or "magicResistance":
+                if (item.stats.TryGetValue("bleedingResistance", out value) && value > 0)
+                {
+                    itemCardStat.AddStatEffect(StatEffect.BleedingResistance, value);
+                    value = 0f;
+                }
+                if (item.stats.TryGetValue("poisonResistance", out value) && value > 0)
+                {
+                    itemCardStat.AddStatEffect(StatEffect.PoisonResistance, value);
                     value = 0f;
                 }
                 break;

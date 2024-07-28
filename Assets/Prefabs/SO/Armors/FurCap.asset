@@ -28,5 +28,13 @@ MonoBehaviour:
   hideBeardWhenEquiped: 0
   hideBodyWhenEquiped: 0
   armor: 1
+  magicResistance: 0.5
+  bleedingResistance: 1
+  poisonResistance: 1
   weight: 2
+  price: 15
+  armorSetName: Furry gay armor
+  hpMax: 10
+  staminaMax: 10
+  manaMax: -10
   upgradedVersionsOfArmor: {fileID: 0}

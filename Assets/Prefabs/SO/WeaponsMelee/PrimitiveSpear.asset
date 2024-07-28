@@ -32,11 +32,14 @@ MonoBehaviour:
     type: 3}
   sprite_hand: {fileID: 21300000, guid: e57d2b8c696d2a74a810dbd2e4df4129, type: 3}
   damage: 12
+  poisonDamage: 0
+  bleedingDamage: 0
+  burningChance: 0
   penetration: 2
   armorIgnore: 0
   attackSpeed: 0.8
-  critDamage: 0
-  critChance: 0
+  critDamage: 5
+  critChance: 0.15
   staminaCost: 15
   manaCost: 0
   rangeX: 1.5

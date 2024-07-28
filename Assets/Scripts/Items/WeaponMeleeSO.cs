@@ -31,6 +31,7 @@ public class WeaponMeleeSO : ScriptableObject
     [SerializeField] private float damage = 0;
     [SerializeField] private float poisonDamage = 0;
     [SerializeField] private float bleedingDamage = 0;
+    [SerializeField] private float burningChance = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
     [SerializeField] private float attackSpeed = 0;
@@ -51,6 +52,7 @@ public class WeaponMeleeSO : ScriptableObject
             {"damage", damage},
             {"poisonDamage", poisonDamage},
             {"bleedingDamage", bleedingDamage},
+            {"burningChance", burningChance},
             {"penetration", penetration},
             {"armorIgnore", armorIgnore},
             {"attackSpeed", attackSpeed},

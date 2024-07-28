@@ -30,4 +30,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
   recipeMaterialsAmount: 0a0000000500000002000000
   defense: 50
+  staminaPerBlock: 15
   weight: 10
+  price: 0
+  upgradedVersionsOfShield: {fileID: 0}

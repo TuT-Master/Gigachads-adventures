@@ -24,12 +24,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
   - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
   recipeMaterialsAmount: 0100000001000000
+  selfHoming: 0
   damage: 1
+  poisonDamage: 0
+  bleedingDamage: 5
+  burningChance: 0
   penetration: 0
   armorIgnore: 0
+  piercing: 1
   projectileSpeed: 10
   splashDamage: 0
   splashRadius: 0
   weight: 0.025
   price: 0
-  selfHoming: 0
