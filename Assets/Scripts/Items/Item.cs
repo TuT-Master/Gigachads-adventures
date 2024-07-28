@@ -101,6 +101,8 @@ public class Item : MonoBehaviour
     public bool hideBeardWhenEquiped;
     public bool hideBodyWhenEquiped;
 
+    public bool selfHoming;
+
     // Crafting
     public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
@@ -260,6 +262,7 @@ public class Item : MonoBehaviour
         recipe = new();
         for (int i = 0; i < projectile.recipeMaterials.Count; i++)
             recipe.Add(projectile.recipeMaterials[i], projectile.recipeMaterialsAmount[i]);
+        selfHoming = projectile.selfHoming;
     }
     public Item(ArmorSO armorSO)
     {

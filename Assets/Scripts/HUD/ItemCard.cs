@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemCard : MonoBehaviour
+public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler, IPointerClickHandler
 {
     public enum StatEffect
     {
@@ -24,6 +25,7 @@ public class ItemCard : MonoBehaviour
         BleedingResistance,
         PoisonResistance,
     }
+
 
     private bool isOpen;
     [SerializeField]
@@ -45,8 +47,18 @@ public class ItemCard : MonoBehaviour
     private List<ItemCardStat> stats = new();
     private PlayerStats playerStats;
 
+    [HideInInspector] public bool pointerOnItemUI = false;
+    private bool pointerOnItemCard = false;
 
     private void Start() { HideItemCard(); }
+    private void Update()
+    {
+        if (!isOpen)
+            return;
+
+        if (!pointerOnItemUI && !pointerOnItemCard)
+            HideItemCard();
+    }
     public void ShowItemCard(Item item)
     {
         playerStats = GetComponentInParent<PlayerStats>();
@@ -64,9 +76,9 @@ public class ItemCard : MonoBehaviour
             // Correcting position
             Vector3 itemPos = item.gameObject.transform.position;
             if (itemPos.x > 1300)
-                itemPos = new(itemPos.x - 570, itemPos.y);
+                itemPos = new(itemPos.x - 500, itemPos.y);
             else
-                itemPos = new(itemPos.x + 70, itemPos.y);
+                itemPos = new(itemPos.x, itemPos.y);
             if (itemPos.y > 650)
                 itemPos = new(itemPos.x, itemPos.y - 570);
             else
@@ -82,10 +94,8 @@ public class ItemCard : MonoBehaviour
             // Item name
             transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text = item.itemName;
 
-            // Item stats
-            string[] rows = new string[12]; // 12 rows
-
             // Melle weapon
+            #region
             if (item.slotType == Slot.SlotType.WeaponMelee)
             {
                 if (item.twoHanded)
@@ -129,11 +139,14 @@ public class ItemCard : MonoBehaviour
                         stats[i].SetUp(_stats[i], item.stats[_stats[i]], bonus);
                     else
                         stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                    AddStatEffects(item, stats[i], _stats[i]);
                 }
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
+            #endregion
             // Ranged weapon
+            #region
             else if (item.slotType == Slot.SlotType.WeaponRanged)
             {
                 if (item.twoHanded)
@@ -176,10 +189,15 @@ public class ItemCard : MonoBehaviour
                     else
                         stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
                 }
+                // Adding effects
+                
+                // Weight and price
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
+            #endregion
             // Magic weapon
+            #region
             else if (item.slotType == Slot.SlotType.MagicWeapon)
             {
                 // One handed / two handed
@@ -242,11 +260,13 @@ public class ItemCard : MonoBehaviour
                     }
                 }
             }
+            #endregion
             // Armor
+            #region
             else if (item.slotType == Slot.SlotType.Head | item.slotType == Slot.SlotType.Torso | item.slotType == Slot.SlotType.Legs | item.slotType == Slot.SlotType.Gloves)
             {
                 // Generating stats
-                List<string> _stats = new() { "armor" };
+                List<string> _stats = new() { "armor", "magicResistance" };
                 for (int i = 0; i < _stats.Count; i++)
                 {
                     stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
@@ -259,42 +279,27 @@ public class ItemCard : MonoBehaviour
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
+            #endregion
             // Equipable
+            #region
             else if (item.slotType == Slot.SlotType.HeadEquipment | item.slotType == Slot.SlotType.TorsoEquipment | item.slotType == Slot.SlotType.LegsEquipment | item.slotType == Slot.SlotType.GlovesEquipment)
             {
 
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
+            #endregion
             // Consumable
+            #region
             else if (item.slotType == Slot.SlotType.Consumable)
             {
-                rows[0] = "Consumable";
-                int row = 1;
-                foreach (string stat in item.stats.Keys)
-                    switch (stat)
-                    {
-                        case "hpRefill":
-                            rows[row] = "HP regen: " + item.stats[stat];
-                            row++;
-                            break;
-                        case "staminaRefill":
-                            rows[row] = "Stamina regen: " + item.stats[stat];
-                            row++;
-                            break;
-                        case "manaRefill":
-                            rows[row] = "Mana regen: " + item.stats[stat];
-                            row++;
-                            break;
-                        case "cooldown":
-                            rows[row] = "Cooldown: " + item.stats[stat] + "s";
-                            row++;
-                            break;
-                    }
-                rows[10] = "Weight: " + (item.stats["weight"] * item.amount).ToString() + " Kg";
-                rows[11] = "Cost: " + item.stats["price"].ToString();
+
+                weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
+                price.text = (item.stats["price"] * item.amount).ToString();
             }
+            #endregion
             // Projectile
+            #region
             else if (item.slotType == Slot.SlotType.Ammo)
             {
                 // Generating stats
@@ -304,11 +309,14 @@ public class ItemCard : MonoBehaviour
                     stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
                     stats[i].age = (int)playerStats.playerStats["age"];
                     stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                    AddStatEffects(item, stats[i], _stats[i]);
                 }
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
+            #endregion
             // Shield
+            #region
             else if (item.slotType == Slot.SlotType.Shield)
             {
                 // Generating stats
@@ -322,7 +330,9 @@ public class ItemCard : MonoBehaviour
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
+            #endregion
             // Backpack/Belt
+            #region
             else if (item.slotType == Slot.SlotType.Backpack | item.slotType == Slot.SlotType.Belt)
             {
                 // Generating stats
@@ -336,14 +346,18 @@ public class ItemCard : MonoBehaviour
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
+            #endregion
             // Material
+            #region
             else if (item.slotType == Slot.SlotType.Material)
             {
 
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
+            #endregion
             // Magic crystal
+            #region
             else if (item.slotType == Slot.SlotType.MagicCrystal)
             {
                 transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Magic crystal";
@@ -351,17 +365,35 @@ public class ItemCard : MonoBehaviour
                 weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                 price.text = (item.stats["price"] * item.amount).ToString();
             }
-            else
-                rows[1] = "Tak na tohle (" + item.slotType.ToString() + ") jsem zapomnìl.";
-
+            #endregion
             // Item description
             transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "\n" + item.description;
+        }
+    }
+    private void AddStatEffects(Item item, ItemCardStat itemCardStat, string stat)
+    {
+        switch (stat)
+        {
+            case "damage":
+                if (item.AoE)
+                    itemCardStat.AddStatEffect(StatEffect.AoE, 0);
+                if (item.stats["poisonDamage"] > 0)
+                    itemCardStat.AddStatEffect(StatEffect.Poison, item.stats["poisonDamage"]);
+                if (item.stats["bleedingDamage"] > 0)
+                    itemCardStat.AddStatEffect(StatEffect.Bleeding, item.stats["bleedingDamage"]);
+                break;
+            case "penetration":
+                if (item.stats["piercing"] > 0)
+                    itemCardStat.AddStatEffect(StatEffect.Piercing, item.stats["piercing"]);
+                break;
         }
     }
 
     public void HideItemCard()
     {
         isOpen = false;
+        pointerOnItemUI = false;
+        pointerOnItemCard = false;
 
         // Reset magic crystals
         foreach (GameObject go in crystalSlots)
@@ -371,7 +403,14 @@ public class ItemCard : MonoBehaviour
         for (int i = 0; i < transform.Find("ItemStats").transform.childCount; i++)
             Destroy(transform.Find("ItemStats").transform.GetChild(i).gameObject);
         stats = new();
+        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "";
 
         gameObject.SetActive(false);
     }
+
+
+
+    public void OnPointerExit(PointerEventData eventData) { pointerOnItemCard = false; }
+    public void OnPointerEnter(PointerEventData eventData) { pointerOnItemCard = true; }
+    public void OnPointerClick(PointerEventData eventData) { HideItemCard(); }
 }

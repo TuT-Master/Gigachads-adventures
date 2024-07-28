@@ -26,6 +26,7 @@ public class ArmorSO : ScriptableObject
 
     [Header("Stats")]
     [SerializeField] private float armor;
+    [SerializeField] private float magicResistance;
     [SerializeField] private float weight;
     [SerializeField] private float price;
 
@@ -40,6 +41,7 @@ public class ArmorSO : ScriptableObject
         return new()
         {
             {"armor", armor },
+            {"magicResistance", magicResistance },
             {"weight", weight },
             {"price", price},
         };

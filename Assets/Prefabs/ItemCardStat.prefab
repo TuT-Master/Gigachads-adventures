@@ -660,10 +660,23 @@ MonoBehaviour:
   reloadTime: {fileID: 0}
   statEffectPrefab: {fileID: 4086770601602267188, guid: e36c870d79f73a04e96c6e3f656e9bff,
     type: 3}
-  _statEffect: 0000000001000000
+  _statEffect: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
   _statEffectSprites:
   - {fileID: 3286163911610860551, guid: dad01e6b91fcac640b79fcc35633e4a1, type: 3}
   - {fileID: 3286163911610860551, guid: 639aa393433c1bc46b41c45dc9a8fcc5, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &6258804391178214900
 GameObject:
   m_ObjectHideFlags: 0

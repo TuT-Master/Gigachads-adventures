@@ -21,22 +21,28 @@ public class ProjectileSO : ScriptableObject
 
 
     [Header("Stats")]
+    public bool selfHoming;
     [SerializeField] private float damage = 0;
+    [SerializeField] private float poisonDamage = 0;
+    [SerializeField] private float bleedingDamage = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
+    [SerializeField] private float piercing = 0;
     [SerializeField] private float projectileSpeed = 0;
     [SerializeField] private float splashDamage = 0;
     [SerializeField] private float splashRadius = 0;
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
-    public bool selfHoming;
     public Dictionary<string, float> Stats()
     {
         return new()
         {
             { "damage", damage },
+            { "poisonDamage", poisonDamage},
+            { "bleedingDamage", bleedingDamage},
             { "penetration", penetration },
             { "armorIgnore", armorIgnore },
+            { "piercing", piercing },
             { "projectileSpeed", projectileSpeed },
             { "splashDamage", splashDamage },
             { "splashRadius", splashRadius},

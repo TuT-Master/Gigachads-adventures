@@ -42,10 +42,6 @@ public class ItemCardStat : MonoBehaviour
     private Dictionary<ItemCard.StatEffect, Sprite> statEffect_Sprite_pairs;
 
 
-    // Its own values
-    private float defaultValue;
-    private float bonusValue;
-
     // Each stat has its own fillbar max values per age
     private readonly Dictionary<string, List<float>> fillBarMaxValues = new()
     {
@@ -57,24 +53,28 @@ public class ItemCardStat : MonoBehaviour
         {"magazineSize", new List<float>(){ 15, 20, 40, 100, 500 } },
         {"attackSpeed", new List<float>(){ 5, 10, 15, 20, 40 } },
         {"reloadTime", new List<float>(){ 5, 5, 5, 5, 5 } },
+        {"defense", new List<float>(){ 100, 100, 100, 100, 100 } },
+        {"backpackSize", new List<float>(){ 20, 20, 20, 20, 20 } },
+        {"armor", new List<float>(){ 15, 30, 45, 60, 75 } },
+        {"magicResistance", new List<float>(){ 15, 30, 45, 60, 75 } },
     };
-
+    /*
+    ammo
+    effect (equipables)
+    */
 
 
     public void SetUp(string stat, float defaultValue, float bonusValue)
     {
         statEffect_Sprite_pairs = new();
-        for(int i = 0; i < statEffect_Sprite_pairs.Count; i++)
+        for(int i = 0; i < _statEffect.Count; i++)
             statEffect_Sprite_pairs.Add(_statEffect[i], _statEffectSprites[i]);
-        this.defaultValue = defaultValue;
-        this.bonusValue = bonusValue;
         // Set up name of stat
         switch(stat)
         {
             case "damage":
                 statName.text = "Damage";
                 statImage.sprite = damage;
-                AddStatEffect(ItemCard.StatEffect.Poison, 45f);
                 break;
             case "penetration":
                 statName.text = "Penetration";
@@ -104,46 +104,58 @@ public class ItemCardStat : MonoBehaviour
                 statName.text = "Reload time";
                 statImage.sprite = reloadTime;
                 break;
+            case "defense":
+                statName.text = "Defense";
+                statImage.sprite = reloadTime;
+                break;
+            case "backpackSize":
+                statName.text = "Additional slots";
+                statImage.sprite = reloadTime;
+                break;
+            case "armor":
+                statName.text = "Armor";
+                statImage.sprite = reloadTime;
+                break;
+            case "magicResistance":
+                statName.text = "Magic resistance";
+                statImage.sprite = reloadTime;
+                break;
             default:
                 Debug.Log("Stat not found! Given parameter: " + stat);
                 break;
         }
 
-        // Set up value of stat
-        statValue.text = Math.Round(defaultValue + bonusValue, 2).ToString();
-
-        // Custom stats
+        // Set up values of stat
         if (stat == "armorIgnore")
             statValue.text = Math.Round((defaultValue + bonusValue) * 100, 2).ToString() + "%";
         else if (stat == "attackSpeed")
             statValue.text = Math.Round(defaultValue + bonusValue, 2).ToString() + " / s";
         else if (stat == "reloadTime")
             statValue.text = Math.Round(defaultValue + bonusValue, 2).ToString() + " s";
+        else if (stat == "backpackSize")
+            statValue.text = "+ " + Math.Round(defaultValue + bonusValue, 2).ToString();
+        else
+            statValue.text = Math.Round(defaultValue + bonusValue, 2).ToString();
 
-        UpdateFillBar(fillBarMaxValues[stat][age]);
-    }
-
-    private void UpdateFillBar(float maxValue)
-    {
-        float _mainValue = defaultValue / maxValue;
-        float _bonusValue = (defaultValue + bonusValue) / maxValue;
-        // Main fillBar
+        // Update fillBar
+        float _mainValue = defaultValue / fillBarMaxValues[stat][age];
+        float _bonusValue = (defaultValue + bonusValue) / fillBarMaxValues[stat][age];
+        
         fillBar_main.GetComponent<Image>().sprite = fillBarMain;
         fillBar_main.GetComponent<Image>().type = Image.Type.Filled;
         fillBar_main.GetComponent<Image>().fillMethod = Image.FillMethod.Horizontal;
         fillBar_main.GetComponent<Image>().fillAmount = _mainValue;
-        // Bonus fillBar
+        
         fillBar_bonus.GetComponent<Image>().sprite = fillBarBonus_plus;
         fillBar_bonus.GetComponent<Image>().type = Image.Type.Filled;
         fillBar_bonus.GetComponent<Image>().fillMethod = Image.FillMethod.Horizontal;
-
 
         fillBar_bonus.SetActive(true);
         if (bonusValue == 0)
             fillBar_bonus.SetActive(false);
         else if (bonusValue > 0)
             fillBar_bonus.GetComponent<Image>().fillAmount = _bonusValue;
-        else if(bonusValue < 0)
+        else if (bonusValue < 0)
         {
             fillBar_bonus.GetComponent<Image>().fillAmount = _mainValue;
             fillBar_bonus.GetComponent<Image>().sprite = fillBarBonus_minus;

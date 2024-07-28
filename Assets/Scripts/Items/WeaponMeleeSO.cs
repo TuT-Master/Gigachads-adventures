@@ -29,6 +29,8 @@ public class WeaponMeleeSO : ScriptableObject
 
     [Header("Stats")]
     [SerializeField] private float damage = 0;
+    [SerializeField] private float poisonDamage = 0;
+    [SerializeField] private float bleedingDamage = 0;
     [SerializeField] private float penetration = 0;
     [SerializeField] private float armorIgnore = 0;
     [SerializeField] private float attackSpeed = 0;
@@ -47,6 +49,8 @@ public class WeaponMeleeSO : ScriptableObject
         return new Dictionary<string, float>()
         {
             {"damage", damage},
+            {"poisonDamage", poisonDamage},
+            {"bleedingDamage", bleedingDamage},
             {"penetration", penetration},
             {"armorIgnore", armorIgnore},
             {"attackSpeed", attackSpeed},

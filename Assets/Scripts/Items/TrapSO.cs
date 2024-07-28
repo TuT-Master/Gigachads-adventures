@@ -30,10 +30,10 @@ public class TrapSO : ScriptableObject
 
     [Header("Stats")]
     [SerializeField] private float damage = 0;
-    [SerializeField] private float penetration = 0;
-    [SerializeField] private float armorIgnore = 0;
     [SerializeField] private float poisonDamage = 0;
     [SerializeField] private float bleedingDamage = 0;
+    [SerializeField] private float penetration = 0;
+    [SerializeField] private float armorIgnore = 0;
     [SerializeField] private float knockback = 0;
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
@@ -43,10 +43,10 @@ public class TrapSO : ScriptableObject
         return new Dictionary<string, float>()
         {
             {"damage", damage},
-            {"penetration", penetration},
-            {"armorIgnore", armorIgnore},
             {"poisonDamage", poisonDamage},
             {"bleedingDamage", bleedingDamage},
+            {"penetration", penetration},
+            {"armorIgnore", armorIgnore},
             {"knockback", knockback},
             {"weight", weight},
             {"price", price},

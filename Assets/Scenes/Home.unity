@@ -88936,7 +88936,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -89466,6 +89466,7 @@ MonoBehaviour:
     type: 3}
   weight: {fileID: 1823878485}
   price: {fileID: 1617894594}
+  pointerOnItemUI: 0
 --- !u!224 &7973748719840225488
 RectTransform:
   m_ObjectHideFlags: 0
