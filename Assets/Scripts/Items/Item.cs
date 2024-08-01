@@ -452,6 +452,7 @@ public class Item : MonoBehaviour
         hideHairWhenEquiped = item.hideHairWhenEquiped;
         hideBeardWhenEquiped = item.hideBeardWhenEquiped;
         hideBodyWhenEquiped = item.hideBodyWhenEquiped;
+        fullSetBonus = item.fullSetBonus;
     }
 
 

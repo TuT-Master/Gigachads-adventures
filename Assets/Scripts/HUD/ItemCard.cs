@@ -133,7 +133,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "zweihander";
 
                     // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "critChance", "critDamage" };
+                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "critChance", "critDamage", "defense" };
                     for (int i = 0; i < _stats.Count; i++)
                     {
                         stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
@@ -182,7 +182,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "launcher";
 
                     // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime" };
+                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime", "defense" };
                     for (int i = 0; i < _stats.Count; i++)
                     {
                         stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
@@ -215,7 +215,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     else if (item.itemName.ToLower().Contains("staff"))
                         transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "staff";
                     // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore" };
+                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "defense" };
                     for (int i = 0; i < _stats.Count; i++)
                     {
                         stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
@@ -389,44 +389,23 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 if (item.selfHoming)
                     itemCardStat.AddStatEffect(StatEffect.Homing, 0);
                 if (item.stats.TryGetValue("poisonDamage", out value) && value > 0)
-                {
                     itemCardStat.AddStatEffect(StatEffect.Poison, value);
-                    value = 0f;
-                }
                 if (item.stats.TryGetValue("bleedingDamage", out value) && value > 0)
-                {
                     itemCardStat.AddStatEffect(StatEffect.Bleeding, value);
-                    value = 0f;
-                }
                 if (item.stats.TryGetValue("burningChance", out value) && value > 0)
-                {
                     itemCardStat.AddStatEffect(StatEffect.BurningChance, value);
-                    value = 0f;
-                }
                 break;
             case "penetration":
                 if (item.stats.TryGetValue("piercing", out value) && value > 0)
-                {
                     itemCardStat.AddStatEffect(StatEffect.Piercing, value);
-                    value = 0f;
-                }
                 break;
             case "armor":
                 if (item.armorStats.TryGetValue("bleedingResistance", out value) && value > 0)
-                {
                     itemCardStat.AddStatEffect(StatEffect.BleedingResistance, value);
-                    value = 0f;
-                }
                 if (item.armorStats.TryGetValue("poisonResistance", out value) && value > 0)
-                {
                     itemCardStat.AddStatEffect(StatEffect.PoisonResistance, value);
-                    value = 0f;
-                }
                 if (item.fullSetBonus != null)
-                {
-                    itemCardStat.AddStatEffect(StatEffect.FullSetBonus, item.fullSetBonus);
-                    value = 0f;
-                }
+                    itemCardStat.AddStatEffect_FullSetBonus(StatEffect.FullSetBonus, item.fullSetBonus);
                 break;
         }
     }
