@@ -103,6 +103,9 @@ public class Item : MonoBehaviour
 
     public bool selfHoming;
 
+    // Full-set bonus
+    public Dictionary<string, float> fullSetBonus;
+
     // Crafting
     public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
@@ -283,6 +286,7 @@ public class Item : MonoBehaviour
         hideHairWhenEquiped = armorSO.hideHairWhenEquiped;
         hideBeardWhenEquiped = armorSO.hideBeardWhenEquiped;
         hideBodyWhenEquiped = armorSO.hideBodyWhenEquiped;
+        fullSetBonus = armorSO.FullsetBonus();
     }
     public Item(BackpackSO backpackSO)
     {
@@ -697,7 +701,8 @@ public class Item : MonoBehaviour
         }
 
         // Used spell
-        UsedSpell();
+        if(weaponClass == PlayerStats.WeaponClass.Magic)
+            UsedSpell();
     }
 
     private void UsedSpell()

@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class ItemCardStat : MonoBehaviour
 {
@@ -34,6 +35,10 @@ public class ItemCardStat : MonoBehaviour
     [SerializeField] private Sprite magazineSize;
     [SerializeField] private Sprite attackSpeed;
     [SerializeField] private Sprite reloadTime;
+    [SerializeField] private Sprite defense;
+    [SerializeField] private Sprite additionalSlots;
+    [SerializeField] private Sprite armor;
+    [SerializeField] private Sprite magicResistance;
 
     [Header("Stat effects")]
     [SerializeField] private GameObject statEffectPrefab;
@@ -106,19 +111,19 @@ public class ItemCardStat : MonoBehaviour
                 break;
             case "defense":
                 statName.text = "Defense";
-                statImage.sprite = reloadTime;
+                statImage.sprite = defense;
                 break;
             case "backpackSize":
                 statName.text = "Additional slots";
-                statImage.sprite = reloadTime;
+                statImage.sprite = additionalSlots;
                 break;
             case "armor":
                 statName.text = "Armor";
-                statImage.sprite = reloadTime;
+                statImage.sprite = armor;
                 break;
             case "magicResistance":
                 statName.text = "Magic resistance";
-                statImage.sprite = reloadTime;
+                statImage.sprite = magicResistance;
                 break;
             default:
                 Debug.Log("Stat not found! Given parameter: " + stat);
@@ -167,6 +172,11 @@ public class ItemCardStat : MonoBehaviour
     {
         GameObject newStatEffect = Instantiate(statEffectPrefab, statEffects);
         newStatEffect.GetComponent<ItemCardStatEffect>().SetUp(statEffect, value, statEffect_Sprite_pairs[statEffect]);
+    }
+    public void AddStatEffect(ItemCard.StatEffect statEffect, Dictionary<string, float> values)
+    {
+        GameObject newStatEffect = Instantiate(statEffectPrefab, statEffects);
+        newStatEffect.GetComponent<ItemCardStatEffect>().SetUp(statEffect, values, statEffect_Sprite_pairs[statEffect]);
     }
     public void RemoveStatEffects()
     {

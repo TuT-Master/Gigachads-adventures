@@ -437,7 +437,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         getsDamage = false;
     }
 
-    public Dictionary<string, float> GetNonMagicSkillBonusStats(WeaponClass weaponClass)
+    public Dictionary<string, float> GetSkillBonusStats(WeaponClass weaponClass)
     {
         return weaponClass switch
         {
@@ -450,7 +450,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             _ => null
         };
     }
-    public Dictionary<string, float> GetMagicSkillBonusStats(Item.MagicCrystalType crystalType, float multiplier)
+    public Dictionary<string, float> GetSkillBonusStats(Item.MagicCrystalType crystalType, float multiplier)
     {
         Dictionary<string, float> magicBonuses = new();
         switch(crystalType)

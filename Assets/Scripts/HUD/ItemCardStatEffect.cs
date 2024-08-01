@@ -34,10 +34,6 @@ public class ItemCardStatEffect : MonoBehaviour, IPointerEnterHandler, IPointerE
                 effectName.text = "Homing";
                 effectDescription.text = "This projectile is self-homing.";
                 break;
-            case ItemCard.StatEffect.FullSetBonus:
-                effectName.text = "Full set bonus";
-                effectDescription.text = "";
-                break;
             case ItemCard.StatEffect.AoE:
                 effectName.text = "AoE";
                 effectDescription.text = "Deals damage to all enemies close to the point of collision.";
@@ -45,30 +41,6 @@ public class ItemCardStatEffect : MonoBehaviour, IPointerEnterHandler, IPointerE
             case ItemCard.StatEffect.Piercing:
                 effectName.text = "Piercing";
                 effectDescription.text = "Projectile pierces through up " + value.ToString() + " enemies.";
-                break;
-            case ItemCard.StatEffect.FireMagic:
-                effectName.text = "Fire magic";
-                effectDescription.text = "This weapon is using fire magic";
-                break;
-            case ItemCard.StatEffect.WaterMagic:
-                effectName.text = "Water magic";
-                effectDescription.text = "This weapon is using water magic";
-                break;
-            case ItemCard.StatEffect.EarthMagic:
-                effectName.text = "Earth magic";
-                effectDescription.text = "This weapon is using earth magic";
-                break;
-            case ItemCard.StatEffect.AirMagic:
-                effectName.text = "Air magic";
-                effectDescription.text = "This weapon is using air magic";
-                break;
-            case ItemCard.StatEffect.LightMagic:
-                effectName.text = "Light magic";
-                effectDescription.text = "This weapon is using light magic";
-                break;
-            case ItemCard.StatEffect.DarkMagic:
-                effectName.text = "Dark magic";
-                effectDescription.text = "This weapon is using dark magic";
                 break;
             case ItemCard.StatEffect.BleedingResistance:
                 effectName.text = "Bleeding resistance";
@@ -84,7 +56,29 @@ public class ItemCardStatEffect : MonoBehaviour, IPointerEnterHandler, IPointerE
                 break;
         }
     }
-
+    public void SetUp(ItemCard.StatEffect statEffect, Dictionary<string, float> values, Sprite gfx)
+    {
+        pointerOn = false;
+        GetComponent<Image>().sprite = gfx;
+        effectName.text = "Full-set bonus";
+        foreach (string val in values.Keys)
+        {
+            switch (val)
+            {
+                case "hpMax":
+                    effectDescription.text = "Increases your max healt by " + values[val] + " points";
+                    break;
+                case "staminaMax":
+                    effectDescription.text = "Increases your max stamina by " + values[val] + " points";
+                    break;
+                case "manaMax":
+                    effectDescription.text = "Increases your max mana by " + values[val] + " points";
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         pointerOn = true;

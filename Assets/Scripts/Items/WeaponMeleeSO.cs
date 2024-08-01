@@ -42,6 +42,7 @@ public class WeaponMeleeSO : ScriptableObject
     [SerializeField] private float rangeX = 1;
     [SerializeField] private float rangeY = 1;
     [SerializeField] private float defense = 0;
+    [SerializeField] private float armorIncrease = 0;
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
 
@@ -63,6 +64,7 @@ public class WeaponMeleeSO : ScriptableObject
             {"rangeX", rangeX},
             {"rangeY", rangeY},
             {"defense", defense},
+            {"armorIncrease", armorIncrease},
             {"weight", weight},
             {"price", price},
         };
