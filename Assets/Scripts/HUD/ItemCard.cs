@@ -133,7 +133,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "zweihander";
 
                     // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "critChance", "critDamage" };
+                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "critChance", "critDamage", "defense" };
                     for (int i = 0; i < _stats.Count; i++)
                     {
                         stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
