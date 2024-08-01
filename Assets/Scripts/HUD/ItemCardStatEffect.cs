@@ -56,23 +56,36 @@ public class ItemCardStatEffect : MonoBehaviour, IPointerEnterHandler, IPointerE
                 break;
         }
     }
-    public void SetUp(ItemCard.StatEffect statEffect, Dictionary<string, float> values, Sprite gfx)
+    public void SetUp(Dictionary<string, float> values, Sprite gfx)
     {
         pointerOn = false;
         GetComponent<Image>().sprite = gfx;
         effectName.text = "Full-set bonus";
+        effectDescription.text = "";
         foreach (string val in values.Keys)
         {
             switch (val)
             {
                 case "hpMax":
-                    effectDescription.text = "Increases your max healt by " + values[val] + " points";
+                    effectDescription.text += "Max health ";
+                    if (values[val] > 0)
+                        effectDescription.text += "+" + values[val] + "\n";
+                    else
+                        effectDescription.text += values[val] + "\n";
                     break;
                 case "staminaMax":
-                    effectDescription.text = "Increases your max stamina by " + values[val] + " points";
+                    effectDescription.text += "Max stamina ";
+                    if (values[val] > 0)
+                        effectDescription.text += "+" + values[val] + "\n";
+                    else
+                        effectDescription.text += values[val] + "\n";
                     break;
                 case "manaMax":
-                    effectDescription.text = "Increases your max mana by " + values[val] + " points";
+                    effectDescription.text += "Max mana ";
+                    if (values[val] > 0)
+                        effectDescription.text += "+" + values[val] + "\n";
+                    else
+                        effectDescription.text += values[val] + "\n";
                     break;
                 default:
                     break;

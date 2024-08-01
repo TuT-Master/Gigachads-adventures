@@ -173,10 +173,10 @@ public class ItemCardStat : MonoBehaviour
         GameObject newStatEffect = Instantiate(statEffectPrefab, statEffects);
         newStatEffect.GetComponent<ItemCardStatEffect>().SetUp(statEffect, value, statEffect_Sprite_pairs[statEffect]);
     }
-    public void AddStatEffect(ItemCard.StatEffect statEffect, Dictionary<string, float> values)
+    public void AddStatEffect_FullSetBonus(ItemCard.StatEffect statEffect, Dictionary<string, float> values)
     {
         GameObject newStatEffect = Instantiate(statEffectPrefab, statEffects);
-        newStatEffect.GetComponent<ItemCardStatEffect>().SetUp(statEffect, values, statEffect_Sprite_pairs[statEffect]);
+        newStatEffect.GetComponent<ItemCardStatEffect>().SetUp(values, statEffect_Sprite_pairs[statEffect]);
     }
     public void RemoveStatEffects()
     {
