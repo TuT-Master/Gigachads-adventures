@@ -661,6 +661,10 @@ MonoBehaviour:
   magazineSize: {fileID: 0}
   attackSpeed: {fileID: 0}
   reloadTime: {fileID: 0}
+  defense: {fileID: 3286163911610860551, guid: 22bb22d0e890153408376df7701dadf3, type: 3}
+  additionalSlots: {fileID: 0}
+  armor: {fileID: 0}
+  magicResistance: {fileID: 0}
   statEffectPrefab: {fileID: 4086770601602267188, guid: e36c870d79f73a04e96c6e3f656e9bff,
     type: 3}
   _statEffect: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
