@@ -182,7 +182,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "launcher";
 
                     // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime" };
+                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime", "defense" };
                     for (int i = 0; i < _stats.Count; i++)
                     {
                         stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
@@ -215,7 +215,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     else if (item.itemName.ToLower().Contains("staff"))
                         transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "staff";
                     // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore" };
+                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "defense" };
                     for (int i = 0; i < _stats.Count; i++)
                     {
                         stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
