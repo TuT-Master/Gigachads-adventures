@@ -654,8 +654,10 @@ MonoBehaviour:
     type: 3}
   armorIgnore: {fileID: 3286163911610860551, guid: 41502b12e8e58514b9e8c0c1a75c48fa,
     type: 3}
-  critChance: {fileID: 0}
-  critDamage: {fileID: 0}
+  critChance: {fileID: 3286163911610860551, guid: b701236bb925bec4baa2ccc6e3d2f3b9,
+    type: 3}
+  critDamage: {fileID: 3286163911610860551, guid: 5f6190028a311784aa7e6b78f71c2566,
+    type: 3}
   magazineSize: {fileID: 0}
   attackSpeed: {fileID: 0}
   reloadTime: {fileID: 0}
