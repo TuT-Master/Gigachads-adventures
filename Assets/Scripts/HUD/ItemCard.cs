@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -162,6 +163,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "book";
                     else if (item.itemName.ToLower().Contains("staff"))
                         transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "staff";
+
                     // Generating stats
                     List<string> _stats = new() { "damage", "penetration", "armorIgnore", "defense" };
                     for (int i = 0; i < _stats.Count; i++)
@@ -178,9 +180,6 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     }
                     weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                     price.text = (item.stats["price"] * item.amount).ToString();
-
-                    // Used spell
-
 
                     // Magic crystals
                     if (item.magicCrystals != null)
@@ -217,6 +216,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 #region Armor
                 else if (item.slotType == Slot.SlotType.Head | item.slotType == Slot.SlotType.Torso | item.slotType == Slot.SlotType.Legs | item.slotType == Slot.SlotType.Gloves)
                 {
+                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Armor";
                     // Generating stats
                     List<string> _stats = new() { "armor", "magicResistance" };
                     for (int i = 0; i < _stats.Count; i++)
@@ -236,7 +236,15 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 #region Equipable
                 else if (item.slotType == Slot.SlotType.HeadEquipment | item.slotType == Slot.SlotType.TorsoEquipment | item.slotType == Slot.SlotType.LegsEquipment | item.slotType == Slot.SlotType.GlovesEquipment)
                 {
-
+                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Accessory";
+                    // Generating stats
+                    List<string> _stats = item.armorStats.Keys.ToList();
+                    for (int i = 0; i < _stats.Count; i++)
+                    {
+                        stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
+                        stats[i].age = (int)playerStats.playerStats["age"];
+                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
+                    }
                     weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
@@ -244,6 +252,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 #region Consumable
                 else if (item.slotType == Slot.SlotType.Consumable)
                 {
+                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Consumable";
 
                     weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                     price.text = (item.stats["price"] * item.amount).ToString();
@@ -252,6 +261,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 #region Projectile
                 else if (item.slotType == Slot.SlotType.Ammo)
                 {
+                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Projectile";
                     // Generating stats
                     List<string> _stats = new() { "damage", "penetration", "armorIgnore" };
                     for (int i = 0; i < _stats.Count; i++)
@@ -268,6 +278,11 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 #region Shield
                 else if (item.slotType == Slot.SlotType.Shield)
                 {
+                    if(item.weaponType == Item.WeaponType.HeavyShield)
+                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Heavy shield";
+                    else
+                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Light shield";
+
                     // Generating stats
                     List<string> _stats = new() { "defense" };
                     for (int i = 0; i < _stats.Count; i++)
@@ -284,6 +299,10 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 #region Backpack/Belt
                 else if (item.slotType == Slot.SlotType.Backpack | item.slotType == Slot.SlotType.Belt)
                 {
+                    if(item.slotType == Slot.SlotType.Backpack)
+                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Backpack";
+                    else
+                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Belt";
                     // Generating stats
                     List<string> _stats = new() { "backpackSize" };
                     for (int i = 0; i < _stats.Count; i++)
@@ -299,7 +318,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 #region Material
                 else if (item.slotType == Slot.SlotType.Material)
                 {
-
+                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Material";
                     weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
@@ -308,7 +327,6 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 else if (item.slotType == Slot.SlotType.MagicCrystal)
                 {
                     transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Magic crystal";
-
                     weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
