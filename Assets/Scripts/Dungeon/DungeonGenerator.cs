@@ -381,14 +381,14 @@ public class DungeonGenerator : MonoBehaviour
         Dictionary<Vector2, GameObject> pop = new();
         System.Random random = new();
 
-        // Set min/max count of obstacles, enemies, lootboxes etc depending on difficulty/roomSize/etc.
+        // Set min/max count of obstacles, enemies, lootboxes etc. depending on difficulty/roomSize/etc.
         int tilesCount = (int)(room.GetComponent<DungeonRoom>().size.x * room.GetComponent<DungeonRoom>().size.y * 9);
         int obstacleCount = random.Next(5, (int)(tilesCount * 0.05f));
         int meleeEnemiesCount = random.Next(2, (int)(tilesCount * 0.01f));
         int rangedEnemiesCount = random.Next(1, (int)(tilesCount * 0.005f));
         int lootBoxesCount = random.Next(0, (int)(tilesCount * 0.0075f));
 
-        // Assing obstacles to tiles
+        // Adding obstacles to tiles
         for (int i = 0; i < obstacleCount; i++)
         {
             bool done = false;

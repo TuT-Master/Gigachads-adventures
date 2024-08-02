@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,12 +8,21 @@ public class PlayerInteract : MonoBehaviour
 {
     private List<IInteractable> interactablesInRange = new();
 
+    private readonly float interactablesVisualizationRange = 4f;
+    private readonly float interactablesMaxVisualizationRange = 2f;
+
     private void Update()
     {
         // Show possible interactables near player
-        foreach(var interactable in interactablesInRange)
+        foreach (IInteractable interactable in FindObjectsOfType<MonoBehaviour>().OfType<IInteractable>())
         {
-            Debug.Log(interactable.GetTransform().gameObject.name + " at pos: " + interactable.GetTransform().position);
+            float distance = Vector3.Distance(interactable.GetTransform().position, transform.position);
+            if (distance <= interactablesVisualizationRange)
+            {
+                float f = 1 - ((distance - interactablesMaxVisualizationRange) / (interactablesVisualizationRange - interactablesMaxVisualizationRange));
+                Color color = new(1, 1, 1, f);
+
+            }
         }
 
         // Interaction

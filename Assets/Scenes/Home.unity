@@ -44581,7 +44581,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -76212,6 +76212,7 @@ RectTransform:
   m_Children:
   - {fileID: 1901845526}
   - {fileID: 1476986664}
+  - {fileID: 704793353}
   - {fileID: 556875290}
   - {fileID: 908943665}
   - {fileID: 1813809445}
@@ -76220,10 +76221,9 @@ RectTransform:
   - {fileID: 562437757}
   - {fileID: 356689641}
   - {fileID: 111396874}
-  - {fileID: 1455224806}
   - {fileID: 980569517}
+  - {fileID: 1455224806}
   - {fileID: 5138725911189564878}
-  - {fileID: 704793353}
   m_Father: {fileID: 220485071}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
