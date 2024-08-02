@@ -11,4 +11,6 @@ public class Bed : MonoBehaviour, IInteractable
     public bool CanInteract() { return true; }
 
     public void Interact() { persistanceManager.SaveGame(); }
+
+    public Transform GetTransform() { return transform; }
 }

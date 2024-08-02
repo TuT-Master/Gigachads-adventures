@@ -50,6 +50,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     }
 
     public bool CanInteract() { return !isLocked; }
+    public Transform GetTransform() { return transform; }
 
     private IEnumerator LoadingDelay(GameData data)
     {

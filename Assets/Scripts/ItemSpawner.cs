@@ -83,4 +83,5 @@ public class ItemSpawner : MonoBehaviour, IInteractable
     }
 
     public bool CanInteract() { return true; }
+    public Transform GetTransform() { return transform; }
 }

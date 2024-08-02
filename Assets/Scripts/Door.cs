@@ -41,6 +41,8 @@ public class Door : MonoBehaviour, IInteractable
         }
     }
 
+    public Transform GetTransform() { return transform; }
+
     private IEnumerator UseDoors()
     {
         canInteract = false;

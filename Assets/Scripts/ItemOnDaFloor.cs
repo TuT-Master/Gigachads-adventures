@@ -31,4 +31,6 @@ public class ItemOnDaFloor : MonoBehaviour, IInteractable
         FindAnyObjectByType<PlayerInteract>().RemoveInteractable(this);
         Destroy(gameObject);
     }
+
+    public Transform GetTransform() { return transform; }
 }

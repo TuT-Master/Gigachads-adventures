@@ -9,6 +9,13 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
+        // Show possible interactables near player
+        foreach(var interactable in interactablesInRange)
+        {
+            Debug.Log(interactable.GetTransform().gameObject.name + " at pos: " + interactable.GetTransform().position);
+        }
+
+        // Interaction
         if (Input.GetButtonDown("Interact") && interactablesInRange.Count > 0)
         {
             try
