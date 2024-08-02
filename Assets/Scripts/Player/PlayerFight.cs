@@ -107,10 +107,7 @@ public class PlayerFight : MonoBehaviour
         {
             // Full-auto weapons (only ranged weapons)
             if (itemInHand != null && itemInHand.fullAuto && canAttackAgain)
-            {
-                Debug.Log("Full-auto range attack!");
                 RangedAttack();
-            }
         }
 
         // RMB - Defending

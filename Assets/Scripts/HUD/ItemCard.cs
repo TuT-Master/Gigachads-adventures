@@ -97,8 +97,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 // Item name
                 transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text = item.itemName;
 
-                // Melle weapon
-                #region
+                #region Melle weapon
                 if (item.slotType == Slot.SlotType.WeaponMelee)
                 {
                     if (item.twoHanded)
@@ -123,8 +122,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
                 #endregion
-                // Ranged weapon
-                #region
+                #region Ranged weapon
                 else if (item.slotType == Slot.SlotType.WeaponRanged)
                 {
                     if (item.twoHanded)
@@ -145,15 +143,13 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                             stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
                         AddStatEffects(item, stats[i], _stats[i]);
                     }
-                    // Adding effects
 
                     // Weight and price
                     weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
                 #endregion
-                // Magic weapon
-                #region
+                #region Magic weapon
                 else if (item.slotType == Slot.SlotType.MagicWeapon)
                 {
                     // One handed / two handed
@@ -218,8 +214,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     }
                 }
                 #endregion
-                // Armor
-                #region
+                #region Armor
                 else if (item.slotType == Slot.SlotType.Head | item.slotType == Slot.SlotType.Torso | item.slotType == Slot.SlotType.Legs | item.slotType == Slot.SlotType.Gloves)
                 {
                     // Generating stats
@@ -238,8 +233,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     price.text = (item.armorStats["price"] * item.amount).ToString();
                 }
                 #endregion
-                // Equipable
-                #region
+                #region Equipable
                 else if (item.slotType == Slot.SlotType.HeadEquipment | item.slotType == Slot.SlotType.TorsoEquipment | item.slotType == Slot.SlotType.LegsEquipment | item.slotType == Slot.SlotType.GlovesEquipment)
                 {
 
@@ -247,8 +241,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
                 #endregion
-                // Consumable
-                #region
+                #region Consumable
                 else if (item.slotType == Slot.SlotType.Consumable)
                 {
 
@@ -256,8 +249,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
                 #endregion
-                // Projectile
-                #region
+                #region Projectile
                 else if (item.slotType == Slot.SlotType.Ammo)
                 {
                     // Generating stats
@@ -273,8 +265,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
                 #endregion
-                // Shield
-                #region
+                #region Shield
                 else if (item.slotType == Slot.SlotType.Shield)
                 {
                     // Generating stats
@@ -290,8 +281,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
                 #endregion
-                // Backpack/Belt
-                #region
+                #region Backpack/Belt
                 else if (item.slotType == Slot.SlotType.Backpack | item.slotType == Slot.SlotType.Belt)
                 {
                     // Generating stats
@@ -306,8 +296,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
                 #endregion
-                // Material
-                #region
+                #region Material
                 else if (item.slotType == Slot.SlotType.Material)
                 {
 
@@ -315,8 +304,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
                 #endregion
-                // Magic crystal
-                #region
+                #region Magic crystal
                 else if (item.slotType == Slot.SlotType.MagicCrystal)
                 {
                     transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Magic crystal";
@@ -325,6 +313,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     price.text = (item.stats["price"] * item.amount).ToString();
                 }
                 #endregion
+
                 // Item description
                 transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "\n" + item.description;
             }
