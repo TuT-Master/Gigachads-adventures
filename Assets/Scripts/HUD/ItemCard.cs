@@ -105,32 +105,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Two handed ";
                     else
                         transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "One handed ";
-                    if (item.weaponType == Item.WeaponType.Whip)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "whip";
-                    else if (item.weaponType == Item.WeaponType.Dagger)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "dagger";
-                    else if (item.weaponType == Item.WeaponType.Sword)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "sword";
-                    else if (item.weaponType == Item.WeaponType.Rapier)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "rapier";
-                    else if (item.weaponType == Item.WeaponType.Axe)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "axe";
-                    else if (item.weaponType == Item.WeaponType.Mace)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "mace";
-                    else if (item.weaponType == Item.WeaponType.Hammer_oneHanded)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "hammer";
-                    else if (item.weaponType == Item.WeaponType.QuarterStaff)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "quarter staff";
-                    else if (item.weaponType == Item.WeaponType.Spear)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "spear";
-                    else if (item.weaponType == Item.WeaponType.Longsword)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "longsword";
-                    else if (item.weaponType == Item.WeaponType.Halbert)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "halbert";
-                    else if (item.weaponType == Item.WeaponType.Hammer_twoHanded)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "hammer";
-                    else if (item.weaponType == Item.WeaponType.Zweihander)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "zweihander";
+                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += GetWeaponClass(item.weaponType);
 
                     // Generating stats
                     List<string> _stats = new() { "damage", "penetration", "armorIgnore", "critChance", "critDamage", "defense" };
@@ -156,30 +131,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Two handed ";
                     else
                         transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "One handed ";
-                    if (item.weaponType == Item.WeaponType.Bow)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "bow";
-                    else if (item.weaponType == Item.WeaponType.SMG)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "smg";
-                    else if (item.weaponType == Item.WeaponType.Pistol)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "pistol";
-                    else if (item.weaponType == Item.WeaponType.AttackRifle)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "attack rifle";
-                    else if (item.weaponType == Item.WeaponType.Thrower)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "thrower";
-                    else if (item.weaponType == Item.WeaponType.Longbow)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "longbow";
-                    else if (item.weaponType == Item.WeaponType.Crossbow)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "crossbow";
-                    else if (item.weaponType == Item.WeaponType.Shotgun)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "shotgun";
-                    else if (item.weaponType == Item.WeaponType.Revolver)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "revolver";
-                    else if (item.weaponType == Item.WeaponType.Machinegun)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "machinegun";
-                    else if (item.weaponType == Item.WeaponType.SniperRifle)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "sniper rifle";
-                    else if (item.weaponType == Item.WeaponType.Launcher)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "launcher";
+                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += GetWeaponClass(item.weaponType);
 
                     // Generating stats
                     List<string> _stats = new() { "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime", "defense" };
@@ -377,6 +329,42 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "\n" + item.description;
             }
         }
+    }
+    private string GetWeaponClass(Item.WeaponType weaponType)
+    {
+        return weaponType switch
+        {
+            Item.WeaponType.Whip => "whip",
+            Item.WeaponType.Dagger => "dagger",
+            Item.WeaponType.Sword => "sword",
+            Item.WeaponType.Rapier => "rapier",
+            Item.WeaponType.LightShield => "light shield",
+            Item.WeaponType.Axe => "axe",
+            Item.WeaponType.Mace => "mace",
+            Item.WeaponType.Hammer_oneHanded => "hammer",
+            Item.WeaponType.HeavyShield => "heavy shield",
+            Item.WeaponType.QuarterStaff => "quarter staff",
+            Item.WeaponType.Spear => "spear",
+            Item.WeaponType.Longsword => "longsword",
+            Item.WeaponType.Halbert => "halbert",
+            Item.WeaponType.Hammer_twoHanded => "hammer",
+            Item.WeaponType.Zweihander => "zweihander",
+            Item.WeaponType.Bow => "bow",
+            Item.WeaponType.SMG => "smg",
+            Item.WeaponType.Pistol => "pistol",
+            Item.WeaponType.AttackRifle => "attack rifle",
+            Item.WeaponType.Thrower => "thrower",
+            Item.WeaponType.Longbow => "longbow",
+            Item.WeaponType.Crossbow => "crossbow",
+            Item.WeaponType.Shotgun => "shotgun",
+            Item.WeaponType.Revolver => "revolver",
+            Item.WeaponType.Machinegun => "machinegun",
+            Item.WeaponType.SniperRifle => "sniper rifle",
+            Item.WeaponType.Launcher => "launcher",
+            Item.WeaponType.Throwable => "throwable",
+            Item.WeaponType.Trap => "trap",
+            _ => null
+        };
     }
     private void AddStatEffects(Item item, ItemCardStat itemCardStat, string stat)
     {
