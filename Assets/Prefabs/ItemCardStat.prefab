@@ -641,11 +641,11 @@ MonoBehaviour:
   fillBar_main: {fileID: 367189750638546592}
   fillBar_bonus: {fileID: 1925546462624496043}
   age: 0
-  fillBarMain: {fileID: 3286163911610860551, guid: 41333e18970d69f4385891e25c0aac26,
+  fillBarMain: {fileID: 3286163911610860551, guid: c45f9072c47d2cb4d8b87af7b24ef56f,
     type: 3}
-  fillBarBonus_plus: {fileID: 3286163911610860551, guid: 87b521333c7ff3b4382488d72f8edb79,
+  fillBarBonus_plus: {fileID: 3286163911610860551, guid: 1b080bd75dbc534418062148c9930347,
     type: 3}
-  fillBarBonus_minus: {fileID: 3286163911610860551, guid: 5cdc280942a357d42836d7597b66b8a4,
+  fillBarBonus_minus: {fileID: 3286163911610860551, guid: aa66f532e17356547a6f025bb31ee4c5,
     type: 3}
   fillBarBackground: {fileID: 3286163911610860551, guid: d58fe0754b85c934a908c4b9765a747a,
     type: 3}
