@@ -6,10 +6,14 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject interactabilityIcon_prefab;
+    private Dictionary<IInteractable, GameObject> interactabilityIcons = new();
+
     private List<IInteractable> interactablesInRange = new();
 
-    private readonly float interactablesVisualizationRange = 4f;
-    private readonly float interactablesMaxVisualizationRange = 2f;
+    private readonly float interactablesVisualizationRange = 3f;
+    private readonly float interactablesMaxVisualizationRange = 1.5f;
 
     private void Update()
     {
@@ -22,6 +26,24 @@ public class PlayerInteract : MonoBehaviour
                 float f = 1 - ((distance - interactablesMaxVisualizationRange) / (interactablesVisualizationRange - interactablesMaxVisualizationRange));
                 Color color = new(1, 1, 1, f);
 
+                if(interactabilityIcons.ContainsKey(interactable))
+                {
+                    interactabilityIcons[interactable].GetComponentInChildren<SpriteRenderer>().color = color;
+                    interactabilityIcons[interactable].GetComponentInChildren<TextMesh>().color = color;
+                }
+                else
+                {
+                    Vector3 newIconPos = new(interactable.GetTransform().position.x, interactable.GetTransform().position.y, interactable.GetTransform().position.z);
+                    GameObject newIcon = Instantiate(interactabilityIcon_prefab, newIconPos, Quaternion.identity);
+                    newIcon.GetComponentInChildren<SpriteRenderer>().color = color;
+                    newIcon.GetComponentInChildren<TextMesh>().color = color;
+                    interactabilityIcons.Add(interactable, newIcon);
+                }
+            }
+            else if(distance > interactablesVisualizationRange && interactabilityIcons.ContainsKey(interactable))
+            {
+                Destroy(interactabilityIcons[interactable]);
+                interactabilityIcons.Remove(interactable);
             }
         }
 

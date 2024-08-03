@@ -7238,6 +7238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135ca4b6bc1e40f4a8580bdf7b6801e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactabilityIcon_prefab: {fileID: 3923236031759716243, guid: 3b9ee8d99dcb98b439243930f4c1a702,
+    type: 3}
 --- !u!114 &220485080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61219,7 +61221,7 @@ GameObject:
   - component: {fileID: 1631912431}
   - component: {fileID: 1631912430}
   m_Layer: 0
-  m_Name: MaterialCraftingStationb
+  m_Name: MaterialCraftingStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
