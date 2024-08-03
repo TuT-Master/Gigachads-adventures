@@ -8,10 +8,10 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     public Dictionary<string, float> playerStats_default;
 
     // Skill bonuses
-    public Dictionary <string, float> playerSkillBonusStats_OneHandedStrength;
-    public Dictionary <string, float> playerSkillBonusStats_OneHandedDexterity;
-    public Dictionary <string, float> playerSkillBonusStats_TwoHandedStrength;
-    public Dictionary <string, float> playerSkillBonusStats_TwoHandedDexterity;
+    public Dictionary<string, float> playerSkillBonusStats_OneHandedStrength;
+    public Dictionary<string, float> playerSkillBonusStats_OneHandedDexterity;
+    public Dictionary<string, float> playerSkillBonusStats_TwoHandedStrength;
+    public Dictionary<string, float> playerSkillBonusStats_TwoHandedDexterity;
     public Dictionary<string, float> playerSkillBonusStats_RangedStrength;
     public Dictionary<string, float> playerSkillBonusStats_RangedDexterity;
     public Dictionary<string, float> playerSkillBonusStats_MagicFire;

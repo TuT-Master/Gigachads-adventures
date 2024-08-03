@@ -667,12 +667,12 @@ MonoBehaviour:
   defense: {fileID: 3286163911610860551, guid: 22bb22d0e890153408376df7701dadf3, type: 3}
   additionalSlots: {fileID: 3286163911610860551, guid: 8e8c1f0cd759be44eaf9384df1f10674,
     type: 3}
-  armor: {fileID: 3286163911610860551, guid: 2570c4ee7d57f9b4f86e4c27ef57ff52, type: 3}
+  armor: {fileID: 3286163911610860551, guid: dfd2e5d87f2d64e4d8afeecfde2d5c82, type: 3}
   magicResistance: {fileID: 3286163911610860551, guid: 97c2e121cee484a4c967dfbab183a6ae,
     type: 3}
   statEffectPrefab: {fileID: 4086770601602267188, guid: e36c870d79f73a04e96c6e3f656e9bff,
     type: 3}
-  _statEffect: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
+  _statEffect: 000000000100000002000000030000000400000005000000060000000700000008000000
   _statEffectSprites:
   - {fileID: 3286163911610860551, guid: dad01e6b91fcac640b79fcc35633e4a1, type: 3}
   - {fileID: 3286163911610860551, guid: 639aa393433c1bc46b41c45dc9a8fcc5, type: 3}
@@ -683,12 +683,6 @@ MonoBehaviour:
   - {fileID: 3286163911610860551, guid: 9a3f57023fd28eb4ca2e44be94c095ed, type: 3}
   - {fileID: 3286163911610860551, guid: 24cadd11dc154f84ab5f0516d46649dd, type: 3}
   - {fileID: 3286163911610860551, guid: e95d88c9aae5afe4abcd441678ad109c, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &6258804391178214900
 GameObject:
   m_ObjectHideFlags: 0
