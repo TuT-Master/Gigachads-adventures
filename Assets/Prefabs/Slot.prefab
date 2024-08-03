@@ -123,5 +123,6 @@ MonoBehaviour:
   - {fileID: 3286163911610860551, guid: 29c4cf94cf314644e9fa9598ffdc0b77, type: 3}
   - {fileID: 3286163911610860551, guid: 23c2d91bf530205438fa027ff66dd776, type: 3}
   - {fileID: 3286163911610860551, guid: a032b77328b49474381c78e309ff7d1d, type: 3}
+  - {fileID: 3286163911610860551, guid: 7c3317a99352f3646ab0579435538bab, type: 3}
   isActive: 0
   isOcupied: 0
