@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ItemOnDaFloor : MonoBehaviour, IInteractable
 {
-    private Item item;
+    public Item item;
     private bool canInteract;
 
     public void SetUpItemOnDaFloor(Item droppedItem)

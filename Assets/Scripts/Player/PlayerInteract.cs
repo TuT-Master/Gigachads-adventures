@@ -27,7 +27,24 @@ public class PlayerInteract : MonoBehaviour
                 Color color = new(1, 1, 1, f);
                 if (interactable.GetTransform().TryGetComponent(out ItemOnDaFloor itemOnDaFloor))
                 {
+                    if (!interactabilityIcons.ContainsKey(interactable))
+                    {
+                        Vector3 newIconPos = new(interactable.GetTransform().position.x, interactable.GetTransform().position.y, interactable.GetTransform().position.z);
+                        GameObject newIcon = Instantiate(interactabilityIcon_prefab, newIconPos, Quaternion.identity);
+                        interactabilityIcons.Add(interactable, newIcon);
+                    }
 
+                    if (interactablesInRange.Contains(interactable))
+                    {
+                        interactabilityIcons[interactable].GetComponentInChildren<SpriteRenderer>().color = color;
+                        interactabilityIcons[interactable].GetComponentInChildren<TextMesh>().color = color;
+                        interactabilityIcons[interactable].GetComponentInChildren<TextMesh>().text = "Press F to pick up " + itemOnDaFloor.item.itemName;
+                    }
+                    else
+                    {
+                        interactabilityIcons[interactable].GetComponentInChildren<TextMesh>().text = "";
+                        interactabilityIcons[interactable].GetComponentInChildren<SpriteRenderer>().color = new(1, 1, 1, 0);
+                    }
                 }
                 else
                 {
@@ -42,7 +59,6 @@ public class PlayerInteract : MonoBehaviour
                         GameObject newIcon = Instantiate(interactabilityIcon_prefab, newIconPos, Quaternion.identity);
                         newIcon.GetComponentInChildren<SpriteRenderer>().color = color;
                         newIcon.GetComponentInChildren<TextMesh>().color = color;
-                        newIcon.GetComponentInChildren<TextMesh>().text = "";
                         interactabilityIcons.Add(interactable, newIcon);
                     }
 
@@ -64,10 +80,14 @@ public class PlayerInteract : MonoBehaviour
         {
             try
             {
-                if(interactablesInRange[^interactablesInRange.Count].CanInteract())
-                    interactablesInRange[^interactablesInRange.Count].Interact();
-                if (!interactablesInRange[^interactablesInRange.Count].CanInteract())
-                    RemoveInteractable(interactablesInRange[^interactablesInRange.Count]);
+                if(interactablesInRange[0].CanInteract())
+                {
+                    interactablesInRange[0].Interact();
+                    Destroy(interactabilityIcons[interactablesInRange[0]]);
+                    interactabilityIcons.Remove(interactablesInRange[0]);
+                }
+                if (!interactablesInRange[0].CanInteract())
+                    RemoveInteractable(interactablesInRange[0]);
             }
             catch
             {
