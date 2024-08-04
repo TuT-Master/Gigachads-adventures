@@ -18,10 +18,11 @@ public class GameData
     public SerializableDictionary<Transform, string> playerInventory;
 
     // Other inventories
-    public SerializableDictionary<Transform, SerializableDictionary<int, string>> otherInventories;
+    public SerializableDictionary<int, string> otherInventoriesNames;
+    public SerializableDictionary<int, SerializableDictionary<int, string>> otherInventories;
 
     // PlayerBase
-    public SerializableDictionary<PlayerBase.BaseUpgrade, int> baseUpgrades;
+    public SerializableDictionary<BaseUpgrade, int> baseUpgrades;
 
     // Character creation
     public int[] characterSprites;

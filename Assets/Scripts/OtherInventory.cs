@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 {
+    public string otherInventoryName;
+
+    public int otherInventoryId;
+
     public bool isLocked = false;
 
     public bool isOpened;
@@ -18,7 +22,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
     public ItemDatabase itemDatabase;
 
 
-
+    void Start() { otherInventoryName = "Chest"; }
     public void SetUpInventory(Dictionary<int, string> inventory, bool locked)
     {
         this.inventory = inventory;
@@ -57,14 +61,14 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
         yield return new WaitForSeconds(0.1f);
         inventory = new();
         // Loading data from file
-        for (int i = 0; i < data.otherInventories[transform].Count; i++)
+        for (int i = 0; i < data.otherInventories[otherInventoryId].Count; i++)
         {
-            if (data.otherInventories[transform][i] != "")
-                inventory.Add(i, data.otherInventories[transform][i]);
+            if (data.otherInventories[otherInventoryId][i] != "")
+                inventory.Add(i, data.otherInventories[otherInventoryId][i]);
             else
                 inventory.Add(i, null);
         }
-
+        otherInventoryName = data.otherInventoriesNames[otherInventoryId];
         isLocked = false;
         isOpened = false;
         inventorySize = inventory.Count;
@@ -72,7 +76,7 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
 
     public void LoadData(GameData data)
     {
-        if(!saveInv || !data.otherInventories.ContainsKey(transform))
+        if(!saveInv || !data.otherInventories.ContainsKey(otherInventoryId))
             return;
 
         CreateInventoryIfNull();
@@ -96,8 +100,14 @@ public class OtherInventory : MonoBehaviour, IInteractable, IDataPersistance
                 items.Add(i, "");
         }
 
-        if(data.otherInventories.ContainsKey(transform))
-            data.otherInventories.Remove(transform);
-        data.otherInventories.Add(transform, items);
+        // Name
+        data.otherInventoriesNames ??= new();
+        if(data.otherInventoriesNames.ContainsKey(otherInventoryId))
+            data.otherInventoriesNames.Remove(otherInventoryId);
+        data.otherInventoriesNames.Add(otherInventoryId, otherInventoryName);
+        // Inventory
+        if(data.otherInventories.ContainsKey(otherInventoryId))
+            data.otherInventories.Remove(otherInventoryId);
+        data.otherInventories.Add(otherInventoryId, items);
     }
 }

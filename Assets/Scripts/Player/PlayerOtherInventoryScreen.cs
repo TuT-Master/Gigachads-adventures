@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerOtherInventoryScreen : MonoBehaviour
@@ -25,6 +26,9 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
     [SerializeField]
     private GameObject itemPrefab;
 
+    [SerializeField]
+    private TMP_InputField otherInventoryName_text;
+
 
 
     void Start()
@@ -34,6 +38,8 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
         otherInventoryScreen.SetActive(false);
     }
 
+    public void UpdateInventoryName(TextMeshProUGUI textMeshProUGUI) { otherInventoryObj.GetComponent<OtherInventory>().otherInventoryName = textMeshProUGUI.text; }
+    
     public void ShiftClickOnItem(Item item, string parentName)
     {
         // Find parent obj
@@ -86,8 +92,10 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
 
     public void UpdateOtherInventory(GameObject inventory)
     {
+        // Set inventory
         otherInventoryObj = inventory;
         otherInventory = otherInventoryObj.GetComponent<OtherInventory>().inventory;
+        otherInventoryName_text.text = otherInventoryObj.GetComponent<OtherInventory>().otherInventoryName;
 
         for (int i = 0; i < otherInventorySlots.Count; i++)
         {

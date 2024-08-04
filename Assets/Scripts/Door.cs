@@ -63,7 +63,12 @@ public class Door : MonoBehaviour, IInteractable
         
         if(baseDoors)
         {
-            FindAnyObjectByType<VirtualSceneManager>().LoadScene(sceneName);
+            if(sceneName == "Home")
+                FindAnyObjectByType<VirtualSceneManager>().LoadScene(sceneName, VirtualSceneManager.CurrentScene.Shop);
+            else if (sceneName == "Shop")
+                FindAnyObjectByType<VirtualSceneManager>().LoadScene(sceneName, VirtualSceneManager.CurrentScene.Home);
+            else if (sceneName == "Dungeon")
+                FindAnyObjectByType<VirtualSceneManager>().LoadScene(sceneName, VirtualSceneManager.CurrentScene.Home);
         }
         else
         {

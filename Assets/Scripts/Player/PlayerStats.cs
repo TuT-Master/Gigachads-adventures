@@ -265,7 +265,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
 
             // Teleport player home
-            FindAnyObjectByType<VirtualSceneManager>().LoadScene("Home");
+            FindAnyObjectByType<VirtualSceneManager>().LoadScene("Home", VirtualSceneManager.CurrentScene.Dungeon);
 
             // Refill stats
             playerStats["hp"] = playerStats["hpMax"];
