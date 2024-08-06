@@ -9522,8 +9522,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1957144432}
   m_HandleRect: {fileID: 1957144431}
   m_Direction: 2
-  m_Value: 0.9999407
-  m_Size: 0.9125007
+  m_Value: -0.000011335199
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -39481,7 +39481,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -104.658325, y: 0}
+  m_AnchoredPosition: {x: -104.658325, y: 69.99335}
   m_SizeDelta: {x: 156, y: 800}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &946723761
@@ -55745,6 +55745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9eb867d0b9b5e40a2191af153d8d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UICanvas: {fileID: 1959332352}
+  UIParticleSystem: {fileID: 2129412144}
   screen_1: {fileID: 448408043}
   screen_2: {fileID: 1347297391}
   screen_3: {fileID: 1933895757}
@@ -62632,7 +62634,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 494609620}
   m_Direction: 2
   m_Value: -0.0000034986026
-  m_Size: 0.89096504
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

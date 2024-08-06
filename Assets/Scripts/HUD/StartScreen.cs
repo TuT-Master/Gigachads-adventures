@@ -7,6 +7,12 @@ using UnityEngine.UI;
 
 public class StartScreen : MonoBehaviour, IDataPersistance
 {
+    [Header("UI particle effect")]
+    [SerializeField]
+    private Canvas UICanvas;
+    [SerializeField]
+    private ParticleSystem UIParticleSystem;
+
     [Header("Global stuff")]
     [SerializeField]
     private GameObject screen_1;
@@ -112,8 +118,16 @@ public class StartScreen : MonoBehaviour, IDataPersistance
             case 2:
                 screen_3.SetActive(false);
 
+                // Turn off particle effect
+                UIParticleSystem.gameObject.SetActive(false);
+
+                // Reset cameras
+                UICanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
                 // TODO - spawn player into tutorial dungeon
 
+
+                // Close screen and save game
                 gameObject.SetActive(false);
                 FindAnyObjectByType<DataPersistanceManager>().SaveGame();
                 break;
