@@ -88,7 +88,9 @@ public class StartScreen : MonoBehaviour, IDataPersistance
         ChangePic(PicType.Hair, 0, out int nothing);
         ChangePic(PicType.Beard, 0, out nothing);
         ChangePic(PicType.Body, 0, out nothing);
-
+        UIParticleSystem.gameObject.SetActive(true);
+        UICanvas.renderMode = RenderMode.ScreenSpaceCamera;
+        
         // Difficulty settings
         descriptionTextField.text = "Click on any class to see some description here.";
 
@@ -228,15 +230,21 @@ public class StartScreen : MonoBehaviour, IDataPersistance
         switch (type)
         {
             case PicType.Hair:
-                sprites = hairImage.GetComponent<SpriteLibrary>().sprites;
+                if (savedCharacterSprites[2] == 0)
+                    sprites = hairImage.GetComponent<SpriteLibrary>().spritesMale;
+                else if (savedCharacterSprites[2] == 1)
+                    sprites = hairImage.GetComponent<SpriteLibrary>().spritesFemale;
                 text = "Hair types (";
                 break;
             case PicType.Beard:
-                sprites = beardImage.GetComponent<SpriteLibrary>().sprites;
+                if (savedCharacterSprites[2] == 0)
+                    sprites = beardImage.GetComponent<SpriteLibrary>().spritesMale;
+                else if (savedCharacterSprites[2] == 1)
+                    sprites = beardImage.GetComponent<SpriteLibrary>().spritesFemale;
                 text = "Beard types (";
                 break;
             case PicType.Body:
-                sprites = bodyImage.GetComponent<SpriteLibrary>().sprites;
+                sprites = bodyImage.GetComponent<SpriteLibrary>().spritesMale;
                 text = "Body types (";
                 break;
         }
@@ -266,6 +274,23 @@ public class StartScreen : MonoBehaviour, IDataPersistance
                 bodyImage.sprite = sprites[newIndex];
                 bodyText.text = text;
                 savedCharacterSprites[2] = newIndex;
+                // Override hair and beard
+                savedCharacterSprites[0] = 0;
+                savedCharacterSprites[1] = 0;
+                if (savedCharacterSprites[2] == 0)
+                {
+                    beardImage.sprite = beardImage.GetComponent<SpriteLibrary>().spritesMale[0];
+                    hairImage.sprite = hairImage.GetComponent<SpriteLibrary>().spritesMale[0];
+                    beardText.text = "Beard types (1 / " + beardImage.GetComponent<SpriteLibrary>().spritesMale.Count + ")";
+                    hairText.text = "Hair types (1 / " + hairImage.GetComponent<SpriteLibrary>().spritesMale.Count + ")";
+                }
+                else if (savedCharacterSprites[2] == 1)
+                {
+                    beardImage.sprite = beardImage.GetComponent<SpriteLibrary>().spritesFemale[0];
+                    hairImage.sprite = hairImage.GetComponent<SpriteLibrary>().spritesFemale[0];
+                    beardText.text = "Beard types (1 / " + beardImage.GetComponent<SpriteLibrary>().spritesFemale.Count + ")";
+                    hairText.text = "Hair types (1 / " + hairImage.GetComponent<SpriteLibrary>().spritesFemale.Count + ")";
+                }
                 break;
         }
     }
@@ -281,12 +306,26 @@ public class StartScreen : MonoBehaviour, IDataPersistance
     {
         yield return new WaitForEndOfFrame();
         PlayerGFXManager playerGFXManager = transform.parent.parent.GetComponent<PlayerGFXManager>();
-        playerGFXManager.hairObj.GetComponent<SpriteRenderer>().sprite = hairImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[0]];
-        playerGFXManager.beardObj.GetComponent<SpriteRenderer>().sprite = beardImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[1]];
-        playerGFXManager.torsoObj.GetComponent<SpriteRenderer>().sprite = bodyImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[2]];
-        playerGFXManager.defaultHair = hairImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[0]];
-        playerGFXManager.defaultBeard = beardImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[1]];
-        playerGFXManager.defaultBody = bodyImage.GetComponent<SpriteLibrary>().sprites[savedCharacterSprites[2]];
+
+        if (savedCharacterSprites[2] == 0)
+        {
+            // Male
+            playerGFXManager.hairObj.GetComponent<SpriteRenderer>().sprite = hairImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[0]];
+            playerGFXManager.beardObj.GetComponent<SpriteRenderer>().sprite = beardImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[1]];
+            playerGFXManager.defaultHair = hairImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[0]];
+            playerGFXManager.defaultBeard = beardImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[1]];
+            playerGFXManager.defaultBody = bodyImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[2]];
+        }
+        else if(savedCharacterSprites[2] == 1)
+        {
+            // Female
+            playerGFXManager.hairObj.GetComponent<SpriteRenderer>().sprite = hairImage.GetComponent<SpriteLibrary>().spritesFemale[savedCharacterSprites[0]];
+            playerGFXManager.beardObj.GetComponent<SpriteRenderer>().sprite = beardImage.GetComponent<SpriteLibrary>().spritesFemale[savedCharacterSprites[1]];
+            playerGFXManager.defaultHair = hairImage.GetComponent<SpriteLibrary>().spritesFemale[savedCharacterSprites[0]];
+            playerGFXManager.defaultBeard = beardImage.GetComponent<SpriteLibrary>().spritesFemale[savedCharacterSprites[1]];
+            playerGFXManager.defaultBody = bodyImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[2]];
+        }
+        playerGFXManager.torsoObj.GetComponent<SpriteRenderer>().sprite = bodyImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[2]];
     }
     public void SaveData(ref GameData data)
     {
