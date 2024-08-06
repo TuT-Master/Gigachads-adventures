@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5720839755617397147}
   - component: {fileID: 5527795246843831277}
   - component: {fileID: 7387779997689524326}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,8 +138,20 @@ MonoBehaviour:
   sprite_equipBack: {fileID: 0}
   ammo:
   - {fileID: 11400000, guid: 0a9aa93304c54b84aacc6b88bbfae12d, type: 2}
+  hideHairWhenEquiped: 0
+  hideBeardWhenEquiped: 0
+  hideBodyWhenEquiped: 0
+  selfHoming: 0
+  craftedIn: 0
   requieredCraftingLevel: 0
   isRecipe: 0
+  upgradedVersionOfItem: {fileID: 0}
+  crystalType: 0
+  spell: 0
+  requieredAge: 0
+  levelOfUpgrade: 0
+  baseUpgradeType: 0
+  nextLevel: {fileID: 0}
 --- !u!1 &6599278895345260592
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +163,7 @@ GameObject:
   - component: {fileID: 3731456153426996525}
   - component: {fileID: 1717530129125987499}
   - component: {fileID: 3240767394575360442}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

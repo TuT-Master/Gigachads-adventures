@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1518959031413358412}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DescriptionCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 6576685693207782588}
   - component: {fileID: 2291531584054606275}
   - component: {fileID: 6393144588693008974}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EffectName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 5709382884216195319}
   - component: {fileID: 237363664062723377}
   - component: {fileID: 8497523058558943805}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ItemCardStat-effect_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 1077888926563679830}
   - component: {fileID: 5999334020066928313}
   - component: {fileID: 5054063335423893583}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EffectDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +413,7 @@ GameObject:
   - component: {fileID: 5082017472842018821}
   - component: {fileID: 9058580725854160167}
   - component: {fileID: 888484752583655995}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
