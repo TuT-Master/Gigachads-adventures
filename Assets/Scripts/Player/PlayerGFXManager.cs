@@ -129,15 +129,22 @@ public class PlayerGFXManager : MonoBehaviour
         }
 
         // Rotate armor, weapon, shield, etc.
-        if (playerMovement.turn != isTurned)
+        if (playerMovement.turn != isTurned && defaultBody != null)
         {
             bool male = true;
             if (defaultBody.name.Contains("Female"))
                 male = false;
-            headArmor.sprite = GetSpriteByName(headArmor.sprite.name, isTurned, male);
-            headEquipment.sprite = GetSpriteByName(headEquipment.sprite.name, isTurned, male);
-            bodyArmor.sprite = GetSpriteByName(bodyArmor.sprite.name, isTurned, male);
-            bodyEquipment.sprite = GetSpriteByName(bodyEquipment.sprite.name, isTurned, male);
+
+            GameObject armorSlots = GetComponent<PlayerInventory>().armorSlots;
+            GameObject equipmentSlots = GetComponent<PlayerInventory>().equipmentSlots;
+            if (armorSlots.transform.Find("Head").childCount > 0 && armorSlots.transform.Find("Head").GetChild(0).TryGetComponent(out Item item))
+                headArmor.sprite = GetSpriteByName(item.itemName, !isTurned, male);
+            if (equipmentSlots.transform.Find("HeadEquipment").childCount > 0 && armorSlots.transform.Find("Head").GetChild(0).TryGetComponent(out item))
+                headEquipment.sprite = GetSpriteByName(headEquipment.sprite.name, !isTurned, male);
+            if (armorSlots.transform.Find("Torso").childCount > 0 && armorSlots.transform.Find("Head").GetChild(0).TryGetComponent(out item))
+                bodyArmor.sprite = GetSpriteByName(bodyArmor.sprite.name, !isTurned, male);
+            if (equipmentSlots.transform.Find("TorsoEquipment").childCount > 0 && armorSlots.transform.Find("Head").GetChild(0).TryGetComponent(out item))
+                bodyEquipment.sprite = GetSpriteByName(bodyEquipment.sprite.name, !isTurned, male);
 
             isTurned = playerMovement.turn;
         }
@@ -183,10 +190,13 @@ public class PlayerGFXManager : MonoBehaviour
         bodyRenderer.sprite = GetDefaultSpriteByName(defaultBody.name, !playerMovement.turn);
 
 
+        bool male = true;
+        if (defaultBody.name.Contains("Female"))
+            male = false;
         // HeadArmor
         if (headSlot.transform.childCount > 0 && headSlot.transform.GetChild(0).TryGetComponent(out Item item))
         {
-            headArmor.sprite = item.sprite_equip;
+            headArmor.sprite = GetSpriteByName(item.itemName, !isTurned, male);
             CheckVisibility(item);
         }
         else
@@ -194,7 +204,7 @@ public class PlayerGFXManager : MonoBehaviour
         // HeadEquipment
         if (headEquipmentSlot.transform.childCount > 0 && headEquipmentSlot.transform.GetChild(0).TryGetComponent(out item))
         {
-            headEquipment.sprite = item.sprite_equip;
+            headEquipment.sprite = GetSpriteByName(item.itemName, !isTurned, male);
             CheckVisibility(item);
         }
         else
@@ -202,7 +212,7 @@ public class PlayerGFXManager : MonoBehaviour
         // BodyArmor
         if (torsoSlot.transform.childCount > 0 && torsoSlot.transform.GetChild(0).TryGetComponent(out item))
         {
-            bodyArmor.sprite = item.sprite_equip;
+            bodyArmor.sprite = GetSpriteByName(item.itemName, !isTurned, male);
             CheckVisibility(item);
         }
         else
@@ -210,7 +220,7 @@ public class PlayerGFXManager : MonoBehaviour
         // BodyEquipment
         if (torsoEquipmentSlot.transform.childCount > 0 && torsoEquipmentSlot.transform.GetChild(0).TryGetComponent(out item))
         {
-            bodyEquipment.sprite = item.sprite_equip;
+            bodyEquipment.sprite = GetSpriteByName(item.itemName, !isTurned, male);
             CheckVisibility(item);
         }
         else

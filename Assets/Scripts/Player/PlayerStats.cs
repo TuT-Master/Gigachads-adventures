@@ -44,6 +44,12 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     [SerializeField]
     private float armor;
     [SerializeField]
+    private float magicResistance;
+    [SerializeField]
+    private float bleedingResistance;
+    [SerializeField]
+    private float poisonResistance;
+    [SerializeField]
     private float evade;
     [SerializeField]
     private float defense;
@@ -500,6 +506,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "staminaRegen", staminaRegen },
             { "manaRegen", manaRegen },
             { "armor", armor },
+            { "magicResistance", magicResistance },
+            { "bleedingResistance", bleedingResistance },
+            { "poisonResistance", poisonResistance },
             { "evade", evade },
             { "defense", defense },
             { "weight", weight },
@@ -517,6 +526,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             { "staminaRegen", 0 },
             { "manaRegen", 0 },
             { "armor", 0 },
+            { "magicResistance", 0 },
+            { "bleedingResistance", 0 },
+            { "poisonResistance", 0 },
             { "evade", 0 },
             { "defense", 0 },
             { "weight", 0 },
@@ -542,7 +554,8 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         if (armors.Count > 0)
             foreach (Item item in armors)
                 foreach (string key in item.armorStats.Keys)
-                    bonusStats[key] += item.armorStats[key];
+                    if(key.ToLower() != "price")
+                        bonusStats[key] += item.armorStats[key];
 
         // Equipment
         if (equipment.Count > 0)
