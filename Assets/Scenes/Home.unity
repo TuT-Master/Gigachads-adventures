@@ -7266,10 +7266,25 @@ MonoBehaviour:
   defaultHair: {fileID: 0}
   defaultBeard: {fileID: 0}
   defaultBody: {fileID: 0}
+  bodyRenderer: {fileID: 276563455}
+  hairRenderer: {fileID: 667780929}
+  beardRenderer: {fileID: 757338936}
   headArmor: {fileID: 1481234779}
   headEquipment: {fileID: 1945576653}
   bodyArmor: {fileID: 1811394991}
   bodyEquipment: {fileID: 2048631060}
+  playerSpritesFront:
+  - {fileID: 21300000, guid: 0f0c68a3b492fb846aad343e020a6646, type: 3}
+  - {fileID: 21300000, guid: 8301c37a31ab77b4296524e7da25e656, type: 3}
+  - {fileID: 21300000, guid: 59e88c2ef22c0f14788516d49dddde1b, type: 3}
+  - {fileID: 21300000, guid: f5bf8a673b7f5484f951974b8d43e558, type: 3}
+  - {fileID: 21300000, guid: dc9635c61710b814681ae01b4ed7b8b6, type: 3}
+  - {fileID: 3286163911610860551, guid: bbdf0eb35367543479403e2f9dd508ba, type: 3}
+  playerSpritesBack:
+  - {fileID: 21300000, guid: a0f371bbe3938aa47b55d69918c4e37b, type: 3}
+  - {fileID: 21300000, guid: da5e70d7ce537d946b409c78dbd6ba57, type: 3}
+  - {fileID: 21300000, guid: a4927b58a197624419f96da3f13504c0, type: 3}
+  - {fileID: 3286163911610860551, guid: 70b4002bf30703444834999165e1695a, type: 3}
 --- !u!114 &220485081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9522,7 +9537,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1957144431}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 0.9125
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -62855,7 +62870,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 494609620}
   m_Direction: 2
   m_Value: -0.00000069971566
-  m_Size: 0
+  m_Size: 0.8909643
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class PlayerGFXManager : MonoBehaviour
@@ -21,6 +23,12 @@ public class PlayerGFXManager : MonoBehaviour
     public Sprite defaultBody;
 
     [SerializeField]
+    private SpriteRenderer bodyRenderer;
+    [SerializeField]
+    private SpriteRenderer hairRenderer;
+    [SerializeField]
+    private SpriteRenderer beardRenderer;
+    [SerializeField]
     private SpriteRenderer headArmor;
     [SerializeField]
     private SpriteRenderer headEquipment;
@@ -28,6 +36,53 @@ public class PlayerGFXManager : MonoBehaviour
     private SpriteRenderer bodyArmor;
     [SerializeField]
     private SpriteRenderer bodyEquipment;
+
+
+    [SerializeField]
+    private List<Sprite> playerSpritesFront;
+    [SerializeField]
+    private List<Sprite> playerSpritesBack;
+    private Sprite GetDefaultSpriteByName(string name, bool front)
+    {
+        string _name = "";
+        if (name.ToLower().Contains("back"))
+            _name = name.Remove(name.Length - 4);
+        else if (name.ToLower().Contains("front"))
+            _name = name.Remove(name.Length - 5);
+        if (front)
+        {
+            foreach (Sprite sprite in playerSpritesFront)
+                if (sprite.name.Contains(_name))
+                    return sprite;
+        }
+        else
+        {
+            foreach (Sprite sprite in playerSpritesBack)
+                if (sprite.name.Contains(_name))
+                    return sprite;
+        }
+        return null;
+    }
+    private Sprite GetSpriteByName(string itemName, bool front, bool male)
+    {
+        ItemDatabase itemDatabase = GetComponent<PlayerInventory>().itemDatabase;
+        Item item = itemDatabase.GetItemByNameAndAmount(itemName, 1);
+        if(male)
+        {
+            if (front)
+                return item.sprite_equip;
+            else
+                return item.sprite_equipBack;
+        }
+        else
+        {
+            if (front)
+                return item.sprite_equip;
+            else
+                return item.sprite_equipBack;
+        }
+    }
+    private bool isTurned;
 
     private GameObject headSlot;
     private GameObject headEquipmentSlot;
@@ -48,20 +103,9 @@ public class PlayerGFXManager : MonoBehaviour
 
     private void Update()
     {
-        if(!playerMovement.turn)
+        if(playerMovement.turn)
         {
-            // Looking towards player camera
-            hairObj.transform.localPosition = new(0, 0.55f, 0.001f);
-            beardObj.transform.localPosition = new(0, 0.55f, 0.001f);
-            headArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
-            headEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
-            torsoArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
-            torsoEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
-            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, 0.003f);
-            weaponObj.transform.localPosition = new(0, 0.55f, 0.004f);
-        }
-        else
-        {
+            // Player back pics
             hairObj.transform.localPosition = new(0, 0.55f, -0.001f);
             beardObj.transform.localPosition = new(0, 0.55f, -0.001f);
             headArmorObj.transform.localPosition = new(0, 0.55f, -0.001f);
@@ -71,6 +115,32 @@ public class PlayerGFXManager : MonoBehaviour
             secondaryWeaponObj.transform.localPosition = new(0, 0.55f, -0.003f);
             weaponObj.transform.localPosition = new(0, 0.55f, -0.004f);
         }
+        else
+        {
+            // Player front pics
+            hairObj.transform.localPosition = new(0, 0.55f, 0.001f);
+            beardObj.transform.localPosition = new(0, 0.55f, 0.001f);
+            headArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
+            headEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
+            torsoArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
+            torsoEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
+            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, 0.003f);
+            weaponObj.transform.localPosition = new(0, 0.55f, 0.004f);
+        }
+
+        // Rotate armor, weapon, shield, etc.
+        if (playerMovement.turn != isTurned)
+        {
+            bool male = true;
+            if (defaultBody.name.Contains("Female"))
+                male = false;
+            headArmor.sprite = GetSpriteByName(headArmor.sprite.name, isTurned, male);
+            headEquipment.sprite = GetSpriteByName(headEquipment.sprite.name, isTurned, male);
+            bodyArmor.sprite = GetSpriteByName(bodyArmor.sprite.name, isTurned, male);
+            bodyEquipment.sprite = GetSpriteByName(bodyEquipment.sprite.name, isTurned, male);
+
+            isTurned = playerMovement.turn;
+        }
 
         // Check visibility
         if (hideHair)
@@ -79,7 +149,7 @@ public class PlayerGFXManager : MonoBehaviour
         {
             hairObj.SetActive(true);
             if (defaultHair != null)
-                hairObj.GetComponent<SpriteRenderer>().sprite = defaultHair;
+                hairRenderer.sprite = GetDefaultSpriteByName(defaultHair.name, !playerMovement.turn);
         }
         if (hideBeard)
             beardObj.SetActive(false);
@@ -87,7 +157,7 @@ public class PlayerGFXManager : MonoBehaviour
         {
             beardObj.SetActive(true);
             if (defaultBeard != null)
-                beardObj.GetComponent<SpriteRenderer>().sprite = defaultBeard;
+                beardRenderer.sprite = GetDefaultSpriteByName(defaultBeard.name, !playerMovement.turn);
         }
         if (hideBody)
             torsoObj.SetActive(false);
@@ -95,7 +165,7 @@ public class PlayerGFXManager : MonoBehaviour
         {
             torsoObj.SetActive(true);
             if (defaultBody != null)
-                torsoObj.GetComponent<SpriteRenderer>().sprite = defaultBody;
+                bodyRenderer.sprite = GetDefaultSpriteByName(defaultBody.name, !playerMovement.turn);
         }
     }
 
@@ -106,11 +176,12 @@ public class PlayerGFXManager : MonoBehaviour
         hideBody = false;
 
         // Head
-        hairObj.GetComponent<SpriteRenderer>().sprite = defaultHair;
+        hairRenderer.sprite = GetDefaultSpriteByName(defaultHair.name, !playerMovement.turn);
         // Beard
-        beardObj.GetComponent<SpriteRenderer>().sprite = defaultBeard;
+        beardRenderer.sprite = GetDefaultSpriteByName(defaultBeard.name, !playerMovement.turn);
         // Body
-        torsoObj.GetComponent<SpriteRenderer>().sprite = defaultBody;
+        bodyRenderer.sprite = GetDefaultSpriteByName(defaultBody.name, !playerMovement.turn);
+
 
         // HeadArmor
         if (headSlot.transform.childCount > 0 && headSlot.transform.GetChild(0).TryGetComponent(out Item item))
