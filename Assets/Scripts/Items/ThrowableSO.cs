@@ -25,6 +25,11 @@ public class ThrowableSO : ScriptableObject
     public List<int> recipeMaterialsAmount;
 
     public Sprite sprite_inventory;
+    public Sprite sprite_handMale_Front;
+    public Sprite sprite_handMale_Back;
+    public Sprite sprite_handFemale_Front;
+    public Sprite sprite_handFemale_Back;
+
     public Sprite sprite_projectile;
 
     [Header("Stats")]

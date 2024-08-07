@@ -25,7 +25,10 @@ public class WeaponMeleeSO : ScriptableObject
     public List<int> recipeMaterialsAmount;
 
     public Sprite sprite_inventory;
-    public Sprite sprite_hand;
+    public Sprite sprite_handMale_Front;
+    public Sprite sprite_handMale_Back;
+    public Sprite sprite_handFemale_Front;
+    public Sprite sprite_handFemale_Back;
 
     [Header("Stats")]
     [SerializeField] private float damage = 0;

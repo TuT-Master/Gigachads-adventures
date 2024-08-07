@@ -70,16 +70,16 @@ public class PlayerGFXManager : MonoBehaviour
         if(male)
         {
             if (front)
-                return item.sprite_equip;
+                return item.sprite_equipMale_Front;
             else
-                return item.sprite_equipBack;
+                return item.sprite_equipMale_Back;
         }
         else
         {
             if (front)
-                return item.sprite_equip;
+                return item.sprite_equipMale_Front;
             else
-                return item.sprite_equipBack;
+                return item.sprite_equipMale_Back;
         }
     }
     private bool isTurned;

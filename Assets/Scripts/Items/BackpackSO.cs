@@ -10,8 +10,10 @@ public class BackpackSO : ScriptableObject
     public string description;
 
     public Sprite sprite_inventory;
-    public Sprite sprite_equipFront;
-    public Sprite sprite_equipBack;
+    public Sprite sprite_equipMale_Front;
+    public Sprite sprite_equipMale_Back;
+    public Sprite sprite_equipFemale_Front;
+    public Sprite sprite_equipFemale_Back;
 
     public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;

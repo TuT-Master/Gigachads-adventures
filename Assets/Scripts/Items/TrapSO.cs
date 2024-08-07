@@ -26,6 +26,11 @@ public class TrapSO : ScriptableObject
     public List<int> recipeMaterialsAmount;
 
     public Sprite sprite_inventory;
+    public Sprite sprite_handMale_Front;
+    public Sprite sprite_handMale_Back;
+    public Sprite sprite_handFemale_Front;
+    public Sprite sprite_handFemale_Back;
+
     public GameObject model;
 
     [Header("Stats")]
