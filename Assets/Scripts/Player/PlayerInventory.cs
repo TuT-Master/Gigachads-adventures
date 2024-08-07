@@ -86,6 +86,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             UpdatePlayerPicInInventory();
     }
 
+
     void UpdatePlayerPicInInventory()
     {
         // Body
@@ -138,7 +139,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         else
             secondaryHand.color = Color.white;
     }
-
     void UpdateHands()
     {
         // Left hand
@@ -165,6 +165,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             GetComponent<PlayerFight>().secondaryItemInHand = null;
         }
     }
+
 
     public bool TwoHandedWeaponInFirstSlot()
     {
@@ -204,6 +205,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
                     items.Add(ammoSlots.transform.GetChild(i).GetChild(0).GetComponent<Item>());
         return items;
     }
+
 
     void UpdateBackpack()
     {
@@ -258,16 +260,16 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     }
     public void DropItemOnDaFloor(Item item, Vector3 pos, Transform parent)
     {
-        if(parent == null)
-        {
-            GameObject droppedItem = Instantiate(itemOnDaFloorPrefab, pos, Quaternion.identity);
-            droppedItem.GetComponent<ItemOnDaFloor>().SetUpItemOnDaFloor(item);
-        }
+        GameObject droppedItem = null;
+        if (parent == null)
+            droppedItem = Instantiate(itemOnDaFloorPrefab, pos, Quaternion.identity);
         else
-        {
-            GameObject droppedItem = Instantiate(itemOnDaFloorPrefab, pos, Quaternion.identity, parent);
-            droppedItem.GetComponent<ItemOnDaFloor>().SetUpItemOnDaFloor(item);
-        }
+            droppedItem = Instantiate(itemOnDaFloorPrefab, pos, Quaternion.identity, parent);
+        droppedItem.GetComponent<ItemOnDaFloor>().SetUpItemOnDaFloor(item);
+
+        float angle = GetComponent<PlayerMovement>().angleRaw + new System.Random().Next(-15, 15);
+        Vector3 force = GetComponent<PlayerFight>().VectorFromAngle(angle).normalized;
+        droppedItem.GetComponent<Rigidbody>().AddForce(new Vector3(force.z, 0, force.x) * 2, ForceMode.VelocityChange);
     }
 
 
@@ -336,6 +338,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             Time.timeScale = 1f;
         inventoryCanvas.SetActive(toggle);
     }
+
 
     IEnumerator LoadingDelay(GameData data)
     {

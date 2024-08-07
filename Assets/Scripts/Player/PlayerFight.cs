@@ -269,7 +269,7 @@ public class PlayerFight : MonoBehaviour
         }
     }
 
-    Vector3 VectorFromAngle(float angle)
+    public Vector3 VectorFromAngle(float angle)
     {
         angle = (angle + 90) * (float)Math.PI / 180;
         return new((float)Math.Sin(angle), 0, -(float)Math.Cos(angle));
