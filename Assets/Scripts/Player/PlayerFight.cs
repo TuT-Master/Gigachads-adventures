@@ -294,7 +294,7 @@ public class PlayerFight : MonoBehaviour
 
             // TODO - Choose ammo
 
-            List<Item> items = inventory.HasItem(itemInHand.ammo[0].itemName);
+            List<Item> items = inventory.HasAmmo(itemInHand.ammo[0].itemName);
 
             // Find ammo Items in inventory
             List<Item> chosenItems = new();

@@ -44,8 +44,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     private GameObject itemPrefab;
     [SerializeField]
     private GameObject itemOnDaFloorPrefab;
-    [SerializeField]
-    private GameObject itemCardPrefab;
 
     //Player image
     [Header("Player image")]
@@ -58,6 +56,10 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     [SerializeField] private Image torsoEquipment;
     [SerializeField] private Image mainHand;
     [SerializeField] private Image secondaryHand;
+
+    // Ammo slots
+    [Header("Ammo slots")]
+    [SerializeField] private GameObject ammoSlots;
 
 
 
@@ -191,6 +193,15 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             if (backpackInventory.transform.GetChild(i).childCount > 0)
                 if(backpackInventory.transform.GetChild(i).GetChild(0).GetComponent<Item>().itemName == name)
                     items.Add(backpackInventory.transform.GetChild(i).GetChild(0).GetComponent<Item>());
+        return items;
+    }
+    public List<Item> HasAmmo(string name)
+    {
+        List<Item> items = new();
+        for (int i = 0; i < ammoSlots.transform.childCount; i++)
+            if (ammoSlots.transform.GetChild(i).childCount > 0)
+                if (ammoSlots.transform.GetChild(i).GetChild(0).GetComponent<Item>().itemName == name)
+                    items.Add(ammoSlots.transform.GetChild(i).GetChild(0).GetComponent<Item>());
         return items;
     }
 

@@ -8,6 +8,8 @@ public class DataPersistanceManager : MonoBehaviour
     [Header("File Storage Config")]
     [SerializeField] private string playerDataFileName;
 
+    [SerializeField] private GameObject saveMessage;
+
 
 
     public static DataPersistanceManager instance { get; private set; }
@@ -88,6 +90,13 @@ public class DataPersistanceManager : MonoBehaviour
             obj.SaveData(ref gameData);
 
         dataHandler.SaveData(gameData);
+        StartCoroutine(ShowSaveMessage());
+    }
+    private IEnumerator ShowSaveMessage()
+    {
+        saveMessage.SetActive(true);
+        yield return new WaitForSecondsRealtime(1f);
+        saveMessage.SetActive(false);
     }
 
     private List<IDataPersistance> FindAllDataPersistanceObjects()
