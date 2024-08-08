@@ -112,8 +112,8 @@ public class PlayerGFXManager : MonoBehaviour
             headEquipmentObj.transform.localPosition = new(0, 0.55f, -0.004f);
             torsoArmorObj.transform.localPosition = new(0, 0.55f, -0.001f);
             torsoEquipmentObj.transform.localPosition = new(0, 0.55f, -0.002f);
-            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, -0.005f);
-            weaponObj.transform.localPosition = new(0, 0.55f, -0.006f);
+            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, 0.001f);
+            weaponObj.transform.localPosition = new(0, 0.55f, 0.002f);
         }
         else
         {
