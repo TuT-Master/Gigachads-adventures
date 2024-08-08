@@ -9,10 +9,19 @@ public class StatPrefab : MonoBehaviour
 {
     private enum Stat
     {
-        Health,
+        Hp,
         Stamina,
         Mana,
-
+        HpMax,
+        StaminaMax,
+        ManaMax,
+        Armor,
+        MagicResistance,
+        Evade,
+        Defense,
+        Weight,
+        MovementSpeed,
+        Knockback,
     }
     [SerializeField] private Stat stat;
     [SerializeField] private bool isMainStat;
@@ -51,7 +60,7 @@ public class StatPrefab : MonoBehaviour
     {
         return stat switch
         {
-            Stat.Health => playerStats.playerStats["hp"],
+            Stat.Hp => playerStats.playerStats["hp"],
             Stat.Stamina => playerStats.playerStats["stamina"],
             Stat.Mana => playerStats.playerStats["mana"],
             _ => 0f,
@@ -61,7 +70,7 @@ public class StatPrefab : MonoBehaviour
     {
         return stat switch
         {
-            Stat.Health => playerStats.playerStats["hpMax"],
+            Stat.Hp => playerStats.playerStats["hpMax"],
             Stat.Stamina => playerStats.playerStats["staminaMax"],
             Stat.Mana => playerStats.playerStats["manaMax"],
             _ => 0f,
@@ -71,9 +80,9 @@ public class StatPrefab : MonoBehaviour
     {
         return stat switch
         {
-            Stat.Health => playerStats.playerStats_default["hp"],
-            Stat.Stamina => playerStats.playerStats_default["stamina"],
-            Stat.Mana => playerStats.playerStats_default["mana"],
+            Stat.Hp => playerStats.playerBaseStats["hp"],
+            Stat.Stamina => playerStats.playerBaseStats["stamina"],
+            Stat.Mana => playerStats.playerBaseStats["mana"],
             _ => 0f,
         };
     }
@@ -82,7 +91,7 @@ public class StatPrefab : MonoBehaviour
     {
         return stat switch
         {
-            Stat.Health => "Health",
+            Stat.Hp => "Health",
             Stat.Stamina => "Stamina",
             Stat.Mana => "Mana",
             _ => null,

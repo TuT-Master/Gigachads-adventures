@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour, IDataPersistance
 {
     public Dictionary<string, float> playerStats;
-    public Dictionary<string, float> playerStats_default;
+    public Dictionary<string, float> playerBaseStats;
 
     // Skill bonuses
     public Dictionary<string, float> playerSkillBonusStats_OneHandedStrength;
@@ -172,7 +172,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         playerFight = GetComponent<PlayerFight>();
 
 
-        playerStats_default = new()
+        playerBaseStats = new()
         {
             { "hp", hp },
             { "stamina", stamina },
@@ -497,7 +497,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         armors = new();
         equipment = new();
         backpackInventory = new();
-        playerStats_default = new()
+        playerBaseStats = new()
         {
             { "hp", hp },
             { "stamina", stamina },
@@ -603,7 +603,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
         // Send all stats to PlayerStats
         foreach (string key in bonusStats.Keys)
-            playerStats[key] = playerStats_default[key] + bonusStats[key];
+            playerStats[key] = playerBaseStats[key] + bonusStats[key];
 
         GetComponent<PlayerGFXManager>().UpdateGFX();
     }

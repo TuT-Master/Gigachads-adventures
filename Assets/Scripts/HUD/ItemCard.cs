@@ -19,6 +19,8 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
         Piercing,
         BleedingResistance,
         PoisonResistance,
+        Knockback,
+        StunChance,
     }
 
 
