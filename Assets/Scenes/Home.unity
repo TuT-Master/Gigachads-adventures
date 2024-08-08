@@ -7185,6 +7185,9 @@ MonoBehaviour:
   staminaRegen: 1
   manaRegen: 1
   armor: 0
+  magicResistance: 0
+  bleedingResistance: 0
+  poisonResistance: 0
   evade: 0
   defense: 0
   weight: 80
@@ -7285,6 +7288,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: da5e70d7ce537d946b409c78dbd6ba57, type: 3}
   - {fileID: 21300000, guid: a4927b58a197624419f96da3f13504c0, type: 3}
   - {fileID: 3286163911610860551, guid: 70b4002bf30703444834999165e1695a, type: 3}
+  - {fileID: 21300000, guid: 5c547c317f4b0b0428d4f0eb7987fe27, type: 3}
+  - {fileID: 21300000, guid: fc8e6c6a99adbdb4c8ad03dbf7a9cc1d, type: 3}
 --- !u!114 &220485081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9537,7 +9542,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1957144431}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9125
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -62870,7 +62875,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 494609620}
   m_Direction: 2
   m_Value: -0.00000069971566
-  m_Size: 0.8909643
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

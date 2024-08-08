@@ -16,8 +16,14 @@ MonoBehaviour:
   description: Only the finest leather from the finest wolf
   sprite_inventory: {fileID: 3286163911610860551, guid: b6fdb8cbb8700844bb29aa4055486b69,
     type: 3}
-  sprite_equipFront: {fileID: 21300000, guid: 58b866e8be189804bbedd6dd5475c691, type: 3}
-  sprite_equipBack: {fileID: 0}
+  sprite_equipMale_Front: {fileID: 21300000, guid: 58b866e8be189804bbedd6dd5475c691,
+    type: 3}
+  sprite_equipMale_Back: {fileID: 21300000, guid: a168859c1978b4c46abb3ad1321e986a,
+    type: 3}
+  sprite_equipFemale_Front: {fileID: 21300000, guid: 2a5da31675b78f04f8878e15614306fa,
+    type: 3}
+  sprite_equipFemale_Back: {fileID: 21300000, guid: 843a95113c2f2a940a6e19a71a1495fc,
+    type: 3}
   slotType: 9
   craftedIn: 5
   requieredCraftingLevel: 0

@@ -77,9 +77,9 @@ public class PlayerGFXManager : MonoBehaviour
         else
         {
             if (front)
-                return item.sprite_equipMale_Front;
+                return item.sprite_equipFemale_Front;
             else
-                return item.sprite_equipMale_Back;
+                return item.sprite_equipFemale_Back;
         }
     }
     private bool isTurned;
@@ -108,24 +108,24 @@ public class PlayerGFXManager : MonoBehaviour
             // Player back pics
             hairObj.transform.localPosition = new(0, 0.55f, -0.001f);
             beardObj.transform.localPosition = new(0, 0.55f, -0.001f);
-            headArmorObj.transform.localPosition = new(0, 0.55f, -0.001f);
-            headEquipmentObj.transform.localPosition = new(0, 0.55f, -0.002f);
+            headArmorObj.transform.localPosition = new(0, 0.55f, -0.003f);
+            headEquipmentObj.transform.localPosition = new(0, 0.55f, -0.004f);
             torsoArmorObj.transform.localPosition = new(0, 0.55f, -0.001f);
             torsoEquipmentObj.transform.localPosition = new(0, 0.55f, -0.002f);
-            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, -0.003f);
-            weaponObj.transform.localPosition = new(0, 0.55f, -0.004f);
+            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, -0.005f);
+            weaponObj.transform.localPosition = new(0, 0.55f, -0.006f);
         }
         else
         {
             // Player front pics
             hairObj.transform.localPosition = new(0, 0.55f, 0.001f);
             beardObj.transform.localPosition = new(0, 0.55f, 0.001f);
-            headArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
-            headEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
+            headArmorObj.transform.localPosition = new(0, 0.55f, 0.003f);
+            headEquipmentObj.transform.localPosition = new(0, 0.55f, 0.004f);
             torsoArmorObj.transform.localPosition = new(0, 0.55f, 0.001f);
             torsoEquipmentObj.transform.localPosition = new(0, 0.55f, 0.002f);
-            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, 0.003f);
-            weaponObj.transform.localPosition = new(0, 0.55f, 0.004f);
+            secondaryWeaponObj.transform.localPosition = new(0, 0.55f, 0.005f);
+            weaponObj.transform.localPosition = new(0, 0.55f, 0.006f);
         }
 
         // Rotate armor, weapon, shield, etc.
@@ -139,12 +139,12 @@ public class PlayerGFXManager : MonoBehaviour
             GameObject equipmentSlots = GetComponent<PlayerInventory>().equipmentSlots;
             if (armorSlots.transform.Find("Head").childCount > 0 && armorSlots.transform.Find("Head").GetChild(0).TryGetComponent(out Item item))
                 headArmor.sprite = GetSpriteByName(item.itemName, !isTurned, male);
-            if (equipmentSlots.transform.Find("HeadEquipment").childCount > 0 && armorSlots.transform.Find("Head").GetChild(0).TryGetComponent(out item))
-                headEquipment.sprite = GetSpriteByName(headEquipment.sprite.name, !isTurned, male);
-            if (armorSlots.transform.Find("Torso").childCount > 0 && armorSlots.transform.Find("Head").GetChild(0).TryGetComponent(out item))
-                bodyArmor.sprite = GetSpriteByName(bodyArmor.sprite.name, !isTurned, male);
-            if (equipmentSlots.transform.Find("TorsoEquipment").childCount > 0 && armorSlots.transform.Find("Head").GetChild(0).TryGetComponent(out item))
-                bodyEquipment.sprite = GetSpriteByName(bodyEquipment.sprite.name, !isTurned, male);
+            if (equipmentSlots.transform.Find("HeadEquipment").childCount > 0 && armorSlots.transform.Find("HeadEquipment").GetChild(0).TryGetComponent(out item))
+                headEquipment.sprite = GetSpriteByName(item.itemName, !isTurned, male);
+            if (armorSlots.transform.Find("Torso").childCount > 0 && armorSlots.transform.Find("Torso").GetChild(0).TryGetComponent(out item))
+                bodyArmor.sprite = GetSpriteByName(item.itemName, !isTurned, male);
+            if (equipmentSlots.transform.Find("TorsoEquipment").childCount > 0 && armorSlots.transform.Find("TorsoEquipment").GetChild(0).TryGetComponent(out item))
+                bodyEquipment.sprite = GetSpriteByName(item.itemName, !isTurned, male);
 
             isTurned = playerMovement.turn;
         }

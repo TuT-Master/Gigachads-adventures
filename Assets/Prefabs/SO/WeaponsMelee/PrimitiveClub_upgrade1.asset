@@ -29,8 +29,18 @@ MonoBehaviour:
   recipeMaterialsAmount: 010000000200000003000000
   sprite_inventory: {fileID: 3286163911610860551, guid: b577ae89eb0f3c148a177521c91d0721,
     type: 3}
-  sprite_hand: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c, type: 3}
+  sprite_handMale_Front: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c,
+    type: 3}
+  sprite_handMale_Back: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c,
+    type: 3}
+  sprite_handFemale_Front: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c,
+    type: 3}
+  sprite_handFemale_Back: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c,
+    type: 3}
   damage: 13
+  poisonDamage: 0
+  bleedingDamage: 0
+  burningChance: 0
   penetration: 1
   armorIgnore: 0.5
   attackSpeed: 1
@@ -41,6 +51,7 @@ MonoBehaviour:
   rangeX: 1
   rangeY: 1
   defense: 15
+  armorIncrease: 0
   weight: 3
   price: 0
   upgradedVersionsOfWeapon: {fileID: 11400000, guid: 3a03d0f9821162b41a818b83d83e1a51,
