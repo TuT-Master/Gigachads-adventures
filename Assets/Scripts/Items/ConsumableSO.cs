@@ -10,7 +10,10 @@ public class ConsumableSO : ScriptableObject
     public string description;
 
     public Sprite sprite_inventory;
-    public Sprite sprite_hand;
+    public Sprite sprite_handMale_Front;
+    public Sprite sprite_handMale_Back;
+    public Sprite sprite_handFemale_Front;
+    public Sprite sprite_handFemale_Back;
 
     public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;

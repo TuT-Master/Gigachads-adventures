@@ -144,7 +144,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         // Left hand
         if(LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item item))
         {
-            weaponSpriteRenderer.sprite = item.sprite_hand;
+            weaponSpriteRenderer.sprite = item.sprite_handMale_Front;
             GetComponent<PlayerFight>().itemInHand = item;
         }
         else
@@ -156,7 +156,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         // Right hand
         if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out item))
         {
-            secondaryWeaponSpriteRenderer.sprite = item.sprite_equip;
+            secondaryWeaponSpriteRenderer.sprite = item.sprite_equipMale_Front;
             GetComponent<PlayerFight>().secondaryItemInHand = item;
         }
         else

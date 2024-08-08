@@ -91,9 +91,14 @@ public class Item : MonoBehaviour
     public bool AoE;
 
     public Sprite sprite_inventory;
-    public Sprite sprite_hand;
-    public Sprite sprite_equip;
-    public Sprite sprite_equipBack;
+    public Sprite sprite_handMale_Front;
+    public Sprite sprite_handMale_Back;
+    public Sprite sprite_equipMale_Front;
+    public Sprite sprite_equipMale_Back;
+    public Sprite sprite_handFemale_Front;
+    public Sprite sprite_handFemale_Back;
+    public Sprite sprite_equipFemale_Front;
+    public Sprite sprite_equipFemale_Back;
 
     public List<ProjectileSO> ammo;
 
@@ -174,7 +179,10 @@ public class Item : MonoBehaviour
         description = weaponSO.description;
         slotType = Slot.SlotType.WeaponMelee;
         sprite_inventory = weaponSO.sprite_inventory;
-        sprite_hand = weaponSO.sprite_hand;
+        sprite_handMale_Front = weaponSO.sprite_handMale_Front;
+        sprite_handMale_Back = weaponSO.sprite_handMale_Back;
+        sprite_handFemale_Front = weaponSO.sprite_handFemale_Front;
+        sprite_handFemale_Back = weaponSO.sprite_handFemale_Back;
         stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         emitsLight = weaponSO.emitsLight;
@@ -194,7 +202,10 @@ public class Item : MonoBehaviour
         description= weaponSO.description;
         slotType = Slot.SlotType.WeaponRanged;
         sprite_inventory = weaponSO.sprite_inventory;
-        sprite_hand = weaponSO.sprite_hand;
+        sprite_handMale_Front = weaponSO.sprite_handMale_Front;
+        sprite_handMale_Back = weaponSO.sprite_handMale_Back;
+        sprite_handFemale_Front = weaponSO.sprite_handFemale_Front;
+        sprite_handFemale_Back = weaponSO.sprite_handFemale_Back;
         stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         stackSize = weaponSO.stackSize;
@@ -217,7 +228,10 @@ public class Item : MonoBehaviour
         description = weaponSO.description;
         slotType = Slot.SlotType.MagicWeapon;
         sprite_inventory = weaponSO.sprite_inventory;
-        sprite_hand = weaponSO.sprite_hand;
+        sprite_handMale_Front = weaponSO.sprite_handMale_Front;
+        sprite_handMale_Back = weaponSO.sprite_handMale_Back;
+        sprite_handFemale_Front = weaponSO.sprite_handFemale_Front;
+        sprite_handFemale_Back = weaponSO.sprite_handFemale_Back;
         stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         stackSize = weaponSO.stackSize;
@@ -240,7 +254,10 @@ public class Item : MonoBehaviour
         description = consumableSO.description;
         slotType = Slot.SlotType.Consumable;
         sprite_inventory = consumableSO.sprite_inventory;
-        sprite_hand = consumableSO.sprite_hand;
+        sprite_handMale_Front = consumableSO.sprite_handMale_Front;
+        sprite_handMale_Back = consumableSO.sprite_handMale_Back;
+        sprite_handFemale_Front = consumableSO.sprite_handFemale_Front;
+        sprite_handFemale_Back = consumableSO.sprite_handFemale_Back;
         isStackable = consumableSO.isStackable;
         stackSize = consumableSO.stackSize;
         stats = consumableSO.Stats();
@@ -256,7 +273,7 @@ public class Item : MonoBehaviour
         itemName = projectile.itemName;
         description = projectile.description;
         sprite_inventory = projectile.sprite_inventory;
-        sprite_equip = projectile.sprite_projectile;
+        sprite_equipMale_Front = projectile.sprite_projectile;
         stats = projectile.Stats();
         isStackable = true;
         stackSize = projectile.stackSize;
@@ -275,8 +292,10 @@ public class Item : MonoBehaviour
         amount = 1;
         slotType = armorSO.slotType;
         sprite_inventory = armorSO.sprite_inventory;
-        sprite_equip = armorSO.sprite_equipFront;
-        sprite_equipBack = armorSO.sprite_equipBack;
+        sprite_equipMale_Front = armorSO.sprite_equipMale_Front;
+        sprite_equipMale_Back = armorSO.sprite_equipMale_Back;
+        sprite_equipFemale_Front = armorSO.sprite_equipFemale_Front;
+        sprite_equipFemale_Back = armorSO.sprite_equipFemale_Back;
         craftedIn = armorSO.craftedIn;
         requieredCraftingLevel = armorSO.requieredCraftingLevel;
         recipe = new();
@@ -292,8 +311,10 @@ public class Item : MonoBehaviour
     {
         itemName = backpackSO.itemName;
         description = backpackSO.description;
-        sprite_equip = backpackSO.sprite_equipFront;
-        sprite_equipBack = backpackSO.sprite_equipBack;
+        sprite_equipMale_Front = backpackSO.sprite_equipMale_Front;
+        sprite_equipMale_Back = backpackSO.sprite_equipMale_Back;
+        sprite_equipFemale_Front = backpackSO.sprite_equipFemale_Front;
+        sprite_equipFemale_Back = backpackSO.sprite_equipFemale_Back;
         sprite_inventory = backpackSO.sprite_inventory;
         inventoryCapacity = backpackSO.inventoryCapacity;
         isStackable = false;
@@ -310,8 +331,10 @@ public class Item : MonoBehaviour
     {
         itemName = beltSO.itemName;
         description = beltSO.description;
-        sprite_equip = beltSO.sprite_equipFront;
-        sprite_equipBack = beltSO.sprite_equipBack;
+        sprite_equipMale_Front = beltSO.sprite_equipMale_Front;
+        sprite_equipMale_Back = beltSO.sprite_equipMale_Back;
+        sprite_equipFemale_Front = beltSO.sprite_equipFemale_Front;
+        sprite_equipFemale_Back = beltSO.sprite_equipFemale_Back;
         sprite_inventory = beltSO.sprite_inventory;
         inventoryCapacity = beltSO.inventoryCapacity;
         isStackable = false;
@@ -328,8 +351,10 @@ public class Item : MonoBehaviour
     {
         itemName = shieldSO.itemName;
         description = shieldSO.description;
-        sprite_equip = shieldSO.sprite_equipFront;
-        sprite_equipBack = shieldSO.sprite_equipBack;
+        sprite_equipMale_Front = shieldSO.sprite_equipMale_Front;
+        sprite_equipMale_Back = shieldSO.sprite_equipMale_Back;
+        sprite_equipFemale_Front = shieldSO.sprite_equipFemale_Front;
+        sprite_equipFemale_Back = shieldSO.sprite_equipFemale_Back;
         sprite_inventory = shieldSO.sprite_inventory;
         isStackable = false;
         stackSize = 1;
@@ -366,6 +391,10 @@ public class Item : MonoBehaviour
         itemName = throwableSO.itemName;
         description = throwableSO.description;
         sprite_inventory = throwableSO.sprite_inventory;
+        sprite_handMale_Front = throwableSO.sprite_handMale_Front;
+        sprite_handMale_Back = throwableSO.sprite_handMale_Back;
+        sprite_handFemale_Front = throwableSO.sprite_handFemale_Front;
+        sprite_handFemale_Back = throwableSO.sprite_handFemale_Back;
         stackSize = throwableSO.stackSize;
         isStackable = true;
         stats = throwableSO.Stats();
@@ -381,6 +410,10 @@ public class Item : MonoBehaviour
         itemName = equipableSO.itemName;
         description = equipableSO.description;
         sprite_inventory = equipableSO.sprite_inventory;
+        sprite_equipMale_Front = equipableSO.sprite_equipMale_Front;
+        sprite_equipMale_Back = equipableSO.sprite_equipMale_Back;
+        sprite_equipFemale_Front = equipableSO.sprite_equipFemale_Front;
+        sprite_equipFemale_Back = equipableSO.sprite_equipFemale_Back;
         isStackable = true;
         stats = equipableSO.Stats();
         slotType = Slot.SlotType.Material;
@@ -395,6 +428,10 @@ public class Item : MonoBehaviour
         itemName = trapSO.itemName;
         description = trapSO.description;
         sprite_inventory = trapSO.sprite_inventory;
+        sprite_handMale_Front = trapSO.sprite_handMale_Front;
+        sprite_handMale_Back = trapSO.sprite_handMale_Back;
+        sprite_handFemale_Front = trapSO.sprite_handFemale_Front;
+        sprite_handFemale_Back = trapSO.sprite_handFemale_Back;
         stackSize = trapSO.stackSize;
         isStackable = true;
         stats = trapSO.Stats();
@@ -430,9 +467,14 @@ public class Item : MonoBehaviour
         amount = item.amount;
         armorStats = item.armorStats;
         sprite_inventory = item.sprite_inventory;
-        sprite_hand = item.sprite_hand;
-        sprite_equip = item.sprite_equip;
-        sprite_equipBack = item.sprite_equipBack;
+        sprite_handMale_Front = item.sprite_handMale_Front;
+        sprite_handMale_Back = item.sprite_handMale_Back;
+        sprite_handFemale_Front = item.sprite_handFemale_Front;
+        sprite_handFemale_Back = item.sprite_handFemale_Back;
+        sprite_equipMale_Front = item.sprite_equipMale_Front;
+        sprite_equipMale_Back = item.sprite_equipMale_Back;
+        sprite_equipFemale_Front = item.sprite_equipFemale_Front;
+        sprite_equipFemale_Back = item.sprite_equipFemale_Back;
         inventoryCapacity = item.inventoryCapacity;
         fullAuto = item.fullAuto;
         ammo = item.ammo;
