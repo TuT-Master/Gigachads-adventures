@@ -133,5 +133,7 @@ public class PlayerSkill : MonoBehaviour
         }
         foreach (StatPrefab statPrefab in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<StatPrefab>())
             statPrefab.UpdateStat();
+        foreach (StatWithFillBarPrefab statPrefab in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<StatWithFillBarPrefab>())
+            statPrefab.UpdateStat();
     }
 }
