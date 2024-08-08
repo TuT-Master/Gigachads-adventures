@@ -113,7 +113,6 @@ public class PlayerSkill : MonoBehaviour
     {
 
         skillDescription.HideSkillDetails();
-
         if (tabId == 0)
             skillDescription.gameObject.SetActive(false);
         else
@@ -132,5 +131,7 @@ public class PlayerSkill : MonoBehaviour
                 tabs[i].SetActive(false);
             }
         }
+        foreach (StatPrefab statPrefab in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<StatPrefab>())
+            statPrefab.UpdateStat();
     }
 }

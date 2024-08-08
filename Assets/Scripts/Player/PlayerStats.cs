@@ -499,6 +499,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         backpackInventory = new();
         playerStats_default = new()
         {
+            { "hp", hp },
+            { "stamina", stamina },
+            { "mana", mana },
             { "hpMax", hpMax },
             { "staminaMax", staminaMax },
             { "manaMax", manaMax },
