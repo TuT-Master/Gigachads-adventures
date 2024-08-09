@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerStats : MonoBehaviour, IDataPersistance
 {
@@ -127,6 +129,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
     private float age;
     #endregion
 
+    [Header("Message")]
+    [SerializeField] GameObject messageObj;
+
     public enum WeaponClass
     {
         None,
@@ -138,8 +143,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         RangeStrenght,
         Magic
     }
-
-
 
     private PlayerInventory playerInventory;
     private PlayerMovement playerMovement;
@@ -680,6 +683,19 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
                         break;
                 }
             }
+    }
+
+    // Message list room cleared!, You died, Boss defeated etc.
+    public void ShowMessage(string message, float delay)
+    {
+        messageObj.SetActive(true);
+        messageObj.GetComponentInChildren<TextMeshProUGUI>().text = message;
+        StartCoroutine(HideMessageDelay(delay));
+    }
+    private IEnumerator HideMessageDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        messageObj.SetActive(false);
     }
 
 

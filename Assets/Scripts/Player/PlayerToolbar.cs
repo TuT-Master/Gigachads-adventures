@@ -5,18 +5,12 @@ using UnityEngine.UI;
 
 public class PlayerToolbar : MonoBehaviour
 {
-    [SerializeField]
-    Animator animator;
-    [SerializeField]
-    Image toolbarSlot1;
-    [SerializeField]
-    Image toolbarSlot2;
-    [SerializeField]
-    Image toolbarSlot3;
-    [SerializeField]
-    Image toolbarSlot4;
-    [SerializeField]
-    Image toolbarSlot5;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Image toolbarSlot1;
+    [SerializeField] private Image toolbarSlot2;
+    [SerializeField] private Image toolbarSlot3;
+    [SerializeField] private Image toolbarSlot4;
+    [SerializeField] private Image toolbarSlot5;
 
     [SerializeField]
     private List<GameObject> toolbarSlots = new();
@@ -27,13 +21,15 @@ public class PlayerToolbar : MonoBehaviour
     private bool updateToolbar = true;
     private bool animateToolbar;
     private bool start = true;
+    private bool canScrollAgain = true;
 
     void Update()
     {
         ToolbarSlots();
         if(updateToolbar)
             UpdateToolbarGFX();
-        MyInput();
+        if(canScrollAgain)
+            MyInput();
         animateToolbar = false;
         if (activeToolbarSlots.Count > 1)
             animateToolbar = true;
@@ -169,6 +165,7 @@ public class PlayerToolbar : MonoBehaviour
     {
         if (!animateToolbar)
             return;
+        canScrollAgain = false;
         updateToolbar = false;
         if (activeToolbarSlots.Count > 1)
         {
@@ -198,6 +195,7 @@ public class PlayerToolbar : MonoBehaviour
             animator.SetTrigger("ToolbarDOWN");
 
         yield return new WaitForSeconds(0.75f);
+        canScrollAgain = true;
         updateToolbar = true;
     }
 }

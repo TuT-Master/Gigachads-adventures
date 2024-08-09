@@ -24,11 +24,11 @@ public class ConsumableSO : ScriptableObject
     public int stackSize;
 
     [Header("Stats")]
-    [SerializeField] private float hpRefill = 0;
-    [SerializeField] private float staminaRefill = 0;
-    [SerializeField] private float manaRefill = 0;
-    [SerializeField] private float cooldown = 0;
-    [SerializeField] private float weight = 0;
+    [SerializeField] private float hpRefill;
+    [SerializeField] private float staminaRefill;
+    [SerializeField] private float manaRefill;
+    [SerializeField] private float cooldown;
+    [SerializeField] private float weight;
     [SerializeField] private float price;
 
 
