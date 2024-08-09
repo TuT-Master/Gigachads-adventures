@@ -68,8 +68,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 100 + 25
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1048c3c5ffa6274eb6f0ba89ac8c38c, type: 2}
+  m_sharedMaterial: {fileID: -9075019105275182545, guid: c1048c3c5ffa6274eb6f0ba89ac8c38c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -93,7 +94,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 17.8
+  m_fontSize: 18
   m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -203,8 +204,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Magic resistance
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1048c3c5ffa6274eb6f0ba89ac8c38c, type: 2}
+  m_sharedMaterial: {fileID: -9075019105275182545, guid: c1048c3c5ffa6274eb6f0ba89ac8c38c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -322,16 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stat: 0
-  fillBar: 0
-  background: {fileID: 0}
-  fillMain: {fileID: 0}
-  fillBonus_plus: {fileID: 0}
-  fillBonus_minus: {fileID: 0}
-  noMaxValue: {fileID: 0}
-  withMaxValue: {fileID: 0}
-  fillBar_background: {fileID: 0}
-  fillBar_fill: {fileID: 0}
-  fillBar_bonus: {fileID: 0}
+  isMainStat: 0
   statName: {fileID: 2133948009394521290}
   statValue: {fileID: 4611972918829415984}
   playerStats: {fileID: 0}
