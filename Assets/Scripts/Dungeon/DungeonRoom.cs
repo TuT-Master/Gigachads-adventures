@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DungeonRoom : MonoBehaviour
@@ -20,6 +21,7 @@ public class DungeonRoom : MonoBehaviour
     public List<IInteractableEnemy> enemies = new();
     // public List<MineableResource> resources = new();
 
+    public TextMeshProUGUI messageObj;
     public bool cleared;
 
     private List<OtherInventory> lootBoxes = new();
@@ -68,8 +70,8 @@ public class DungeonRoom : MonoBehaviour
         }
         if (enemies.Count == 0 && !cleared)
         {
-            // Short message that the room is cleared
-            Debug.Log(gameObject.name + " cleared!");
+            // Show message 'Room cleared!' which hide after 1.5 seconds
+            FindAnyObjectByType<PlayerStats>().ShowMessage("Room cleared!", 1.5f);
 
             cleared = true;
             foreach (OtherInventory lootbox in lootBoxes)
