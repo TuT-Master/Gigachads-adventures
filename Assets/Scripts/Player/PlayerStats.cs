@@ -267,6 +267,9 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
         if (playerStats["hp"] <= 0)
         {
+            // Show dead message
+            ShowMessage("You died", 1.5f);
+
             // Increase skill issue
             playerStats["skillIssue"]++;
 
