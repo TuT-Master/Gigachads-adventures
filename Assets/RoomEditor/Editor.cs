@@ -6,25 +6,53 @@ using UnityEngine.UI;
 
 public class Editor : MonoBehaviour
 {
+    [Header("Dungeon database")]
     [SerializeField] private DungeonDatabase dungeonDatabase;
 
+    [Header("UI")]
     [SerializeField] private GameObject newRoomTab;
     [SerializeField] private GameObject customDoorsTab;
     [SerializeField] private GameObject customDoorsButton;
     [SerializeField] private GameObject editorTab;
+    [SerializeField] private GameObject bossTypeDropdown;
 
+    [Header("Log")]
+    [SerializeField] private TextMeshProUGUI log;
+
+    [Header("Prefabs")]
     [SerializeField] private GameObject customDoorsTilePrefab;
     [SerializeField] private GameObject customDoorsWallPrefab;
     [SerializeField] private Transform customDoorsTilesTransformParent;
+    [SerializeField] private TMP_InputField inputField_height;
+    [SerializeField] private TMP_InputField inputField_width;
+    [SerializeField] private GameObject buttonDone;
 
-    [SerializeField] private GameObject bossTypeDropdown;
+    [Header("Editor")]
     [SerializeField] private TextMeshProUGUI brushDescription;
-
-    [SerializeField] private TextMeshProUGUI log;
-
+    public enum BrushType
+    {
+        None,
+        Obstacle_noShoot,
+        Obstacle_shoot,
+        Lightsource,
+        Resource,
+        Enemy_mAggresive,
+        Enemy_mEvasive,
+        Enemy_mWandering,
+        Enemy_mStealth,
+        Enemy_rStatic,
+        Enemy_rWandering,
+        Trap,
+    }
+    public BrushType brushType;
+    [SerializeField] private Transform workspace;
+    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private GameObject wallPrefab;
+    [SerializeField] private GameObject doorPrefab;
+    private GameObject[,] tiles;
+    
     private Editor_Room room;
-    private Editor_Door[] customDoors;
-
+    private Dictionary<int, int[]> customDoors;
     private bool deletingLog = false;
 
 
@@ -46,14 +74,20 @@ public class Editor : MonoBehaviour
             return;
 
         if (room.bossRoom)
-            bossTypeDropdown.gameObject.SetActive(true);
+            bossTypeDropdown.SetActive(true);
         else
-            bossTypeDropdown.gameObject.SetActive(false);
+            bossTypeDropdown.SetActive(false);
 
         if (newRoomTab.activeInHierarchy && room.roomSize != null && room.roomSize.x != 0 && room.roomSize.y != 0)
+        {
             customDoorsButton.SetActive(true);
+            buttonDone.SetActive(true);
+        }
         else
+        {
             customDoorsButton.SetActive(false);
+            buttonDone.SetActive(false);
+        }
     }
     private IEnumerator DeleteLog(float delay)
     {
@@ -69,59 +103,56 @@ public class Editor : MonoBehaviour
         switch(dropdown.value)
         {
             case 0:
-
-                brushDescription.text = "No one can shoot over these obstacles";
+                brushType = BrushType.None;
+                brushDescription.text = "None\nBasically an eraser";
                 break;
             case 1:
-
-                brushDescription.text = "Everyone can shoot over these obstacles";
+                brushType = BrushType.Obstacle_noShoot;
+                brushDescription.text = "Obstacle\nNo one can shoot over it";
                 break;
             case 2:
-
-                brushDescription.text = "Enemy";
+                brushType = BrushType.Obstacle_shoot;
+                brushDescription.text = "Obstacle\nEveryone can shoot over it";
                 break;
             case 3:
-
-                brushDescription.text = "Lightsource";
+                brushType = BrushType.Lightsource;
+                brushDescription.text = "Lightsource\n";
                 break;
             case 4:
-
-                brushDescription.text = "Resource";
+                brushType = BrushType.Resource;
+                brushDescription.text = "Resource\nMinable or gatherable resource like mineral, stone, bush etc.";
                 break;
             case 5:
-
-                brushDescription.text = "Lootbox";
+                brushType = BrushType.Enemy_mAggresive;
+                brushDescription.text = "Enemy melle agressive\nThis bad boi will rush player right when he enters the room";
                 break;
             case 6:
-
-                brushDescription.text = "Lootbox";
+                brushType = BrushType.Enemy_mEvasive;
+                brushDescription.text = "Enemy melle evasive\nThis bad boi will rush player right when he enters the room. Jumps from side to side while rushing player.";
                 break;
             case 7:
-
-                brushDescription.text = "Lootbox";
+                brushType = BrushType.Enemy_mWandering;
+                brushDescription.text = "Enemy melle wandering\nThese guys walks in random paterns through the room and attacks player when they get close enough.";
                 break;
             case 8:
-
-                brushDescription.text = "Lootbox";
+                brushType = BrushType.Enemy_mStealth;
+                brushDescription.text = "Enemy melle stealth\nWhen player gets close enough this enemy spawns and attack player.";
                 break;
             case 9:
-
-                brushDescription.text = "Lootbox";
+                brushType = BrushType.Enemy_rStatic;
+                brushDescription.text = "Enemy ranged static\nStatic enemy who shoots player when close enough. Mostly turrets.";
                 break;
             case 10:
-
-                brushDescription.text = "Lootbox";
+                brushType = BrushType.Enemy_rWandering;
+                brushDescription.text = "Enemy ranged wandering\nThese guys walks in random paterns through the room and shoots at player when close enough. Actively trying to keeps a safe distance between them and player.";
                 break;
             case 11:
-
-                brushDescription.text = "Lootbox";
-                break;
-            case 12:
-
-                brushDescription.text = "Trap";
+                brushType = BrushType.Trap;
+                brushDescription.text = "Trap\nPlaceable sourse of various types of damages.";
                 break;
             default:
-
+                brushType = BrushType.Obstacle_noShoot;
+                brushDescription.text = "Obstacle\nNo one can shoot over it";
                 break;
         }
     }
@@ -132,6 +163,10 @@ public class Editor : MonoBehaviour
         customDoorsTab.SetActive(false);
         customDoorsButton.SetActive(false);
         room = new Editor_Room();
+        for (int i = 0; i < workspace.childCount; i++)
+            Destroy(workspace.GetChild(i).gameObject);
+        inputField_height.text = "";
+        inputField_width.text = "";
     }
     public void Exit_button()
     {
@@ -152,16 +187,143 @@ public class Editor : MonoBehaviour
         newRoomTab.SetActive(false);
         editorTab.SetActive(true);
         customDoorsTab.SetActive(false);
-        // Generate room in editor
 
+        // Generate room in editor
+        int currentDoors = 0;
+        Dictionary<int, GameObject> doors = new();
+        for (int i = 0; i < 2 * (int)(room.roomSize.x + room.roomSize.y); i++)
+            doors.Add(i, null);
+        tiles = new GameObject[(int)room.roomSize.x * 6, (int)room.roomSize.y * 6];
+        Vector2 startPos = new(room.roomSize.x * 150, room.roomSize.y * 150);
+        for (int y = 0; y < room.roomSize.y * 6; y++)
+        {
+            for (int x = 0; x < room.roomSize.x * 6; x++)
+            {
+                // Tile
+                GameObject newTile = Instantiate(tilePrefab, workspace);
+                newTile.GetComponent<Editor_Tile>().SetUpTile(new(x, y), this);
+                newTile.GetComponent<RectTransform>().localPosition = new Vector3((x * 50) - startPos.x, (y * 50) - startPos.y, 0);
+                // Wall and doors
+                if(x == 0)
+                {
+                    // Left walls
+                    if(y % 6 == 2 || y % 6 == 3)
+                    {
+                        GameObject newDoor = Instantiate(doorPrefab, newTile.transform);
+                        newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
+                        newDoor.GetComponent<RectTransform>().localPosition = new(25, 25, 0);
+                        doors[currentDoors] = newDoor;
+                        currentDoors++;
+                    }
+                    else
+                    {
+                        GameObject newWall = Instantiate(wallPrefab, newTile.transform);
+                        newWall.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
+                        newWall.GetComponent<RectTransform>().localPosition = new(25, 25, 0);
+                    }
+                }
+                if (x == (room.roomSize.x * 6) - 1)
+                {
+                    // Right walls
+                    if (y % 6 == 2 || y % 6 == 3)
+                    {
+                        GameObject newDoor = Instantiate(doorPrefab, newTile.transform);
+                        newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
+                        newDoor.GetComponent<RectTransform>().localPosition = new(25, 25, 0);
+                        doors[currentDoors] = newDoor;
+                        currentDoors++;
+                    }
+                    else
+                    {
+                        GameObject newWall = Instantiate(wallPrefab, newTile.transform);
+                        newWall.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
+                        newWall.GetComponent<RectTransform>().localPosition = new(25, 25, 0);
+                    }
+                }
+                if (y == 0)
+                {
+                    // Bottom walls
+                    if (x % 6 == 2 || x % 6 == 3)
+                    {
+                        GameObject newDoor = Instantiate(doorPrefab, newTile.transform);
+                        newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
+                        newDoor.GetComponent<RectTransform>().localPosition = new(25, 25, 0);
+                        doors[currentDoors] = newDoor;
+                        currentDoors++;
+                    }
+                    else
+                    {
+                        GameObject newWall = Instantiate(wallPrefab, newTile.transform);
+                        newWall.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
+                        newWall.GetComponent<RectTransform>().localPosition = new(25, 25, 0);
+                    }
+                }
+                if (y == (room.roomSize.y * 6) - 1)
+                {
+                    // Upper walls
+                    if (x % 6 == 2 || x % 6 == 3)
+                    {
+                        GameObject newDoor = Instantiate(doorPrefab, newTile.transform);
+                        newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
+                        newDoor.GetComponent<RectTransform>().localPosition = new(25, 25, 0);
+                        doors[currentDoors] = newDoor;
+                        currentDoors++;
+                    }
+                    else
+                    {
+                        GameObject newWall = Instantiate(wallPrefab, newTile.transform);
+                        newWall.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
+                        newWall.GetComponent<RectTransform>().localPosition = new(25, 25, 0);
+                    }
+                }
+                tiles[x, y] = newTile;
+            }
+        }
+
+        // Set up doors
+        foreach (int id in doors.Keys)
+        {
+            if (room.doors != null)
+            {
+                doors[id].GetComponent<Editor_Door>().doorState = room.doors[id].doorState;
+                switch (doors[id].GetComponent<Editor_Door>().doorState)
+                {
+                    case 1:
+                        doors[id].transform.Find("Door").GetComponent<Image>().color = Color.green;
+                        break;
+                    case 2:
+                        doors[id].transform.Find("Door").GetComponent<Image>().color = Color.black;
+                        break;
+                    default:
+                        doors[id].transform.Find("Door").GetComponent<Image>().color = Color.blue;
+                        break;
+                }
+            }
+            else
+            {
+                doors[id].GetComponent<Editor_Door>().doorState = 0;
+                doors[id].transform.Find("Door").GetComponent<Image>().color = Color.blue;
+            }
+        }
+
+
+        // Set first brush description
+        brushType = BrushType.None;
+        brushDescription.text = "None\nBasically an eraser";
     }
     public void DoorsDone_button()
     {
         newRoomTab.SetActive(true);
         editorTab.SetActive(false);
         customDoorsTab.SetActive(false);
-        // Apply custom doors settings
 
+        // Apply custom doors settings
+        room.doors = new Editor_Door[customDoors.Keys.Count];
+        for (int i = 0; i < room.doors.Length; i++)
+        {
+            room.doors[i].id = customDoors[i][0];
+            room.doors[i].doorState = customDoors[i][1];
+        }
     }
     public void CancelDoors_button()
     {
@@ -176,7 +338,9 @@ public class Editor : MonoBehaviour
         editorTab.SetActive(false);
         customDoorsTab.SetActive(true);
 
-        customDoors = new Editor_Door[2 * (int)(room.roomSize.x + room.roomSize.y)];
+        customDoors = new();
+        for (int i = 0; i < 2 * (int)(room.roomSize.x + room.roomSize.y); i++)
+            customDoors.Add(i, new int[2] { 0, 0 });
         int currentDoorId = 0;
         customDoorsTilesTransformParent.GetComponent<GridLayoutGroup>().constraintCount = (int)room.roomSize.x;
         for (int y = 0; y < room.roomSize.y; y++)
@@ -190,12 +354,14 @@ public class Editor : MonoBehaviour
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(-45, 45, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                     newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(0, 0, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                 }
                 else if (x == room.roomSize.x - 1 && y == 0)
@@ -204,12 +370,14 @@ public class Editor : MonoBehaviour
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(0, 0, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                     newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(45, 45, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                 }
                 else if (x == room.roomSize.x - 1 && y == room.roomSize.y - 1)
@@ -218,12 +386,14 @@ public class Editor : MonoBehaviour
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(45, 45, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                     newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(0, 90, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                 }
                 else if (x == 0 && y == room.roomSize.y - 1)
@@ -232,12 +402,14 @@ public class Editor : MonoBehaviour
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(0, 90, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                     newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(-45, 45, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                 }
                 else if(x == 0)
@@ -246,7 +418,8 @@ public class Editor : MonoBehaviour
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(-45, 45, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                 }
                 else if (x == room.roomSize.x - 1)
@@ -255,7 +428,8 @@ public class Editor : MonoBehaviour
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(45, 45, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                 }
                 else if (y == 0)
@@ -264,7 +438,8 @@ public class Editor : MonoBehaviour
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(0, 0, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                 }
                 else if (y == room.roomSize.y - 1)
@@ -273,7 +448,8 @@ public class Editor : MonoBehaviour
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(0, 90, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_Door>();
+                    customDoors[currentDoorId][0] = newDoor.GetComponentInChildren<Editor_CustomDoor>().id;
+                    customDoors[currentDoorId][1] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
                     currentDoorId++;
                 }
             }
@@ -362,6 +538,8 @@ public class Editor_Room
     public bool bossRoom;
     public string roomName;
     public Vector2 roomSize;
+    public Editor_Door[] doors;
+
 
 
     public Editor_Room()
