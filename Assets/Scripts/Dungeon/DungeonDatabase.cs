@@ -21,9 +21,12 @@ public class DungeonDatabase : ScriptableObject
 
     public List<GameObject> lootBoxes;
 
-    public List<GameObject> meleeEnemies;
-
-    public List<GameObject> rangedEnemies;
+    public List<GameObject> enemies_melleAgressive;
+    public List<GameObject> enemies_melleEvasive;
+    public List<GameObject> enemies_melleStealth;
+    public List<GameObject> enemies_melleWandering;
+    public List<GameObject> enemies_rangedStatic;
+    public List<GameObject> enemies_rangedWandering;
 
     public List<Material> weaponMaterials;
 

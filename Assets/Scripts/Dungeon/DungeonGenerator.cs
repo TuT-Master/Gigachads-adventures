@@ -448,7 +448,7 @@ public class DungeonGenerator : MonoBehaviour
                     Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
                     if (!objs.ContainsKey(id) && !pop.ContainsKey(id))
                     {
-                        pop.Add(id, objDatabase.meleeEnemies[random.Next(0, objDatabase.meleeEnemies.Count)]);
+                        //pop.Add(id, objDatabase.meleeEnemies[random.Next(0, objDatabase.meleeEnemies.Count)]);
                         done = true;
                     }
                 }
@@ -464,7 +464,7 @@ public class DungeonGenerator : MonoBehaviour
                     Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
                     if (!objs.ContainsKey(id) && !pop.ContainsKey(id))
                     {
-                        pop.Add(id, objDatabase.rangedEnemies[random.Next(0, objDatabase.rangedEnemies.Count)]);
+                        //pop.Add(id, objDatabase.rangedEnemies[random.Next(0, objDatabase.rangedEnemies.Count)]);
                         done = true;
                     }
                 }
