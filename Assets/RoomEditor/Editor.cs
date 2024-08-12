@@ -47,12 +47,11 @@ public class Editor : MonoBehaviour
     public BrushType brushType;
     [SerializeField] private Transform workspace;
     [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject doorPrefab;
     private GameObject[,] tiles;
     
     private Editor_Room room;
-    private Dictionary<int, int> customDoors;
+    private Dictionary<int, Editor_CustomDoor> customDoors;
     private bool deletingLog = false;
 
 
@@ -209,70 +208,46 @@ public class Editor : MonoBehaviour
         Dictionary<int, GameObject> doors = new();
         for (int i = 0; i < 2 * (int)(room.roomSize.x + room.roomSize.y); i++)
             doors.Add(i, null);
-        for (int y = 0; y < room.roomSize.y * 3; y++)
+        for (int y = 0; y < room.roomSize.y; y++)
         {
-            for(int x = 0; x < room.roomSize.x * 3; x++)
+            for(int x = 0; x < room.roomSize.x; x++)
             {
-                Vector3 pos = new((x * 100) - startPos.x + 50, (y * 100) - startPos.y + 50, 0);
+                Vector3 pos = new((x * 300) - startPos.x + 150, (y * 300) - startPos.y + 150, 0);
                 if (x == 0)
                 {
                     // Left walls
-                    GameObject newObj;
-                    if (y % 3 == 1)
-                    {
-                        newObj = Instantiate(doorPrefab, workspace);
-                        doors[currentDoors] = newObj;
-                        currentDoors++;
-                    }
-                    else
-                        newObj = Instantiate(wallPrefab, workspace);
+                    GameObject newObj = Instantiate(doorPrefab, workspace);
                     newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
                     newObj.GetComponent<RectTransform>().localPosition = pos;
-                }
-                if (x == (room.roomSize.x * 3) - 1)
-                {
-                    // Right walls
-                    GameObject newObj;
-                    if (y % 3 == 1)
-                    {
-                        newObj = Instantiate(doorPrefab, workspace);
-                        doors[currentDoors] = newObj;
-                        currentDoors++;
-                    }
-                    else
-                        newObj = Instantiate(wallPrefab, workspace);
-                    newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                    newObj.GetComponent<RectTransform>().localPosition = pos;
+                    doors[currentDoors] = newObj;
+                    currentDoors++;
                 }
                 if (y == 0)
                 {
                     // Bottom walls
-                    GameObject newObj;
-                    if (x % 3 == 1)
-                    {
-                        newObj = Instantiate(doorPrefab, workspace);
-                        doors[currentDoors] = newObj;
-                        currentDoors++;
-                    }
-                    else
-                        newObj = Instantiate(wallPrefab, workspace);
+                    GameObject newObj = Instantiate(doorPrefab, workspace);
                     newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
                     newObj.GetComponent<RectTransform>().localPosition = pos;
+                    doors[currentDoors] = newObj;
+                    currentDoors++;
                 }
-                if (y == (room.roomSize.y * 3) - 1)
+                if (x == room.roomSize.x - 1)
+                {
+                    // Right walls
+                    GameObject newObj = Instantiate(doorPrefab, workspace);
+                    newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
+                    newObj.GetComponent<RectTransform>().localPosition = pos;
+                    doors[currentDoors] = newObj;
+                    currentDoors++;
+                }
+                if (y == room.roomSize.y - 1)
                 {
                     // Upper walls
-                    GameObject newObj;
-                    if (x % 3 == 1)
-                    {
-                        newObj = Instantiate(doorPrefab, workspace);
-                        doors[currentDoors] = newObj;
-                        currentDoors++;
-                    }
-                    else
-                        newObj = Instantiate(wallPrefab, workspace);
+                    GameObject newObj = Instantiate(doorPrefab, workspace);
                     newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
                     newObj.GetComponent<RectTransform>().localPosition = pos;
+                    doors[currentDoors] = newObj;
+                    currentDoors++;
                 }
             }
         }
@@ -281,12 +256,10 @@ public class Editor : MonoBehaviour
         room.doors = new();
         if(customDoors != null)
         {
-            Debug.Log("Custom doors");
             for (int i = 0; i < customDoors.Count; i++)
             {
-                Debug.Log(customDoors[i]);
                 room.doors.Add(i, doors[i].GetComponent<Editor_Door>());
-                room.doors[i].doorState = customDoors[i];
+                room.doors[i].doorState = customDoors[i].doorState;
                 switch (room.doors[i].doorState)
                 {
                     case 1:
@@ -350,7 +323,7 @@ public class Editor : MonoBehaviour
 
         customDoors = new();
         for (int i = 0; i < 2 * (int)(room.roomSize.x + room.roomSize.y); i++)
-            customDoors.Add(i, 0);
+            customDoors.Add(i, null);
         int currentDoorId = 0;
         customDoorsTilesTransformParent.GetComponent<GridLayoutGroup>().constraintCount = (int)room.roomSize.x;
         for (int y = 0; y < room.roomSize.y; y++)
@@ -358,128 +331,40 @@ public class Editor : MonoBehaviour
             for (int x = 0; x < room.roomSize.x; x++)
             {
                 GameObject newTile = Instantiate(customDoorsTilePrefab, customDoorsTilesTransformParent);
-                if(x == 0 && y == 0)
-                {
-                    // Left bottom walls
-                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(-45, 45, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                    currentDoorId++;
-                    newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(0, 0, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                    currentDoorId++;
-                    if(room.roomSize.x == 1)
-                    {
-                        newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                        newDoor.GetComponent<RectTransform>().localPosition = new(45, 45, 0);
-                        newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                        customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                        currentDoorId++;
-                    }
-                    if(room.roomSize.y == 1)
-                    {
-                        newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                        newDoor.GetComponent<RectTransform>().localPosition = new(0, 90, 0);
-                        newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                        customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                        currentDoorId++;
-                    }
-                }
-                else if (x == room.roomSize.x - 1 && y == 0)
-                {
-                    // Right bottom walls
-                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(0, 0, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                    currentDoorId++;
-                    newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(45, 45, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                    currentDoorId++;
-                    if (room.roomSize.y == 1)
-                    {
-                        newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                        newDoor.GetComponent<RectTransform>().localPosition = new(0, 90, 0);
-                        newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                        customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                        currentDoorId++;
-                    }
-                }
-                else if (x == room.roomSize.x - 1 && y == room.roomSize.y - 1)
-                {
-                    // Right upper walls
-                    if (room.roomSize.x == 1)
-                    {
-                        GameObject newObj = Instantiate(customDoorsWallPrefab, newTile.transform);
-                        newObj.GetComponent<RectTransform>().localPosition = new(-45, 45, 0);
-                        newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
-                        customDoors[currentDoorId] = newObj.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                        currentDoorId++;
-                    }
-                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(0, 90, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                    currentDoorId++;
-                    newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(45, 45, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                    currentDoorId++;
-                }
-                else if (x == 0 && y == room.roomSize.y - 1)
-                {
-                    // Left upper walls
-                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(-45, 45, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                    currentDoorId++;
-                    newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(0, 90, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                    currentDoorId++;
-                }
-                else if(x == 0)
+                if(x == 0)
                 {
                     // Left wall
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(-45, 45, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
+                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>();
                     currentDoorId++;
                 }
-                else if (x == room.roomSize.x - 1)
-                {
-                    // Right wall
-                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(45, 45, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
-                    currentDoorId++;
-                }
-                else if (y == 0)
+                if (y == 0)
                 {
                     // Bottom wall
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(0, 0, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
+                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>();
                     currentDoorId++;
                 }
-                else if (y == room.roomSize.y - 1)
+                if (x == room.roomSize.x - 1)
+                {
+                    // Right wall
+                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
+                    newDoor.GetComponent<RectTransform>().localPosition = new(45, 45, 0);
+                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
+                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>();
+                    currentDoorId++;
+                }
+                if (y == room.roomSize.y - 1)
                 {
                     // Upper wall
                     GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
                     newDoor.GetComponent<RectTransform>().localPosition = new(0, 90, 0);
                     newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>().doorState;
+                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>();
                     currentDoorId++;
                 }
             }
