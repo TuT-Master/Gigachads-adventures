@@ -29,12 +29,15 @@ public class Editor : MonoBehaviour
 
     [Header("Editor")]
     [SerializeField] private TextMeshProUGUI brushDescription;
+    [SerializeField] private TextMeshProUGUI statisticsText;
+    private Dictionary<BrushType, int> statistics;
     public enum BrushType
     {
         None,
         Obstacle_noShoot,
         Obstacle_shoot,
         Lightsource,
+        Lootbox,
         Resource,
         Enemy_mAggresive,
         Enemy_mEvasive,
@@ -43,8 +46,10 @@ public class Editor : MonoBehaviour
         Enemy_rStatic,
         Enemy_rWandering,
         Trap,
+        Specific,
     }
     public BrushType brushType;
+    public string specificObjName;
     [SerializeField] private Transform workspace;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject doorPrefab;
@@ -87,6 +92,32 @@ public class Editor : MonoBehaviour
             customDoorsButton.SetActive(false);
             buttonDone.SetActive(false);
         }
+
+        if (tiles == null)
+            return;
+
+        statisticsText.text = "";
+        statistics = new()
+        {
+            {BrushType.Obstacle_noShoot, 0},
+            {BrushType.Obstacle_shoot, 0},
+            {BrushType.Lightsource, 0},
+            {BrushType.Resource, 0},
+            {BrushType.Lootbox, 0},
+            {BrushType.Enemy_mAggresive, 0},
+            {BrushType.Enemy_mEvasive, 0},
+            {BrushType.Enemy_mWandering, 0},
+            {BrushType.Enemy_mStealth, 0},
+            {BrushType.Enemy_rStatic, 0},
+            {BrushType.Enemy_rWandering, 0},
+            {BrushType.Trap, 0},
+            {BrushType.Specific, 0},
+        };
+        foreach (GameObject tile in tiles)
+            if (tile.GetComponent<Editor_Tile>().tileType != BrushType.None)
+                statistics[tile.GetComponent<Editor_Tile>().tileType]++;
+        foreach (BrushType brushType in statistics.Keys)
+            statisticsText.text += brushType.ToString() + ": " + statistics[brushType] + "\n";
     }
     private IEnumerator DeleteLog(float delay)
     {
@@ -122,32 +153,40 @@ public class Editor : MonoBehaviour
                 brushDescription.text = "Resource\nMinable or gatherable resource like mineral, stone, bush etc.";
                 break;
             case 5:
+                brushType = BrushType.Lootbox;
+                brushDescription.text = "Resource\nMinable or gatherable resource like mineral, stone, bush etc.";
+                break;
+            case 6:
                 brushType = BrushType.Enemy_mAggresive;
                 brushDescription.text = "Enemy melle agressive\nThis bad boi will rush player right when he enters the room";
                 break;
-            case 6:
+            case 7:
                 brushType = BrushType.Enemy_mEvasive;
                 brushDescription.text = "Enemy melle evasive\nThis bad boi will rush player right when he enters the room. Jumps from side to side while rushing player.";
                 break;
-            case 7:
+            case 8:
                 brushType = BrushType.Enemy_mWandering;
                 brushDescription.text = "Enemy melle wandering\nThese guys walks in random paterns through the room and attacks player when they get close enough.";
                 break;
-            case 8:
+            case 9:
                 brushType = BrushType.Enemy_mStealth;
                 brushDescription.text = "Enemy melle stealth\nWhen player gets close enough this enemy spawns and attack player.";
                 break;
-            case 9:
+            case 10:
                 brushType = BrushType.Enemy_rStatic;
                 brushDescription.text = "Enemy ranged static\nStatic enemy who shoots player when close enough. Mostly turrets.";
                 break;
-            case 10:
+            case 11:
                 brushType = BrushType.Enemy_rWandering;
                 brushDescription.text = "Enemy ranged wandering\nThese guys walks in random paterns through the room and shoots at player when close enough. Actively trying to keeps a safe distance between them and player.";
                 break;
-            case 11:
+            case 12:
                 brushType = BrushType.Trap;
                 brushDescription.text = "Trap\nPlaceable sourse of various types of damages.";
+                break;
+            case 13:
+                brushType = BrushType.Specific;
+                brushDescription.text = "Specific object\nChoose any object you would like to place.";
                 break;
             default:
                 brushType = BrushType.Obstacle_noShoot;
@@ -276,7 +315,6 @@ public class Editor : MonoBehaviour
         }
         else
         {
-            Debug.Log("No custom doors");
             foreach (int id in doors.Keys)
             {
                 room.doors.Add(id, doors[id].GetComponent<Editor_Door>());
