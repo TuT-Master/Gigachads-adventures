@@ -23,14 +23,24 @@ MonoBehaviour:
   - {fileID: 2100000, guid: de3dcb391ed1a8d469c97ecfb11cb85c, type: 2}
   doors:
   - {fileID: 5326635467952911954, guid: 96d19cfec6d6a084db3296ab7b16ab5e, type: 3}
-  obstacles:
-  - {fileID: 706359608433822497, guid: 7492acb9efab8ee43a4808dbe0a3d5d9, type: 3}
+  obstacles_noShoot: []
+  obstacles_shoot: []
   resources:
   - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
+  lightsources: []
   lootBoxes:
   - {fileID: 5857961823447582917, guid: 3b6631833aacfa049b825d89a4b37ac8, type: 3}
-  meleeEnemies: []
-  rangedEnemies: []
+  enemies_mAgressive: []
+  enemies_mEvasive: []
+  enemies_mStealth: []
+  enemies_mWandering: []
+  enemies_rStatic: []
+  enemies_rWandering: []
+  enemies_boss:
+  - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
+  - {fileID: 5857961823447582917, guid: 3b6631833aacfa049b825d89a4b37ac8, type: 3}
+  - {fileID: 5326635467952911954, guid: 96d19cfec6d6a084db3296ab7b16ab5e, type: 3}
+  traps: []
   weaponMaterials:
   - {fileID: 2100000, guid: ae8554b6deeb7f142b52680513762cfd, type: 2}
   firstChampionNames: []

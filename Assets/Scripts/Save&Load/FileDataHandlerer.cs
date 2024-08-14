@@ -28,8 +28,8 @@ public class FileDataHandler
                 string dataToLoad = "";
                 using (FileStream stream = new(fullPath, FileMode.Open))
                 {
-                    using StreamReader readed = new(stream);
-                    dataToLoad = readed.ReadToEnd();
+                    using StreamReader read = new(stream);
+                    dataToLoad = read.ReadToEnd();
                 }
 
                 loadedData = JsonUtility.FromJson<GameData>(dataToLoad);

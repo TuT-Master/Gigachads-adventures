@@ -8,6 +8,7 @@ public class Editor_Tile : MonoBehaviour, IPointerDownHandler
 {
     public Editor.BrushType tileType;
     public Vector2 position;
+    public string specificObjName;
 
     private Editor editor;
     [SerializeField] private Image image;
@@ -67,5 +68,9 @@ public class Editor_Tile : MonoBehaviour, IPointerDownHandler
                 break;
         }
         tileType = editor.brushType;
+        if (tileType == Editor.BrushType.Specific)
+            specificObjName = editor.specificObjName;
+        else
+            specificObjName = "";
     }
 }

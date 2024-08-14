@@ -398,7 +398,7 @@ public class DungeonGenerator : MonoBehaviour
                 Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
                 if (!objs.ContainsKey(id))
                 {
-                    objs.Add(id, objDatabase.obstacles[random.Next(0, objDatabase.obstacles.Count)]);
+                    objs.Add(id, objDatabase.obstacles_shoot[random.Next(0, objDatabase.obstacles_shoot.Count)]);
                     done = true;
                 }
             }

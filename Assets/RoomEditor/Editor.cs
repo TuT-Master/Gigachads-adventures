@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
+using System.Linq;
 
 public class Editor : MonoBehaviour
 {
@@ -50,11 +54,17 @@ public class Editor : MonoBehaviour
     }
     public BrushType brushType;
     public string specificObjName;
+    [SerializeField] private GameObject specificObjsContectArea;
+    [SerializeField] private GameObject specificObjPrefab;
     [SerializeField] private Transform workspace;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject doorPrefab;
-    private GameObject[,] tiles;
-    
+    private Dictionary<int, Editor_Tile> tiles;
+
+    [Header("Saving to file")]
+    [SerializeField] private UnityEngine.Object saveFolder;
+
+
     private Editor_Room room;
     private Dictionary<int, Editor_CustomDoor> customDoors;
     private bool deletingLog = false;
@@ -65,6 +75,7 @@ public class Editor : MonoBehaviour
         newRoomTab.SetActive(false);
         editorTab.SetActive(false);
         customDoorsTab.SetActive(false);
+        bossTypeDropdown.SetActive(false);
     }
     private void Update()
     {
@@ -113,9 +124,9 @@ public class Editor : MonoBehaviour
             {BrushType.Trap, 0},
             {BrushType.Specific, 0},
         };
-        foreach (GameObject tile in tiles)
-            if (tile.GetComponent<Editor_Tile>().tileType != BrushType.None)
-                statistics[tile.GetComponent<Editor_Tile>().tileType]++;
+        foreach (Editor_Tile tile in tiles.Values)
+            if (tile.tileType != BrushType.None)
+                statistics[tile.tileType]++;
         foreach (BrushType brushType in statistics.Keys)
             statisticsText.text += brushType.ToString() + ": " + statistics[brushType] + "\n";
     }
@@ -193,6 +204,21 @@ public class Editor : MonoBehaviour
                 brushDescription.text = "Obstacle\nNo one can shoot over it";
                 break;
         }
+
+        if(brushType == BrushType.Specific)
+        {
+            // Set specific obj list
+            List<GameObject> allObjs = dungeonDatabase.GetAllPlaceableObjs();
+            foreach (GameObject obj in allObjs)
+            {
+                GameObject newSpecificObj = Instantiate(specificObjPrefab, specificObjsContectArea.transform);
+                newSpecificObj.GetComponent<Editor_SpecificObj>().SetUp(obj.name, this);
+            }
+            specificObjsContectArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 10 + (allObjs.Count * 30));
+        }
+        else
+            for(int i = 0; i < specificObjsContectArea.transform.childCount; i++)
+                Destroy(specificObjsContectArea.transform.GetChild(i).gameObject);
     }
     public void NewRoom_button()
     {
@@ -207,6 +233,11 @@ public class Editor : MonoBehaviour
         inputField_width.text = "";
         customDoors = null;
         tiles = null;
+
+        // Set bosses
+        bossTypeDropdown.GetComponent<TMP_Dropdown>().options.Clear();
+        foreach (GameObject go in dungeonDatabase.enemies_boss)
+            bossTypeDropdown.GetComponent<TMP_Dropdown>().options.Add(new(go.name));
     }
     public void Exit_button()
     {
@@ -214,7 +245,10 @@ public class Editor : MonoBehaviour
     }
     public void Export_button()
     {
-
+        if (room == null)
+            log.text = "You must first make some room object before export!";
+        else
+            room.SaveToFile(saveFolder, tiles);
     }
     public void Cancel_button()
     {
@@ -230,8 +264,9 @@ public class Editor : MonoBehaviour
 
         // Generate room in editor
         // Tiles
-        tiles = new GameObject[(int)room.roomSize.x * 6, (int)room.roomSize.y * 6];
+        tiles = new();
         Vector2 startPos = new(room.roomSize.x * 150, room.roomSize.y * 150);
+        int count = 0;
         for (int y = 0; y < room.roomSize.y * 6; y++)
         {
             for (int x = 0; x < room.roomSize.x * 6; x++)
@@ -239,7 +274,8 @@ public class Editor : MonoBehaviour
                 GameObject newTile = Instantiate(tilePrefab, workspace);
                 newTile.GetComponent<Editor_Tile>().SetUpTile(new(x, y), this);
                 newTile.GetComponent<RectTransform>().localPosition = new Vector3((x * 50) - startPos.x, (y * 50) - startPos.y, 0);
-                tiles[x, y] = newTile;
+                tiles.Add(count, newTile.GetComponent<Editor_Tile>());
+                count++;
             }
         }
         // Wall and doors
@@ -426,24 +462,9 @@ public class Editor : MonoBehaviour
         else
             log.text = "Invalid input! Cannot convert width parameter to number.";
     }
-    public void BossRoom()
-    {
-        room.bossRoom = !room.bossRoom;
-    }
     public void BossType(TMP_Dropdown dropdown)
     {
-        switch(dropdown.value)
-        {
-            case 0:
-                room.boss = Editor_Room.BossType.SomeBoss_1;
-                break;
-            case 1:
-                room.boss = Editor_Room.BossType.SomeBoss_2;
-                break;
-            default:
-                room.boss = Editor_Room.BossType.None;
-                break;
-        }
+        room.bossName = dropdown.options[dropdown.value].text;
     }
     public void RoomType(TMP_Dropdown dropdown)
     {
@@ -465,6 +486,17 @@ public class Editor : MonoBehaviour
                 room.roomType = Editor_Room.RoomType.Basic;
                 break;
         }
+
+        if(room.roomType == Editor_Room.RoomType.Boss)
+        {
+            room.bossRoom = true;
+            bossTypeDropdown.SetActive(true);
+        }
+        else
+        {
+            room.bossRoom = false;
+            bossTypeDropdown.SetActive(false);
+        }
     }
 }
 
@@ -479,36 +511,93 @@ public class Editor_Room
         Start,
         Boss,
     }
-    public enum BossType
-    {
-        None,
-        SomeBoss_1,
-        SomeBoss_2,
-    }
-    public BossType boss;
+    public string bossName;
     public RoomType roomType;
 
     public bool bossRoom;
-    public string roomName;
     public Vector2 roomSize;
     public Dictionary<int, Editor_Door> doors;
+    public SerializableDictionary<int, int> doorsSave = new();
+    public SerializableDictionary<int, string> tiles = new();
 
 
-
-    public Editor_Room()
+    public void SaveToFile(UnityEngine.Object saveFolder, Dictionary<int, Editor_Tile> tiles)
     {
+        foreach (int i in tiles.Keys)
+        {
+            string value = "";
+            if (tiles[i].specificObjName == null || tiles[i].specificObjName == "")
+            {
+                switch (tiles[i].tileType)
+                {
+                    case Editor.BrushType.None:
+                        value = 0.ToString();
+                        break;
+                    case Editor.BrushType.Obstacle_noShoot:
+                        value = 1.ToString();
+                        break;
+                    case Editor.BrushType.Obstacle_shoot:
+                        value = 2.ToString();
+                        break;
+                    case Editor.BrushType.Lightsource:
+                        value = 3.ToString();
+                        break;
+                    case Editor.BrushType.Resource:
+                        value = 4.ToString();
+                        break;
+                    case Editor.BrushType.Lootbox:
+                        value = 5.ToString();
+                        break;
+                    case Editor.BrushType.Enemy_mAggresive:
+                        value = 6.ToString();
+                        break;
+                    case Editor.BrushType.Enemy_mEvasive:
+                        value = 7.ToString();
+                        break;
+                    case Editor.BrushType.Enemy_mWandering:
+                        value = 8.ToString();
+                        break;
+                    case Editor.BrushType.Enemy_mStealth:
+                        value = 9.ToString();
+                        break;
+                    case Editor.BrushType.Enemy_rStatic:
+                        value = 10.ToString();
+                        break;
+                    case Editor.BrushType.Enemy_rWandering:
+                        value = 11.ToString();
+                        break;
+                    case Editor.BrushType.Trap:
+                        value = 12.ToString();
+                        break;
+                }
+            }
+            else
+                value = tiles[i].specificObjName;
+            this.tiles.Add(i, value);
+        }
+        foreach (int i in doors.Keys)
+            doorsSave.Add(i, doors[i].doorState);
+        // Set path
+        string path = Path.GetFullPath(AssetDatabase.GetAssetPath(saveFolder));
+
+        // Set proper name to a save file
+        string name = "dungeonRoom_" + (new DirectoryInfo(path).EnumerateFiles().Count() / 2).ToString() + ".txt";
 
 
-    }
+        string fullPath = Path.Combine(path , name);
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
+            string dataToStore = JsonUtility.ToJson(this, true);
 
-    public void SaveToFile()
-    {
-
-    }
-
-    public void LoadFromFile()
-    {
-
+            using FileStream stream = new(fullPath, FileMode.Create);
+            using StreamWriter writer = new(stream);
+            writer.Write(dataToStore);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error occured when trying to save data to file " + fullPath + "\n" + e);
+        }
     }
 }

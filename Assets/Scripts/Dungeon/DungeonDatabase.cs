@@ -15,18 +15,24 @@ public class DungeonDatabase : ScriptableObject
 
     public List<GameObject> doors;
 
-    public List<GameObject> obstacles;
+    public List<GameObject> obstacles_noShoot;
+
+    public List<GameObject> obstacles_shoot;
 
     public List<GameObject> resources;
 
+    public List<GameObject> lightsources;
+
     public List<GameObject> lootBoxes;
 
-    public List<GameObject> enemies_melleAgressive;
-    public List<GameObject> enemies_melleEvasive;
-    public List<GameObject> enemies_melleStealth;
-    public List<GameObject> enemies_melleWandering;
-    public List<GameObject> enemies_rangedStatic;
-    public List<GameObject> enemies_rangedWandering;
+    public List<GameObject> enemies_mAgressive;
+    public List<GameObject> enemies_mEvasive;
+    public List<GameObject> enemies_mStealth;
+    public List<GameObject> enemies_mWandering;
+    public List<GameObject> enemies_rStatic;
+    public List<GameObject> enemies_rWandering;
+    public List<GameObject> enemies_boss;
+    public List<GameObject> traps;
 
     public List<Material> weaponMaterials;
 
@@ -41,5 +47,37 @@ public class DungeonDatabase : ScriptableObject
             if(mat.name == name)
                 return mat;
         return null;
+    }
+
+    public List<GameObject> GetAllPlaceableObjs()
+    {
+        List<GameObject> objs = new();
+        foreach(GameObject go in obstacles_noShoot)
+            objs.Add(go);
+        foreach (GameObject go in obstacles_shoot)
+            objs.Add(go);
+        foreach (GameObject go in resources)
+            objs.Add(go);
+        foreach (GameObject go in lootBoxes)
+            objs.Add(go);
+        foreach (GameObject go in lightsources)
+            objs.Add(go);
+        foreach (GameObject go in enemies_mAgressive)
+            objs.Add(go);
+        foreach (GameObject go in enemies_mEvasive)
+            objs.Add(go);
+        foreach (GameObject go in enemies_mWandering)
+            objs.Add(go);
+        foreach (GameObject go in enemies_mStealth)
+            objs.Add(go);
+        foreach (GameObject go in enemies_rStatic)
+            objs.Add(go);
+        foreach (GameObject go in enemies_rWandering)
+            objs.Add(go);
+        foreach (GameObject go in enemies_boss)
+            objs.Add(go);
+        foreach (GameObject go in traps)
+            objs.Add(go);
+        return objs;
     }
 }
