@@ -19,13 +19,7 @@ public class PlayerFight : MonoBehaviour
 
     [Header("Colliders")]
     [SerializeField]
-    private GameObject freeRotation;
-    [SerializeField]
-    private CapsuleCollider weaponRange;
-
-    [Header("Animation")]
-    [SerializeField]
-    private Animator animator;
+    private BoxCollider weaponRange;
 
     [Header("Projectile")]
     [SerializeField]
@@ -71,8 +65,6 @@ public class PlayerFight : MonoBehaviour
     {
         ActiveWeapon();
         MyInput();
-        FreeRotation();
-        animator.gameObject.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
 
         foreach (IInteractableEnemy enemy in enemyList)
         {
@@ -227,7 +219,6 @@ public class PlayerFight : MonoBehaviour
         }
 
         // Play animation
-        effectManager.SpawnSlash(weaponEffectSpawnPoint);
 
 
         StartCoroutine(CanAttackAgain());
@@ -327,14 +318,10 @@ public class PlayerFight : MonoBehaviour
                 // Wait for reload
                 if (itemInHand.stats["magazineSize"] == 1)
                 {
-                    animator.SetFloat("SpeedMultiplier", itemInHand.stats["attackSpeed"]);
-                    animator.SetTrigger("Reload");
                     yield return new WaitForSeconds(1 / itemInHand.stats["attackSpeed"]);
                 }
                 else
                 {
-                    animator.SetFloat("SpeedMultiplier", 1 / itemInHand.stats["reloadTime"]);
-                    animator.SetTrigger("Reload");
                     yield return new WaitForSeconds(itemInHand.stats["reloadTime"]);
                 }
 
@@ -365,21 +352,19 @@ public class PlayerFight : MonoBehaviour
     {
         if (itemInHand == null) // No active weapon -> fists as weapon
         {
-            weaponRange.height = fistsStats["rangeX"] * 2;
-            weaponRange.radius = fistsStats["rangeY"] * 0.5f;
-            weaponRange.center = new Vector3(0, 0, weaponRange.height * 0.5f);
+            weaponRange.size = new Vector3(0.05f, 0.05f, fistsStats["rangeX"]);
+            weaponRange.center = new Vector3(0, 0, weaponRange.size.z / 2);
             return;
         }
         if (itemInHand.slotType == (Slot.SlotType.WeaponMelee | Slot.SlotType.WeaponRanged)) // itemInHand is some weapon
         {
-            weaponRange.height = itemInHand.stats["rangeX"] * 2;
-            weaponRange.radius = itemInHand.stats["rangeY"] * 0.5f;
-            weaponRange.center = new Vector3(0, 0, weaponRange.height * 0.5f);
+            weaponRange.size = new Vector3(0.05f, 0.05f, itemInHand.stats["rangeX"]);
+            weaponRange.center = new Vector3(0, 0, weaponRange.size.z / 2);
+            return;
         }
     }
 
 
-    void FreeRotation() { freeRotation.transform.rotation = Quaternion.Euler(0, GetComponent<PlayerMovement>().angleRaw, 0); }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 14)

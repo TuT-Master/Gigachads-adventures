@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class HUDmanager : MonoBehaviour
 {
-    private PlayerInventory inventory;
-    private PlayerSkill skill;
-    private DungeonMap map;
-    private PlayerOtherInventoryScreen playerOtherInventory;
-    private PlayerCrafting playerCrafting;
-    private ItemCard itemCard;
+    [SerializeField] private PlayerInventory inventory;
+    [SerializeField] private PlayerSkill skill;
+    [SerializeField] private DungeonMap map;
+    [SerializeField] private PlayerOtherInventoryScreen playerOtherInventory;
+    [SerializeField] private PlayerCrafting playerCrafting;
+    [SerializeField] private ItemCard itemCard;
+    [SerializeField] private StartScreen startScreen;
 
 
     [SerializeField]
@@ -19,15 +20,7 @@ public class HUDmanager : MonoBehaviour
 
     public bool canOpenESCScreen;
 
-    private void Start()
-    {
-        inventory = GetComponent<PlayerInventory>();
-        skill = GetComponent<PlayerSkill>();
-        map = GetComponent<DungeonMap>();
-        playerOtherInventory = GetComponent<PlayerOtherInventoryScreen>();
-        playerCrafting = GetComponent<PlayerCrafting>();
-        itemCard = FindAnyObjectByType<ItemCard>(FindObjectsInactive.Include);
-    }
+
 
     private void Update()
     {
@@ -35,10 +28,21 @@ public class HUDmanager : MonoBehaviour
             CloseEverything();
         if(!AnyScreenOpen() && !canOpenESCScreen)
             StartCoroutine(CanOpenESCScreen());
-        if (AnyScreenOpen())
+
+        if(AnyScreenOpen())
+        {
             canOpenESCScreen = false;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            GetComponent<PlayerCamera>().canRotateY = false;
+        }
         else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            GetComponent<PlayerCamera>().canRotateY = true;
             itemCard.HideItemCard();
+        }
     }
 
     IEnumerator CanOpenESCScreen()
@@ -49,7 +53,7 @@ public class HUDmanager : MonoBehaviour
 
     public bool AnyScreenOpen()
     {
-        if(inventory.playerInventoryOpen || skill.skillScreenOpen || map.mapOpened || playerOtherInventory.isOpened || playerCrafting.isOpened)
+        if(inventory.playerInventoryOpen || skill.skillScreenOpen || map.mapOpened || playerOtherInventory.isOpened || playerCrafting.isOpened || startScreen.startScreenOpen)
             return true;
         else
             return false;

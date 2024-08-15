@@ -21,6 +21,7 @@ public class StartScreen : MonoBehaviour, IDataPersistance
     [SerializeField]
     private GameObject screen_3;
     private GameObject buttonDone;
+    public bool startScreenOpen;
 
     [Header("Character creation")]
     [SerializeField]
@@ -71,13 +72,16 @@ public class StartScreen : MonoBehaviour, IDataPersistance
     private int[] savedCharacterSprites = new int[3] { 0, 0, 0};
 
 
-    void Start()
+    void Update()
     {
-        GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        if(startScreenOpen)
+            GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        else
+            GetComponent<Image>().color = new Color(1, 1, 1, 0);
     }
     public void CreateNewCharacter()
     {
-        GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        startScreenOpen = true;
         gameObject.SetActive(true);
         screen_1.SetActive(true);
         screen_2.SetActive(false);
@@ -107,9 +111,6 @@ public class StartScreen : MonoBehaviour, IDataPersistance
                 screen_2.SetActive(true);
                 buttonDone = screen_2.transform.Find("Button_done").gameObject;
                 buttonDone.GetComponent<Button_Done>().isActive = false;
-
-                // Apply gfx to player obj
-                StartCoroutine(LoadingDelay());
                 break;
             case 1:
                 screen_2.SetActive(false);
@@ -130,8 +131,9 @@ public class StartScreen : MonoBehaviour, IDataPersistance
 
 
                 // Close screen and save game
-                gameObject.SetActive(false);
                 FindAnyObjectByType<DataPersistanceManager>().SaveGame();
+                startScreenOpen = false;
+                gameObject.SetActive(false);
                 break;
         }
     }
@@ -300,32 +302,6 @@ public class StartScreen : MonoBehaviour, IDataPersistance
     {
         savedCharacterSprites = data.characterSprites;
         difficulty = data.difficulty;
-        StartCoroutine(LoadingDelay());
-    }
-    private IEnumerator LoadingDelay()
-    {
-        yield return new WaitForEndOfFrame();
-        PlayerGFXManager playerGFXManager = transform.parent.parent.GetComponent<PlayerGFXManager>();
-
-        if (savedCharacterSprites[2] == 0)
-        {
-            // Male
-            playerGFXManager.hairObj.GetComponent<SpriteRenderer>().sprite = hairImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[0]];
-            playerGFXManager.beardObj.GetComponent<SpriteRenderer>().sprite = beardImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[1]];
-            playerGFXManager.defaultHair = hairImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[0]];
-            playerGFXManager.defaultBeard = beardImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[1]];
-            playerGFXManager.defaultBody = bodyImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[2]];
-        }
-        else if(savedCharacterSprites[2] == 1)
-        {
-            // Female
-            playerGFXManager.hairObj.GetComponent<SpriteRenderer>().sprite = hairImage.GetComponent<SpriteLibrary>().spritesFemale[savedCharacterSprites[0]];
-            playerGFXManager.beardObj.GetComponent<SpriteRenderer>().sprite = beardImage.GetComponent<SpriteLibrary>().spritesFemale[savedCharacterSprites[1]];
-            playerGFXManager.defaultHair = hairImage.GetComponent<SpriteLibrary>().spritesFemale[savedCharacterSprites[0]];
-            playerGFXManager.defaultBeard = beardImage.GetComponent<SpriteLibrary>().spritesFemale[savedCharacterSprites[1]];
-            playerGFXManager.defaultBody = bodyImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[2]];
-        }
-        playerGFXManager.torsoObj.GetComponent<SpriteRenderer>().sprite = bodyImage.GetComponent<SpriteLibrary>().spritesMale[savedCharacterSprites[2]];
     }
     public void SaveData(ref GameData data)
     {

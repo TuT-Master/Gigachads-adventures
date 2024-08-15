@@ -610,8 +610,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         // Send all stats to PlayerStats
         foreach (string key in bonusStats.Keys)
             playerStats[key] = playerBaseStats[key] + bonusStats[key];
-
-        GetComponent<PlayerGFXManager>().UpdateGFX();
     }
     public void UpdateSkillBonusStats()
     {
@@ -707,18 +705,13 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         playerStats = new();
         foreach(string key in data.playerStats.Keys)
             playerStats.Add(key, data.playerStats[key]);
-        StartCoroutine(UpdateGFXDelay());
-    }
-    IEnumerator UpdateGFXDelay()
-    {
-        yield return new WaitForSeconds(0.1f);
-        GetComponent<PlayerGFXManager>().UpdateGFX();
         loaded = true;
     }
     public void SaveData(ref GameData data)
     {
         data.playerStats.Clear();
-        foreach(string key in playerStats.Keys)
+        playerStats ??= playerBaseStats;
+        foreach (string key in playerStats.Keys)
             data.playerStats.Add(key, playerStats[key]);
     }
 }

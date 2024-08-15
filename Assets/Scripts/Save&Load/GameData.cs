@@ -15,7 +15,7 @@ public class GameData
     public int backpackSize;
     public int beltSize;
     public int pocketSize;
-    public SerializableDictionary<Transform, string> playerInventory;
+    public SerializableDictionary<int, string> playerInventory;
 
     // Other inventories
     public SerializableDictionary<int, string> otherInventoriesNames;

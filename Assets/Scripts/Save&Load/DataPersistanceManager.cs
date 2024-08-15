@@ -32,7 +32,11 @@ public class DataPersistanceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         dataHandler = new FileDataHandler(Application.persistentDataPath, playerDataFileName);
         dataPersistanceObjects = FindAllDataPersistanceObjects();
-        StartCoroutine(LoadGame());
+        gameData = dataHandler.Load();
+        if (gameData == null)
+            NewGame();
+        else
+            StartCoroutine(LoadGame());
     }
 
     public void NewGame()
@@ -41,10 +45,10 @@ public class DataPersistanceManager : MonoBehaviour
 
         // Starter pack
         GameObject playerInventory = FindAnyObjectByType<PlayerInventory>().backpackInventory;
-        gameData.playerInventory.Add(playerInventory.transform.GetChild(0), "Primitive club-1");
-        gameData.playerInventory.Add(playerInventory.transform.GetChild(1), "Primitive bow-1");
-        gameData.playerInventory.Add(playerInventory.transform.GetChild(2), "Primitive arrow-20");
-        gameData.playerInventory.Add(playerInventory.transform.GetChild(3), "Primitive magic staff-1");
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(0).GetComponent<Slot>().id, "Primitive club-1");
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(1).GetComponent<Slot>().id, "Primitive bow-1");
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(2).GetComponent<Slot>().id, "Primitive arrow-20");
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(3).GetComponent<Slot>().id, "Primitive magic staff-1");
         string rndCrystalName = "";
         switch (new System.Random().Next(4))
         {
@@ -61,24 +65,17 @@ public class DataPersistanceManager : MonoBehaviour
                 rndCrystalName = "Earth crystal-1";
                 break;
         }
-        gameData.playerInventory.Add(playerInventory.transform.GetChild(4), rndCrystalName);
+        gameData.playerInventory.Add(playerInventory.transform.GetChild(4).GetComponent<Slot>().id, rndCrystalName);
 
         FindAnyObjectByType<StartScreen>().CreateNewCharacter();
-
-        dataHandler.SaveData(gameData);
     }
 
     public IEnumerator LoadGame()
     {
         yield return new WaitForEndOfFrame();
-        gameData = dataHandler.Load();
 
-        if (gameData == null)
-            NewGame();
-        else
-            for(int i = 0; i < FindAnyObjectByType<StartScreen>(FindObjectsInactive.Exclude).transform.childCount; i++)
+        for (int i = 0; i < FindAnyObjectByType<StartScreen>(FindObjectsInactive.Exclude).transform.childCount; i++)
                 FindAnyObjectByType<StartScreen>(FindObjectsInactive.Exclude).transform.GetChild(i).gameObject.SetActive(false);
-
 
         foreach (IDataPersistance obj in dataPersistanceObjects)
             obj.LoadData(gameData);

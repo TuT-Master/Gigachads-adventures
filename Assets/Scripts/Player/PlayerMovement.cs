@@ -11,14 +11,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
 
     public bool canMove = true;
 
-    [SerializeField]
-    private float rotationMin;
-    [SerializeField]
-    private float rotationMax;
-    [SerializeField]
-    private GameObject playerGFX;
     private PlayerStats playerStats;
-    private float x, y;
+    private float x;
+    private float y;
+
+    private PlayerCamera playerCamera;
+    private float rotateX = 0f;
+    
     private bool canSprint;
 
 
@@ -26,6 +25,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
     {
         playerStats = GetComponent<PlayerStats>();
         _rb = GetComponent<Rigidbody>();
+        playerCamera = GetComponent<PlayerCamera>();
     }
 
     void Update()
@@ -67,55 +67,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
             _rb.drag = 1.5f;
 
         // Mouse
-        Vector3 mouse = new();
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("Floor")))
-            mouse = hit.point;
-        Vector2 dir = new(mouse.x - _rb.position.x, mouse.z - _rb.position.z);
-        float angle = Mathf.Atan2(dir.normalized.x, dir.normalized.y) * Mathf.Rad2Deg;
-        angleRaw = angle;
-
-        #region Rotating player towards mouse cursor
-        if (angle is >= (-90) and < 0)
-        {
-            // vlevo nahoře
-            if (angle < -35)
-                angle = -35;
-            turn = true;
-        }
-        else if (angle is <= 90 and >= 0)
-        {
-            // vpravo nahoře
-            if (angle > 35)
-                angle = 35;
-            turn = true;
-        }
-        else if (angle is > 90 and < 180)
-        {
-            // vpravo dole
-            if (angle < 145)
-                angle = 145;
-            turn = false;
-        }
-        else
-        {
-            // vlevo dole
-            if (angle > -145)
-                angle = -145;
-            turn = false;
-        }
-        #endregion
-
-        if (turn)
-            playerGFX.transform.localRotation = Quaternion.Euler(5, 0, 0);
-        else
-            playerGFX.transform.localRotation = Quaternion.Euler(-10, 0, 0);
-
-        _rb.MoveRotation(Quaternion.Euler(0, angle, 0));
+        rotateX += Input.GetAxisRaw("Mouse X") * (playerCamera.mouseXsensitivity / 100f);
+        if(rotateX > 360 || rotateX < -360)
+            rotateX = 0;
     }
 
     void Movement()
     {
+        // Rotate player
+        transform.rotation = Quaternion.Euler(0, rotateX, 0);
+        angleRaw = transform.rotation.y;
+
         // Movement
         _rb.mass = (playerStats.playerStats["weight"] - 80) / 80;
         if(_rb.mass < 1)
@@ -123,7 +85,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistance
         float moreSpeed = 3f;
         if (sprint)
             moreSpeed = 5f;
-        _rb.AddForce(moreSpeed * playerStats.playerStats["speed"] * new Vector3(x, 0, y), ForceMode.Force);
+        
+        _rb.AddRelativeForce(moreSpeed * playerStats.playerStats["speed"] * new Vector3(x / 2, 0, y), ForceMode.Force);
     }
 
     public void LoadData(GameData data)

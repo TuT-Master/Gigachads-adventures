@@ -41,6 +41,8 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public bool isOcupied;
 
+    public int id;
+
 
     void Start() { SetDefaultImage(); }
     void Update()
