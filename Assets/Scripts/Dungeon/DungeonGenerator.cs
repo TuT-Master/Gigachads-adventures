@@ -248,23 +248,8 @@ public class DungeonGenerator : MonoBehaviour
                         if (CanPlaceRoom(startPos + dir, roomSize))
                         {
                             AddRoom(startPos + dir, roomSize, previousRoom, out newRoom);
-
-                            //Prefered direction for next room
-                            // Right
-                            if (dir.x == 0 && dir.y > 0)
-                                preferedDirection = new Vector2(0, 1);
-                            // Left
-                            else if (dir.x == 0 && dir.y < 0)
-                                preferedDirection = new Vector2(0, -1);
-                            // Up
-                            else if (dir.x > 0 && dir.y == 0)
-                                preferedDirection = new Vector2(1, 0);
-                            // Down
-                            else if (dir.x < 0 && dir.y == 0)
-                                preferedDirection = new Vector2(-1, 0);
-
+                            preferedDirection = new(dir.x, dir.y);
                             newRoom.GetComponent<DungeonRoom>().boardPos = startPos + dir;
-
                             newRoom.GetComponent<DungeonRoom>().previousRoom = previousRoom;
                             previousRoom = newRoom;
 
