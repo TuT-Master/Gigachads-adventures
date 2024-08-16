@@ -463,7 +463,8 @@ public class PlayerCrafting : MonoBehaviour
         foreach (Item item in allItems)
             if (item.recipe.Count > 0 &&
                     (item.requieredCraftingLevel == 0 ||
-                    (playerBase.baseUpgrades[item.craftedIn] != null && item.requieredCraftingLevel <= playerBase.baseUpgrades[item.craftedIn].levelOfUpgrade)))
+                    (playerBase.baseUpgrades[item.craftedIn] != null && item.requieredCraftingLevel <= playerBase.baseUpgrades[item.craftedIn].levelOfUpgrade)) &&
+                    !item.isUpgrade)
             {
                 // Show recipe
                 GameObject recipe = Instantiate(recipePrefab, recipeTransform);

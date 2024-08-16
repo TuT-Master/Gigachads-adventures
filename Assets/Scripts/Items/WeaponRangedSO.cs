@@ -85,6 +85,7 @@ public class WeaponRangedSO : ScriptableObject
     }
 
     [Header("Upgrade")]
+    public bool isUpgrade;
     public WeaponRangedSO upgradedVersionsOfWeapon;
 
     [Header("Ammo types")]

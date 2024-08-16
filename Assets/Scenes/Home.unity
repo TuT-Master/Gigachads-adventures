@@ -7254,6 +7254,7 @@ MonoBehaviour:
   playerCrafting: {fileID: 220485088}
   itemCard: {fileID: 7688285660187953022}
   startScreen: {fileID: 1455224809}
+  escScreen: {fileID: 220485089}
   skillDescription: {fileID: 1488603244}
   canOpenScreen: 0
   canOpenESCScreen: 0
@@ -22553,8 +22554,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.05, y: 0.05, z: 2.5}
-  m_Center: {x: 0, y: 0, z: 1.25}
+  m_Size: {x: 0.05, y: 0.05, z: 3}
+  m_Center: {x: 0, y: 0, z: 1.5}
 --- !u!1001 &580320432
 PrefabInstance:
   m_ObjectHideFlags: 0

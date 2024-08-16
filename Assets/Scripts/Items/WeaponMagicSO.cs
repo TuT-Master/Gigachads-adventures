@@ -80,6 +80,7 @@ public class WeaponMagicSO : ScriptableObject
     }
 
     [Header("Upgrade")]
+    public bool isUpgrade;
     public WeaponMagicSO upgradedVersionsOfWeapon;
 
 

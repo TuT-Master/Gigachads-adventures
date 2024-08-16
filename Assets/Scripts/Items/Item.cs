@@ -119,6 +119,7 @@ public class Item : MonoBehaviour
     public bool isRecipe;
 
     // Upgrading
+    public bool isUpgrade;
     public ScriptableObject upgradedVersionOfItem;
 
     // Magic crystals
@@ -195,6 +196,7 @@ public class Item : MonoBehaviour
         for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
             recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
+        isUpgrade = weaponSO.isUpgrade;
     }
     public Item(WeaponRangedSO weaponSO)
     {
@@ -221,6 +223,7 @@ public class Item : MonoBehaviour
         for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
             recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
+        isUpgrade = weaponSO.isUpgrade;
     }
     public Item(WeaponMagicSO weaponSO)
     {
@@ -247,6 +250,7 @@ public class Item : MonoBehaviour
             recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
         magicCrystals = weaponSO.magicCrystals;
+        isUpgrade = weaponSO.isUpgrade;
     }
     public Item(ConsumableSO consumableSO)
     {
@@ -306,6 +310,7 @@ public class Item : MonoBehaviour
         hideBeardWhenEquiped = armorSO.hideBeardWhenEquiped;
         hideBodyWhenEquiped = armorSO.hideBodyWhenEquiped;
         fullSetBonus = armorSO.FullsetBonus();
+        isUpgrade = armorSO.isUpgrade;
     }
     public Item(BackpackSO backpackSO)
     {
@@ -366,6 +371,7 @@ public class Item : MonoBehaviour
         for (int i = 0; i < shieldSO.recipeMaterials.Count; i++)
             recipe.Add(shieldSO.recipeMaterials[i], shieldSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = shieldSO.upgradedVersionsOfShield;
+        isUpgrade = shieldSO.isUpgrade;
     }
     public Item(MaterialSO materialSO)
     {
@@ -495,17 +501,12 @@ public class Item : MonoBehaviour
         hideBeardWhenEquiped = item.hideBeardWhenEquiped;
         hideBodyWhenEquiped = item.hideBodyWhenEquiped;
         fullSetBonus = item.fullSetBonus;
+        isUpgrade = item.isUpgrade;
     }
 
 
     private void Start()
     {
-        if (isRecipe)
-            return;
-        text = GetComponentInChildren<TextMeshProUGUI>();
-        GetComponent<Image>().sprite = sprite_inventory;
-        recipe ??= new();
-
         switch (weaponType)
         {
             case WeaponType.NotAWeapon:
@@ -611,6 +612,13 @@ public class Item : MonoBehaviour
                 Debug.Log(itemName);
                 break;
         }
+
+
+        if (isRecipe)
+            return;
+        text = GetComponentInChildren<TextMeshProUGUI>();
+        GetComponent<Image>().sprite = sprite_inventory;
+        recipe ??= new();
 
         UpdateMagicCrystalsByAge((int)FindAnyObjectByType<PlayerStats>().playerStats["age"]);
 

@@ -11,6 +11,7 @@ public class HUDmanager : MonoBehaviour
     [SerializeField] private PlayerCrafting playerCrafting;
     [SerializeField] private ItemCard itemCard;
     [SerializeField] private StartScreen startScreen;
+    [SerializeField] private ESCScreen escScreen;
 
 
     [SerializeField]
@@ -29,7 +30,7 @@ public class HUDmanager : MonoBehaviour
         if(!AnyScreenOpen() && !canOpenESCScreen)
             StartCoroutine(CanOpenESCScreen());
 
-        if(AnyScreenOpen())
+        if(AnyScreenOpen() || escScreen.escScreenToggle)
         {
             canOpenESCScreen = false;
             Cursor.visible = true;

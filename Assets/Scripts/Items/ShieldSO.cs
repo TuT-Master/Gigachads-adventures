@@ -45,5 +45,6 @@ public class ShieldSO : ScriptableObject
     }
 
     [Header("Upgrade")]
+    public bool isUpgrade;
     public ShieldSO upgradedVersionsOfShield;
 }

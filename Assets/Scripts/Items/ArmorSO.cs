@@ -65,5 +65,6 @@ public class ArmorSO : ScriptableObject
     }
 
     [Header("Upgrade")]
+    public bool isUpgrade;
     public ArmorSO upgradedVersionsOfArmor;
 }

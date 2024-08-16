@@ -74,5 +74,6 @@ public class WeaponMeleeSO : ScriptableObject
     }
 
     [Header("Upgrade")]
+    public bool isUpgrade;
     public WeaponMeleeSO upgradedVersionsOfWeapon;
 }

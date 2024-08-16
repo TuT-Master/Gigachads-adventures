@@ -174,9 +174,10 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                         stats[i].age = (int)playerStats.playerStats["age"];
                         // Get skill bonuses depending on magic crystals type and count
                         float finalBonus = 0f;
-                        foreach (Item.MagicCrystalType crystalType in item.magicSkillBonuses.Keys)
-                            if (playerStats.GetSkillBonusStats(crystalType, item.magicSkillBonuses[crystalType]).TryGetValue(_stats[i], out float bonus))
-                                finalBonus += bonus;
+                        if(item.magicSkillBonuses != null)
+                            foreach (Item.MagicCrystalType crystalType in item.magicSkillBonuses.Keys)
+                                if (playerStats.GetSkillBonusStats(crystalType, item.magicSkillBonuses[crystalType]).TryGetValue(_stats[i], out float bonus))
+                                    finalBonus += bonus;
                         stats[i].SetUp(_stats[i], item.stats[_stats[i]], finalBonus);
                         AddStatEffects(item, stats[i], _stats[i]);
                     }
@@ -225,7 +226,9 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     {
                         stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
                         stats[i].age = (int)playerStats.playerStats["age"];
-                        if (GetComponentInParent<PlayerFight>().itemInHand != null && playerStats.GetSkillBonusStats(GetComponentInParent<PlayerFight>().itemInHand.weaponClass).TryGetValue("armorIncrease", out float bonus))
+                        if (GetComponentInParent<PlayerFight>().itemInHand != null
+                            && (GetComponentInParent<PlayerFight>().itemInHand.weaponClass == PlayerStats.WeaponClass.OneHandStrenght || GetComponentInParent<PlayerFight>().itemInHand.weaponClass == PlayerStats.WeaponClass.TwoHandStrenght)
+                            && playerStats.GetSkillBonusStats(GetComponentInParent<PlayerFight>().itemInHand.weaponClass).TryGetValue("armorIncrease", out float bonus))
                             stats[i].SetUp(_stats[i], item.armorStats[_stats[i]], bonus);
                         else
                             stats[i].SetUp(_stats[i], item.armorStats[_stats[i]], 0);
