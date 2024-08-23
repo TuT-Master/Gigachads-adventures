@@ -248,7 +248,10 @@ public class Editor : MonoBehaviour
         if (room == null)
             log.text = "You must first make some room object before export!";
         else
+        {
             room.SaveToFile(saveFolder, tiles);
+            room = null;
+        }
     }
     public void Cancel_button()
     {
@@ -575,8 +578,133 @@ public class Editor_Room
                 value = tiles[i].specificObjName;
             this.tiles.Add(i, value);
         }
-        foreach (int i in doors.Keys)
-            doorsSave.Add(i, doors[i].doorState);
+        // Make some normal IDs for doors (cause I'm too stoopid to do that right away -_- )
+        if (roomSize == new Vector2(1, 1))
+        {
+            doorsSave = new()
+            {
+                { 0, doors[1].doorState },
+                { 1, doors[2].doorState },
+                { 2, doors[3].doorState },
+                { 3, doors[0].doorState },
+            };
+        }
+        else if (roomSize == new Vector2(1, 2))
+        {
+            doorsSave = new()
+            {
+                { 0, doors[1].doorState },
+                { 1, doors[2].doorState },
+                { 2, doors[4].doorState },
+                { 3, doors[5].doorState },
+                { 4, doors[3].doorState },
+                { 5, doors[0].doorState },
+            };
+        }
+        else if (roomSize == new Vector2(1, 3))
+        {
+            doorsSave = new()
+            {
+                { 0, doors[1].doorState },
+                { 1, doors[2].doorState },
+                { 2, doors[4].doorState },
+                { 3, doors[6].doorState },
+                { 4, doors[7].doorState },
+                { 5, doors[5].doorState },
+                { 6, doors[3].doorState },
+                { 7, doors[0].doorState },
+            };
+        }
+        else if (roomSize == new Vector2(2, 1))
+        {
+            doorsSave = new()
+            {
+                { 0, doors[1].doorState },
+                { 1, doors[3].doorState },
+                { 2, doors[4].doorState },
+                { 3, doors[5].doorState },
+                { 4, doors[2].doorState },
+                { 5, doors[0].doorState },
+            };
+        }
+        else if (roomSize == new Vector2(2, 2))
+        {
+            doorsSave = new()
+            {
+                { 0, doors[1].doorState },
+                { 1, doors[2].doorState },
+                { 2, doors[3].doorState },
+                { 3, doors[6].doorState },
+                { 4, doors[7].doorState },
+                { 5, doors[5].doorState },
+                { 6, doors[4].doorState },
+                { 7, doors[0].doorState },
+            };
+        }
+        else if (roomSize == new Vector2(2, 3))
+        {
+            doorsSave = new()
+            {
+                { 0, doors[1].doorState },
+                { 1, doors[2].doorState },
+                { 2, doors[3].doorState },
+                { 3, doors[5].doorState },
+                { 4, doors[8].doorState },
+                { 5, doors[9].doorState },
+                { 6, doors[7].doorState },
+                { 7, doors[6].doorState },
+                { 8, doors[4].doorState },
+                { 9, doors[0].doorState },
+            };
+        }
+        else if (roomSize == new Vector2(3, 1))
+        {
+            doorsSave = new()
+            {
+                { 0, doors[1].doorState },
+                { 1, doors[3].doorState },
+                { 2, doors[5].doorState },
+                { 3, doors[6].doorState },
+                { 4, doors[7].doorState },
+                { 5, doors[4].doorState },
+                { 6, doors[2].doorState },
+                { 7, doors[0].doorState },
+            };
+        }
+        else if (roomSize == new Vector2(3, 2))
+        {
+            doorsSave = new()
+            {
+                { 0, doors[1].doorState },
+                { 1, doors[2].doorState },
+                { 2, doors[3].doorState },
+                { 3, doors[4].doorState },
+                { 4, doors[8].doorState },
+                { 5, doors[9].doorState },
+                { 6, doors[7].doorState },
+                { 7, doors[6].doorState },
+                { 8, doors[5].doorState },
+                { 9, doors[0].doorState },
+            };
+        }
+        else if (roomSize == new Vector2(3, 3))
+        {
+            doorsSave = new()
+            {
+                { 0, doors[1].doorState },
+                { 1, doors[2].doorState },
+                { 2, doors[3].doorState },
+                { 3, doors[4].doorState },
+                { 4, doors[6].doorState },
+                { 5, doors[10].doorState },
+                { 6, doors[11].doorState },
+                { 7, doors[9].doorState },
+                { 8, doors[8].doorState },
+                { 9, doors[7].doorState },
+                { 10, doors[5].doorState },
+                { 11, doors[0].doorState },
+            };
+        }
         // Set path
         string path = Path.GetFullPath(AssetDatabase.GetAssetPath(saveFolder));
 
@@ -594,6 +722,8 @@ public class Editor_Room
             using FileStream stream = new(fullPath, FileMode.Create);
             using StreamWriter writer = new(stream);
             writer.Write(dataToStore);
+            writer.Close();
+            stream.Close();
         }
         catch (Exception e)
         {

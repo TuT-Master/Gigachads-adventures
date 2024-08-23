@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca43089e27a08f945b859ca8e9efff38, type: 3}
   m_Name: DungeonDatabase
@@ -45,3 +45,38 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ae8554b6deeb7f142b52680513762cfd, type: 2}
   firstChampionNames: []
   secondChampionNames: []
+  floor_1x1: {fileID: 919132149155446097, guid: ab1709a1c66cea441b40776c9bf4c68a,
+    type: 3}
+  floor_1x2: {fileID: 0}
+  floor_1x3: {fileID: 0}
+  floor_2x1: {fileID: 0}
+  floor_2x2: {fileID: 0}
+  floor_2x3: {fileID: 0}
+  floor_3x1: {fileID: 0}
+  floor_3x2: {fileID: 0}
+  floor_3x3: {fileID: 0}
+  ceiling_1x1: {fileID: 919132149155446097, guid: ab1709a1c66cea441b40776c9bf4c68a,
+    type: 3}
+  ceiling_1x2: {fileID: 0}
+  ceiling_1x3: {fileID: 0}
+  ceiling_2x1: {fileID: 0}
+  ceiling_2x2: {fileID: 0}
+  ceiling_2x3: {fileID: 0}
+  ceiling_3x1: {fileID: 0}
+  ceiling_3x2: {fileID: 0}
+  ceiling_3x3: {fileID: 0}
+  wall_1_0: {fileID: 0}
+  wall_1_1: {fileID: 919132149155446097, guid: 0d53d07752c3a0f4cabbcaa0b7c4d4d0, type: 3}
+  wall_2_00: {fileID: 0}
+  wall_2_01: {fileID: 0}
+  wall_2_10: {fileID: 0}
+  wall_2_11: {fileID: 0}
+  wall_3_000: {fileID: 0}
+  wall_3_001: {fileID: 0}
+  wall_3_010: {fileID: 0}
+  wall_3_011: {fileID: 0}
+  wall_3_100: {fileID: 0}
+  wall_3_101: {fileID: 0}
+  wall_3_110: {fileID: 0}
+  wall_3_111: {fileID: 0}
+  saveFile: {fileID: 102900000, guid: 160203e65ff4cfb46abd9f883f0d9995, type: 3}

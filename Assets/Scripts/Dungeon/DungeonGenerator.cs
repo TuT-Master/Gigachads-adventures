@@ -1,63 +1,277 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Unity.AI.Navigation;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class DungeonGenerator : MonoBehaviour
 {
+    // Global stuff
+    public int clearedDungeonCounter;
+    public int maxRoomCount;
+    public int age;
+    public List<GameObject> rooms = new();
+    [SerializeField] private Transform dungeonScene;
+    [SerializeField] private DungeonDatabase dungeonDatabase;
+    [SerializeField] private ItemDatabase itemDatabase;
+
+
+    private void Start()
+    {
+        dungeonDatabase.LoadRooms();
+        if (testRoom != null)
+            BuildTestRoom();
+    }
+    public void CreateDungeon()
+    {
+        if (clearedDungeonCounter % 3 == 2)
+            BuildCave();
+        else
+            BuildDungeon();
+    }
+
+    private GameObject GetNewRoom(Editor_Room room, int id, bool testRoom)
+    {
+        GameObject roomResult = new("Room_" + id.ToString());
+        // Spawn floor and ceiling
+        Instantiate(dungeonDatabase.GetFloorBySize(room.roomSize), Vector3.zero, Quaternion.identity, roomResult.transform).name = "Floor";
+        Instantiate(dungeonDatabase.GetCeilingBySize(room.roomSize), new(0, 3, 0), Quaternion.identity, roomResult.transform).name = "Ceiling";
+
+        // Spawn walls
+        Vector3 offset = new(room.roomSize.x * 3 / 2, 0, room.roomSize.y * 3 / 2);
+        
+        // Bottom
+        bool[] doors = GetDoorsInWall(room, DoorSide.Bottom);
+        GameObject wall = Instantiate(
+            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
+            offset,
+            Quaternion.Euler(0, 180, 0),
+            roomResult.transform);
+        wall.name = "Wall_Bottom";
+        // Right
+        doors = GetDoorsInWall(room, DoorSide.Right);
+        wall = Instantiate(
+            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
+            offset,
+            Quaternion.Euler(0, 90, 0),
+            roomResult.transform);
+        wall.name = "Wall_Right";
+        // Upper
+        doors = GetDoorsInWall(room, DoorSide.Top);
+        wall = Instantiate(
+            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
+            offset,
+            Quaternion.Euler(0, 0, 0),
+            roomResult.transform);
+        wall.name = "Wall_Upper";
+        // Left
+        doors = GetDoorsInWall(room, DoorSide.Left);
+        wall = Instantiate(
+            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
+            offset,
+            Quaternion.Euler(0, -90, 0),
+            roomResult.transform);
+        wall.name = "Wall_Left";
+
+        // Populate room
+
+
+        return roomResult;
+    }
+    private GameObject GetTestRoom(UnityEngine.Object roomFile)
+    {
+        Editor_Room editorRoom = null;
+
+        // Load from file
+        string fullPath = Path.GetFullPath(AssetDatabase.GetAssetPath(roomFile));
+        if (File.Exists(fullPath))
+        {
+            try
+            {
+                string dataToLoad = string.Empty;
+                using (FileStream stream = new(fullPath, FileMode.Open))
+                {
+                    using StreamReader read = new(stream);
+                    dataToLoad = read.ReadToEnd();
+                }
+                editorRoom = JsonUtility.FromJson<Editor_Room>(dataToLoad);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error occured when trying to load data from file " + fullPath + "\n" + e);
+            }
+        }
+        if(editorRoom == null)
+            return null;
+        else
+            return GetNewRoom(editorRoom, 0, true);
+    }
+    private enum DoorSide
+    {
+        Top,
+        Bottom,
+        Left,
+        Right
+    }
+    private bool[] GetDoorsInWall(Editor_Room room, DoorSide side)
+    {
+        bool[] doors;
+        if(side == DoorSide.Top || side == DoorSide.Bottom)
+            doors = new bool[(int)room.roomSize.x];
+        else
+            doors = new bool[(int)room.roomSize.y];
+        List<int> doorsIds = GetDoorsIDs(room, side);
+        for (int i = 0; i < doorsIds.Count; i++)
+            if (room.doorsSave[doorsIds[i]] != 2)
+                doors[i] = true;
+        return doors;
+    }
+    private List<int> GetDoorsIDs(Editor_Room room, DoorSide side)
+    {
+        int wallX = (int)room.roomSize.x;
+        int wallY = (int)room.roomSize.y;
+        List<int> doors = new();
+        switch (side)
+        {
+            case DoorSide.Bottom:
+                for(int i = 0; i < wallX; i++)
+                    doors.Add(i);
+                break;
+            case DoorSide.Right:
+                for (int i = 0; i < wallY; i++)
+                    doors.Add(i + wallX);
+                break;
+            case DoorSide.Top:
+                for (int i = 0; i < wallX; i++)
+                    doors.Add(i + wallY + wallX);
+                break;
+            case DoorSide.Left:
+                for (int i = 0; i < wallY; i++)
+                    doors.Add(i + (wallX * 2) + wallY);
+                break;
+        }
+        return doors;
+    }
+
+
+
+    // Test room
+    [SerializeField] private UnityEngine.Object testRoom;
+
+    private void BuildTestRoom()
+    {
+        GameObject _testRoom = Instantiate(GetTestRoom(testRoom), dungeonScene);
+        _testRoom.SetActive(true);
+    }
+
+
+
+    // New dungeon generator
+    public int maxDistance;
+    public int maxRoomSize;
+    private List<VirtualDungeonRoom> virtualRooms;
+
+    public void BuildDungeon()
+    {
+        // Generate dungeon
+        GenerateDungeon(maxRoomCount, maxDistance);
+        // Activate starting room
+        rooms[0].SetActive(true);
+        // Teleport player to starting room
+
+    }
+
+    private void GenerateDungeon(int maxRooms, int maxDistance)
+    {
+        virtualRooms = new();
+        board.Clear();
+        for (int i = 0; i < ((maxDistance + 2) * maxRoomSize); i++)
+            for (int j = 0; j < ((maxDistance + 2) * maxRoomSize * 2); j++)
+                board.Add(new(j, i), Cell.None);
+
+        // Generate virtual board
+        int roomCount = 0;
+        int currentDistance = 0;
+        bool maxRoomCountReached = false;
+        bool maxDistanceReached = false;
+        bool doneOverride = false;
+        while(doneOverride || maxRoomCountReached)
+        {
+            if(!maxDistanceReached)
+            {
+                if (roomCount == 0)
+                {
+                    // Starting room
+                    virtualRooms.Add(new(0, new(0, 0), new(2, 2)));
+                    roomCount++;
+                }
+                else if (currentDistance == maxDistance)
+                {
+                    // Last rooms
+
+                }
+                else
+                {
+
+                }
+
+                currentDistance++;
+                if (currentDistance == maxDistance)
+                    maxDistanceReached = true;
+            }
+            else
+            {
+
+            }
+
+            if (roomCount == maxRooms)
+                maxRoomCountReached = true;
+        }
+
+        // Create minimap
+
+        // Physicaly spawn rooms
+
+    }
+
+
+
+    // Old dungeon generator
     public enum Cell
     {
         None,
         Room,
         Hallway
     }
-
-    public int age;
-
     public int boardSize;
-
-    public int maxRoomCount;
-
     public int maxRoomOffset;
-
-    [SerializeField]
-    private Transform dungeonScene;
-
-    [HideInInspector] public List<GameObject> rooms = new();
-
-    Dictionary<Vector2, Cell> board = new();
-
-    [SerializeField]
-    private DungeonDatabase objDatabase;
-    [SerializeField]
-    private ItemDatabase itemDatabase;
-
     private Vector2 preferedDirection;
+    private Dictionary<Vector2, Cell> board = new();
 
 
-    public void BuildDungeon()
+    public void BuildCave()
     {
-        GenerateDungeon(maxRoomCount);
+        GenerateCave(maxRoomCount);
         rooms[0].SetActive(true);
         FindAnyObjectByType<PlayerMovement>().transform.position = rooms[0].GetComponent<DungeonRoom>().doors[2].transform.position;
     }
-
     int RandomOddInt(int min, int max)
     {
         int result = 0;
         bool done = false;
         while (!done)
         {
-            result = Random.Range(min, max);
+            result = UnityEngine.Random.Range(min, max);
             if ((result + 1) % 2 == 0)
                 done = true;
         }
         return result;
     }
-
     bool CanPlaceRoom(Vector2 centrePos, Vector2 roomSize)
     {
         int x = (int)centrePos.x;
@@ -72,7 +286,6 @@ public class DungeonGenerator : MonoBehaviour
                     return false;
         return true;
     }
-
     void AddRoom(Vector2 startPos, Vector2 roomSize, GameObject previousRoom, out GameObject newRoom)
     {
         // Get new room
@@ -136,8 +349,7 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
-
-    public void GenerateDungeon(int maxRoomCount)
+    public void GenerateCave(int maxRoomCount)
     {
         rooms.Clear();
         board.Clear();
@@ -281,7 +493,6 @@ public class DungeonGenerator : MonoBehaviour
         // Draw map
         FindObjectOfType<DungeonMap>().BuildMap(board, rooms);
     }
-
     public GameObject GenerateRoom(Vector2 size /* !Has to be odd numbers! */)
     {
         GameObject newRoom = new("Room-" + rooms.Count.ToString());
@@ -304,50 +515,50 @@ public class DungeonGenerator : MonoBehaviour
         walls.transform.SetParent(newRoom.transform);
 
         // Empty room
-        Instantiate(objDatabase.floorMousePointer, new(0, 0, 0), Quaternion.identity, floor.transform);
+        Instantiate(dungeonDatabase.floorMousePointer, new(0, 0, 0), Quaternion.identity, floor.transform);
         for (int y = 0; y < size.y; y++)
         {
             for (int x = 0; x < size.x; x++)
             {
-                Instantiate(objDatabase.floors[0], new(x * 3, 0, y * 3), Quaternion.identity, floor.transform);
+                Instantiate(dungeonDatabase.floors[0], new(x * 3, 0, y * 3), Quaternion.identity, floor.transform);
                 // Doors
                 if(x == (size.x - 1) / 2)
                 {
                     if(y == 0)
                     {
-                        Instantiate(objDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, 180, 0), newRoom.transform.Find("Doors")).GetComponentInChildren<MeshRenderer>().material = objDatabase.wallMaterials[1];
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), newRoom.transform.Find("DoorWalls")).GetComponentInChildren<MeshRenderer>().material = objDatabase.wallMaterials[1];
+                        Instantiate(dungeonDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, 180, 0), newRoom.transform.Find("Doors")).GetComponentInChildren<MeshRenderer>().material = dungeonDatabase.wallMaterials[1];
+                        Instantiate(dungeonDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), newRoom.transform.Find("DoorWalls")).GetComponentInChildren<MeshRenderer>().material = dungeonDatabase.wallMaterials[1];
                     }
                     else if (y == size.y - 1)
                     {
-                        Instantiate(objDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, 0, 0), newRoom.transform.Find("Doors"));
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 0, 0), newRoom.transform.Find("DoorWalls"));
+                        Instantiate(dungeonDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, 0, 0), newRoom.transform.Find("Doors"));
+                        Instantiate(dungeonDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 0, 0), newRoom.transform.Find("DoorWalls"));
                     }
                 }
                 else if(y == (size.y - 1) / 2)
                 {
                     if (x == 0)
                     {
-                        Instantiate(objDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, -90, 0), newRoom.transform.Find("Doors"));
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, -90, 0), newRoom.transform.Find("DoorWalls"));
+                        Instantiate(dungeonDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, -90, 0), newRoom.transform.Find("Doors"));
+                        Instantiate(dungeonDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, -90, 0), newRoom.transform.Find("DoorWalls"));
                     }
                     else if (x == size.x - 1)
                     {
-                        Instantiate(objDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, 90, 0), newRoom.transform.Find("Doors"));
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 90, 0), newRoom.transform.Find("DoorWalls"));
+                        Instantiate(dungeonDatabase.doors[0], new(x * 3, 0, y * 3), Quaternion.Euler(0, 90, 0), newRoom.transform.Find("Doors"));
+                        Instantiate(dungeonDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 90, 0), newRoom.transform.Find("DoorWalls"));
                     }
                 }
                 else
                 {
                     // Walls
                     if (x == 0)
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, -90, 0), walls.transform);
+                        Instantiate(dungeonDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, -90, 0), walls.transform);
                     if (x == size.x - 1)
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 90, 0), walls.transform);
+                        Instantiate(dungeonDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 90, 0), walls.transform);
                     if (y == 0)
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), walls.transform).GetComponentInChildren<MeshRenderer>().material = objDatabase.wallMaterials[1];
+                        Instantiate(dungeonDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 180, 0), walls.transform).GetComponentInChildren<MeshRenderer>().material = dungeonDatabase.wallMaterials[1];
                     if (y == size.y - 1)
-                        Instantiate(objDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 0, 0), walls.transform);
+                        Instantiate(dungeonDatabase.walls[0], new(x * 3, -0.1f, y * 3), Quaternion.Euler(0, 0, 0), walls.transform);
                 }
             }
         }
@@ -359,7 +570,6 @@ public class DungeonGenerator : MonoBehaviour
 
         return newRoom;
     }
-
     void PopulateRoom(GameObject room)
     {
         Dictionary<Vector2, GameObject> objs = new();
@@ -383,7 +593,7 @@ public class DungeonGenerator : MonoBehaviour
                 Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
                 if (!objs.ContainsKey(id))
                 {
-                    objs.Add(id, objDatabase.obstacles_shoot[random.Next(0, objDatabase.obstacles_shoot.Count)]);
+                    objs.Add(id, dungeonDatabase.obstacles_shoot[random.Next(0, dungeonDatabase.obstacles_shoot.Count)]);
                     done = true;
                 }
             }
@@ -399,7 +609,7 @@ public class DungeonGenerator : MonoBehaviour
                 Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
                 if (!objs.ContainsKey(id))
                 {
-                    objs.Add(id, objDatabase.lootBoxes[random.Next(0, objDatabase.lootBoxes.Count)]);
+                    objs.Add(id, dungeonDatabase.lootBoxes[random.Next(0, dungeonDatabase.lootBoxes.Count)]);
                     done = true;
                 }
             }
@@ -415,7 +625,7 @@ public class DungeonGenerator : MonoBehaviour
                 Vector2 id = new(random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.x * 3) - 2), random.Next(2, (int)(room.GetComponent<DungeonRoom>().size.y * 3) - 2));
                 if (!objs.ContainsKey(id))
                 {
-                    objs.Add(id, objDatabase.resources[random.Next(0, objDatabase.resources.Count)]);
+                    objs.Add(id, dungeonDatabase.resources[random.Next(0, dungeonDatabase.resources.Count)]);
                     done = true;
                 }
             }
@@ -480,5 +690,19 @@ public class DungeonGenerator : MonoBehaviour
             surface.agentTypeID = NavMesh.GetSettingsByIndex(i).agentTypeID;
             surface.BuildNavMesh();
         }
+    }
+}
+
+class VirtualDungeonRoom
+{
+    public int distance;
+    public Vector2 position;
+    public Vector2 size;
+
+    public VirtualDungeonRoom(int distance, Vector2 position, Vector2 size)
+    {
+        this.distance = distance;
+        this.position = position;
+        this.size = size;
     }
 }

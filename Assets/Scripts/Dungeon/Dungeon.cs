@@ -15,7 +15,7 @@ public class Dungeon : MonoBehaviour
     }
     private void OnEnable()
     {
-        FindAnyObjectByType<DungeonGenerator>().BuildDungeon();
+        FindAnyObjectByType<DungeonGenerator>().CreateDungeon();
     }
 
     private void OnDisable()
