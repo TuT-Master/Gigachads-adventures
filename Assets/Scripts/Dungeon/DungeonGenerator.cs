@@ -35,59 +35,15 @@ public class DungeonGenerator : MonoBehaviour
             BuildDungeon();
     }
 
-    private GameObject GetNewRoom(Editor_Room room, int id, bool testRoom)
+    private GameObject GetNewRoom(Editor_Room room, int id)
     {
-        GameObject roomResult = new("Room_" + id.ToString());
-        // Spawn floor and ceiling
-        Instantiate(dungeonDatabase.GetFloorBySize(room.roomSize), Vector3.zero, Quaternion.identity, roomResult.transform).name = "Floor";
-        Instantiate(dungeonDatabase.GetCeilingBySize(room.roomSize), new(0, 3, 0), Quaternion.identity, roomResult.transform).name = "Ceiling";
-
-        // Spawn walls
-        Vector3 offset = new(room.roomSize.x * 3 / 2, 0, room.roomSize.y * 3 / 2);
-        
-        // Bottom
-        bool[] doors = GetDoorsInWall(room, DoorSide.Bottom);
-        GameObject wall = Instantiate(
-            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
-            offset,
-            Quaternion.Euler(0, 180, 0),
-            roomResult.transform);
-        wall.name = "Wall_Bottom";
-        // Right
-        doors = GetDoorsInWall(room, DoorSide.Right);
-        wall = Instantiate(
-            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
-            offset,
-            Quaternion.Euler(0, 90, 0),
-            roomResult.transform);
-        wall.name = "Wall_Right";
-        // Upper
-        doors = GetDoorsInWall(room, DoorSide.Top);
-        wall = Instantiate(
-            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
-            offset,
-            Quaternion.Euler(0, 0, 0),
-            roomResult.transform);
-        wall.name = "Wall_Upper";
-        // Left
-        doors = GetDoorsInWall(room, DoorSide.Left);
-        wall = Instantiate(
-            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
-            offset,
-            Quaternion.Euler(0, -90, 0),
-            roomResult.transform);
-        wall.name = "Wall_Left";
-
-        // Populate room
-
-
-        return roomResult;
+        return null;
     }
     private GameObject GetTestRoom(UnityEngine.Object roomFile)
     {
-        Editor_Room editorRoom = null;
+        Editor_Room room = null;
 
-        // Load from file
+        #region Load from file
         string fullPath = Path.GetFullPath(AssetDatabase.GetAssetPath(roomFile));
         if (File.Exists(fullPath))
         {
@@ -99,18 +55,86 @@ public class DungeonGenerator : MonoBehaviour
                     using StreamReader read = new(stream);
                     dataToLoad = read.ReadToEnd();
                 }
-                editorRoom = JsonUtility.FromJson<Editor_Room>(dataToLoad);
+                room = JsonUtility.FromJson<Editor_Room>(dataToLoad);
             }
             catch (Exception e)
             {
                 Debug.LogError("Error occured when trying to load data from file " + fullPath + "\n" + e);
             }
         }
-        if(editorRoom == null)
+        if(room == null)
             return null;
-        else
-            return GetNewRoom(editorRoom, 0, true);
+        #endregion
+
+        GameObject roomResult = new("TestRoom");
+        // Spawn floor and ceiling
+        Instantiate(dungeonDatabase.GetFloorBySize(room.roomSize), Vector3.zero, Quaternion.identity, roomResult.transform).name = "Floor";
+        Instantiate(dungeonDatabase.GetCeilingBySize(room.roomSize), new(0, 3, 0), Quaternion.identity, roomResult.transform).name = "Ceiling";
+
+        // Spawn walls        
+        // Bottom
+        bool[] doors = GetDoorsInWall(room, DoorSide.Bottom);
+        GameObject wall = Instantiate(
+            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
+            new(0, 0, (room.roomSize.y - 1) * -4.5f),
+            Quaternion.Euler(0, 180, 0),
+            roomResult.transform);
+        wall.name = "Wall_Bottom";
+        // Right
+        doors = GetDoorsInWall(room, DoorSide.Right);
+        wall = Instantiate(
+            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
+            new((room.roomSize.x - 1) * 4.5f, 0, 0),
+            Quaternion.Euler(0, 90, 0),
+            roomResult.transform);
+        wall.name = "Wall_Right";
+        // Upper
+        doors = GetDoorsInWall(room, DoorSide.Top);
+        wall = Instantiate(
+            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
+            new(0, 0, (room.roomSize.y - 1) * 4.5f),
+            Quaternion.Euler(0, 0, 0),
+            roomResult.transform);
+        wall.name = "Wall_Upper";
+        // Left
+        doors = GetDoorsInWall(room, DoorSide.Left);
+        wall = Instantiate(
+            dungeonDatabase.GetWallBySizeAndDoors((int)room.roomSize.x, doors),
+            new((room.roomSize.x - 1) * -4.5f, 0, 0),
+            Quaternion.Euler(0, -90, 0),
+            roomResult.transform);
+        wall.name = "Wall_Left";
+
+        // Populate room
+        PopulateRoom(room, roomResult.transform);
+
+        return roomResult;
     }
+    private void PopulateRoom(Editor_Room room, Transform roomParent)
+    {
+        for (int y = 0;  y < room.roomSize.y * 6; y++)
+        {
+            for (int x = 0; x < room.roomSize.x * 6; x++)
+            {
+                int tileID = (int)(y * room.roomSize.x * 6) + x;
+                if (room.tiles[tileID] == null || room.tiles[tileID] == "")
+                    continue;
+
+                GameObject newGo = null;
+
+                if (int.TryParse(room.tiles[tileID], out int tileType) && tileType != 0)
+                    newGo = Instantiate(dungeonDatabase.GetRandomPop(tileType), roomParent);
+                else if (!int.TryParse(room.tiles[tileID], out tileType))
+                    newGo = Instantiate(dungeonDatabase.GetPopByName(room.tiles[tileID]), roomParent);
+                else
+                    continue;
+
+                newGo.transform.localPosition = new((1.5f * x) - (room.roomSize.x * 4.5f) + 0.75f, 0, (1.5f * y) - (room.roomSize.y * 4.5f) + 0.75f);
+                newGo.transform.localRotation = Quaternion.Euler(0, new System.Random().Next(360), 0);
+            }
+        }
+    }
+
     private enum DoorSide
     {
         Top,

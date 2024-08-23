@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
@@ -20,15 +21,10 @@ public class DungeonDatabase : ScriptableObject
     public List<GameObject> doors;
 
     public List<GameObject> obstacles_noShoot;
-
     public List<GameObject> obstacles_shoot;
-
     public List<GameObject> resources;
-
     public List<GameObject> lightsources;
-
     public List<GameObject> lootBoxes;
-
     public List<GameObject> enemies_mAgressive;
     public List<GameObject> enemies_mEvasive;
     public List<GameObject> enemies_mStealth;
@@ -37,6 +33,97 @@ public class DungeonDatabase : ScriptableObject
     public List<GameObject> enemies_rWandering;
     public List<GameObject> enemies_boss;
     public List<GameObject> traps;
+    public GameObject GetRandomPop(int tileType)
+    {
+        List<GameObject> list = null;
+        switch (tileType)
+        {
+            case 1:
+                list = obstacles_noShoot;
+                break;
+            case 2:
+                list = obstacles_shoot;
+                break;
+            case 3:
+                list = lightsources;
+                break;
+            case 4:
+                list = resources;
+                break;
+            case 5:
+                list = lootBoxes;
+                break;
+            case 6:
+                list = enemies_mAgressive;
+                break;
+            case 7:
+                list = enemies_mEvasive;
+                break;
+            case 8:
+                list = enemies_mWandering;
+                break;
+            case 9:
+                list = enemies_mStealth;
+                break;
+            case 10:
+                list = enemies_rStatic;
+                break;
+            case 11:
+                list = enemies_rWandering;
+                break;
+            case 12:
+                list = traps;
+                break;
+        }
+        if (list != null)
+            return list[new System.Random().Next(list.Count)];
+        else
+            return null;
+    }
+    public GameObject GetPopByName(string name)
+    {
+        foreach (GameObject go in enemies_boss)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in traps)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in obstacles_noShoot)
+            if(go.name == name)
+                return go;
+        foreach (GameObject go in obstacles_shoot)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in resources)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in lightsources)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in lootBoxes)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in enemies_mAgressive)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in enemies_mEvasive)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in enemies_mStealth)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in enemies_mWandering)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in enemies_rStatic)
+            if (go.name == name)
+                return go;
+        foreach (GameObject go in enemies_rWandering)
+            if (go.name == name)
+                return go;
+        return null;
+    }
+
 
     public List<Material> weaponMaterials;
 

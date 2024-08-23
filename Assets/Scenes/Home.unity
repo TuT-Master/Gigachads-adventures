@@ -6993,7 +6993,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 220485070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -52, y: 0, z: -52}
+  m_LocalPosition: {x: -52.065, y: 0, z: -51.833}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -25105,10 +25105,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2.3
+  m_Radius: 0.4
+  m_Height: 2.1
   m_Direction: 1
-  m_Center: {x: 0, y: 0.65, z: 0}
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!1 &666879861
 GameObject:
   m_ObjectHideFlags: 0
@@ -27978,7 +27978,7 @@ MonoBehaviour:
   dungeonScene: {fileID: 1918773567}
   dungeonDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}
   itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
-  testRoom: {fileID: 4900000, guid: f124e6d009932de4693f83ded36d6f4d, type: 3}
+  testRoom: {fileID: 4900000, guid: 73d750fa94828bf4d9473dd40083cbe0, type: 3}
   maxDistance: 0
   maxRoomSize: 0
   boardSize: 50
