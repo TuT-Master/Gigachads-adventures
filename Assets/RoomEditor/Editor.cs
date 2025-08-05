@@ -730,4 +730,11 @@ public class Editor_Room
             Debug.LogError("Error occured when trying to save data to file " + fullPath + "\n" + e);
         }
     }
+
+    public void SetDoorsFromSave()
+    {
+        doors = new();
+        foreach(int key in doorsSave.Keys)
+            doors.Add(key, new() { doorState = doorsSave[key], id = key });
+    }
 }

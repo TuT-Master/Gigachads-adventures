@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Consumable", menuName = "Scriptable objects/Consumable")]
-public class ConsumableSO : ScriptableObject
+public class ConsumableSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
     public Sprite sprite_inventory;
     public Sprite sprite_handMale_Front;
     public Sprite sprite_handMale_Back;
@@ -19,9 +15,6 @@ public class ConsumableSO : ScriptableObject
     public int requieredCraftingLevel;
     public List<ScriptableObject> recipeMaterials;
     public List<int> recipeMaterialsAmount;
-
-    public bool isStackable;
-    public int stackSize;
 
     [Header("Stats")]
     [SerializeField] private float hpRefill;
@@ -43,5 +36,10 @@ public class ConsumableSO : ScriptableObject
             { "weight", weight},
             {"price", price},
         };
+    }
+
+    public override Item ToItem()
+    {
+        return new(this);
     }
 }

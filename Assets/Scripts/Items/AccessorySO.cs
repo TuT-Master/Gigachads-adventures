@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Equipable", menuName = "Scriptable objects/Equipable")]
-public class EquipableSO : ScriptableObject
+public class AccessorySO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
     public Sprite sprite_inventory;
     public Sprite sprite_equipMale_Front;
     public Sprite sprite_equipMale_Back;
@@ -49,5 +45,10 @@ public class EquipableSO : ScriptableObject
             {"staminaMax", staminaMax },
             {"manaMax", manaMax },
         };
+    }
+
+    public override Item ToItem()
+    {
+        return new(this);
     }
 }

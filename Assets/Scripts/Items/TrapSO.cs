@@ -3,17 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Trap", menuName = "Scriptable objects/Trap")]
-public class TrapSO : ScriptableObject
+public class TrapSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
-    public int amount;
-
-    public bool isStackable;
-    public int stackSize;
-
     public bool emitsLight;
 
     public bool AoE;
@@ -58,5 +49,10 @@ public class TrapSO : ScriptableObject
             {"weight", weight},
             {"price", price},
         };
+    }
+
+    public override Item ToItem()
+    {
+        return new(this);
     }
 }

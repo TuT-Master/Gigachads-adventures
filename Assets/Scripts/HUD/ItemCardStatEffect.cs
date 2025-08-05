@@ -101,7 +101,7 @@ public class ItemCardStatEffect : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         if(!pointerOn)
             yield return null;
-        yield return new WaitForSecondsRealtime(0.75f);
+        yield return new WaitForSeconds(0.75f);
         if(pointerOn)
             descriptionCard.SetActive(true);
     }

@@ -4,16 +4,8 @@ using UnityEngine;
 using static Item;
 
 [CreateAssetMenu(fileName = "WeaponMagic", menuName = "Scriptable objects/WeaponMagic")]
-public class WeaponMagicSO : ScriptableObject
+public class WeaponMagicSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
-    public int amount;
-
-    public bool isStackable;
-    public int stackSize;
     public bool emitsLight;
     public bool fullAuto;
 
@@ -85,4 +77,9 @@ public class WeaponMagicSO : ScriptableObject
 
 
     public Dictionary<int, MagicCrystalType> magicCrystals;
+
+    public override Item ToItem()
+    {
+        return new(this);
+    }
 }

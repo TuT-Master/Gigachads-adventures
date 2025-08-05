@@ -41,11 +41,12 @@ public class StatPrefab : MonoBehaviour
         statName.text = StatToString();
 
         // Stat value
-        valueDefault = (float)System.Math.Round(GetStatDefault(), 2);
-        valueCurrent = (float)System.Math.Round(GetStatCurrent(), 2);
+        float[] stats = GetStats();
+        valueDefault = (float)System.Math.Round(stats[1], 2);
+        valueCurrent = (float)System.Math.Round(stats[0], 2);
         statValue.text = valueCurrent.ToString();
         if (isMainStat)
-            statValue.text += " / " + System.Math.Round(GetStatMax(), 2).ToString();
+            statValue.text += " / " + System.Math.Round(stats[2], 2).ToString();
         else
         {
             if (valueDefault < valueCurrent)
@@ -55,34 +56,14 @@ public class StatPrefab : MonoBehaviour
         }
     }
 
-    private float GetStatCurrent()
+    private float[] GetStats()
     {
         return stat switch
         {
-            Stat.Hp => playerStats.playerStats["hp"],
-            Stat.Stamina => playerStats.playerStats["stamina"],
-            Stat.Mana => playerStats.playerStats["mana"],
-            _ => 0f,
-        };
-    }
-    private float GetStatMax()
-    {
-        return stat switch
-        {
-            Stat.Hp => playerStats.playerStats["hpMax"],
-            Stat.Stamina => playerStats.playerStats["staminaMax"],
-            Stat.Mana => playerStats.playerStats["manaMax"],
-            _ => 0f,
-        };
-    }
-    private float GetStatDefault()
-    {
-        return stat switch
-        {
-            Stat.Hp => playerStats.playerBaseStats["hp"],
-            Stat.Stamina => playerStats.playerBaseStats["stamina"],
-            Stat.Mana => playerStats.playerBaseStats["mana"],
-            _ => 0f,
+            Stat.Hp => new float[] { playerStats.playerStats["hp"], playerStats.playerBaseStats["hp"], playerStats.playerStats["hpMax"] },
+            Stat.Stamina => new float[] { playerStats.playerStats["stamina"], playerStats.playerBaseStats["stamina"], playerStats.playerStats["staminaMax"] },
+            Stat.Mana => new float[] { playerStats.playerStats["mana"], playerStats.playerBaseStats["mana"], playerStats.playerStats["manaMax"] },
+            _ => new float[] {0f, 0f, 0f},
         };
     }
 

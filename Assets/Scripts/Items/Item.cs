@@ -411,7 +411,7 @@ public class Item : MonoBehaviour
         for (int i = 0; i < throwableSO.recipeMaterials.Count; i++)
             recipe.Add(throwableSO.recipeMaterials[i], throwableSO.recipeMaterialsAmount[i]);
     }
-    public Item(EquipableSO equipableSO)
+    public Item(AccessorySO equipableSO)
     {
         itemName = equipableSO.itemName;
         description = equipableSO.description;
@@ -613,7 +613,6 @@ public class Item : MonoBehaviour
                 break;
         }
 
-
         if (isRecipe)
             return;
         text = GetComponentInChildren<TextMeshProUGUI>();
@@ -761,20 +760,16 @@ public class Item : MonoBehaviour
         // One crystal slot available
         if(magicCrystals.Count == 1)
         {
-            if (magicCrystals[0] == MagicCrystalType.Fire)
-                spell = Spell.Fireball;
-            else if (magicCrystals[0] == MagicCrystalType.Water)
-                spell = Spell.Watersplash;
-            else if (magicCrystals[0] == MagicCrystalType.Air)
-                spell = Spell.Windblow;
-            else if (magicCrystals[0] == MagicCrystalType.Earth)
-                spell = Spell.Stone;
-            else if (magicCrystals[0] == MagicCrystalType.Light)
-                spell = Spell.Lightning;
-            else if (magicCrystals[0] == MagicCrystalType.Dark)
-                spell = Spell.Lifesteal;
-            else
-                spell = Spell.None;
+            spell = magicCrystals[0] switch
+            {
+                MagicCrystalType.Fire => Spell.Fireball,
+                MagicCrystalType.Water => Spell.Watersplash,
+                MagicCrystalType.Air => Spell.Windblow,
+                MagicCrystalType.Earth => Spell.Stone,
+                MagicCrystalType.Light => Spell.Lightning,
+                MagicCrystalType.Dark => Spell.Lifesteal,
+                _ => Spell.None,
+            };
         }
         // Two crystal slots available
         else if (magicCrystals.Count == 2)
@@ -797,28 +792,21 @@ public class Item : MonoBehaviour
         if(magicCrystals != null)
             oldMagicCrystals = magicCrystals;
 
-        switch (age)
+        magicCrystals = age switch
         {
-            case < 2:
-                magicCrystals = new(){
+            < 2 => new(){
                         {0, MagicCrystalType.None },
-                    };
-                break;
-            case < 4:
-                magicCrystals = new(){
+                    },
+            < 4 => new(){
                         {0, MagicCrystalType.None },
                         {1, MagicCrystalType.None },
-                    };
-                break;
-            default:
-                magicCrystals = new(){
+                    },
+            _ => new(){
                         {0, MagicCrystalType.None },
                         {1, MagicCrystalType.None },
                         {2, MagicCrystalType.None },
-                    };
-                break;
-        }
-
+                    },
+        };
         for (int i = 0; i < oldMagicCrystals.Count; i++)
             magicCrystals[i] = oldMagicCrystals[i];
     }
@@ -840,7 +828,7 @@ public class Item : MonoBehaviour
             else if (recipe.GetType() == typeof(BackpackSO)) items.Add(itemDatabase.GetBackpack((recipe as BackpackSO).itemName));
             else if (recipe.GetType() == typeof(BeltSO)) items.Add(itemDatabase.GetBelt((recipe as BeltSO).itemName));
             else if (recipe.GetType() == typeof(ConsumableSO)) items.Add(itemDatabase.GetConsumable((recipe as ConsumableSO).itemName));
-            else if (recipe.GetType() == typeof(EquipableSO)) items.Add(itemDatabase.GetEquipable((recipe as EquipableSO).itemName));
+            else if (recipe.GetType() == typeof(AccessorySO)) items.Add(itemDatabase.GetEquipable((recipe as AccessorySO).itemName));
             else if (recipe.GetType() == typeof(MaterialSO)) items.Add(itemDatabase.GetMaterial((recipe as MaterialSO).itemName));
             else if (recipe.GetType() == typeof(ProjectileSO)) items.Add(itemDatabase.GetProjectile((recipe as ProjectileSO).itemName));
             else if (recipe.GetType() == typeof(ShieldSO)) items.Add(itemDatabase.GetShield((recipe as ShieldSO).itemName));

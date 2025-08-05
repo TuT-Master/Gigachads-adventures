@@ -3,16 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponRanged", menuName = "Scriptable objects/WeaponRanged")]
-public class WeaponRangedSO : ScriptableObject
+public class WeaponRangedSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
-    public int amount;
-
-    public bool isStackable;
-    public int stackSize;
     public bool emitsLight;
     public bool fullAuto;
 
@@ -90,4 +82,9 @@ public class WeaponRangedSO : ScriptableObject
 
     [Header("Ammo types")]
     public List<ProjectileSO> ammo;
+
+    public override Item ToItem()
+    {
+        return new(this);
+    }
 }

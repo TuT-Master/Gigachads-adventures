@@ -190,7 +190,9 @@ public class DungeonDatabase : ScriptableObject
                         using StreamReader read = new(stream);
                         dataToLoad = read.ReadToEnd();
                     }
-                    dungeonRooms.Add(JsonUtility.FromJson<Editor_Room>(dataToLoad));
+                    Editor_Room newRoom = JsonUtility.FromJson<Editor_Room>(dataToLoad);
+                    newRoom.SetDoorsFromSave();
+                    dungeonRooms.Add(newRoom);
                 }
                 catch (Exception e)
                 {
@@ -199,7 +201,17 @@ public class DungeonDatabase : ScriptableObject
             }
         }
     }
-
+    public Editor_Room GetRoomByType(Editor_Room.RoomType type)
+    {
+        List<Editor_Room> rooms = new();
+        foreach(var room in dungeonRooms)
+            if(room.roomType == type)
+                rooms.Add(room);
+        if (rooms.Count > 0)
+            return rooms[new System.Random().Next(rooms.Count)];
+        else
+            return null;
+    }
 
 
     public Material GetWeaponMaterial(string name)

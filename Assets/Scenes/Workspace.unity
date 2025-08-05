@@ -22555,14 +22555,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8492f87ca440d164fab857df67b42801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  age: 0
-  boardSize: 50
+  clearedDungeonCounter: 0
   maxRoomCount: 20
-  maxRoomOffset: 3
-  dungeonScene: {fileID: 0}
+  age: 0
   rooms: []
-  objDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}
+  dungeonScene: {fileID: 0}
+  dungeonDatabase: {fileID: 0}
   itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
+  testRoom: {fileID: 0}
+  minimapTransform: {fileID: 0}
+  cellPrefab: {fileID: 0}
+  maxRoomSize: {x: 0, y: 0}
+  maxDistance: 0
+  minRoomCountPerDistance: 0
+  maxRoomCountPerDistance: 0
+  maxRoomCountPerRoom: 0
+  roomDirectionBias_spawnChancePercentage: 0
+  roomNoDirectionBias_spawnChancePercentage: 0
+  resourceRoom_spawnChancePercentage: 0
+  boardSize: 50
+  maxRoomOffset: 3
 --- !u!1001 &544828905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23665,6 +23677,7 @@ MonoBehaviour:
   screen_1: {fileID: 947993001}
   screen_2: {fileID: 1894882651}
   screen_3: {fileID: 1509446277}
+  startScreenOpen: 0
   hairImage: {fileID: 1625604739}
   beardImage: {fileID: 1940732831}
   bodyImage: {fileID: 1617371994}
@@ -92417,6 +92430,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abaa02ad987363944ae983876476b35c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
+  skill: {fileID: 0}
+  map: {fileID: 0}
+  playerOtherInventory: {fileID: 0}
+  playerCrafting: {fileID: 0}
+  itemCard: {fileID: 0}
+  startScreen: {fileID: 0}
+  escScreen: {fileID: 0}
   skillDescription: {fileID: 475076268}
   canOpenScreen: 0
   canOpenESCScreen: 0
@@ -92616,9 +92637,7 @@ MonoBehaviour:
   canAttackAgain: 0
   reloading: 0
   defending: 0
-  freeRotation: {fileID: 1221645029}
   weaponRange: {fileID: 1672609409}
-  animator: {fileID: 279947892}
   projectilePrefab: {fileID: 8358021877404063525, guid: f8ae3909c2e13ea47b10e830fbbfa5f1,
     type: 3}
   projectileSpawnPoint: {fileID: 1550619820}
@@ -92719,21 +92738,10 @@ MonoBehaviour:
   itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
   LeftHandSlot: {fileID: 542832926}
   RightHandSlot: {fileID: 1057601132}
-  weaponSpriteRenderer: {fileID: 336892}
-  secondaryWeaponSpriteRenderer: {fileID: 2131407251}
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
   itemOnDaFloorPrefab: {fileID: 3286893216435271357, guid: 143cc917d5751514782ad7f381463690,
     type: 3}
-  body: {fileID: 858487231}
-  beard: {fileID: 130087425}
-  hair: {fileID: 913775645}
-  headArmor: {fileID: 422752263}
-  headEquipment: {fileID: 1441566049}
-  torsoArmor: {fileID: 392456055}
-  torsoEquipment: {fileID: 42319343}
-  mainHand: {fileID: 183538947}
-  secondaryHand: {fileID: 408633919}
   ammoSlots: {fileID: 1286835523}
 --- !u!114 &2099261448
 MonoBehaviour:
@@ -92752,9 +92760,6 @@ MonoBehaviour:
   sprint: 0
   turn: 0
   canMove: 1
-  rotationMin: 0
-  rotationMax: 0
-  playerGFX: {fileID: 1842693338}
 --- !u!54 &2099261449
 Rigidbody:
   m_ObjectHideFlags: 0

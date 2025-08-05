@@ -4,12 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Armor", menuName = "Scriptable objects/Armor")]
-public class ArmorSO : ScriptableObject
+public class ArmorSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
     public Sprite sprite_inventory;
     public Sprite sprite_equipMale_Front;
     public Sprite sprite_equipMale_Back;
@@ -67,4 +63,9 @@ public class ArmorSO : ScriptableObject
     [Header("Upgrade")]
     public bool isUpgrade;
     public ArmorSO upgradedVersionsOfArmor;
+
+    public override Item ToItem()
+    {
+        return new(this);
+    }
 }

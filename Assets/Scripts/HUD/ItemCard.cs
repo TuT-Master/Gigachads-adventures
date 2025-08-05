@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler, IPointerClickHandler
 {
@@ -41,6 +42,11 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
     [SerializeField] private TextMeshProUGUI weight;
     [SerializeField] private TextMeshProUGUI price;
 
+    [SerializeField] private Image gfx;
+    [SerializeField] private Image itemImage;
+    [SerializeField] private TextMeshProUGUI itemName;
+    [SerializeField] private TextMeshProUGUI itemDescription;
+
     private List<ItemCardStat> stats = new();
     private PlayerStats playerStats;
 
@@ -48,6 +54,24 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
     private bool pointerOnItemCard = false;
 
     private Item _item;
+
+
+    private static readonly Dictionary<Slot.SlotType, List<string>> statMap = new()
+    {
+        { Slot.SlotType.WeaponMelee, new List<string>{ "damage", "penetration", "armorIgnore", "critChance", "critDamage", "defense" } },
+        { Slot.SlotType.WeaponRanged, new List<string>{ "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime", "defense" } },
+        { Slot.SlotType.MagicWeapon, new List<string>{ "damage", "penetration", "armorIgnore", "defense" } },
+        { Slot.SlotType.Ammo, new List<string>{ "damage", "penetration", "armorIgnore" } },
+        { Slot.SlotType.Shield, new List<string>{ "defense" } },
+        { Slot.SlotType.Backpack, new List<string>{ "backpackSize" } },
+        { Slot.SlotType.Belt, new List<string>{ "backpackSize" } },
+        { Slot.SlotType.Head, new List<string>{ "armor", "magicResistance" } },
+        { Slot.SlotType.Torso, new List<string>{ "armor", "magicResistance" } },
+        { Slot.SlotType.Legs, new List<string>{ "armor", "magicResistance" } },
+        { Slot.SlotType.Gloves, new List<string>{ "armor", "magicResistance" } },
+    };
+
+
 
     private void Start() { HideItemCard(); }
     private void Update()
@@ -70,8 +94,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
             playerStats = GetComponentInParent<PlayerStats>();
             if (isOpen)
             {
-                if (isOpen)
-                    HideItemCard();
+                HideItemCard();
                 isOpen = false;
             }
             else
@@ -81,267 +104,32 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 
                 // Correcting position
                 Vector3 itemPos = item.gameObject.transform.position;
-                if (itemPos.x > 1300)
-                    itemPos = new(itemPos.x - 500, itemPos.y);
-                else
-                    itemPos = new(itemPos.x, itemPos.y);
-                if (itemPos.y > 650)
-                    itemPos = new(itemPos.x, itemPos.y - 570);
-                else
-                    itemPos = new(itemPos.x, itemPos.y - 250);
+                itemPos.x -= itemPos.x > 1300 ? 500 : 0;
+                itemPos.y -= itemPos.y > 650 ? 570 : 250;
                 transform.position = itemPos;
 
                 // ItemCard GFX
-                transform.Find("GFX").GetComponent<Image>().sprite = itemCardGFX;
+                gfx.sprite = itemCardGFX;
 
                 // Item image
-                transform.Find("ItemImage").GetComponent<Image>().sprite = item.sprite_inventory;
+                itemImage.sprite = item.sprite_inventory;
 
                 // Item name
-                transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text = item.itemName;
+                itemName.text = item.itemName;
 
-                #region Melle weapon
-                if (item.slotType == Slot.SlotType.WeaponMelee)
-                {
-                    if (item.twoHanded)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Two handed ";
-                    else
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "One handed ";
-                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += GetWeaponClass(item.weaponType);
-
-                    // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "critChance", "critDamage", "defense" };
-                    for (int i = 0; i < _stats.Count; i++)
+                if (statMap.TryGetValue(item.slotType, out List<string> statsList))
+                    foreach (string stat in statsList)
                     {
-                        stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
-                        stats[i].age = (int)playerStats.playerStats["age"];
-                        if (playerStats.GetSkillBonusStats(item.weaponClass).TryGetValue(_stats[i], out float bonus))
-                            stats[i].SetUp(_stats[i], item.stats[_stats[i]], bonus);
-                        else
-                            stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
-                        AddStatEffects(item, stats[i], _stats[i]);
+                        float bonus = playerStats.GetSkillBonusStats(item.weaponClass).TryGetValue(stat, out float b) ? b : 0;
+                        AddStat(stat, item.stats[stat], bonus, item);
                     }
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-                }
-                #endregion
-                #region Ranged weapon
-                else if (item.slotType == Slot.SlotType.WeaponRanged)
-                {
-                    if (item.twoHanded)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Two handed ";
-                    else
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "One handed ";
-                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += GetWeaponClass(item.weaponType);
-
-                    // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime", "defense" };
-                    for (int i = 0; i < _stats.Count; i++)
-                    {
-                        stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
-                        stats[i].age = (int)playerStats.playerStats["age"];
-                        if (playerStats.GetSkillBonusStats(item.weaponClass).TryGetValue(_stats[i], out float bonus))
-                            stats[i].SetUp(_stats[i], item.stats[_stats[i]], bonus);
-                        else
-                            stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
-                        AddStatEffects(item, stats[i], _stats[i]);
-                    }
-
-                    // Weight and price
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-                }
-                #endregion
-                #region Magic weapon
-                else if (item.slotType == Slot.SlotType.MagicWeapon)
-                {
-                    // One handed / two handed
-                    if (item.twoHanded)
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Two handed ";
-                    else
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "One handed ";
-                    // Stuff / book / etc.
-                    if (item.itemName.ToLower().Contains("book"))
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "book";
-                    else if (item.itemName.ToLower().Contains("staff"))
-                        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text += "staff";
-
-                    // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore", "defense" };
-                    for (int i = 0; i < _stats.Count; i++)
-                    {
-                        stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
-                        stats[i].age = (int)playerStats.playerStats["age"];
-                        // Get skill bonuses depending on magic crystals type and count
-                        float finalBonus = 0f;
-                        if(item.magicSkillBonuses != null)
-                            foreach (Item.MagicCrystalType crystalType in item.magicSkillBonuses.Keys)
-                                if (playerStats.GetSkillBonusStats(crystalType, item.magicSkillBonuses[crystalType]).TryGetValue(_stats[i], out float bonus))
-                                    finalBonus += bonus;
-                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], finalBonus);
-                        AddStatEffects(item, stats[i], _stats[i]);
-                    }
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-
-                    // Magic crystals
-                    if (item.magicCrystals != null)
-                    {
-                        for (int i = 0; i < item.magicCrystals.Count; i++)
-                        {
-                            GameObject crystal = crystalSlots[i];
-                            crystal.SetActive(true);
-                            switch (item.magicCrystals[i])
-                            {
-                                case Item.MagicCrystalType.Fire:
-                                    crystal.GetComponent<Image>().sprite = crystalFire;
-                                    break;
-                                case Item.MagicCrystalType.Water:
-                                    crystal.GetComponent<Image>().sprite = crystalWater;
-                                    break;
-                                case Item.MagicCrystalType.Air:
-                                    crystal.GetComponent<Image>().sprite = crystalAir;
-                                    break;
-                                case Item.MagicCrystalType.Earth:
-                                    crystal.GetComponent<Image>().sprite = crystalEarth;
-                                    break;
-                                case Item.MagicCrystalType.Light:
-                                    crystal.GetComponent<Image>().sprite = crystalLight;
-                                    break;
-                                case Item.MagicCrystalType.Dark:
-                                    crystal.GetComponent<Image>().sprite = crystalDark;
-                                    break;
-                            }
-                        }
-                    }
-                }
-                #endregion
-                #region Armor
-                else if (item.slotType == Slot.SlotType.Head | item.slotType == Slot.SlotType.Torso | item.slotType == Slot.SlotType.Legs | item.slotType == Slot.SlotType.Gloves)
-                {
-                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Armor";
-                    // Generating stats
-                    List<string> _stats = new() { "armor", "magicResistance" };
-                    for (int i = 0; i < _stats.Count; i++)
-                    {
-                        stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
-                        stats[i].age = (int)playerStats.playerStats["age"];
-                        if (GetComponentInParent<PlayerFight>().itemInHand != null
-                            && (GetComponentInParent<PlayerFight>().itemInHand.weaponClass == PlayerStats.WeaponClass.OneHandStrenght || GetComponentInParent<PlayerFight>().itemInHand.weaponClass == PlayerStats.WeaponClass.TwoHandStrenght)
-                            && playerStats.GetSkillBonusStats(GetComponentInParent<PlayerFight>().itemInHand.weaponClass).TryGetValue("armorIncrease", out float bonus))
-                            stats[i].SetUp(_stats[i], item.armorStats[_stats[i]], bonus);
-                        else
-                            stats[i].SetUp(_stats[i], item.armorStats[_stats[i]], 0);
-                        AddStatEffects(item, stats[i], _stats[i]);
-                    }
-                    weight.text = (item.armorStats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.armorStats["price"] * item.amount).ToString();
-                }
-                #endregion
-                #region Equipable
-                else if (item.slotType == Slot.SlotType.HeadEquipment | item.slotType == Slot.SlotType.TorsoEquipment | item.slotType == Slot.SlotType.LegsEquipment | item.slotType == Slot.SlotType.GlovesEquipment)
-                {
-                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Accessory";
-                    // Generating stats
-                    List<string> _stats = item.armorStats.Keys.ToList();
-                    for (int i = 0; i < _stats.Count; i++)
-                    {
-                        stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
-                        stats[i].age = (int)playerStats.playerStats["age"];
-                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
-                    }
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-                }
-                #endregion
-                #region Consumable
-                else if (item.slotType == Slot.SlotType.Consumable)
-                {
-                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Consumable";
-
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-                }
-                #endregion
-                #region Projectile
-                else if (item.slotType == Slot.SlotType.Ammo)
-                {
-                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Projectile";
-                    // Generating stats
-                    List<string> _stats = new() { "damage", "penetration", "armorIgnore" };
-                    for (int i = 0; i < _stats.Count; i++)
-                    {
-                        stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
-                        stats[i].age = (int)playerStats.playerStats["age"];
-                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
-                        AddStatEffects(item, stats[i], _stats[i]);
-                    }
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-                }
-                #endregion
-                #region Shield
-                else if (item.slotType == Slot.SlotType.Shield)
-                {
-                    if(item.weaponType == Item.WeaponType.HeavyShield)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Heavy shield";
-                    else
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Light shield";
-
-                    // Generating stats
-                    List<string> _stats = new() { "defense" };
-                    for (int i = 0; i < _stats.Count; i++)
-                    {
-                        stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
-                        stats[i].age = (int)playerStats.playerStats["age"];
-                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
-                        AddStatEffects(item, stats[i], _stats[i]);
-                    }
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-                }
-                #endregion
-                #region Backpack/Belt
-                else if (item.slotType == Slot.SlotType.Backpack | item.slotType == Slot.SlotType.Belt)
-                {
-                    if(item.slotType == Slot.SlotType.Backpack)
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Backpack";
-                    else
-                        transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Belt";
-                    // Generating stats
-                    List<string> _stats = new() { "backpackSize" };
-                    for (int i = 0; i < _stats.Count; i++)
-                    {
-                        stats.Add(Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>());
-                        stats[i].age = (int)playerStats.playerStats["age"];
-                        stats[i].SetUp(_stats[i], item.stats[_stats[i]], 0);
-                    }
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-                }
-                #endregion
-                #region Material
-                else if (item.slotType == Slot.SlotType.Material)
-                {
-                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Material";
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-                }
-                #endregion
-                #region Magic crystal
-                else if (item.slotType == Slot.SlotType.MagicCrystal)
-                {
-                    transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = "Magic crystal";
-                    weight.text = (item.stats["weight"] * item.amount).ToString() + " Kg";
-                    price.text = (item.stats["price"] * item.amount).ToString();
-                }
-                #endregion
 
                 // Item description
-                transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text += "\n" + item.description;
+                itemDescription.text = $"{(item.twoHanded ? "Two handed" : "One handed")} {GetWeaponClass(item.weaponType)}\n{item.description}";
             }
         }
     }
+
     private string GetWeaponClass(Item.WeaponType weaponType)
     {
         return weaponType switch
@@ -378,9 +166,17 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
             _ => null
         };
     }
+
+    private void AddStat(string statName, float baseValue, float bonusValue, Item item)
+    {
+        ItemCardStat stat = Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>();
+        stat.age = (int)playerStats.playerStats["age"];
+        stat.SetUp(statName, baseValue, bonusValue);
+        AddStatEffects(item, stat, statName);
+        stats.Add(stat);
+    }
     private void AddStatEffects(Item item, ItemCardStat itemCardStat, string stat)
     {
-        float value = 0f;
         switch (stat)
         {
             case "damage":
@@ -388,7 +184,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     itemCardStat.AddStatEffect(StatEffect.AoE, 0);
                 if (item.selfHoming)
                     itemCardStat.AddStatEffect(StatEffect.Homing, 0);
-                if (item.stats.TryGetValue("poisonDamage", out value) && value > 0)
+                if (item.stats.TryGetValue("poisonDamage", out float value) && value > 0)
                     itemCardStat.AddStatEffect(StatEffect.Poison, value);
                 if (item.stats.TryGetValue("bleedingDamage", out value) && value > 0)
                     itemCardStat.AddStatEffect(StatEffect.Bleeding, value);

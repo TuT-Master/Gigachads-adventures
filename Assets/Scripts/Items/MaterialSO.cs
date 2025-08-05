@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Material", menuName = "Scriptable objects/Material")]
-public class MaterialSO : ScriptableObject
+public class MaterialSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
-    public int stackSize;
-
     public Sprite sprite_inventory;
 
     public PlayerBase.BaseUpgrade craftedIn;
@@ -31,5 +25,10 @@ public class MaterialSO : ScriptableObject
             { "weight", weight},
             { "price", price},
         };
+    }
+
+    public override Item ToItem()
+    {
+        return new(this);
     }
 }

@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using Unity.AI.Navigation;
 using UnityEditor;
 using UnityEngine;
@@ -12,6 +10,7 @@ using UnityEngine.AI;
 public class DungeonGenerator : MonoBehaviour
 {
     // Global stuff
+    [Header("Global")]
     public int clearedDungeonCounter;
     public int maxRoomCount;
     public int age;
@@ -26,6 +25,9 @@ public class DungeonGenerator : MonoBehaviour
         dungeonDatabase.LoadRooms();
         if (testRoom != null)
             BuildTestRoom();
+
+        // Testing only
+        BuildDungeon();
     }
     public void CreateDungeon()
     {
@@ -129,18 +131,18 @@ public class DungeonGenerator : MonoBehaviour
                 else
                     continue;
 
-                newGo.transform.localPosition = new((1.5f * x) - (room.roomSize.x * 4.5f) + 0.75f, 0, (1.5f * y) - (room.roomSize.y * 4.5f) + 0.75f);
-                newGo.transform.localRotation = Quaternion.Euler(0, new System.Random().Next(360), 0);
+                newGo.transform.SetLocalPositionAndRotation(new((1.5f * x) - (room.roomSize.x * 4.5f) + 0.75f, 0, (1.5f * y) - (room.roomSize.y * 4.5f) + 0.75f), Quaternion.Euler(0, new System.Random().Next(360), 0));
             }
         }
     }
 
-    private enum DoorSide
+    public enum DoorSide
     {
         Top,
         Bottom,
         Left,
-        Right
+        Right,
+        None
     }
     private bool[] GetDoorsInWall(Editor_Room room, DoorSide side)
     {
@@ -193,74 +195,330 @@ public class DungeonGenerator : MonoBehaviour
         _testRoom.SetActive(true);
     }
 
+    // Minimap
+    [Header("Minimap")]
+    [SerializeField] private Transform minimapTransform;
+    [SerializeField] private GameObject cellPrefab;
+    [SerializeField] private GameObject doorPrefab;
 
 
     // New dungeon generator
+    [Header("Dungeon")]
+    // Maximální velikost roomky
+    public Vector2 maxRoomSize;
+
+    // Maximální distance (poèet cyklù / vzdálenost v roomkách od start roomky)
     public int maxDistance;
-    public int maxRoomSize;
-    private List<VirtualDungeonRoom> virtualRooms;
+
+    // Minimální poèet roomek v jednom cyklu (distance)
+    public int minRoomCountPerDistance;
+
+    // Maximální poèet roomek v jednom cyklu (distance)
+    public int maxRoomCountPerDistance;
+
+    // Maximální poèet roomek, co vedou z jedné roomky
+    public int maxNewRoomsPerRoom;
+
+    // Šance na spawnutí roomky v požadovaném smìru (v procentech)
+    public float roomDirectionBias_spawnChancePercentage;
+
+    // Šance na spawnutí roomky mimo požadovaný smìr (v procentech)
+    public float roomNoDirectionBias_spawnChancePercentage;
+
+    // Šance na branchování (v procentech)
+    public float roomBranching_ChancePercentage;
+
+    // Maximální poèet roomek bez vytvoøení nové vìtve
+    public float maxRoomsWithoutNewBranchesCount;
+
+    // Šance na spawnutí resourcefull roomky
+    public float resourceRoom_spawnChancePercentage;
+
+
+    private List<VirtualDungeonRoom> virtualRooms = new();
+    private Dictionary<Vector2, VirtualDungeonRoom> virtualBoard = new();
+    private VirtualDungeonRoom startRoom;
 
     public void BuildDungeon()
     {
         // Generate dungeon
-        GenerateDungeon(maxRoomCount, maxDistance);
+        GenerateDungeon();
         // Activate starting room
-        rooms[0].SetActive(true);
+        //rooms[0].SetActive(true);
         // Teleport player to starting room
 
     }
 
-    private void GenerateDungeon(int maxRooms, int maxDistance)
+    private void GenerateDungeon()
     {
-        virtualRooms = new();
-        board.Clear();
-        for (int i = 0; i < ((maxDistance + 2) * maxRoomSize); i++)
-            for (int j = 0; j < ((maxDistance + 2) * maxRoomSize * 2); j++)
-                board.Add(new(j, i), Cell.None);
-
+        Debug.Log("Starting generating dungeon...");
         // Generate virtual board
+        virtualRooms.Clear();
+        virtualBoard.Clear();
+        for (int y = 0; y < ((maxDistance + 2) * maxRoomSize.y); y++)
+            for (int x = 0; x < ((maxDistance + 2) * maxRoomSize.x * 2); x++)
+                virtualBoard.Add(new(x, y), null);
+
         int roomCount = 0;
         int currentDistance = 0;
         bool maxRoomCountReached = false;
         bool maxDistanceReached = false;
-        bool doneOverride = false;
-        while(doneOverride || maxRoomCountReached)
+
+        while (!maxRoomCountReached)
         {
             if(!maxDistanceReached)
             {
                 if (roomCount == 0)
                 {
                     // Starting room
-                    virtualRooms.Add(new(0, new(0, 0), new(2, 2)));
-                    roomCount++;
-                }
-                else if (currentDistance == maxDistance)
-                {
-                    // Last rooms
+                    Editor_Room _startRoom = dungeonDatabase.GetRoomByType(Editor_Room.RoomType.Start);
+                    List<Vector2> tiles = new();
+                    for (int y = 0; y < _startRoom.roomSize.y; y++)
+                        for (int x = (int)(maxDistance * maxRoomSize.x); x < (int)(maxDistance * maxRoomSize.x) + _startRoom.roomSize.x; x++)
+                            tiles.Add(new Vector2(x, y));
+                    startRoom = new(currentDistance, tiles, _startRoom, Vector2.zero, roomCount);
+                    startRoom.startDoor = startRoom.doors[new System.Random().Next((int)startRoom.room.roomSize.x)];
+                    startRoom.canCreateNewBranches = true;
 
+                    // Set random direction bias
+                    switch(new System.Random().Next(3))
+                    {
+                        case 0:
+                            startRoom.dirBias = Vector2.up;
+                            break;
+                        case 1:
+                            startRoom.dirBias = Vector2.right;
+                            break;
+                        case 2:
+                            startRoom.dirBias = Vector2.left;
+                            break;
+                    }
+
+                    virtualRooms.Add(startRoom);
+                    // Place it in the board
+                    AddRoomToBoard(startRoom);
+                    UpdateDoors();
+                    roomCount++;
                 }
                 else
                 {
+                    // Generating rooms in one cycle
+                    int roomCountPerCycle = 0;
+                    bool cycleDone = false;
+                    int _currentDistance = currentDistance;
+                    while (!cycleDone)
+                    {
+                        List<VirtualDungeonRoom> currentRooms = new();
+                        for (int i = 0; i < virtualRooms.Count; i++)
+                            if (virtualRooms[i].distance == _currentDistance - 1 && virtualRooms[i].neighbourRooms.Count < maxNewRoomsPerRoom)
+                                currentRooms.Add(virtualRooms[i]);
 
+                        int freeDoorsTotal = 0;
+                        if(currentRooms.Count != 0)
+                            foreach (VirtualDungeonRoom room in currentRooms)
+                                foreach (VirtualDoor door in room.doors)
+                                    if(door.leadToDoor == null)
+                                        freeDoorsTotal++;
+
+                        if (currentRooms.Count == 0 || freeDoorsTotal == 0)
+                            _currentDistance = GetLoweredDistance(_currentDistance);
+
+                        if (_currentDistance < 0)
+                            cycleDone = true;
+
+                        for (int i = 0; i < currentRooms.Count; i++)
+                        {
+                            VirtualDungeonRoom room = currentRooms[new System.Random().Next(currentRooms.Count)];
+                            List<VirtualDoor> freeDoorsRef = room.doors;
+
+                            // Creating new branches
+                            if ((new System.Random().Next(10001) / 100f) + (100 * room.noBranchCount / maxRoomsWithoutNewBranchesCount) <= roomBranching_ChancePercentage)
+                            {
+                                room.canCreateNewBranches = true;
+                                room.noBranchCount = 0;
+                            }
+                            else
+                                room.noBranchCount++;
+
+                            for (int j = 0; j < room.doors.Count; j++)
+                            {
+                                int randomId = new System.Random().Next(freeDoorsRef.Count);
+                                VirtualDoor door = freeDoorsRef[randomId];
+
+                                // Roll for room to spawn
+                                float randomRoll = new System.Random().Next(10001) / 100f;
+                                if ((door.side == room.dirBias && randomRoll <= roomDirectionBias_spawnChancePercentage) ||
+                                    (door.side != room.dirBias && room.canCreateNewBranches && randomRoll <= roomNoDirectionBias_spawnChancePercentage))
+                                {
+                                    // Choose type of room
+                                    Editor_Room.RoomType roomType = Editor_Room.RoomType.Basic;
+                                    if (new System.Random().Next(10001) / 100f < resourceRoom_spawnChancePercentage)
+                                        roomType = Editor_Room.RoomType.Resources;
+
+                                    // Try place the room
+                                    Editor_Room newRoom = dungeonDatabase.GetRoomByType(roomType);
+                                    List<Vector2> roomTiles = new();
+                                    for (int y = 0; y < newRoom.roomSize.y; y++)
+                                        for (int x = 0; x < newRoom.roomSize.x; x++)
+                                            roomTiles.Add(new Vector2(door.pos.x + x, door.pos.y + y));
+
+                                    if (CanPlaceRoom(roomTiles))
+                                    {
+                                        // Placing new room
+                                        VirtualDungeonRoom roomResult = new(currentDistance, roomTiles, newRoom, door.side, roomCount);
+                                        room.doors[randomId].isOccupied = true;
+                                        room.neighbourRooms.Add(roomResult);
+                                        AddRoomToBoard(roomResult);
+                                        UpdateDoors();
+
+                                        virtualRooms.Add(roomResult);
+                                        roomCount++;
+                                        roomCountPerCycle++;
+
+                                        UpdateDistances();
+
+                                        if (roomCountPerCycle >= maxRoomCountPerDistance)
+                                        {
+                                            cycleDone = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                freeDoorsRef.Remove(door);
+                            }
+
+                            currentRooms.Remove(room);
+                        }
+                    }
                 }
-
                 currentDistance++;
-                if (currentDistance == maxDistance)
+                if (currentDistance >= maxDistance)
                     maxDistanceReached = true;
             }
             else
             {
-
+                currentDistance = 0;
+                roomCount = 0;
+                maxDistanceReached = false;
+                virtualRooms = new();
+                virtualBoard.Clear();
+                for (int y = 0; y < ((maxDistance + 2) * maxRoomSize.y); y++)
+                    for (int x = 0; x < ((maxDistance + 2) * maxRoomSize.x * 2); x++)
+                        virtualBoard.Add(new(x, y), null);
+                Debug.Log("Another try...");
             }
 
-            if (roomCount == maxRooms)
+            if (roomCount >= maxRoomCount)
                 maxRoomCountReached = true;
         }
+        FinishDoors();
+        Debug.Log("Dungeon generation done!");
 
         // Create minimap
+        DrawMinimap();
 
         // Physicaly spawn rooms
 
+    }
+
+    // F-ing recursive function YEEAAH!! xD
+    private int GetLoweredDistance(int _currentDistance)
+    {
+        _currentDistance--;
+        List<VirtualDungeonRoom> currentRooms = new();
+        for (int i = 0; i < virtualRooms.Count; i++)
+            if (virtualRooms[i].distance == _currentDistance && virtualRooms[i].neighbourRooms.Count < maxNewRoomsPerRoom)
+                currentRooms.Add(virtualRooms[i]);
+
+        int freeDoorsTotal = 0;
+        if (currentRooms.Count != 0)
+            foreach (VirtualDungeonRoom room in currentRooms)
+                foreach (VirtualDoor door in room.doors)
+                    if (door.leadToDoor == null)
+                        freeDoorsTotal++;
+        if (currentRooms.Count > 0 && freeDoorsTotal > 0)
+            return _currentDistance;
+        else if (_currentDistance < 0)
+            return -1;
+        else
+            return GetLoweredDistance(_currentDistance);
+    }
+
+    private void UpdateDistances()
+    {
+        /*foreach(VirtualDungeonRoom room in virtualRooms)
+        {
+            int lowestDistance = room.distance;
+            foreach(VirtualDungeonRoom neighbor in room.neighbourRooms)
+                if(neighbor.distance + 1 < lowestDistance)
+                    lowestDistance = neighbor.distance;
+            room.distance = lowestDistance;
+        }*/
+    }
+    private void DrawMinimap()
+    {
+        foreach (VirtualDungeonRoom room in virtualBoard.Values)
+        {
+            if(room == null)
+                continue;
+            GameObject newRoom = Instantiate(cellPrefab, new(), Quaternion.identity, minimapTransform);
+            newRoom.name = "DungeonRoom_" + room.id + "_distance" + room.distance;
+            newRoom.transform.localPosition = new((room.room.roomSize.x + room.position[0].x) * 30, (room.room.roomSize.y + room.position[0].y) * 30, 0);
+            // Doors
+            foreach(VirtualDoor door in room.doors)
+            {
+                GameObject newDoor = Instantiate(doorPrefab, newRoom.transform);
+                // Set rotation
+                if (door.side == Vector2.down)
+                    newDoor.transform.localRotation = Quaternion.Euler(0, 0, 180);
+                else if (door.side == Vector2.left)
+                    newDoor.transform.localRotation = Quaternion.Euler(0, 0, 90);
+                else if (door.side == Vector2.right)
+                    newDoor.transform.localRotation = Quaternion.Euler(0, 0, -90);
+                else if (door.side == Vector2.up)
+                    newDoor.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+    }
+    private void FinishDoors()
+    {
+        /*foreach (VirtualDungeonRoom room in virtualRooms)
+        {
+            List<VirtualDoor> newDoors = new();
+            foreach (VirtualDoor door in room.doors)
+                if (door.isOccupied)
+                    newDoors.Add(door);
+            room.doors = newDoors;
+        }*/
+    }
+    private void UpdateDoors()
+    {
+        /*foreach (VirtualDungeonRoom room in virtualRooms)
+            foreach (VirtualDoor door in room.doors)
+                if (door.isOccupied && door.leadToDoor == null)
+                    door.leadToDoor = GetOtherDoor(door);*/
+    }
+    private VirtualDoor GetOtherDoor(VirtualDoor door)
+    {
+        if(virtualBoard.ContainsKey(door.side + door.pos) && virtualBoard[door.side + door.pos] != null)
+            foreach (VirtualDungeonRoom vRoom in virtualRooms)
+                foreach (VirtualDoor vDoor in vRoom.doors)
+                    if (vDoor.pos == door.side + door.pos)
+                        return vDoor;
+        return null;
+    }
+    private void AddRoomToBoard(VirtualDungeonRoom room)
+    {
+        foreach(Vector2 tile in room.position)
+            virtualBoard[tile] = room;
+    }
+    private bool CanPlaceRoom(List<Vector2> roomTiles)
+    {
+        bool canBePlaced = true;
+        foreach (var tile in roomTiles)
+            if (!virtualBoard.ContainsKey(tile) || virtualBoard[tile] != null)
+                canBePlaced = false;
+        return canBePlaced;
     }
 
 
@@ -272,6 +530,7 @@ public class DungeonGenerator : MonoBehaviour
         Room,
         Hallway
     }
+    [Header("Cave")]
     public int boardSize;
     public int maxRoomOffset;
     private Vector2 preferedDirection;
@@ -719,14 +978,183 @@ public class DungeonGenerator : MonoBehaviour
 
 class VirtualDungeonRoom
 {
+    public int id;
     public int distance;
-    public Vector2 position;
-    public Vector2 size;
+    public List<Vector2> position;
+    public Editor_Room room;
+    public Vector2 dirBias;
+    public VirtualDoor startDoor;
+    public List<VirtualDoor> doors;
+    public List<VirtualDungeonRoom> neighbourRooms = new();
+    // Branches
+    public bool canCreateNewBranches = false;
+    public int noBranchCount = 0;
 
-    public VirtualDungeonRoom(int distance, Vector2 position, Vector2 size)
+    public VirtualDungeonRoom(int distance, List<Vector2> position, Editor_Room room, Vector2 dirBias, int id)
     {
         this.distance = distance;
         this.position = position;
-        this.size = size;
+        this.room = room;
+        this.dirBias = dirBias;
+        this.id = id;
+        doors = new();
+        for (int i = 0; i < room.doors.Count; i++)
+        {
+            VirtualDoor newDoor = new(i);
+            newDoor.SetSide(room);
+            newDoor.SetPos(this);
+            doors.Add(newDoor);
+        }
+    }
+}
+
+class VirtualDoor
+{
+    public int id;
+    public Vector2 side;
+    public Vector2 pos;
+    public VirtualDoor leadToDoor;
+    public bool isOccupied;
+
+    public VirtualDoor(int id) { this.id = id; }
+    public void SetSide(Editor_Room room)
+    {
+        int x = (int)room.roomSize.x;
+        int y = (int)room.roomSize.y;
+
+        if (id < x)
+            side = Vector2.down;
+        else if (id < x + y)
+            side = Vector2.right;
+        else if (id < (2 * x) + y)
+            side = Vector2.up;
+        else if (id < 2 * (x + y))
+            side = Vector2.left;
+        else
+            side = Vector2.zero;
+    }
+    public void SetPos(VirtualDungeonRoom roomRef) { pos = GetPosOfDoor(roomRef); }
+    private Vector2 GetPosOfDoor(VirtualDungeonRoom roomRef)
+    {
+        Vector2 pos = roomRef.position[0];
+        if (roomRef.room.roomSize == new Vector2(1, 1))
+            return id switch
+            {
+                0 => new(pos.x, pos.y - 1),
+                1 => new(pos.x + 1, pos.y),
+                2 => new(pos.x, pos.y + 1),
+                3 => new(pos.x - 1, pos.y),
+                _ => pos
+            };
+        else if (roomRef.room.roomSize == new Vector2(2, 1))
+            return id switch
+            {
+                0 => new(pos.x, pos.y - 1),
+                1 => new(pos.x + 1, pos.y - 1),
+                2 => new(pos.x + 2, pos.y),
+                3 => new(pos.x + 1, pos.y + 1),
+                4 => new(pos.x, pos.y + 1),
+                5 => new(pos.x - 1, pos.y),
+                _ => pos
+            };
+        else if (roomRef.room.roomSize == new Vector2(3, 1))
+            return id switch
+            {
+                0 => new(pos.x, pos.y - 1),
+                1 => new(pos.x + 1, pos.y - 1),
+                2 => new(pos.x + 2, pos.y - 1),
+                3 => new(pos.x + 3, pos.y),
+                4 => new(pos.x + 2, pos.y + 1),
+                5 => new(pos.x + 1, pos.y + 1),
+                6 => new(pos.x, pos.y + 1),
+                7 => new(pos.x - 1, pos.y),
+                _ => pos
+            };
+        else if (roomRef.room.roomSize == new Vector2(1, 2))
+            return id switch
+            {
+                0 => new(pos.x, pos.y - 1),
+                1 => new(pos.x + 1, pos.y),
+                2 => new(pos.x + 1, pos.y + 1),
+                3 => new(pos.x, pos.y + 2),
+                4 => new(pos.x - 1, pos.y + 1),
+                5 => new(pos.x - 1, pos.y),
+                _ => pos
+            };
+        else if (roomRef.room.roomSize == new Vector2(2, 2))
+            return id switch
+            {
+                0 => new(pos.x, pos.y - 1),
+                1 => new(pos.x + 1, pos.y - 1),
+                2 => new(pos.x + 2, pos.y),
+                3 => new(pos.x + 2, pos.y + 1),
+                4 => new(pos.x + 1, pos.y + 2),
+                5 => new(pos.x, pos.y + 2),
+                6 => new(pos.x - 1, pos.y + 1),
+                7 => new(pos.x - 1, pos.y),
+                _ => pos
+            };
+        else if (roomRef.room.roomSize == new Vector2(3, 2))
+            return id switch
+            {
+                0 => new(pos.x, pos.y - 1),
+                1 => new(pos.x + 1, pos.y - 1),
+                2 => new(pos.x + 2, pos.y - 1),
+                3 => new(pos.x + 3, pos.y),
+                4 => new(pos.x + 3, pos.y + 1),
+                5 => new(pos.x + 2, pos.y + 2),
+                6 => new(pos.x + 1, pos.y + 2),
+                7 => new(pos.x, pos.y + 2),
+                8 => new(pos.x - 1, pos.y + 1),
+                9 => new(pos.x - 1, pos.y),
+                _ => pos
+            };
+        else if (roomRef.room.roomSize == new Vector2(1, 3))
+            return id switch
+            {
+                0 => new(pos.x, pos.y - 1),
+                1 => new(pos.x + 1, pos.y),
+                2 => new(pos.x + 1, pos.y + 1),
+                3 => new(pos.x + 1, pos.y + 2),
+                4 => new(pos.x, pos.y + 3),
+                5 => new(pos.x - 1, pos.y + 2),
+                6 => new(pos.x - 1, pos.y + 1),
+                7 => new(pos.x - 1, pos.y),
+                _ => pos
+            };
+        else if (roomRef.room.roomSize == new Vector2(2, 3))
+            return id switch
+            {
+                0 => new(pos.x, pos.y - 1),
+                1 => new(pos.x + 1, pos.y - 1),
+                2 => new(pos.x + 2, pos.y),
+                3 => new(pos.x + 2, pos.y + 1),
+                4 => new(pos.x + 2, pos.y + 2),
+                5 => new(pos.x + 1, pos.y + 3),
+                6 => new(pos.x, pos.y + 3),
+                7 => new(pos.x - 1, pos.y + 2),
+                8 => new(pos.x - 1, pos.y + 1),
+                9 => new(pos.x - 1, pos.y),
+                _ => pos
+            };
+        else if (roomRef.room.roomSize == new Vector2(3, 3))
+            return id switch
+            {
+                0 => new(pos.x, pos.y - 1),
+                1 => new(pos.x + 1, pos.y - 1),
+                2 => new(pos.x + 2, pos.y - 1),
+                3 => new(pos.x + 3, pos.y),
+                4 => new(pos.x + 3, pos.y + 1),
+                5 => new(pos.x + 3, pos.y + 2),
+                6 => new(pos.x + 2, pos.y + 3),
+                7 => new(pos.x + 1, pos.y + 3),
+                8 => new(pos.x, pos.y + 3),
+                9 => new(pos.x - 1, pos.y + 2),
+                10 => new(pos.x - 1, pos.y + 1),
+                11 => new(pos.x - 1, pos.y),
+                _ => pos
+            };
+        else
+            return pos;
     }
 }

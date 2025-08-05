@@ -3,15 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Shield", menuName = "Scriptable objects/Shield")]
-public class ShieldSO : ScriptableObject
+public class ShieldSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
-    public int amount;
-
-    public bool isStackable;
     public bool emitsLight;
 
     public Sprite sprite_inventory;
@@ -47,4 +40,9 @@ public class ShieldSO : ScriptableObject
     [Header("Upgrade")]
     public bool isUpgrade;
     public ShieldSO upgradedVersionsOfShield;
+
+    public override Item ToItem()
+    {
+        return new(this);
+    }
 }

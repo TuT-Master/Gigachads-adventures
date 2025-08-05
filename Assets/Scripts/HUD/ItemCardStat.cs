@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class ItemCardStat : MonoBehaviour
 {
@@ -68,103 +67,92 @@ public class ItemCardStat : MonoBehaviour
     effect (equipables)
     */
 
+    private Image fillBarMain_image;
+    private Image fillBarBonus_image;
+
+    private Dictionary<string, (string displayName, Sprite sprite)> statDisplayData;
+    private void Awake()
+    {
+        statDisplayData = new Dictionary<string, (string, Sprite)>
+        {
+            { "damage", ("Damage", damage) },
+            { "penetration", ("Penetration", penetration) },
+            { "armorIgnore", ("Armor ignore", armorIgnore) },
+            { "critChance", ("Critical chance", critChance) },
+            { "critDamage", ("Critical damage", critDamage) },
+            { "magazineSize", ("Magazine size", magazineSize) },
+            { "attackSpeed", ("Attack speed", attackSpeed) },
+            { "reloadTime", ("Reload time", reloadTime) },
+            { "defense", ("Defense", defense) },
+            { "backpackSize", ("Additional slots", additionalSlots) },
+            { "armor", ("Armor", armor) },
+            { "magicResistance", ("Magic resistance", magicResistance) },
+        };
+    }
+
+    private void Start()
+    {
+        fillBarMain_image = fillBar_main.GetComponent<Image>();
+        fillBarBonus_image = fillBar_bonus.GetComponent<Image>();
+    }
+
+
 
     public void SetUp(string stat, float defaultValue, float bonusValue)
     {
         statEffect_Sprite_pairs = new();
         for(int i = 0; i < _statEffect.Count; i++)
             statEffect_Sprite_pairs.Add(_statEffect[i], _statEffectSprites[i]);
+
         // Set up name of stat
-        switch(stat)
+        if (statDisplayData.TryGetValue(stat, out var displayData))
         {
-            case "damage":
-                statName.text = "Damage";
-                statImage.sprite = damage;
-                break;
-            case "penetration":
-                statName.text = "Penetration";
-                statImage.sprite = penetration;
-                break;
-            case "armorIgnore":
-                statName.text = "Armor ignore";
-                statImage.sprite = armorIgnore;
-                break;
-            case "critChance":
-                statName.text = "Critical chance";
-                statImage.sprite = critChance;
-                break;
-            case "critDamage":
-                statName.text = "Critical damage";
-                statImage.sprite = critDamage;
-                break;
-            case "magazineSize":
-                statName.text = "Magazine size";
-                statImage.sprite = magazineSize;
-                break;
-            case "attackSpeed":
-                statName.text = "Attack speed";
-                statImage.sprite = attackSpeed;
-                break;
-            case "reloadTime":
-                statName.text = "Reload time";
-                statImage.sprite = reloadTime;
-                break;
-            case "defense":
-                statName.text = "Defense";
-                statImage.sprite = defense;
-                break;
-            case "backpackSize":
-                statName.text = "Additional slots";
-                statImage.sprite = additionalSlots;
-                break;
-            case "armor":
-                statName.text = "Armor";
-                statImage.sprite = armor;
-                break;
-            case "magicResistance":
-                statName.text = "Magic resistance";
-                statImage.sprite = magicResistance;
-                break;
-            default:
-                Debug.Log("Stat not found! Given parameter: " + stat);
-                break;
+            statName.text = displayData.displayName;
+            statImage.sprite = displayData.sprite;
+        }
+        else
+        {
+            statName.text = $"Stat '{stat}' not found!";
+            statImage.sprite = null;
         }
 
         // Set up values of stat
+        static string Format(float value, int decimals = 2) => Math.Round(value, decimals).ToString();
+
         if (stat == "armorIgnore")
-            statValue.text = Math.Round((defaultValue + bonusValue) * 100, 2).ToString() + "%";
+            statValue.text = $"{Format((defaultValue + bonusValue) * 100)}%";
         else if (stat == "attackSpeed")
-            statValue.text = Math.Round(defaultValue + bonusValue, 2).ToString() + " / s";
+            statValue.text = $"{Format(defaultValue + bonusValue)} / s";
         else if (stat == "reloadTime")
-            statValue.text = Math.Round(defaultValue + bonusValue, 2).ToString() + " s";
+            statValue.text = $"{Format(defaultValue + bonusValue)} s";
         else if (stat == "backpackSize")
-            statValue.text = "+ " + Math.Round(defaultValue + bonusValue, 2).ToString();
+            statValue.text = $"+ {Format(defaultValue + bonusValue)}";
         else
-            statValue.text = Math.Round(defaultValue + bonusValue, 2).ToString();
+            statValue.text = Format(defaultValue + bonusValue);
 
         // Update fillBar
         float _mainValue = defaultValue / fillBarMaxValues[stat][age];
         float _bonusValue = (defaultValue + bonusValue) / fillBarMaxValues[stat][age];
         
-        fillBar_main.GetComponent<Image>().sprite = fillBarMain;
-        fillBar_main.GetComponent<Image>().type = Image.Type.Filled;
-        fillBar_main.GetComponent<Image>().fillMethod = Image.FillMethod.Horizontal;
-        fillBar_main.GetComponent<Image>().fillAmount = _mainValue;
-        
-        fillBar_bonus.GetComponent<Image>().sprite = fillBarBonus_plus;
-        fillBar_bonus.GetComponent<Image>().type = Image.Type.Filled;
-        fillBar_bonus.GetComponent<Image>().fillMethod = Image.FillMethod.Horizontal;
+        fillBarMain_image.sprite = fillBarMain;
+        fillBarMain_image.type = Image.Type.Filled;
+        fillBarMain_image.fillMethod = Image.FillMethod.Horizontal;
+        fillBarMain_image.fillAmount = _mainValue;
+
+        fillBarBonus_image.sprite = fillBarBonus_plus;
+        fillBarBonus_image.type = Image.Type.Filled;
+        fillBarBonus_image.fillMethod = Image.FillMethod.Horizontal;
 
         fillBar_bonus.SetActive(true);
         if (bonusValue == 0)
             fillBar_bonus.SetActive(false);
         else if (bonusValue > 0)
-            fillBar_bonus.GetComponent<Image>().fillAmount = _bonusValue;
+            fillBarBonus_image.fillAmount = _bonusValue;
         else if (bonusValue < 0)
         {
-            fillBar_bonus.GetComponent<Image>().fillAmount = _mainValue;
-            fillBar_bonus.GetComponent<Image>().sprite = fillBarBonus_minus;
-            fillBar_main.GetComponent<Image>().fillAmount = _bonusValue;
+            fillBarBonus_image.fillAmount = _mainValue;
+            fillBarBonus_image.sprite = fillBarBonus_minus;
+            fillBarMain_image.fillAmount = _bonusValue;
         }
     }
 

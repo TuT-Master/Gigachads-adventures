@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Projectile", menuName = "Scriptable objects/Projectile")]
-public class ProjectileSO : ScriptableObject
+public class ProjectileSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
-    public int stackSize;
-
     public Sprite sprite_inventory;
     public Sprite sprite_projectile;
 
@@ -51,5 +45,10 @@ public class ProjectileSO : ScriptableObject
             { "weight", weight},
             {"price", price},
         };
+    }
+
+    public override Item ToItem()
+    {
+        return new(this);
     }
 }

@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Backpack", menuName = "Scriptable objects/Backpack")]
-public class BackpackSO : ScriptableObject
+public class BackpackSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
     public Sprite sprite_inventory;
     public Sprite sprite_equipMale_Front;
     public Sprite sprite_equipMale_Back;
@@ -33,5 +29,10 @@ public class BackpackSO : ScriptableObject
             {"weight", weight},
             {"price", price},
         };
+    }
+
+    public override Item ToItem()
+    {
+        return new(this);
     }
 }

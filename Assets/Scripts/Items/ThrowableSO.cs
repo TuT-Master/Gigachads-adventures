@@ -3,16 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Throwable", menuName = "Scriptable objects/Throwable")]
-public class ThrowableSO : ScriptableObject
+public class ThrowableSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
-    public int amount;
-
-    public bool isStackable;
-    public int stackSize;
     public bool emitsLight;
 
     public bool AoE;
@@ -74,5 +66,10 @@ public class ThrowableSO : ScriptableObject
             {"weight", weight},
             {"price", price},
         };
+    }
+
+    public override Item ToItem()
+    {
+        return new(this);
     }
 }

@@ -3,15 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponMelee", menuName = "Scriptable objects/WeaponMelee")]
-public class WeaponMeleeSO : ScriptableObject
+public class WeaponMeleeSO : ItemSO
 {
-    public string itemName;
-    [TextArea]
-    public string description;
-
-    public int amount;
-
-    public bool isStackable;
     public bool emitsLight;
 
     public bool twoHanded;
@@ -76,4 +69,9 @@ public class WeaponMeleeSO : ScriptableObject
     [Header("Upgrade")]
     public bool isUpgrade;
     public WeaponMeleeSO upgradedVersionsOfWeapon;
+
+    public override Item ToItem()
+    {
+        return new(this);
+    }
 }
