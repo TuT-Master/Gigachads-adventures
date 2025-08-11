@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static PlayerBase;
-using static UnityEditor.Progress;
 
 [CreateAssetMenu(fileName = "Item database", menuName = "Scriptable objects/Item database")]
 public class ItemDatabase : ScriptableObject
@@ -19,7 +18,7 @@ public class ItemDatabase : ScriptableObject
 
     public List<ArmorSO> armors;
 
-    public List<AccessorySO> equipables;
+    public List<AccessorySO> accessories;
 
     public List<ConsumableSO> consumables;
 
@@ -53,7 +52,7 @@ public class ItemDatabase : ScriptableObject
     public Item GetProjectile(string name) => GetItemFromList(projectiles, name);
     public Item GetShield(string name) => GetItemFromList(shields, name);
     public Item GetMaterial(string name) => GetItemFromList(materials, name);
-    public Item GetEquipable(string name) => GetItemFromList(equipables, base.name);
+    public Item GetEquipable(string name) => GetItemFromList(accessories, base.name);
     public Item GetThrowable(string name) => GetItemFromList(throwables, name);
     public Item GetTrap(string name) => GetItemFromList(traps, name);
     public Item GetItemByNameAndAmount(string name, int amount)
@@ -100,7 +99,7 @@ public class ItemDatabase : ScriptableObject
             projectiles,
             shields,
             materials,
-            equipables,
+            accessories,
             throwables,
             traps
         };

@@ -17,7 +17,7 @@ public class BaseUpgradeSO : ScriptableObject
 
     public PlayerBase.BaseUpgrade baseUpgradeType;
 
-    public List<ScriptableObject> recipeMaterials;
+    public List<ItemSO> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
     public BaseUpgradeSO nextLevel;

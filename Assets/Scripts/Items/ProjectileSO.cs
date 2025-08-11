@@ -10,7 +10,7 @@ public class ProjectileSO : ItemSO
 
     public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
-    public List<ScriptableObject> recipeMaterials;
+    public List<ItemSO> recipeMaterials;
     public List<int> recipeMaterialsAmount;
 
 

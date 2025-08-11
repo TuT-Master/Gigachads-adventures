@@ -308,19 +308,9 @@ public class PlayerCrafting : MonoBehaviour
 
     private bool CanBeCrafted()
     {
-        foreach (ScriptableObject so in upgradedVersionOfItem.recipe.Keys)
+        foreach (ItemSO so in upgradedVersionOfItem.recipe.Keys)
         {
-            Item itemFromSO = null;
-            if (so.GetType() == typeof(ArmorSO)) itemFromSO = new(so as ArmorSO);
-            else if (so.GetType() == typeof(BackpackSO)) itemFromSO = new(so as BackpackSO);
-            else if (so.GetType() == typeof(BeltSO)) itemFromSO = new(so as BeltSO);
-            else if (so.GetType() == typeof(ConsumableSO)) itemFromSO = new(so as ConsumableSO);
-            else if (so.GetType() == typeof(MaterialSO)) itemFromSO = new(so as MaterialSO);
-            else if (so.GetType() == typeof(ProjectileSO)) itemFromSO = new(so as ProjectileSO);
-            else if (so.GetType() == typeof(ShieldSO)) itemFromSO = new(so as ShieldSO);
-            else if (so.GetType() == typeof(WeaponMeleeSO)) itemFromSO = new(so as WeaponMeleeSO);
-            else if (so.GetType() == typeof(WeaponRangedSO)) itemFromSO = new(so as WeaponRangedSO);
-            else if (so.GetType() == typeof(WeaponMagicSO)) itemFromSO = new(so as WeaponMagicSO);
+            Item itemFromSO = so.ToItem();
 
             List<Item> materials = FindAnyObjectByType<PlayerInventory>().HasItem(itemFromSO.itemName);
             int totalMaterialAmount = 0;
@@ -335,19 +325,9 @@ public class PlayerCrafting : MonoBehaviour
 
     private void ConsumeMaterialsForUpgrade()
     {
-        foreach (ScriptableObject so in upgradedVersionOfItem.recipe.Keys)
+        foreach (ItemSO so in upgradedVersionOfItem.recipe.Keys)
         {
-            Item itemFromSO = null;
-            if (so.GetType() == typeof(ArmorSO)) itemFromSO = new(so as ArmorSO);
-            else if (so.GetType() == typeof(BackpackSO)) itemFromSO = new(so as BackpackSO);
-            else if (so.GetType() == typeof(BeltSO)) itemFromSO = new(so as BeltSO);
-            else if (so.GetType() == typeof(ConsumableSO)) itemFromSO = new(so as ConsumableSO);
-            else if (so.GetType() == typeof(MaterialSO)) itemFromSO = new(so as MaterialSO);
-            else if (so.GetType() == typeof(ProjectileSO)) itemFromSO = new(so as ProjectileSO);
-            else if (so.GetType() == typeof(ShieldSO)) itemFromSO = new(so as ShieldSO);
-            else if (so.GetType() == typeof(WeaponMeleeSO)) itemFromSO = new(so as WeaponMeleeSO);
-            else if (so.GetType() == typeof(WeaponRangedSO)) itemFromSO = new(so as WeaponRangedSO);
-            else if (so.GetType() == typeof(WeaponMagicSO)) itemFromSO = new(so as WeaponMagicSO);
+            Item itemFromSO = so.ToItem();
 
             int materialNeeded = upgradedVersionOfItem.recipe[so];
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,7 +115,7 @@ public class Item : MonoBehaviour
     // Crafting
     public PlayerBase.BaseUpgrade craftedIn;
     public int requieredCraftingLevel;
-    public Dictionary<ScriptableObject, int> recipe;
+    public Dictionary<ItemSO, int> recipe;
 
     public bool isRecipe;
 
@@ -135,16 +136,9 @@ public class Item : MonoBehaviour
     }
     public MagicCrystalType GetMagicCrystalTypeByInt(int index)
     {
-        return index switch
-        {
-            1 => MagicCrystalType.Fire,
-            2 => MagicCrystalType.Water,
-            3 => MagicCrystalType.Air,
-            4 => MagicCrystalType.Earth,
-            5 => MagicCrystalType.Light,
-            6 => MagicCrystalType.Dark,
-            _ => MagicCrystalType.None,
-        };
+        if (Enum.IsDefined(typeof(MagicCrystalType), index))
+            return (MagicCrystalType)index;
+        return MagicCrystalType.None;
     }
     public MagicCrystalType crystalType;
     public enum Spell

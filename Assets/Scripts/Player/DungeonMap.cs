@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,21 +34,6 @@ public class DungeonMap : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.M))
             hudmanager.ToggleMap(!mapOpened);
-    }
-
-    public void BuildMap(Dictionary<Vector2, DungeonGenerator.Cell> board, List<GameObject> boardRooms)
-    {
-        rooms = new GameObject[boardRooms.Count];
-        mapContentArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, MathF.Sqrt(board.Count) * 30);
-        mapContentArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, MathF.Sqrt(board.Count) * 30);
-        for (int i = 0; i < boardRooms.Count; i++)
-        {
-            GameObject newRoom = Instantiate(roomPrefab);
-            newRoom.GetComponent<DungeonRoomUI>().SetRoomUp(boardRooms[i].GetComponent<DungeonRoom>());
-            rooms[i] = Instantiate(newRoom, mapContentArea.transform);
-            rooms[i].transform.localPosition = new Vector3(boardRooms[i].GetComponent<DungeonRoom>().boardPos.x * 30, boardRooms[i].GetComponent<DungeonRoom>().boardPos.y * 30, 0);
-            Destroy(newRoom);
-        }
     }
 
     void UpdateMap()
@@ -98,6 +81,56 @@ public class DungeonMap : MonoBehaviour
             Time.timeScale = 1f;
             dungeonMapCanvas.SetActive(false);
             mapOpened = false;
+        }
+    }
+
+
+
+    public RectTransform minimapContainer; // Assign in Inspector
+    public GameObject roomIconPrefab; // Small square Image prefab
+
+    [Header("Display Settings")]
+    public float roomSpacing = 20f; // Distance between rooms in minimap
+    public Color normalRoomColor = Color.white;
+    public Color bossRoomColor = Color.red;
+    public Color entranceRoomColor = Color.green;
+
+    private Dictionary<Vector2, GameObject> icons = new();
+
+    public void DrawMinimap(List<VirtualDungeonRoom> rooms)
+    {
+        // Clear old icons
+        foreach (Transform child in minimapContainer)
+            Destroy(child.gameObject);
+        icons.Clear();
+
+        foreach (var room in rooms)
+        {
+            // Spawn icon
+            GameObject icon = Instantiate(roomIconPrefab, minimapContainer);
+
+            // Set name
+            icon.name = $"Room_{room.id}";
+
+            // Set color
+            Image img = icon.GetComponent<Image>();
+            if (room.room.roomType == Editor_Room.RoomType.Boss)
+                img.color = bossRoomColor;
+            else if (room.id == 0)
+                img.color = entranceRoomColor;
+            else
+                img.color = normalRoomColor;
+
+            Vector2 size = room.room.roomSize; // in tiles
+            Vector2 bottomLeft = room.position[0]; // already bottom-left in your generator
+
+            // Position in minimap space
+            Vector2 minimapPos = bottomLeft * roomSpacing;// + (size * roomSpacing / 2f); // shift so icon is centered over its footprint
+
+            icon.GetComponent<RectTransform>().anchoredPosition = minimapPos;
+            icon.GetComponent<RectTransform>().sizeDelta = size * 16;
+
+            icons[bottomLeft] = icon;
         }
     }
 }

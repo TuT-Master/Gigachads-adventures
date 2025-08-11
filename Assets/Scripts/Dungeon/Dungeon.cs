@@ -13,10 +13,6 @@ public class Dungeon : MonoBehaviour
                 if (transform.GetChild(i).gameObject.activeInHierarchy)
                     currentRoom = transform.GetChild(i).gameObject;
     }
-    private void OnEnable()
-    {
-        FindAnyObjectByType<DungeonGenerator>().CreateDungeon();
-    }
 
     private void OnDisable()
     {

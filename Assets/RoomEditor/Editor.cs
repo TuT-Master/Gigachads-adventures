@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
-using System.Linq;
+using static Editor;
 
 public class Editor : MonoBehaviour
 {
@@ -60,10 +61,6 @@ public class Editor : MonoBehaviour
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject doorPrefab;
     private Dictionary<int, Editor_Tile> tiles;
-
-    [Header("Saving to file")]
-    [SerializeField] private UnityEngine.Object saveFolder;
-
 
     private Editor_Room room;
     private Dictionary<int, Editor_CustomDoor> customDoors;
@@ -139,72 +136,36 @@ public class Editor : MonoBehaviour
 
     }
 
+    // Brushes
+    private readonly Dictionary<int, (BrushType type, string description)> brushOptions = new()
+    {
+        [0] = (BrushType.None, "None\nBasically an eraser"),
+        [1] = (BrushType.Obstacle_noShoot, "Obstacle\nNo one can shoot over it"),
+        [2] = (BrushType.Obstacle_shoot, "Obstacle\nEveryone can shoot over it"),
+        [3] = (BrushType.Lightsource, "Lightsource\n"),
+        [4] = (BrushType.Resource, "Resource\nMinable or gatherable resource like mineral, stone, bush etc."),
+        [5] = (BrushType.Lootbox, "Resource\nMinable or gatherable resource like mineral, stone, bush etc."),
+        [6] = (BrushType.Enemy_mAggresive, "Enemy melee aggressive\nThis bad boi will rush player right when he enters the room"),
+        [7] = (BrushType.Enemy_mEvasive, "Enemy melee evasive\nRushes player while dodging from side to side."),
+        [8] = (BrushType.Enemy_mWandering, "Enemy melee wandering\nWanders randomly, attacks player when close."),
+        [9] = (BrushType.Enemy_mStealth, "Enemy melee stealth\nSpawns and attacks player when close."),
+        [10] = (BrushType.Enemy_rStatic, "Enemy ranged static\nShoots player when close. Mostly turrets."),
+        [11] = (BrushType.Enemy_rWandering, "Enemy ranged wandering\nWanders and shoots while keeping distance."),
+        [12] = (BrushType.Trap, "Trap\nPlaceable source of various types of damage."),
+        [13] = (BrushType.Specific, "Specific object\nChoose any object you would like to place."),
+    };
     public void BrushChanged(TMP_Dropdown dropdown)
     {
-        switch(dropdown.value)
+        if (brushOptions.TryGetValue(dropdown.value, out var option))
         {
-            case 0:
-                brushType = BrushType.None;
-                brushDescription.text = "None\nBasically an eraser";
-                break;
-            case 1:
-                brushType = BrushType.Obstacle_noShoot;
-                brushDescription.text = "Obstacle\nNo one can shoot over it";
-                break;
-            case 2:
-                brushType = BrushType.Obstacle_shoot;
-                brushDescription.text = "Obstacle\nEveryone can shoot over it";
-                break;
-            case 3:
-                brushType = BrushType.Lightsource;
-                brushDescription.text = "Lightsource\n";
-                break;
-            case 4:
-                brushType = BrushType.Resource;
-                brushDescription.text = "Resource\nMinable or gatherable resource like mineral, stone, bush etc.";
-                break;
-            case 5:
-                brushType = BrushType.Lootbox;
-                brushDescription.text = "Resource\nMinable or gatherable resource like mineral, stone, bush etc.";
-                break;
-            case 6:
-                brushType = BrushType.Enemy_mAggresive;
-                brushDescription.text = "Enemy melle agressive\nThis bad boi will rush player right when he enters the room";
-                break;
-            case 7:
-                brushType = BrushType.Enemy_mEvasive;
-                brushDescription.text = "Enemy melle evasive\nThis bad boi will rush player right when he enters the room. Jumps from side to side while rushing player.";
-                break;
-            case 8:
-                brushType = BrushType.Enemy_mWandering;
-                brushDescription.text = "Enemy melle wandering\nThese guys walks in random paterns through the room and attacks player when they get close enough.";
-                break;
-            case 9:
-                brushType = BrushType.Enemy_mStealth;
-                brushDescription.text = "Enemy melle stealth\nWhen player gets close enough this enemy spawns and attack player.";
-                break;
-            case 10:
-                brushType = BrushType.Enemy_rStatic;
-                brushDescription.text = "Enemy ranged static\nStatic enemy who shoots player when close enough. Mostly turrets.";
-                break;
-            case 11:
-                brushType = BrushType.Enemy_rWandering;
-                brushDescription.text = "Enemy ranged wandering\nThese guys walks in random paterns through the room and shoots at player when close enough. Actively trying to keeps a safe distance between them and player.";
-                break;
-            case 12:
-                brushType = BrushType.Trap;
-                brushDescription.text = "Trap\nPlaceable sourse of various types of damages.";
-                break;
-            case 13:
-                brushType = BrushType.Specific;
-                brushDescription.text = "Specific object\nChoose any object you would like to place.";
-                break;
-            default:
-                brushType = BrushType.Obstacle_noShoot;
-                brushDescription.text = "Obstacle\nNo one can shoot over it";
-                break;
+            brushType = option.type;
+            brushDescription.text = option.description;
         }
-
+        else
+        {
+            brushType = BrushType.Obstacle_noShoot;
+            brushDescription.text = "Obstacle\nNo one can shoot over it";
+        }
         if(brushType == BrushType.Specific)
         {
             // Set specific obj list
@@ -249,7 +210,7 @@ public class Editor : MonoBehaviour
             log.text = "You must first make some room object before export!";
         else
         {
-            room.SaveToFile(saveFolder, tiles);
+            room.SaveToFile(tiles);
             room = null;
         }
     }
@@ -286,46 +247,31 @@ public class Editor : MonoBehaviour
         Dictionary<int, GameObject> doors = new();
         for (int i = 0; i < 2 * (int)(room.roomSize.x + room.roomSize.y); i++)
             doors.Add(i, null);
+
+        var wallConfigs = new[]
+        {
+            new { Check = (Func<int, int, Editor_Room, bool>)((x, y, r) => x == 0), Rot = new Vector3(0, 0, 90) },                  // Left
+            new { Check = (Func<int, int, Editor_Room, bool>)((x, y, r) => y == 0), Rot = new Vector3(0, 0, 180) },                 // Bottom
+            new { Check = (Func<int, int, Editor_Room, bool>)((x, y, r) => x == r.roomSize.x - 1), Rot = new Vector3(0, 0, -90) },  // Right
+            new { Check = (Func<int, int, Editor_Room, bool>)((x, y, r) => y == r.roomSize.y - 1), Rot = new Vector3(0, 0, 0) },    // Top
+        };
         for (int y = 0; y < room.roomSize.y; y++)
         {
-            for(int x = 0; x < room.roomSize.x; x++)
+            for (int x = 0; x < room.roomSize.x; x++)
             {
                 Vector3 pos = new((x * 300) - startPos.x + 150, (y * 300) - startPos.y + 150, 0);
-                if (x == 0)
+                foreach (var config in wallConfigs)
                 {
-                    // Left walls
-                    GameObject newObj = Instantiate(doorPrefab, workspace);
-                    newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
-                    newObj.GetComponent<RectTransform>().localPosition = pos;
-                    doors[currentDoors] = newObj;
-                    currentDoors++;
-                }
-                if (y == 0)
-                {
-                    // Bottom walls
-                    GameObject newObj = Instantiate(doorPrefab, workspace);
-                    newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
-                    newObj.GetComponent<RectTransform>().localPosition = pos;
-                    doors[currentDoors] = newObj;
-                    currentDoors++;
-                }
-                if (x == room.roomSize.x - 1)
-                {
-                    // Right walls
-                    GameObject newObj = Instantiate(doorPrefab, workspace);
-                    newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                    newObj.GetComponent<RectTransform>().localPosition = pos;
-                    doors[currentDoors] = newObj;
-                    currentDoors++;
-                }
-                if (y == room.roomSize.y - 1)
-                {
-                    // Upper walls
-                    GameObject newObj = Instantiate(doorPrefab, workspace);
-                    newObj.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                    newObj.GetComponent<RectTransform>().localPosition = pos;
-                    doors[currentDoors] = newObj;
-                    currentDoors++;
+                    if (config.Check(x, y, room))
+                    {
+                        GameObject newObj = Instantiate(doorPrefab, workspace);
+                        RectTransform rt = newObj.GetComponent<RectTransform>();
+                        rt.rotation = Quaternion.Euler(config.Rot);
+                        rt.localPosition = pos;
+
+                        doors[currentDoors] = newObj;
+                        currentDoors++;
+                    }
                 }
             }
         }
@@ -338,18 +284,12 @@ public class Editor : MonoBehaviour
             {
                 room.doors.Add(i, doors[i].GetComponent<Editor_Door>());
                 room.doors[i].doorState = customDoors[i].doorState;
-                switch (room.doors[i].doorState)
+                doors[i].transform.Find("Door").GetComponent<Image>().color = room.doors[i].doorState switch
                 {
-                    case 1:
-                        doors[i].transform.Find("Door").GetComponent<Image>().color = Color.green;
-                        break;
-                    case 2:
-                        doors[i].transform.Find("Door").GetComponent<Image>().color = Color.black;
-                        break;
-                    default:
-                        doors[i].transform.Find("Door").GetComponent<Image>().color = Color.blue;
-                        break;
-                }
+                    1 => Color.green,
+                    2 => Color.black,
+                    _ => Color.blue,
+                };
             }
         }
         else
@@ -357,18 +297,12 @@ public class Editor : MonoBehaviour
             foreach (int id in doors.Keys)
             {
                 room.doors.Add(id, doors[id].GetComponent<Editor_Door>());
-                switch (room.doors[id].doorState)
+                doors[id].transform.Find("Door").GetComponent<Image>().color = room.doors[id].doorState switch
                 {
-                    case 1:
-                        doors[id].transform.Find("Door").GetComponent<Image>().color = Color.green;
-                        break;
-                    case 2:
-                        doors[id].transform.Find("Door").GetComponent<Image>().color = Color.black;
-                        break;
-                    default:
-                        doors[id].transform.Find("Door").GetComponent<Image>().color = Color.blue;
-                        break;
-                }
+                    1 => Color.green,
+                    2 => Color.black,
+                    _ => Color.blue,
+                };
             }
         }
 
@@ -403,46 +337,31 @@ public class Editor : MonoBehaviour
             customDoors.Add(i, null);
         int currentDoorId = 0;
         customDoorsTilesTransformParent.GetComponent<GridLayoutGroup>().constraintCount = (int)room.roomSize.x;
+
+        var wallConfigs = new[]
+        {
+            new { Name = "Left", Check = (Func<int, int, Editor_Room, bool>)((x, y, r) => x == 0), Pos = new Vector3(-45, 45, 0), Rot = new Vector3(0, 0, 90) },
+            new { Name = "Bottom", Check = (Func<int, int, Editor_Room, bool>)((x, y, r) => y == 0), Pos = new Vector3(0, 0, 0),    Rot = new Vector3(0, 0, 180) },
+            new { Name = "Right", Check = (Func<int, int, Editor_Room, bool>)((x, y, r) => x == r.roomSize.x - 1), Pos = new Vector3(45, 45, 0),  Rot = new Vector3(0, 0, -90) },
+            new { Name = "Top", Check = (Func<int, int, Editor_Room, bool>)((x, y, r) => y == r.roomSize.y - 1), Pos = new Vector3(0, 90, 0),   Rot = new Vector3(0, 0, 0) },
+        };
         for (int y = 0; y < room.roomSize.y; y++)
         {
             for (int x = 0; x < room.roomSize.x; x++)
             {
                 GameObject newTile = Instantiate(customDoorsTilePrefab, customDoorsTilesTransformParent);
-                if(x == 0)
+                foreach (var config in wallConfigs)
                 {
-                    // Left wall
-                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(-45, 45, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>();
-                    currentDoorId++;
-                }
-                if (y == 0)
-                {
-                    // Bottom wall
-                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(0, 0, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>();
-                    currentDoorId++;
-                }
-                if (x == room.roomSize.x - 1)
-                {
-                    // Right wall
-                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(45, 45, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -90);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>();
-                    currentDoorId++;
-                }
-                if (y == room.roomSize.y - 1)
-                {
-                    // Upper wall
-                    GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
-                    newDoor.GetComponent<RectTransform>().localPosition = new(0, 90, 0);
-                    newDoor.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-                    customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>();
-                    currentDoorId++;
+                    if (config.Check(x, y, room))
+                    {
+                        GameObject newDoor = Instantiate(customDoorsWallPrefab, newTile.transform);
+                        RectTransform rt = newDoor.GetComponent<RectTransform>();
+                        rt.localPosition = config.Pos;
+                        rt.rotation = Quaternion.Euler(config.Rot);
+
+                        customDoors[currentDoorId] = newDoor.GetComponentInChildren<Editor_CustomDoor>();
+                        currentDoorId++;
+                    }
                 }
             }
         }
@@ -471,26 +390,15 @@ public class Editor : MonoBehaviour
     }
     public void RoomType(TMP_Dropdown dropdown)
     {
-        switch (dropdown.value)
+        room.roomType = dropdown.value switch
         {
-            case 0:
-                room.roomType = Editor_Room.RoomType.Basic;
-                break;
-            case 1:
-                room.roomType = Editor_Room.RoomType.Resources;
-                break;
-            case 2:
-                room.roomType = Editor_Room.RoomType.Start;
-                break;
-            case 3:
-                room.roomType = Editor_Room.RoomType.Boss;
-                break;
-            default:
-                room.roomType = Editor_Room.RoomType.Basic;
-                break;
-        }
-
-        if(room.roomType == Editor_Room.RoomType.Boss)
+            0 => Editor_Room.RoomType.Basic,
+            1 => Editor_Room.RoomType.Resources,
+            2 => Editor_Room.RoomType.Start,
+            3 => Editor_Room.RoomType.Boss,
+            _ => Editor_Room.RoomType.Basic,
+        };
+        if (room.roomType == Editor_Room.RoomType.Boss)
         {
             room.bossRoom = true;
             bossTypeDropdown.SetActive(true);
@@ -524,210 +432,62 @@ public class Editor_Room
     public SerializableDictionary<int, string> tiles = new();
 
 
-    public void SaveToFile(UnityEngine.Object saveFolder, Dictionary<int, Editor_Tile> tiles)
+    public void SaveToFile(Dictionary<int, Editor_Tile> tiles)
     {
         foreach (int i in tiles.Keys)
         {
-            string value = "";
+            string value;
             if (tiles[i].specificObjName == null || tiles[i].specificObjName == "")
-            {
-                switch (tiles[i].tileType)
-                {
-                    case Editor.BrushType.None:
-                        value = 0.ToString();
-                        break;
-                    case Editor.BrushType.Obstacle_noShoot:
-                        value = 1.ToString();
-                        break;
-                    case Editor.BrushType.Obstacle_shoot:
-                        value = 2.ToString();
-                        break;
-                    case Editor.BrushType.Lightsource:
-                        value = 3.ToString();
-                        break;
-                    case Editor.BrushType.Resource:
-                        value = 4.ToString();
-                        break;
-                    case Editor.BrushType.Lootbox:
-                        value = 5.ToString();
-                        break;
-                    case Editor.BrushType.Enemy_mAggresive:
-                        value = 6.ToString();
-                        break;
-                    case Editor.BrushType.Enemy_mEvasive:
-                        value = 7.ToString();
-                        break;
-                    case Editor.BrushType.Enemy_mWandering:
-                        value = 8.ToString();
-                        break;
-                    case Editor.BrushType.Enemy_mStealth:
-                        value = 9.ToString();
-                        break;
-                    case Editor.BrushType.Enemy_rStatic:
-                        value = 10.ToString();
-                        break;
-                    case Editor.BrushType.Enemy_rWandering:
-                        value = 11.ToString();
-                        break;
-                    case Editor.BrushType.Trap:
-                        value = 12.ToString();
-                        break;
-                }
-            }
+                value = ((int)tiles[i].tileType).ToString();
             else
                 value = tiles[i].specificObjName;
             this.tiles.Add(i, value);
         }
         // Make some normal IDs for doors (cause I'm too stoopid to do that right away -_- )
-        if (roomSize == new Vector2(1, 1))
+        Dictionary<Vector2, int[]> doorMappings = new()
         {
-            doorsSave = new()
-            {
-                { 0, doors[1].doorState },
-                { 1, doors[2].doorState },
-                { 2, doors[3].doorState },
-                { 3, doors[0].doorState },
-            };
-        }
-        else if (roomSize == new Vector2(1, 2))
-        {
-            doorsSave = new()
-            {
-                { 0, doors[1].doorState },
-                { 1, doors[2].doorState },
-                { 2, doors[4].doorState },
-                { 3, doors[5].doorState },
-                { 4, doors[3].doorState },
-                { 5, doors[0].doorState },
-            };
-        }
-        else if (roomSize == new Vector2(1, 3))
-        {
-            doorsSave = new()
-            {
-                { 0, doors[1].doorState },
-                { 1, doors[2].doorState },
-                { 2, doors[4].doorState },
-                { 3, doors[6].doorState },
-                { 4, doors[7].doorState },
-                { 5, doors[5].doorState },
-                { 6, doors[3].doorState },
-                { 7, doors[0].doorState },
-            };
-        }
-        else if (roomSize == new Vector2(2, 1))
-        {
-            doorsSave = new()
-            {
-                { 0, doors[1].doorState },
-                { 1, doors[3].doorState },
-                { 2, doors[4].doorState },
-                { 3, doors[5].doorState },
-                { 4, doors[2].doorState },
-                { 5, doors[0].doorState },
-            };
-        }
-        else if (roomSize == new Vector2(2, 2))
-        {
-            doorsSave = new()
-            {
-                { 0, doors[1].doorState },
-                { 1, doors[2].doorState },
-                { 2, doors[3].doorState },
-                { 3, doors[6].doorState },
-                { 4, doors[7].doorState },
-                { 5, doors[5].doorState },
-                { 6, doors[4].doorState },
-                { 7, doors[0].doorState },
-            };
-        }
-        else if (roomSize == new Vector2(2, 3))
-        {
-            doorsSave = new()
-            {
-                { 0, doors[1].doorState },
-                { 1, doors[2].doorState },
-                { 2, doors[3].doorState },
-                { 3, doors[5].doorState },
-                { 4, doors[8].doorState },
-                { 5, doors[9].doorState },
-                { 6, doors[7].doorState },
-                { 7, doors[6].doorState },
-                { 8, doors[4].doorState },
-                { 9, doors[0].doorState },
-            };
-        }
-        else if (roomSize == new Vector2(3, 1))
-        {
-            doorsSave = new()
-            {
-                { 0, doors[1].doorState },
-                { 1, doors[3].doorState },
-                { 2, doors[5].doorState },
-                { 3, doors[6].doorState },
-                { 4, doors[7].doorState },
-                { 5, doors[4].doorState },
-                { 6, doors[2].doorState },
-                { 7, doors[0].doorState },
-            };
-        }
-        else if (roomSize == new Vector2(3, 2))
-        {
-            doorsSave = new()
-            {
-                { 0, doors[1].doorState },
-                { 1, doors[2].doorState },
-                { 2, doors[3].doorState },
-                { 3, doors[4].doorState },
-                { 4, doors[8].doorState },
-                { 5, doors[9].doorState },
-                { 6, doors[7].doorState },
-                { 7, doors[6].doorState },
-                { 8, doors[5].doorState },
-                { 9, doors[0].doorState },
-            };
-        }
-        else if (roomSize == new Vector2(3, 3))
-        {
-            doorsSave = new()
-            {
-                { 0, doors[1].doorState },
-                { 1, doors[2].doorState },
-                { 2, doors[3].doorState },
-                { 3, doors[4].doorState },
-                { 4, doors[6].doorState },
-                { 5, doors[10].doorState },
-                { 6, doors[11].doorState },
-                { 7, doors[9].doorState },
-                { 8, doors[8].doorState },
-                { 9, doors[7].doorState },
-                { 10, doors[5].doorState },
-                { 11, doors[0].doorState },
-            };
-        }
-        // Set path
-        string path = Path.GetFullPath(AssetDatabase.GetAssetPath(saveFolder));
+            [new Vector2(1, 1)] = new[] { 1, 2, 3, 0 },
+            [new Vector2(1, 2)] = new[] { 1, 2, 4, 5, 3, 0 },
+            [new Vector2(1, 3)] = new[] { 1, 2, 4, 6, 7, 5, 3, 0 },
+            [new Vector2(2, 1)] = new[] { 1, 3, 4, 5, 2, 0 },
+            [new Vector2(2, 2)] = new[] { 1, 2, 3, 6, 7, 5, 4, 0 },
+            [new Vector2(2, 3)] = new[] { 1, 2, 3, 5, 8, 9, 7, 6, 4, 0 },
+            [new Vector2(3, 1)] = new[] { 1, 3, 5, 6, 7, 4, 2, 0 },
+            [new Vector2(3, 2)] = new[] { 1, 2, 3, 4, 8, 9, 7, 6, 5, 0 },
+            [new Vector2(3, 3)] = new[] { 1, 2, 3, 4, 6, 10, 11, 9, 8, 7, 5, 0 },
+        };
 
-        // Set proper name to a save file
-        string name = "dungeonRoom_" + (new DirectoryInfo(path).EnumerateFiles().Count() / 2).ToString() + ".txt";
+        if (doorMappings.TryGetValue(roomSize, out int[] mapping))
+        {
+            doorsSave = new();
+            for (int i = 0; i < mapping.Length; i++)
+                doorsSave[i] = doors[mapping[i]].doorState;
+        }
+        else
+            Debug.LogWarning($"Unsupported room size: {roomSize}");
 
+        // Path
+        string path = Path.Combine(Application.dataPath, "Resources", "DungeonRooms");
 
-        string fullPath = Path.Combine(path , name);
+        // Count existing files
+        int fileCount = Directory.GetFiles(path, "*.txt").Length;
+        string name = $"dungeonRoom_{fileCount}.txt";
+
+        string fullPath = Path.Combine(path, name);
+
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
-
             string dataToStore = JsonUtility.ToJson(this, true);
 
-            using FileStream stream = new(fullPath, FileMode.Create);
-            using StreamWriter writer = new(stream);
-            writer.Write(dataToStore);
-            writer.Close();
-            stream.Close();
+            File.WriteAllText(fullPath, dataToStore);
+
+            AssetDatabase.Refresh();
+            Debug.Log($"Room saved to {fullPath}");
         }
         catch (Exception e)
         {
-            Debug.LogError("Error occured when trying to save data to file " + fullPath + "\n" + e);
+            Debug.LogError($"Error saving room file: {e}");
         }
     }
 

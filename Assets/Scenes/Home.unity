@@ -7275,6 +7275,13 @@ MonoBehaviour:
   mapContentArea: {fileID: 770308955}
   roomPrefab: {fileID: 6761886819505605479, guid: 3343ca6b9dc64ef4f8a385db380be417,
     type: 3}
+  minimapContainer: {fileID: 552801939}
+  roomIconPrefab: {fileID: 1672162030226783716, guid: 59e75a1c1b95c76469bbe1e5dfd5f106,
+    type: 3}
+  roomSpacing: 16
+  normalRoomColor: {r: 1, g: 1, b: 1, a: 1}
+  bossRoomColor: {r: 1, g: 0, b: 0, a: 1}
+  entranceRoomColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &220485086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9471,7 +9478,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1957144431}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9125
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -27971,31 +27978,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8492f87ca440d164fab857df67b42801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearedDungeonCounter: 0
-  maxRoomCount: 20
-  age: 0
-  rooms: []
-  dungeonScene: {fileID: 1918773567}
-  dungeonDatabase: {fileID: 11400000, guid: 95d7071595c01fa498956020300c766f, type: 2}
-  itemDatabase: {fileID: 11400000, guid: 0bb930d0aa19a9a44aa87762c416c189, type: 2}
-  testRoom: {fileID: 0}
-  minimapTransform: {fileID: 552801939}
-  cellPrefab: {fileID: 8634512539148240563, guid: 46a478ea7f72b1d45bea0519b176b4e5,
-    type: 3}
-  doorPrefab: {fileID: 7083074750002524571, guid: e73827a2160f80947897b96332380ec4,
-    type: 3}
-  maxRoomSize: {x: 3, y: 3}
-  maxDistance: 7
-  minRoomCountPerDistance: 2
-  maxRoomCountPerDistance: 4
-  maxNewRoomsPerRoom: 3
-  roomDirectionBias_spawnChancePercentage: 80
-  roomNoDirectionBias_spawnChancePercentage: 60
-  roomBranching_ChancePercentage: 40
-  maxRoomsWithoutNewBranchesCount: 3
-  resourceRoom_spawnChancePercentage: 10
-  boardSize: 50
-  maxRoomOffset: 3
+  totalRooms: 25
+  minDistanceForBoss: 5
 --- !u!1001 &727992202
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62917,7 +62901,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 494609620}
   m_Direction: 2
   m_Value: -0.00000069971566
-  m_Size: 0.8909643
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
