@@ -7278,10 +7278,14 @@ MonoBehaviour:
   minimapContainer: {fileID: 552801939}
   roomIconPrefab: {fileID: 1672162030226783716, guid: 59e75a1c1b95c76469bbe1e5dfd5f106,
     type: 3}
-  roomSpacing: 16
+  doorIconPrefab: {fileID: 220702391815188958, guid: 1132a4ae678d52848a71ccd38fab76f1,
+    type: 3}
+  roomSpacing: 32
+  roomSize: 32
   normalRoomColor: {r: 1, g: 1, b: 1, a: 1}
   bossRoomColor: {r: 1, g: 0, b: 0, a: 1}
   entranceRoomColor: {r: 0, g: 1, b: 0, a: 1}
+  resourceRoomColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!114 &220485086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27978,7 +27982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8492f87ca440d164fab857df67b42801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalRooms: 25
+  totalRooms: 30
   minDistanceForBoss: 5
 --- !u!1001 &727992202
 PrefabInstance:

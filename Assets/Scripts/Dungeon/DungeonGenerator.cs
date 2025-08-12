@@ -39,7 +39,7 @@ public class DungeonGenerator : MonoBehaviour
             roomsByType[room.roomType].Add(room);
         }
 
-        Debug.Log($"Loaded {files.Length} rooms into {roomsByType.Count} types.");
+        Debug.Log($"- DungeonGenerator - Loaded {files.Length} rooms into {roomsByType.Count} types.");
     }
 
     public void GenerateDungeon()
@@ -50,10 +50,10 @@ public class DungeonGenerator : MonoBehaviour
 
         // Create starting room at (0,0)
         RoomData startData = GetRandomRoomOfType(Editor_Room.RoomType.Start);
-        Vector2 startPos = Vector2.zero;
+        List<Vector2> allTiles = CalculateRoomTiles(Vector2.zero, startData.roomSize);
         VirtualDungeonRoom startRoom = new(
             distance: 0,
-            position: new List<Vector2> { startPos },
+            position: allTiles,
             room: startData,
             dirBias: Vector2.zero,
             id: 0
@@ -61,7 +61,8 @@ public class DungeonGenerator : MonoBehaviour
 
         placedRooms.Add(startRoom);
         frontier.Enqueue(startRoom);
-        occupiedPositions.Add(startPos);
+        foreach(Vector2 tile in allTiles)
+            occupiedPositions.Add(tile);
 
         int roomId = 1;
 
@@ -72,21 +73,10 @@ public class DungeonGenerator : MonoBehaviour
 
             foreach (VirtualDoor door in current.doors)
             {
-                if (door.isOccupied || UnityEngine.Random.Range(0, 100) <= 50f) continue;
+                if (door.isOccupied || UnityEngine.Random.Range(0, 100) >= 50f) continue;
 
                 // New position is just current door position
                 Vector2 newPos = door.pos;
-
-                // Skip if position already occupied
-                List<Vector2> allTiles = CalculateRoomTiles(newPos, current.room.roomSize);
-                bool _continue = false;
-                foreach (Vector2 tile in allTiles)
-                    if (occupiedPositions.Contains(tile))
-                    {
-                        _continue = true;
-                        break;
-                    }
-                if (_continue) continue;
 
                 // Enforce "never below start room" rule
                 if (newPos.y < 0)
@@ -96,6 +86,19 @@ public class DungeonGenerator : MonoBehaviour
                 Editor_Room.RoomType typeToPlace = DecideRoomType(current.distance);
                 RoomData data = GetRandomRoomOfType(typeToPlace);
                 if (data == null) continue;
+
+                // Skip if position already occupied
+                allTiles = CalculateRoomTiles(newPos, data.roomSize);
+                bool _continue = false;
+                foreach (Vector2 tile in allTiles)
+                {
+                    if (occupiedPositions.Contains(tile))
+                    {
+                        _continue = true;
+                        break;
+                    }
+                }
+                if (_continue) continue;
 
                 // anchorPos is the bottom-left tile
                 VirtualDungeonRoom newRoom = new(
@@ -117,14 +120,14 @@ public class DungeonGenerator : MonoBehaviour
 
                 placedRooms.Add(newRoom);
                 frontier.Enqueue(newRoom);
-                occupiedPositions.Add(newPos);
+                foreach(Vector2 tile in allTiles)
+                    occupiedPositions.Add(tile);
 
                 if (placedRooms.Count >= totalRooms) break;
             }
         }
 
-        Debug.Log($"Generated dungeon with {placedRooms.Count} rooms");
-
+        // Draw the minimap
         FindObjectOfType<DungeonMap>().DrawMinimap(placedRooms);
     }
 
@@ -182,11 +185,10 @@ public class VirtualDungeonRoom
     public int id;
     public int distance;
     public List<Vector2> position;
-    public RoomData room; // Now uses RoomData directly
+    public RoomData room;
     public Vector2 dirBias;
     public VirtualDoor startDoor;
     public List<VirtualDoor> doors;
-    public List<VirtualDungeonRoom> neighbourRooms = new();
     public bool canCreateNewBranches = false;
     public int noBranchCount = 0;
 
@@ -243,7 +245,7 @@ public class VirtualDoor
         pos = GetPosOfDoor(roomRef);
     }
 
-    private Vector2 GetPosOfDoor(VirtualDungeonRoom roomRef)
+    public Vector2 GetPosOfDoor(VirtualDungeonRoom roomRef)
     {
         // Base position is first tile of the room
         Vector2 pos = roomRef.position[0];
@@ -380,5 +382,4 @@ public class VirtualDoor
 
         return pos + offset;
     }
-
 }
