@@ -70,7 +70,7 @@ public class DungeonRoom : MonoBehaviour
         }
         if (enemies.Count == 0 && !cleared)
         {
-            // Show message 'Room cleared!' which hide after 1.5 seconds
+            // Show message 'Room cleared!' which hides after 1.5 seconds
             FindAnyObjectByType<PlayerStats>().ShowMessage("Room cleared!", 1.5f);
 
             cleared = true;

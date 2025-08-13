@@ -8,14 +8,19 @@ using UnityEngine;
 public class DungeonGenerator : MonoBehaviour
 {
     [Header("Dungeon Settings")]
-    public int totalRooms = 10;
-    public int minDistanceForBoss = 5;
+    [SerializeField] private int totalRooms;
+    [SerializeField] private int minDistanceForBoss;
+
+    [Header("Dungeon room settings")]
+    [SerializeField] private int resourceRoomCount_min;
+    [SerializeField] private int resourceRoomCount_max;
+    private int resourceRoomCount;
 
     private List<VirtualDungeonRoom> placedRooms = new();
     private Queue<VirtualDungeonRoom> frontier = new(); // For BFS-like placement
     private HashSet<Vector2> occupiedPositions = new();
 
-    public Dictionary<Editor_Room.RoomType, List<RoomData>> roomsByType = new();
+    private Dictionary<Editor_Room.RoomType, List<RoomData>> roomsByType = new();
 
     private void Start()
     {
@@ -23,7 +28,7 @@ public class DungeonGenerator : MonoBehaviour
         GenerateDungeon();
     }
 
-    public void LoadRooms()
+    private void LoadRooms()
     {
         roomsByType.Clear();
 
@@ -58,6 +63,7 @@ public class DungeonGenerator : MonoBehaviour
             dirBias: Vector2.zero,
             id: 0
         );
+        startRoom.startDoor = startRoom.doors[0];
 
         placedRooms.Add(startRoom);
         frontier.Enqueue(startRoom);
@@ -67,8 +73,13 @@ public class DungeonGenerator : MonoBehaviour
         int roomId = 1;
 
         // BFS-like expansion
-        while (placedRooms.Count < totalRooms && frontier.Count > 0)
+        while (placedRooms.Count < totalRooms)
         {
+            if(frontier.Count == 0)
+            {
+                GenerateDungeon();
+                return;
+            }
             VirtualDungeonRoom current = frontier.Dequeue();
 
             foreach (VirtualDoor door in current.doors)
@@ -84,6 +95,8 @@ public class DungeonGenerator : MonoBehaviour
 
                 // Pick room type
                 Editor_Room.RoomType typeToPlace = DecideRoomType(current.distance);
+                if(roomId >= totalRooms - 1 && !HasBossRoom())
+                    typeToPlace = Editor_Room.RoomType.Boss;
                 RoomData data = GetRandomRoomOfType(typeToPlace);
                 if (data == null) continue;
 
@@ -149,10 +162,15 @@ public class DungeonGenerator : MonoBehaviour
         if (distance >= minDistanceForBoss && !HasBossRoom())
             return Editor_Room.RoomType.Boss;
 
-        // Example: 70% normal, 20% resource, 10% special
-        float r = UnityEngine.Random.value;
-        if (r < 0.85f) return Editor_Room.RoomType.Basic;
-        return Editor_Room.RoomType.Resources;
+        float roll = UnityEngine.Random.value;
+        roll += distance * 0.05f;
+        if (resourceRoomCount < resourceRoomCount_max && roll < 0.15f)
+        {
+            resourceRoomCount++;
+            return Editor_Room.RoomType.Resources;
+        }
+
+        return Editor_Room.RoomType.Basic;
     }
 
     private bool HasBossRoom()
