@@ -12,7 +12,7 @@ public class InteractabilityIcon : MonoBehaviour
     private void Update()
     {
         Vector3 dir = new(playerCamera.transform.position.x - transform.position.x, 0, playerCamera.transform.position.z - transform.position.z);
-        float angle = 0f;
+        float angle;
         if (dir.normalized.z > 0)
             angle = (Mathf.Atan(dir.normalized.x / dir.normalized.z) * Mathf.Rad2Deg) + 180;
         else

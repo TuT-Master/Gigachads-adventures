@@ -46,38 +46,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ae8554b6deeb7f142b52680513762cfd, type: 2}
   firstChampionNames: []
   secondChampionNames: []
-  floor_1x1: {fileID: 919132149155446097, guid: ab1709a1c66cea441b40776c9bf4c68a,
+  floor: {fileID: 7056237436050294319, guid: f80f36f039c3e65439d1f4ab595186c5, type: 3}
+  ceiling: {fileID: 0}
+  wall_noDoors: {fileID: 6760052826874073628, guid: c7fd5884133fb5e43ac994c308eb3135,
     type: 3}
-  floor_1x2: {fileID: 0}
-  floor_1x3: {fileID: 0}
-  floor_2x1: {fileID: 0}
-  floor_2x2: {fileID: 0}
-  floor_2x3: {fileID: 0}
-  floor_3x1: {fileID: 0}
-  floor_3x2: {fileID: 0}
-  floor_3x3: {fileID: 0}
-  ceiling_1x1: {fileID: 919132149155446097, guid: ab1709a1c66cea441b40776c9bf4c68a,
+  wall_withDoors: {fileID: 5326635467952911954, guid: 96d19cfec6d6a084db3296ab7b16ab5e,
     type: 3}
-  ceiling_1x2: {fileID: 0}
-  ceiling_1x3: {fileID: 0}
-  ceiling_2x1: {fileID: 0}
-  ceiling_2x2: {fileID: 0}
-  ceiling_2x3: {fileID: 0}
-  ceiling_3x1: {fileID: 0}
-  ceiling_3x2: {fileID: 0}
-  ceiling_3x3: {fileID: 0}
-  wall_1_0: {fileID: 919132149155446097, guid: f12988218478a394788500dfd168352a, type: 3}
-  wall_1_1: {fileID: 919132149155446097, guid: 85896a0dc4469c7449070532e03d56d7, type: 3}
-  wall_2_00: {fileID: 0}
-  wall_2_01: {fileID: 0}
-  wall_2_10: {fileID: 0}
-  wall_2_11: {fileID: 0}
-  wall_3_000: {fileID: 0}
-  wall_3_001: {fileID: 0}
-  wall_3_010: {fileID: 0}
-  wall_3_011: {fileID: 0}
-  wall_3_100: {fileID: 0}
-  wall_3_101: {fileID: 0}
-  wall_3_110: {fileID: 0}
-  wall_3_111: {fileID: 0}
-  saveFile: {fileID: 102900000, guid: 160203e65ff4cfb46abd9f883f0d9995, type: 3}

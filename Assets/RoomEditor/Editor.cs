@@ -2,12 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using static Editor;
 
 public class Editor : MonoBehaviour
 {
@@ -35,12 +33,16 @@ public class Editor : MonoBehaviour
     [Header("Editor")]
     [SerializeField] private TextMeshProUGUI brushDescription;
     [SerializeField] private TextMeshProUGUI statisticsText;
-    private Dictionary<BrushType, int> statistics;
+    private Dictionary<BrushType, int> statistics = new();
+    [SerializeField] private TMP_Dropdown dropdownBrushes;
     public enum BrushType
     {
         None,
-        Obstacle_noShoot,
-        Obstacle_shoot,
+        Obstacle_noShoot_1x1,
+        Obstacle_noShoot_2x1,
+        Obstacle_noShoot_3x1,
+        Obstacle_noShoot_2x2,
+        Obstacle_shoot_1x1,
         Lightsource,
         Lootbox,
         Resource,
@@ -53,14 +55,14 @@ public class Editor : MonoBehaviour
         Trap,
         Specific,
     }
-    public BrushType brushType;
+    public Brush activeBrush;
     public string specificObjName;
     [SerializeField] private GameObject specificObjsContectArea;
     [SerializeField] private GameObject specificObjPrefab;
     [SerializeField] private Transform workspace;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject doorPrefab;
-    private Dictionary<int, Editor_Tile> tiles;
+    private Editor_Tile[,] tiles;
 
     private Editor_Room room;
     private Dictionary<int, Editor_CustomDoor> customDoors;
@@ -73,6 +75,8 @@ public class Editor : MonoBehaviour
         editorTab.SetActive(false);
         customDoorsTab.SetActive(false);
         bossTypeDropdown.SetActive(false);
+
+        SetDropDownBrushes();
     }
     private void Update()
     {
@@ -105,27 +109,14 @@ public class Editor : MonoBehaviour
             return;
 
         statisticsText.text = "";
-        statistics = new()
-        {
-            {BrushType.Obstacle_noShoot, 0},
-            {BrushType.Obstacle_shoot, 0},
-            {BrushType.Lightsource, 0},
-            {BrushType.Resource, 0},
-            {BrushType.Lootbox, 0},
-            {BrushType.Enemy_mAggresive, 0},
-            {BrushType.Enemy_mEvasive, 0},
-            {BrushType.Enemy_mWandering, 0},
-            {BrushType.Enemy_mStealth, 0},
-            {BrushType.Enemy_rStatic, 0},
-            {BrushType.Enemy_rWandering, 0},
-            {BrushType.Trap, 0},
-            {BrushType.Specific, 0},
-        };
-        foreach (Editor_Tile tile in tiles.Values)
+        statistics.Clear();
+        for (int i = 0; i < brushes.Count; i++)
+            statistics.Add(brushes[i].BrushType, 0);
+        foreach (Editor_Tile tile in tiles)
             if (tile.tileType != BrushType.None)
                 statistics[tile.tileType]++;
         foreach (BrushType brushType in statistics.Keys)
-            statisticsText.text += brushType.ToString() + ": " + statistics[brushType] + "\n";
+            statisticsText.text += $"{brushType}: {statistics[brushType]}\n";
     }
     private IEnumerator DeleteLog(float delay)
     {
@@ -133,40 +124,60 @@ public class Editor : MonoBehaviour
         yield return new WaitForSecondsRealtime(delay);
         log.text = "";
         deletingLog = false;
+    }
 
+    private void SetDropDownBrushes()
+    {
+        dropdownBrushes.ClearOptions();
+        for (int i = 0; i < brushes.Count; i++)
+        {
+            TMP_Dropdown.OptionData option = new()
+            {
+                text = brushes[i].Name,
+            };
+            dropdownBrushes.options.Add(option);
+        }
     }
 
     // Brushes
-    private readonly Dictionary<int, (BrushType type, string description)> brushOptions = new()
+    private List<Brush> brushes = new()
     {
-        [0] = (BrushType.None, "None\nBasically an eraser"),
-        [1] = (BrushType.Obstacle_noShoot, "Obstacle\nNo one can shoot over it"),
-        [2] = (BrushType.Obstacle_shoot, "Obstacle\nEveryone can shoot over it"),
-        [3] = (BrushType.Lightsource, "Lightsource\n"),
-        [4] = (BrushType.Resource, "Resource\nMinable or gatherable resource like mineral, stone, bush etc."),
-        [5] = (BrushType.Lootbox, "Resource\nMinable or gatherable resource like mineral, stone, bush etc."),
-        [6] = (BrushType.Enemy_mAggresive, "Enemy melee aggressive\nThis bad boi will rush player right when he enters the room"),
-        [7] = (BrushType.Enemy_mEvasive, "Enemy melee evasive\nRushes player while dodging from side to side."),
-        [8] = (BrushType.Enemy_mWandering, "Enemy melee wandering\nWanders randomly, attacks player when close."),
-        [9] = (BrushType.Enemy_mStealth, "Enemy melee stealth\nSpawns and attacks player when close."),
-        [10] = (BrushType.Enemy_rStatic, "Enemy ranged static\nShoots player when close. Mostly turrets."),
-        [11] = (BrushType.Enemy_rWandering, "Enemy ranged wandering\nWanders and shoots while keeping distance."),
-        [12] = (BrushType.Trap, "Trap\nPlaceable source of various types of damage."),
-        [13] = (BrushType.Specific, "Specific object\nChoose any object you would like to place."),
+        new Brush_none(),
+        new Brush_obstacleNoShoot1x1(),
+        new Brush_obstacleNoShoot2x1(),
+        new Brush_obstacleNoShoot3x1(),
+        new Brush_obstacleNoShoot2x2(),
+        new Brush_obstacleShoot1x1(),
+        new Brush_lightsource(),
+        new Brush_lootbox(),
+        new Brush_resource(),
+        new Brush_enemyMeleeAggresive(),
+        new Brush_enemyMeleeEvasive(),
+        new Brush_enemyMeleeWandering(),
+        new Brush_enemyMeleeStealth(),
+        new Brush_enemyRangedStatic(),
+        new Brush_enemyRangedWandering(),
+        new Brush_trap(),
     };
     public void BrushChanged(TMP_Dropdown dropdown)
     {
-        if (brushOptions.TryGetValue(dropdown.value, out var option))
+        bool brushFound = false;
+        foreach (Brush b in brushes)
         {
-            brushType = option.type;
-            brushDescription.text = option.description;
+            if (b.Name == dropdown.options[dropdown.value].text)
+            {
+                activeBrush = b;
+                brushDescription.text = b.Description;
+                brushFound = true;
+                break;
+            }
         }
-        else
+        if(!brushFound)
         {
-            brushType = BrushType.Obstacle_noShoot;
-            brushDescription.text = "Obstacle\nNo one can shoot over it";
+            Debug.LogError("Brush not found: " + dropdown.options[dropdown.value].text);
+            return;
         }
-        if(brushType == BrushType.Specific)
+        if (activeBrush.BrushType == BrushType.Specific)
         {
             // Set specific obj list
             List<GameObject> allObjs = dungeonDatabase.GetAllPlaceableObjs();
@@ -178,7 +189,7 @@ public class Editor : MonoBehaviour
             specificObjsContectArea.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 10 + (allObjs.Count * 30));
         }
         else
-            for(int i = 0; i < specificObjsContectArea.transform.childCount; i++)
+            for (int i = 0; i < specificObjsContectArea.transform.childCount; i++)
                 Destroy(specificObjsContectArea.transform.GetChild(i).gameObject);
     }
     public void NewRoom_button()
@@ -228,9 +239,8 @@ public class Editor : MonoBehaviour
 
         // Generate room in editor
         // Tiles
-        tiles = new();
+        tiles = new Editor_Tile[(int)room.roomSize.x * 6, (int)room.roomSize.y * 6];
         Vector2 startPos = new(room.roomSize.x * 150, room.roomSize.y * 150);
-        int count = 0;
         for (int y = 0; y < room.roomSize.y * 6; y++)
         {
             for (int x = 0; x < room.roomSize.x * 6; x++)
@@ -238,8 +248,7 @@ public class Editor : MonoBehaviour
                 GameObject newTile = Instantiate(tilePrefab, workspace);
                 newTile.GetComponent<Editor_Tile>().SetUpTile(new(x, y), this);
                 newTile.GetComponent<RectTransform>().localPosition = new Vector3((x * 50) - startPos.x, (y * 50) - startPos.y, 0);
-                tiles.Add(count, newTile.GetComponent<Editor_Tile>());
-                count++;
+                tiles[x, y] = newTile.GetComponent<Editor_Tile>();
             }
         }
         // Wall and doors
@@ -278,7 +287,7 @@ public class Editor : MonoBehaviour
 
         // Set up doors
         room.doors = new();
-        if(customDoors != null)
+        if (customDoors != null)
         {
             for (int i = 0; i < customDoors.Count; i++)
             {
@@ -305,11 +314,6 @@ public class Editor : MonoBehaviour
                 };
             }
         }
-
-
-        // Set first brush description
-        brushType = BrushType.None;
-        brushDescription.text = "None\nBasically an eraser";
     }
     public void DoorsDone_button()
     {
@@ -329,7 +333,7 @@ public class Editor : MonoBehaviour
         newRoomTab.SetActive(false);
         editorTab.SetActive(false);
         customDoorsTab.SetActive(true);
-        for(int i = 0; i < customDoorsTilesTransformParent.childCount; i++)
+        for (int i = 0; i < customDoorsTilesTransformParent.childCount; i++)
             Destroy(customDoorsTilesTransformParent.GetChild(i).gameObject);
 
         customDoors = new();
@@ -409,9 +413,12 @@ public class Editor : MonoBehaviour
             bossTypeDropdown.SetActive(false);
         }
     }
+
+    public void TileClicked(Editor_Tile tile)
+    {
+        activeBrush.Paint(tiles, tile.position.x, tile.position.y);
+    }
 }
-
-
 
 public class Editor_Room
 {
@@ -432,16 +439,20 @@ public class Editor_Room
     public SerializableDictionary<int, string> tiles = new();
 
 
-    public void SaveToFile(Dictionary<int, Editor_Tile> tiles)
+    public void SaveToFile(Editor_Tile[,] tiles)
     {
-        foreach (int i in tiles.Keys)
+        for (int y = 0; y < tiles.GetLength(1); y++)
         {
-            string value;
-            if (tiles[i].specificObjName == null || tiles[i].specificObjName == "")
-                value = ((int)tiles[i].tileType).ToString();
-            else
-                value = tiles[i].specificObjName;
-            this.tiles.Add(i, value);
+            for(int x = 0; x < tiles.GetLength(0); x++)
+            {
+                Editor_Tile tile = tiles[x, y];
+                string value;
+                if (tile.specificObjName == null || tile.specificObjName == "")
+                    value = ((int)tile.tileType).ToString();
+                else
+                    value = tile.specificObjName;
+                this.tiles.Add((tiles.GetLength(0) * y) + x, value);
+            }
         }
         // Make some normal IDs for doors (cause I'm too stoopid to do that right away -_- )
         Dictionary<Vector2, int[]> doorMappings = new()
@@ -494,7 +505,7 @@ public class Editor_Room
     public void SetDoorsFromSave()
     {
         doors = new();
-        foreach(int key in doorsSave.Keys)
+        foreach (int key in doorsSave.Keys)
             doors.Add(key, new() { doorState = doorsSave[key], id = key });
     }
 }

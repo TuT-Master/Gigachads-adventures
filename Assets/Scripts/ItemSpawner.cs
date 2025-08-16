@@ -26,7 +26,7 @@ public class ItemSpawner : MonoBehaviour, IInteractable
 
     public Item GetRandomMaterial()
     {
-        Item item = new(itemDatabase.materials[Random.Range(0, itemDatabase.materials.Count)]);
+        Item item = itemDatabase.materials[Random.Range(0, itemDatabase.materials.Count)].ToItem();
         item.amount = Random.Range(1, item.stackSize);
         return item;
     }

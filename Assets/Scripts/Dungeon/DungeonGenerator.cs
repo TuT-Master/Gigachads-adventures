@@ -12,20 +12,20 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private int minDistanceForBoss;
 
     [Header("Dungeon room settings")]
-    [SerializeField] private int resourceRoomCount_min;
-    [SerializeField] private int resourceRoomCount_max;
+    [SerializeField] private int resourceRoomCount_max = 3;
     private int resourceRoomCount;
 
-    private List<VirtualDungeonRoom> placedRooms = new();
+    public List<VirtualDungeonRoom> placedRooms = new();
     private Queue<VirtualDungeonRoom> frontier = new(); // For BFS-like placement
     private HashSet<Vector2> occupiedPositions = new();
+    private Queue<Editor_Room.RoomType> roomsToPlace;
 
     private Dictionary<Editor_Room.RoomType, List<RoomData>> roomsByType = new();
 
     private void Start()
     {
+        // Load rooms from Resources folder
         LoadRooms();
-        GenerateDungeon();
     }
 
     private void LoadRooms()
@@ -53,21 +53,22 @@ public class DungeonGenerator : MonoBehaviour
         frontier.Clear();
         occupiedPositions.Clear();
 
+        PrepareRoomQueue();
+
         // Create starting room at (0,0)
-        RoomData startData = GetRandomRoomOfType(Editor_Room.RoomType.Start);
-        List<Vector2> allTiles = CalculateRoomTiles(Vector2.zero, startData.roomSize);
+        RoomData startData = GetRandomRoomOfType(roomsToPlace.Dequeue());
+        List<Vector2> startTiles = CalculateRoomTiles(Vector2.zero, startData.roomSize);
         VirtualDungeonRoom startRoom = new(
             distance: 0,
-            position: allTiles,
+            position: startTiles,
             room: startData,
-            dirBias: Vector2.zero,
             id: 0
         );
         startRoom.startDoor = startRoom.doors[0];
 
         placedRooms.Add(startRoom);
         frontier.Enqueue(startRoom);
-        foreach(Vector2 tile in allTiles)
+        foreach (Vector2 tile in startTiles)
             occupiedPositions.Add(tile);
 
         int roomId = 1;
@@ -75,73 +76,124 @@ public class DungeonGenerator : MonoBehaviour
         // BFS-like expansion
         while (placedRooms.Count < totalRooms)
         {
-            if(frontier.Count == 0)
+            if (frontier.Count == 0)
             {
+                Debug.LogWarning("Frontier empty before all rooms placed. Restarting generation...");
                 GenerateDungeon();
                 return;
             }
+
             VirtualDungeonRoom current = frontier.Dequeue();
 
             foreach (VirtualDoor door in current.doors)
             {
-                if (door.isOccupied || UnityEngine.Random.Range(0, 100) >= 50f) continue;
-
-                // New position is just current door position
-                Vector2 newPos = door.pos;
-
-                // Enforce "never below start room" rule
-                if (newPos.y < 0)
+                if (door.isOccupied || UnityEngine.Random.Range(0, 100) >= 50f)
                     continue;
 
-                // Pick room type
-                Editor_Room.RoomType typeToPlace = DecideRoomType(current.distance);
-                if(roomId >= totalRooms - 1 && !HasBossRoom())
-                    typeToPlace = Editor_Room.RoomType.Boss;
-                RoomData data = GetRandomRoomOfType(typeToPlace);
-                if (data == null) continue;
+                Vector2 newAnchorPos = door.pos; // bottom-left of new room will be here if size = 1x1
 
-                // Skip if position already occupied
-                allTiles = CalculateRoomTiles(newPos, data.roomSize);
-                bool _continue = false;
-                foreach (Vector2 tile in allTiles)
+                // Enforce "never below start room" rule
+                if (newAnchorPos.y < 0)
+                    continue;
+
+                // Peek type first
+                RoomData data = GetRandomRoomOfType(roomsToPlace.Peek());
+                if (data == null)
+                    continue;
+
+                // Calculate all tiles for this new room
+                List<Vector2> newRoomTiles = CalculateRoomTiles(newAnchorPos, data.roomSize);
+
+                // Check if any tile is occupied
+                bool conflict = false;
+                foreach (Vector2 t in newRoomTiles)
                 {
-                    if (occupiedPositions.Contains(tile))
+                    if (occupiedPositions.Contains(t))
                     {
-                        _continue = true;
+                        conflict = true;
                         break;
                     }
                 }
-                if (_continue) continue;
+                if (conflict)
+                    continue;
 
-                // anchorPos is the bottom-left tile
+                // All good place the room
+                roomsToPlace.Dequeue();
                 VirtualDungeonRoom newRoom = new(
                     current.distance + 1,
-                    allTiles,
+                    newRoomTiles,
                     data,
-                    -door.side,
                     roomId++
                 );
 
-                // Link doors
-                door.isOccupied = true;
-                door.leadToDoor = newRoom.doors.Find(d => d.pos == current.position[0]);
-                if (door.leadToDoor != null)
+                // --- Door Linking ---
+                // Find opposite side in new room
+                Vector2 oppositeSide = -door.side;
+
+                // The connecting door in the new room is the one that sits at the tile touching current room
+                VirtualDoor matchingDoor = null;
+                foreach (var nd in newRoom.doors)
                 {
-                    door.leadToDoor.isOccupied = true;
-                    door.leadToDoor.leadToDoor = door;
+                    if (nd.side == oppositeSide && newRoomTiles.Contains(door.pos))
+                    {
+                        matchingDoor = nd;
+                        break;
+                    }
                 }
 
+                door.isOccupied = true;
+                door.leadToDoor = matchingDoor;
+                if (matchingDoor != null)
+                {
+                    matchingDoor.isOccupied = true;
+                    matchingDoor.leadToDoor = door;
+                }
+
+                // Add to structures
                 placedRooms.Add(newRoom);
                 frontier.Enqueue(newRoom);
-                foreach(Vector2 tile in allTiles)
-                    occupiedPositions.Add(tile);
+                foreach (Vector2 t in newRoomTiles)
+                    occupiedPositions.Add(t);
 
-                if (placedRooms.Count >= totalRooms) break;
+                if (placedRooms.Count >= totalRooms)
+                    break;
             }
         }
 
         // Draw the minimap
         FindObjectOfType<DungeonMap>().DrawMinimap(placedRooms);
+    }
+
+    private void PrepareRoomQueue()
+    {
+        roomsToPlace = new Queue<Editor_Room.RoomType>();
+
+        // Always start room first
+        roomsToPlace.Enqueue(Editor_Room.RoomType.Start);
+
+        int playableRooms = totalRooms - 2; // minus Start and Boss
+        int gap = playableRooms / resourceRoomCount_max;
+
+        for (int i = 1; i <= playableRooms; i++)
+        {
+            if (i % gap == 0 && resourceRoomCount < resourceRoomCount_max)
+            {
+                roomsToPlace.Enqueue(Editor_Room.RoomType.Resources);
+                resourceRoomCount++;
+            }
+            else
+                roomsToPlace.Enqueue(Editor_Room.RoomType.Basic);
+        }
+
+        // Boss room last
+        roomsToPlace.Enqueue(Editor_Room.RoomType.Boss);
+
+        /* DEBUGGING PREPARED QUEUE
+        string debug = "";
+        for(int i = 0; i < roomsToPlace.Count; i++)
+            debug += $"{roomsToPlace.ElementAt(i)}, ";
+        Debug.Log(debug);
+         */
     }
 
     private List<Vector2> CalculateRoomTiles(Vector2 anchorPos, Vector2 roomSize)
@@ -155,27 +207,6 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
         return tiles;
-    }
-
-    private Editor_Room.RoomType DecideRoomType(int distance)
-    {
-        if (distance >= minDistanceForBoss && !HasBossRoom())
-            return Editor_Room.RoomType.Boss;
-
-        float roll = UnityEngine.Random.value;
-        roll += distance * 0.05f;
-        if (resourceRoomCount < resourceRoomCount_max && roll < 0.15f)
-        {
-            resourceRoomCount++;
-            return Editor_Room.RoomType.Resources;
-        }
-
-        return Editor_Room.RoomType.Basic;
-    }
-
-    private bool HasBossRoom()
-    {
-        return placedRooms.Any(r => r.room.roomType == Editor_Room.RoomType.Boss);
     }
 
     private RoomData GetRandomRoomOfType(Editor_Room.RoomType type)
@@ -204,18 +235,14 @@ public class VirtualDungeonRoom
     public int distance;
     public List<Vector2> position;
     public RoomData room;
-    public Vector2 dirBias;
     public VirtualDoor startDoor;
     public List<VirtualDoor> doors;
-    public bool canCreateNewBranches = false;
-    public int noBranchCount = 0;
 
-    public VirtualDungeonRoom(int distance, List<Vector2> position, RoomData room, Vector2 dirBias, int id)
+    public VirtualDungeonRoom(int distance, List<Vector2> position, RoomData room, int id)
     {
         this.distance = distance;
         this.position = position;
         this.room = room;
-        this.dirBias = dirBias;
         this.id = id;
 
         doors = new List<VirtualDoor>();
@@ -227,6 +254,7 @@ public class VirtualDungeonRoom
             VirtualDoor newDoor = new(i);
             newDoor.SetSide(room.roomSize);
             newDoor.SetPos(this);
+            newDoor.localPos = newDoor.pos - position[0]; // store the offset inside the room
             doors.Add(newDoor);
         }
     }
@@ -236,6 +264,7 @@ public class VirtualDoor
     public int id;
     public Vector2 side;
     public Vector2 pos;
+    public Vector2 localPos; // position relative to the room's bottom-left tile
     public VirtualDoor leadToDoor;
     public bool isOccupied;
 

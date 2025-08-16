@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,19 +8,24 @@ public class DungeonMap : MonoBehaviour
 {
     public bool mapOpened;
 
-    [SerializeField]
-    private GameObject dungeonMapCanvas;
-    [SerializeField]
-    private GameObject mapContentArea;
-
     private HUDmanager hudmanager;
-
     private Dungeon dungeon;
 
-    // New map
-    private GameObject[] rooms;
-    [SerializeField] private GameObject roomPrefab;
+    [SerializeField] private GameObject dungeonMapCanvas;
+    [SerializeField] private RectTransform minimapContainer;
+    [SerializeField] private GameObject roomIconPrefab;
+    [SerializeField] private GameObject doorIconPrefab;
 
+    [Header("Display Settings")]
+    [SerializeField] private float roomSpacing = 20f; // Distance between rooms in minimap
+    [SerializeField] private float roomSize = 32f; // Size of each room icon in minimap
+    [SerializeField] private Color normalRoomColor = Color.white;
+    [SerializeField] private Color bossRoomColor = Color.red;
+    [SerializeField] private Color entranceRoomColor = Color.green;
+    [SerializeField] private Color resourceRoomColor = Color.blue;
+    [SerializeField] private Vector2 firstRoomPos;
+
+    private Dictionary<Vector2, GameObject> rooms = new();
 
     void Start()
     {
@@ -30,7 +36,7 @@ public class DungeonMap : MonoBehaviour
 
     void Update()
     {
-        if (rooms == null || dungeon.currentRoom == null)
+        if (rooms == null/* || dungeon.currentRoom == null*/)
             return;
 
         if(Input.GetKeyDown(KeyCode.M))
@@ -40,20 +46,19 @@ public class DungeonMap : MonoBehaviour
     void UpdateMap()
     {
         // Hide rooms
-        foreach (GameObject room in rooms)
-            room.SetActive(false);
+        foreach (Vector2 room in rooms.Keys)
+            rooms[room].SetActive(true);
 
         // Cleared rooms
         for (int i = 0; i < dungeon.transform.childCount; i++)
+        {
             if (dungeon.transform.GetChild(i).GetComponent<DungeonRoom>().cleared)
             {
-                rooms[i].SetActive(true);
-                rooms[i].GetComponent<Image>().color = Color.blue;
+                Vector2 room = rooms.Keys.ToArray()[i];
+                rooms[room].SetActive(true);
+                rooms[room].GetComponent<Image>().color = Color.blue;
             }
-
-        // Tracking current room
-        rooms[dungeon.currentRoom.GetComponent<DungeonRoom>().roomID].SetActive(true);
-        rooms[dungeon.currentRoom.GetComponent<DungeonRoom>().roomID].GetComponent<Image>().color = Color.green;
+        }
     }
 
     public void ClearMap()
@@ -61,10 +66,12 @@ public class DungeonMap : MonoBehaviour
         if(rooms == null)
             return;
 
-        for (int i = 0;i < rooms.Length;i++)
+        for (int i = 0;i < rooms.Keys.Count;i++)
         {
-            Destroy(rooms[i]);
+            Vector2 key = rooms.Keys.ToArray()[i];
+            Destroy(rooms[key]);
         }
+
         rooms = null;
     }
 
@@ -85,22 +92,6 @@ public class DungeonMap : MonoBehaviour
         }
     }
 
-
-
-    public RectTransform minimapContainer;
-    public GameObject roomIconPrefab;
-    public GameObject doorIconPrefab;
-
-    [Header("Display Settings")]
-    public float roomSpacing = 20f; // Distance between rooms in minimap
-    public float roomSize = 32f; // Size of each room icon in minimap
-    public Color normalRoomColor = Color.white;
-    public Color bossRoomColor = Color.red;
-    public Color entranceRoomColor = Color.green;
-    public Color resourceRoomColor = Color.blue;
-
-    private Dictionary<Vector2, GameObject> icons = new();
-
     public void DrawMinimap(List<VirtualDungeonRoom> rooms)
     {
         // Resize icon prefab
@@ -109,7 +100,7 @@ public class DungeonMap : MonoBehaviour
         // Clear old icons
         foreach (Transform child in minimapContainer)
             Destroy(child.gameObject);
-        icons.Clear();
+        this.rooms.Clear();
 
         foreach (VirtualDungeonRoom room in rooms)
         {
@@ -135,7 +126,7 @@ public class DungeonMap : MonoBehaviour
             Vector2 bottomLeft = room.position[0]; // already bottom-left in your generator
 
             // Position in minimap space
-            Vector2 minimapPos = bottomLeft * roomSpacing + (size * roomSpacing / 2f);
+            Vector2 minimapPos = bottomLeft * roomSpacing + (size * roomSpacing / 2f) + firstRoomPos;
 
             icon.GetComponent<RectTransform>().anchoredPosition = minimapPos;
             icon.GetComponent<RectTransform>().sizeDelta = size * roomSize;
@@ -165,12 +156,12 @@ public class DungeonMap : MonoBehaviour
                 Vector2 doorPixelPos = (localTilePos * tilePixelSize) + (Vector2.one * (tilePixelSize / 2f));
 
                 // Move 16 pixels toward room center
-                doorPixelPos -= side * 16f;
+                doorPixelPos -= side * 48f;
 
                 newDoor.GetComponent<RectTransform>().anchoredPosition = doorPixelPos;
             }
 
-            icons[bottomLeft] = icon;
+            this.rooms[bottomLeft] = icon;
         }
     }
 }

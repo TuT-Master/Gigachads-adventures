@@ -7,8 +7,7 @@ public class Door : MonoBehaviour, IInteractable
 {
     public int doorId;
 
-    [HideInInspector]
-    public bool canInteract;
+    [HideInInspector] public bool canInteract;
     public bool baseDoors;
 
     public GameObject room;
@@ -16,11 +15,8 @@ public class Door : MonoBehaviour, IInteractable
 
     public string sceneName;
 
-
-    [HideInInspector]
-    public Animator animator;
-    [HideInInspector]
-    public bool opened;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public bool opened;
 
     void Start()
     {
@@ -52,31 +48,41 @@ public class Door : MonoBehaviour, IInteractable
             yield return new WaitForSeconds(1);
         }
         else
-            yield return new WaitForSeconds(0.25f);
+        {
+            animator.SetTrigger("CloseDoor");
+            yield return new WaitForSeconds(1);
+        }
 
-        opened = true;
+        canInteract = true;
+        opened = !opened;
 
         // Play some sound for opening the doors
 
-
-
-        
         if(baseDoors)
         {
             if(sceneName == "Home")
-                FindAnyObjectByType<VirtualSceneManager>().LoadScene(sceneName, VirtualSceneManager.CurrentScene.Shop);
+            {
+                LeaveThisRoom();
+                FindAnyObjectByType<PlayerBase>(FindObjectsInactive.Include).EnterPlayerBase(PlayerBase.Location.Shop);
+            }
             else if (sceneName == "Shop")
-                FindAnyObjectByType<VirtualSceneManager>().LoadScene(sceneName, VirtualSceneManager.CurrentScene.Home);
+            {
+                LeaveThisRoom();
+                FindAnyObjectByType<Shop>(FindObjectsInactive.Include).EnterShop();
+            }
             else if (sceneName == "Dungeon")
-                FindAnyObjectByType<VirtualSceneManager>().LoadScene(sceneName, VirtualSceneManager.CurrentScene.Home);
+            {
+                LeaveThisRoom();
+                FindAnyObjectByType<Dungeon>(FindObjectsInactive.Include).EnterDungeon();
+            }
+            animator.SetTrigger("CloseDoor");
+            opened = false;
         }
-        else
-        {
-            room.SetActive(false);
-            // Move player to new room and start it
-            leadToRoom.GetComponent<DungeonRoom>().StartRoom();
-            FindAnyObjectByType<PlayerMovement>().gameObject.transform.position = leadToRoom.GetComponent<DungeonRoom>().doors[(doorId + 2) % 4].transform.position;
-        }
+    }
+
+    private void LeaveThisRoom()
+    {
+        room.SetActive(false);
     }
 
     public bool CanInteract() { return canInteract; }

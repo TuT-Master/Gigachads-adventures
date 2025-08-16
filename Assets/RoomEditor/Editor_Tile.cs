@@ -7,30 +7,41 @@ using UnityEngine.UI;
 public class Editor_Tile : MonoBehaviour, IPointerDownHandler
 {
     public Editor.BrushType tileType;
-    public Vector2 position;
+    public Vector2Int position;
     public string specificObjName;
 
     private Editor editor;
     [SerializeField] private Image image;
 
 
-    public void SetUpTile(Vector2 pos, Editor editor)
+    public void SetUpTile(Vector2Int pos, Editor editor)
     {
         position = pos;
         this.editor = editor;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData) => editor.TileClicked(this);
+
+    public void SetVisual(Editor.BrushType brushType)
     {
-        switch(editor.brushType)
+        switch (brushType)
         {
             case Editor.BrushType.None:
                 image.color = Color.white;
                 break;
-            case Editor.BrushType.Obstacle_noShoot:
+            case Editor.BrushType.Obstacle_noShoot_1x1:
                 image.color = Color.black;
                 break;
-            case Editor.BrushType.Obstacle_shoot:
+            case Editor.BrushType.Obstacle_noShoot_2x1:
+                image.color = Color.black;
+                break;
+            case Editor.BrushType.Obstacle_noShoot_3x1:
+                image.color = Color.black;
+                break;
+            case Editor.BrushType.Obstacle_noShoot_2x2:
+                image.color = Color.black;
+                break;
+            case Editor.BrushType.Obstacle_shoot_1x1:
                 image.color = Color.gray;
                 break;
             case Editor.BrushType.Lightsource:
@@ -67,7 +78,7 @@ public class Editor_Tile : MonoBehaviour, IPointerDownHandler
                 image.color = new(1, 0, 1);
                 break;
         }
-        tileType = editor.brushType;
+        tileType = editor.activeBrush.BrushType;
         if (tileType == Editor.BrushType.Specific)
             specificObjName = editor.specificObjName;
         else
