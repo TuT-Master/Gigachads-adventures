@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DungeonDatabase", menuName = "Scriptable objects/Dungeon database")]
 public class DungeonDatabase : ScriptableObject
 {
+    public GameObject roomPrefab;
+
     public List<GameObject> floors;
 
     public List<GameObject> walls;

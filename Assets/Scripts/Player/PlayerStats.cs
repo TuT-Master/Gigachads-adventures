@@ -6,6 +6,8 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerStats : MonoBehaviour, IDataPersistance
 {
+    [SerializeField] private Transform respawnPoint;
+
     public Dictionary<string, float> playerStats;
     public Dictionary<string, float> playerBaseStats;
 
@@ -277,7 +279,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
 
 
             // Teleport player home
-            FindAnyObjectByType<VirtualSceneManager>().LoadScene("Home", VirtualSceneManager.CurrentScene.Dungeon);
+            transform.position = respawnPoint.position;
 
             // Refill stats
             playerStats["hp"] = playerStats["hpMax"];

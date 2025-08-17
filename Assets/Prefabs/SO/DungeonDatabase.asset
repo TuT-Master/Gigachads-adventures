@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca43089e27a08f945b859ca8e9efff38, type: 3}
   m_Name: DungeonDatabase
   m_EditorClassIdentifier: 
-  floorMousePointer: {fileID: 6134437696355652041, guid: 5646348160c444e4c9726b456d5c3913,
+  roomPrefab: {fileID: 3996681652204329688, guid: 1911bfbc64a0c1d4cb0f47670f740473,
     type: 3}
   floors:
   - {fileID: 7056237436050294319, guid: f80f36f039c3e65439d1f4ab595186c5, type: 3}

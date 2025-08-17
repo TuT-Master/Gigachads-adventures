@@ -43,6 +43,7 @@ public class PlayerInteract : MonoBehaviour
         foreach(InteractabilityIcon icon in FindObjectsOfType<InteractabilityIcon>())
         {
             GameObject interactableObj = icon.interactableObj;
+            if(interactableObj == null) continue;
             if (!interactableObj.activeInHierarchy)
             {
                 RemoveIcon(interactableObj.GetComponent<IInteractable>());

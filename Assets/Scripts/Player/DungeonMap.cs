@@ -36,7 +36,7 @@ public class DungeonMap : MonoBehaviour
 
     void Update()
     {
-        if (rooms == null/* || dungeon.currentRoom == null*/)
+        if (rooms == null || dungeon.currentRoom == null)
             return;
 
         if(Input.GetKeyDown(KeyCode.M))

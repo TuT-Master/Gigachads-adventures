@@ -68,6 +68,13 @@ public class Editor : MonoBehaviour
     private Dictionary<int, Editor_CustomDoor> customDoors;
     private bool deletingLog = false;
 
+    private Dictionary<BrushType, List<Vector2Int>> placedBrushes = new();
+    public void AddPlacedBrush(BrushType brushType, Vector2Int position)
+    {
+        if (!placedBrushes.ContainsKey(brushType))
+            placedBrushes[brushType] = new List<Vector2Int>();
+        placedBrushes[brushType].Add(position);
+    }
 
     private void Start()
     {
@@ -83,8 +90,6 @@ public class Editor : MonoBehaviour
         // Autoclearing log
         if (log.text != "" && !deletingLog)
             StartCoroutine(DeleteLog(4f));
-
-
 
         if (room == null)
             return;
@@ -413,7 +418,6 @@ public class Editor : MonoBehaviour
             bossTypeDropdown.SetActive(false);
         }
     }
-
     public void TileClicked(Editor_Tile tile)
     {
         activeBrush.Paint(tiles, tile.position.x, tile.position.y);

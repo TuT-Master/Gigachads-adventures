@@ -227,7 +227,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         }
         if (!done)
         {
-            if(FindAnyObjectByType<VirtualSceneManager>().DungeonLoaded())
+            if(FindAnyObjectByType<Dungeon>().currentRoom != null)
                 DropItemOnDaFloor(item, transform.position, FindAnyObjectByType<Dungeon>().currentRoom.transform);
             else
                 DropItemOnDaFloor(item, transform.position, null);

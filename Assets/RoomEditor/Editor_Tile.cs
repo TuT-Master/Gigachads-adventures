@@ -22,7 +22,7 @@ public class Editor_Tile : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData) => editor.TileClicked(this);
 
-    public void SetVisual(Editor.BrushType brushType)
+    public void SetVisual(Editor.BrushType brushType, bool setBrushTypeToo = true)
     {
         switch (brushType)
         {
@@ -78,10 +78,13 @@ public class Editor_Tile : MonoBehaviour, IPointerDownHandler
                 image.color = new(1, 0, 1);
                 break;
         }
-        tileType = editor.activeBrush.BrushType;
-        if (tileType == Editor.BrushType.Specific)
-            specificObjName = editor.specificObjName;
-        else
-            specificObjName = "";
+        if(setBrushTypeToo)
+        {
+            tileType = brushType;
+            if (tileType == Editor.BrushType.Specific)
+                specificObjName = editor.specificObjName;
+            else
+                specificObjName = "";
+        }
     }
 }

@@ -41,7 +41,7 @@ public class Brush_obstacleNoShoot2x1 : Brush
         try
         {
             grid[startX, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_2x1);
-            grid[startX + 1, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_2x1);
+            grid[startX + 1, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_2x1, false);
         }
         catch { }
     }
@@ -55,8 +55,8 @@ public class Brush_obstacleNoShoot3x1 : Brush
         try
         {
             grid[startX, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_3x1);
-            grid[startX + 1, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_3x1);
-            grid[startX + 2, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_3x1);
+            grid[startX + 1, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_3x1, false);
+            grid[startX + 2, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_3x1, false);
         }
         catch { }
     }
@@ -70,9 +70,9 @@ public class Brush_obstacleNoShoot2x2 : Brush
         try
         {
             grid[startX, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_2x2);
-            grid[startX + 1, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_2x2);
-            grid[startX, startY + 1].SetVisual(Editor.BrushType.Obstacle_noShoot_2x2);
-            grid[startX + 1, startY + 1].SetVisual(Editor.BrushType.Obstacle_noShoot_2x2);
+            grid[startX + 1, startY].SetVisual(Editor.BrushType.Obstacle_noShoot_2x2, false);
+            grid[startX, startY + 1].SetVisual(Editor.BrushType.Obstacle_noShoot_2x2, false);
+            grid[startX + 1, startY + 1].SetVisual(Editor.BrushType.Obstacle_noShoot_2x2, false);
         }
         catch { }
     }

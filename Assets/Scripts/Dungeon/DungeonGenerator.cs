@@ -12,8 +12,8 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private int minDistanceForBoss;
 
     [Header("Dungeon room settings")]
-    [SerializeField] private int resourceRoomCount_max = 3;
-    private int resourceRoomCount;
+    [SerializeField] private int resourceRoomCount = 3;
+    private int _resourceRoomCount;
 
     public List<VirtualDungeonRoom> placedRooms = new();
     private Queue<VirtualDungeonRoom> frontier = new(); // For BFS-like placement
@@ -22,11 +22,7 @@ public class DungeonGenerator : MonoBehaviour
 
     private Dictionary<Editor_Room.RoomType, List<RoomData>> roomsByType = new();
 
-    private void Start()
-    {
-        // Load rooms from Resources folder
-        LoadRooms();
-    }
+    private void Start() => LoadRooms();
 
     private void LoadRooms()
     {
@@ -47,8 +43,14 @@ public class DungeonGenerator : MonoBehaviour
         Debug.Log($"- DungeonGenerator - Loaded {files.Length} rooms into {roomsByType.Count} types.");
     }
 
-    public void GenerateDungeon()
+    public void GenerateDungeon(Dungeon.DungeonType dungeonType)
     {
+        resourceRoomCount = dungeonType switch
+        {
+            Dungeon.DungeonType.Normal => 3,
+            Dungeon.DungeonType.Resourcefull => 6,
+            _ => 3
+        };
         placedRooms.Clear();
         frontier.Clear();
         occupiedPositions.Clear();
@@ -79,7 +81,7 @@ public class DungeonGenerator : MonoBehaviour
             if (frontier.Count == 0)
             {
                 Debug.LogWarning("Frontier empty before all rooms placed. Restarting generation...");
-                GenerateDungeon();
+                GenerateDungeon(dungeonType);
                 return;
             }
 
@@ -127,26 +129,55 @@ public class DungeonGenerator : MonoBehaviour
                 );
 
                 // --- Door Linking ---
-                // Find opposite side in new room
                 Vector2 oppositeSide = -door.side;
 
-                // The connecting door in the new room is the one that sits at the tile touching current room
-                VirtualDoor matchingDoor = null;
-                foreach (var nd in newRoom.doors)
+                // newPos is the bottom-left anchor of the new room
+                Vector2 newAnchor = newAnchorPos;
+                Vector2 roomSize = data.roomSize; // width (x), height (y)
+
+                // Compute the expected outside position of the opposite door in the new room
+                Vector2 expectedOppDoorPos;
+                if (door.side == Vector2.right)              // current door faces right -> new room must have a LEFT door
                 {
-                    if (nd.side == oppositeSide && newRoomTiles.Contains(door.pos))
+                    expectedOppDoorPos = new Vector2(newAnchor.x - 1, door.pos.y);
+                }
+                else if (door.side == Vector2.left)          // current door faces left -> new room must have a RIGHT door
+                {
+                    expectedOppDoorPos = new Vector2(newAnchor.x + roomSize.x, door.pos.y);
+                }
+                else if (door.side == Vector2.up)            // current door faces up -> new room must have a DOWN door
+                {
+                    expectedOppDoorPos = new Vector2(door.pos.x, newAnchor.y - 1);
+                }
+                else /* door.side == Vector2.down */         // current door faces down -> new room must have an UP door
+                {
+                    expectedOppDoorPos = new Vector2(door.pos.x, newAnchor.y + roomSize.y);
+                }
+
+                // Find the door in the new room that sits exactly at that outside tile and faces opposite
+                VirtualDoor matchingDoor = null;
+                foreach (VirtualDoor nd in newRoom.doors)
+                {
+                    if (nd.side == oppositeSide && nd.pos == expectedOppDoorPos)
                     {
                         matchingDoor = nd;
                         break;
                     }
                 }
 
-                door.isOccupied = true;
-                door.leadToDoor = matchingDoor;
+                // Only link & occupy if we actually found the matching door
                 if (matchingDoor != null)
                 {
+                    door.isOccupied = true;
+                    door.leadToDoor = matchingDoor;
+
                     matchingDoor.isOccupied = true;
                     matchingDoor.leadToDoor = door;
+                }
+                else
+                {
+                    // Optional: log to help debug if something goes off
+                     Debug.LogError($"No matching door found. Current door {door.id} side {door.side} at {door.pos} -> expected {oppositeSide} at {expectedOppDoorPos} for new room {newRoom.id}");
                 }
 
                 // Add to structures
@@ -172,14 +203,14 @@ public class DungeonGenerator : MonoBehaviour
         roomsToPlace.Enqueue(Editor_Room.RoomType.Start);
 
         int playableRooms = totalRooms - 2; // minus Start and Boss
-        int gap = playableRooms / resourceRoomCount_max;
+        int gap = playableRooms / resourceRoomCount;
 
         for (int i = 1; i <= playableRooms; i++)
         {
-            if (i % gap == 0 && resourceRoomCount < resourceRoomCount_max)
+            if (i % gap == 0 && _resourceRoomCount < resourceRoomCount)
             {
                 roomsToPlace.Enqueue(Editor_Room.RoomType.Resources);
-                resourceRoomCount++;
+                _resourceRoomCount++;
             }
             else
                 roomsToPlace.Enqueue(Editor_Room.RoomType.Basic);
@@ -193,7 +224,7 @@ public class DungeonGenerator : MonoBehaviour
         for(int i = 0; i < roomsToPlace.Count; i++)
             debug += $"{roomsToPlace.ElementAt(i)}, ";
         Debug.Log(debug);
-         */
+        */
     }
 
     private List<Vector2> CalculateRoomTiles(Vector2 anchorPos, Vector2 roomSize)
@@ -226,8 +257,8 @@ public class RoomData
     public Editor_Room.RoomType roomType;
     public bool bossRoom;
     public Vector2 roomSize;
-    public Dictionary<int, int> doorsSave;
-    public Dictionary<int, string> tiles;
+    public SerializableDictionary<int, int> doorsSave;
+    public SerializableDictionary<int, string> tiles;
 }
 public class VirtualDungeonRoom
 {
@@ -261,6 +292,7 @@ public class VirtualDungeonRoom
 }
 public class VirtualDoor
 {
+    public bool leadToBase;
     public int id;
     public Vector2 side;
     public Vector2 pos;

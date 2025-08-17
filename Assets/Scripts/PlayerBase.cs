@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour, IDataPersistance
 {
-    [SerializeField] private List<Door> doors;
-    [SerializeField] private GameObject player;
-
-    [Header("Entrances")]
-    [SerializeField] private Transform fromDungeon;
-    [SerializeField] private Transform fromShop;
-
     public enum BaseUpgrade
     {
         None,
@@ -35,32 +28,16 @@ public class PlayerBase : MonoBehaviour, IDataPersistance
         {BaseUpgrade.Upgrade, null},
     };
 
-    [SerializeField]
-    private ItemDatabase itemDatabase;
+    [SerializeField] private List<Door> doors;
+    [SerializeField] private ItemDatabase itemDatabase;
 
 
-
-    public enum Location
+    public void EnterPlayerBase()
     {
-        PlayerBase,
-        Dungeon,
-        Shop,
-    }
-    public void EnterPlayerBase(Location location)
-    {
-        gameObject.SetActive(true);
-
-        player.transform.position = location switch
-        {
-            Location.Dungeon => fromDungeon.position,
-            Location.Shop => fromShop.position,
-            _ => transform.position,
-        };
-
         foreach (Door door in doors)
         {
             door.canInteract = true;
-            door.opened = false;
+            door.SetVisualState(false);
         }
     }
 

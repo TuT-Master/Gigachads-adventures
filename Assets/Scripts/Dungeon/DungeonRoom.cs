@@ -12,13 +12,16 @@ public class DungeonRoom : MonoBehaviour
 
     public TextMeshProUGUI messageObj;
     public bool cleared;
+    public bool started;
 
     private List<OtherInventory> lootBoxes = new();
     public List<Door> doors = new();
 
+    public bool startRoom;
+
     private void Update()
     {
-        if (enemies.Count == 0 && !cleared)
+        if (started && enemies.Count == 0 && !cleared && !startRoom)
         {
             // Show message 'Room cleared!' which hides after 1.5 seconds
             FindAnyObjectByType<PlayerStats>().ShowMessage("Room cleared!", 1.5f);
@@ -35,8 +38,7 @@ public class DungeonRoom : MonoBehaviour
     {
         // Short loading screen
 
-        // Wake everything and everybody up
-        gameObject.SetActive(true);
+
         // Add loot
         for(int i = 0; i < transform.Find("Objs").childCount; i++)
             if (transform.Find("Objs").GetChild(i).TryGetComponent(out OtherInventory otherInventory))
@@ -50,5 +52,7 @@ public class DungeonRoom : MonoBehaviour
                 };
                 otherInventory.SetUpInventory(loot, false);
             }
+
+        started = true;
     }
 }
