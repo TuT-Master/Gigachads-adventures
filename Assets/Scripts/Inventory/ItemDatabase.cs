@@ -6,6 +6,8 @@ using static PlayerBase;
 [CreateAssetMenu(fileName = "Item database", menuName = "Scriptable objects/Item database")]
 public class ItemDatabase : ScriptableObject
 {
+    [SerializeField] private GameObject itemPrefab;
+
     public List<WeaponMeleeSO> weaponsMelee;
 
     public List<WeaponRangedSO> weaponsRanged;
@@ -40,8 +42,8 @@ public class ItemDatabase : ScriptableObject
         foreach (ItemSO itemSO in list)
             if (itemSO.itemName == name)
             {
-                Item item = itemSO.ToItem();
-                item.amount = 1;
+                Item item = itemPrefab.GetComponent<Item>();
+                item.SetUpByItem(itemSO.ToItem());
                 return item;
             }
         return null;
@@ -60,7 +62,8 @@ public class ItemDatabase : ScriptableObject
     public Item GetThrowable(string name) => GetItemFromList(throwables, name);
     public Item GetTrap(string name) => GetItemFromList(traps, name);
     private Dictionary<string, ItemSO> allItemsSO;
-    private void Awake()
+    private void Awake() => SetUpAllItemSO();
+    private void SetUpAllItemSO()
     {
         allItemsSO = new();
         foreach (WeaponMeleeSO item in weaponsMelee)
@@ -92,7 +95,7 @@ public class ItemDatabase : ScriptableObject
     }
     public Item GetItemByNameAndAmount(string name, int amount)
     {
-        Debug.Log(allItemsSO.Count);
+        if (allItemsSO == null) SetUpAllItemSO();
         Item item = allItemsSO.TryGetValue(name, out ItemSO itemSO) ? itemSO.ToItem() : null;
         item.amount = amount;
         return item;
@@ -146,7 +149,10 @@ public class ItemDatabase : ScriptableObject
         Item item = null;
         foreach (BaseUpgradeSO upgradeSO in baseUpgradesSO)
             if (upgradeSO.baseUpgradeType == baseUpgrade && upgradeSO.levelOfUpgrade == level)
-                item = new(upgradeSO);
+            {
+                item = itemPrefab.GetComponent<Item>();
+                item.SetItem(upgradeSO);
+            }
         if(item != null)
             item.amount = 1;
         return item;

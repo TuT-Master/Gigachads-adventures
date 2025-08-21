@@ -39,7 +39,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -121.82849, y: -42.246185}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &421221862585066130
@@ -133,9 +133,14 @@ MonoBehaviour:
   twoHanded: 0
   AoE: 0
   sprite_inventory: {fileID: 0}
-  sprite_hand: {fileID: 0}
-  sprite_equip: {fileID: 0}
-  sprite_equipBack: {fileID: 0}
+  sprite_handMale_Front: {fileID: 0}
+  sprite_handMale_Back: {fileID: 0}
+  sprite_equipMale_Front: {fileID: 0}
+  sprite_equipMale_Back: {fileID: 0}
+  sprite_handFemale_Front: {fileID: 0}
+  sprite_handFemale_Back: {fileID: 0}
+  sprite_equipFemale_Front: {fileID: 0}
+  sprite_equipFemale_Back: {fileID: 0}
   ammo:
   - {fileID: 11400000, guid: 0a9aa93304c54b84aacc6b88bbfae12d, type: 2}
   hideHairWhenEquiped: 0
@@ -145,6 +150,7 @@ MonoBehaviour:
   craftedIn: 0
   requieredCraftingLevel: 0
   isRecipe: 0
+  isUpgrade: 0
   upgradedVersionOfItem: {fileID: 0}
   crystalType: 0
   spell: 0

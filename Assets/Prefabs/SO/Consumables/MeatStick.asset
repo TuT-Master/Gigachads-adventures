@@ -13,20 +13,21 @@ MonoBehaviour:
   m_Name: MeatStick
   m_EditorClassIdentifier: 
   itemName: Meat Stick
-  description: Finally I get to EAT!
-  sprite_inventory: {fileID: 3286163911610860551, guid: cb887e876bcd91d4593637c142be8d27,
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
-  sprite_hand: {fileID: 0}
-  craftedIn: 2
-  requieredCraftingLevel: 0
-  recipeMaterials:
-  - {fileID: 11400000, guid: 1346f861001ef7044a39b2e2e5f43548, type: 2}
-  - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
-  recipeMaterialsAmount: 0500000001000000
+  description: Finally I get to EAT!
+  amount: 0
   isStackable: 1
   stackSize: 69
+  slotType: 0
+  craftedIn: 2
+  requieredCraftingLevel: 0
+  recipeItems: []
+  sprite_inventory: {fileID: 3286163911610860551, guid: cb887e876bcd91d4593637c142be8d27,
+    type: 3}
   hpRefill: 10
   staminaRefill: 10
   manaRefill: 10
   cooldown: 2
   weight: 0.5
+  price: 0

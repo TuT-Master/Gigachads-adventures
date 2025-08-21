@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
     public Dictionary<string, float> stats;
-    public Dictionary<string, float> armorStats;
 
     public string itemName;
     [TextArea]
@@ -92,14 +91,6 @@ public class Item : MonoBehaviour
     public bool AoE;
 
     public Sprite sprite_inventory;
-    public Sprite sprite_handMale_Front;
-    public Sprite sprite_handMale_Back;
-    public Sprite sprite_equipMale_Front;
-    public Sprite sprite_equipMale_Back;
-    public Sprite sprite_handFemale_Front;
-    public Sprite sprite_handFemale_Back;
-    public Sprite sprite_equipFemale_Front;
-    public Sprite sprite_equipFemale_Back;
 
     public List<ProjectileSO> ammo;
 
@@ -167,16 +158,12 @@ public class Item : MonoBehaviour
     private TextMeshProUGUI text;
 
 
-    public Item(WeaponMeleeSO weaponSO)
+    public void SetItem(WeaponMeleeSO weaponSO)
     {
         itemName = weaponSO.itemName;
         description = weaponSO.description;
         slotType = Slot.SlotType.WeaponMelee;
         sprite_inventory = weaponSO.sprite_inventory;
-        sprite_handMale_Front = weaponSO.sprite_handMale_Front;
-        sprite_handMale_Back = weaponSO.sprite_handMale_Back;
-        sprite_handFemale_Front = weaponSO.sprite_handFemale_Front;
-        sprite_handFemale_Back = weaponSO.sprite_handFemale_Back;
         stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         emitsLight = weaponSO.emitsLight;
@@ -189,16 +176,12 @@ public class Item : MonoBehaviour
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
         isUpgrade = weaponSO.isUpgrade;
     }
-    public Item(WeaponRangedSO weaponSO)
+    public void SetItem(WeaponRangedSO weaponSO)
     {
         itemName = weaponSO.itemName;
-        description= weaponSO.description;
+        description = weaponSO.description;
         slotType = Slot.SlotType.WeaponRanged;
         sprite_inventory = weaponSO.sprite_inventory;
-        sprite_handMale_Front = weaponSO.sprite_handMale_Front;
-        sprite_handMale_Back = weaponSO.sprite_handMale_Back;
-        sprite_handFemale_Front = weaponSO.sprite_handFemale_Front;
-        sprite_handFemale_Back = weaponSO.sprite_handFemale_Back;
         stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         stackSize = weaponSO.stackSize;
@@ -214,16 +197,12 @@ public class Item : MonoBehaviour
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
         isUpgrade = weaponSO.isUpgrade;
     }
-    public Item(WeaponMagicSO weaponSO)
+    public void SetItem(WeaponMagicSO weaponSO)
     {
         itemName = weaponSO.itemName;
         description = weaponSO.description;
         slotType = Slot.SlotType.MagicWeapon;
         sprite_inventory = weaponSO.sprite_inventory;
-        sprite_handMale_Front = weaponSO.sprite_handMale_Front;
-        sprite_handMale_Back = weaponSO.sprite_handMale_Back;
-        sprite_handFemale_Front = weaponSO.sprite_handFemale_Front;
-        sprite_handFemale_Back = weaponSO.sprite_handFemale_Back;
         stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         stackSize = weaponSO.stackSize;
@@ -239,16 +218,12 @@ public class Item : MonoBehaviour
         magicCrystals = weaponSO.magicCrystals;
         isUpgrade = weaponSO.isUpgrade;
     }
-    public Item(ConsumableSO consumableSO)
+    public void SetItem(ConsumableSO consumableSO)
     {
         itemName = consumableSO.itemName;
         description = consumableSO.description;
         slotType = Slot.SlotType.Consumable;
         sprite_inventory = consumableSO.sprite_inventory;
-        sprite_handMale_Front = consumableSO.sprite_handMale_Front;
-        sprite_handMale_Back = consumableSO.sprite_handMale_Back;
-        sprite_handFemale_Front = consumableSO.sprite_handFemale_Front;
-        sprite_handFemale_Back = consumableSO.sprite_handFemale_Back;
         isStackable = consumableSO.isStackable;
         stackSize = consumableSO.stackSize;
         stats = consumableSO.Stats();
@@ -256,13 +231,12 @@ public class Item : MonoBehaviour
         requieredCraftingLevel = consumableSO.requieredCraftingLevel;
         recipe = new();
     }
-    public Item(ProjectileSO projectile)
+    public void SetItem(ProjectileSO projectile)
     {
         slotType = Slot.SlotType.Ammo;
         itemName = projectile.itemName;
         description = projectile.description;
         sprite_inventory = projectile.sprite_inventory;
-        sprite_equipMale_Front = projectile.sprite_projectile;
         stats = projectile.Stats();
         isStackable = true;
         stackSize = projectile.stackSize;
@@ -271,18 +245,14 @@ public class Item : MonoBehaviour
         recipe = new();
         selfHoming = projectile.selfHoming;
     }
-    public Item(ArmorSO armorSO)
+    public void SetItem(ArmorSO armorSO)
     {
         itemName = armorSO.itemName;
         description = armorSO.description;
-        armorStats = armorSO.Stats();
+        stats = armorSO.Stats();
         amount = 1;
         slotType = armorSO.slotType;
         sprite_inventory = armorSO.sprite_inventory;
-        sprite_equipMale_Front = armorSO.sprite_equipMale_Front;
-        sprite_equipMale_Back = armorSO.sprite_equipMale_Back;
-        sprite_equipFemale_Front = armorSO.sprite_equipFemale_Front;
-        sprite_equipFemale_Back = armorSO.sprite_equipFemale_Back;
         craftedIn = armorSO.craftedIn;
         requieredCraftingLevel = armorSO.requieredCraftingLevel;
         recipe = new();
@@ -293,14 +263,10 @@ public class Item : MonoBehaviour
         fullSetBonus = armorSO.FullsetBonus();
         isUpgrade = armorSO.isUpgrade;
     }
-    public Item(BackpackSO backpackSO)
+    public void SetItem(BackpackSO backpackSO)
     {
         itemName = backpackSO.itemName;
         description = backpackSO.description;
-        sprite_equipMale_Front = backpackSO.sprite_equipMale_Front;
-        sprite_equipMale_Back = backpackSO.sprite_equipMale_Back;
-        sprite_equipFemale_Front = backpackSO.sprite_equipFemale_Front;
-        sprite_equipFemale_Back = backpackSO.sprite_equipFemale_Back;
         sprite_inventory = backpackSO.sprite_inventory;
         inventoryCapacity = backpackSO.inventoryCapacity;
         isStackable = false;
@@ -311,14 +277,10 @@ public class Item : MonoBehaviour
         requieredCraftingLevel = backpackSO.requieredCraftingLevel;
         recipe = new();
     }
-    public Item(BeltSO beltSO)
+    public void SetItem(BeltSO beltSO)
     {
         itemName = beltSO.itemName;
         description = beltSO.description;
-        sprite_equipMale_Front = beltSO.sprite_equipMale_Front;
-        sprite_equipMale_Back = beltSO.sprite_equipMale_Back;
-        sprite_equipFemale_Front = beltSO.sprite_equipFemale_Front;
-        sprite_equipFemale_Back = beltSO.sprite_equipFemale_Back;
         sprite_inventory = beltSO.sprite_inventory;
         inventoryCapacity = beltSO.inventoryCapacity;
         isStackable = false;
@@ -329,14 +291,10 @@ public class Item : MonoBehaviour
         requieredCraftingLevel = beltSO.requieredCraftingLevel;
         recipe = new();
     }
-    public Item(ShieldSO shieldSO)
+    public void SetItem(ShieldSO shieldSO)
     {
         itemName = shieldSO.itemName;
         description = shieldSO.description;
-        sprite_equipMale_Front = shieldSO.sprite_equipMale_Front;
-        sprite_equipMale_Back = shieldSO.sprite_equipMale_Back;
-        sprite_equipFemale_Front = shieldSO.sprite_equipFemale_Front;
-        sprite_equipFemale_Back = shieldSO.sprite_equipFemale_Back;
         sprite_inventory = shieldSO.sprite_inventory;
         isStackable = false;
         stackSize = 1;
@@ -348,7 +306,7 @@ public class Item : MonoBehaviour
         upgradedVersionOfItem = shieldSO.upgradedVersionsOfShield;
         isUpgrade = shieldSO.isUpgrade;
     }
-    public Item(MaterialSO materialSO)
+    public void SetItem(MaterialSO materialSO)
     {
         itemName = materialSO.itemName;
         description = materialSO.description;
@@ -366,15 +324,11 @@ public class Item : MonoBehaviour
         recipe = new();
         crystalType = materialSO.crystalType;
     }
-    public Item(ThrowableSO throwableSO)
+    public void SetItem(ThrowableSO throwableSO)
     {
         itemName = throwableSO.itemName;
         description = throwableSO.description;
         sprite_inventory = throwableSO.sprite_inventory;
-        sprite_handMale_Front = throwableSO.sprite_handMale_Front;
-        sprite_handMale_Back = throwableSO.sprite_handMale_Back;
-        sprite_handFemale_Front = throwableSO.sprite_handFemale_Front;
-        sprite_handFemale_Back = throwableSO.sprite_handFemale_Back;
         stackSize = throwableSO.stackSize;
         isStackable = true;
         stats = throwableSO.Stats();
@@ -383,15 +337,11 @@ public class Item : MonoBehaviour
         requieredCraftingLevel = throwableSO.requieredCraftingLevel;
         recipe = new();
     }
-    public Item(AccessorySO equipableSO)
+    public void SetItem(AccessorySO equipableSO)
     {
         itemName = equipableSO.itemName;
         description = equipableSO.description;
         sprite_inventory = equipableSO.sprite_inventory;
-        sprite_equipMale_Front = equipableSO.sprite_equipMale_Front;
-        sprite_equipMale_Back = equipableSO.sprite_equipMale_Back;
-        sprite_equipFemale_Front = equipableSO.sprite_equipFemale_Front;
-        sprite_equipFemale_Back = equipableSO.sprite_equipFemale_Back;
         isStackable = true;
         stats = equipableSO.Stats();
         slotType = Slot.SlotType.Material;
@@ -399,15 +349,11 @@ public class Item : MonoBehaviour
         requieredCraftingLevel = equipableSO.requieredCraftingLevel;
         recipe = new();
     }
-    public Item(TrapSO trapSO)
+    public void SetItem(TrapSO trapSO)
     {
         itemName = trapSO.itemName;
         description = trapSO.description;
         sprite_inventory = trapSO.sprite_inventory;
-        sprite_handMale_Front = trapSO.sprite_handMale_Front;
-        sprite_handMale_Back = trapSO.sprite_handMale_Back;
-        sprite_handFemale_Front = trapSO.sprite_handFemale_Front;
-        sprite_handFemale_Back = trapSO.sprite_handFemale_Back;
         stackSize = trapSO.stackSize;
         isStackable = true;
         stats = trapSO.Stats();
@@ -416,7 +362,7 @@ public class Item : MonoBehaviour
         requieredCraftingLevel = trapSO.requieredCraftingLevel;
         recipe = new();
     }
-    public Item(BaseUpgradeSO baseUpgradeSO)
+    public void SetItem(BaseUpgradeSO baseUpgradeSO)
     {
         itemName = baseUpgradeSO.itemName;
         description = baseUpgradeSO.description;
@@ -424,7 +370,7 @@ public class Item : MonoBehaviour
         baseUpgradeType = baseUpgradeSO.baseUpgradeType;
         nextLevel = baseUpgradeSO.nextLevel;
         levelOfUpgrade = baseUpgradeSO.levelOfUpgrade;
-        requieredAge = baseUpgradeSO .requieredAge;
+        requieredAge = baseUpgradeSO.requieredAge;
         recipe = new();
         for (int i = 0; i < baseUpgradeSO.recipeMaterials.Count; i++)
             recipe.Add(baseUpgradeSO.recipeMaterials[i], baseUpgradeSO.recipeMaterialsAmount[i]);
@@ -439,16 +385,7 @@ public class Item : MonoBehaviour
         stackSize = item.stackSize;
         emitsLight = item.emitsLight;
         amount = item.amount;
-        armorStats = item.armorStats;
         sprite_inventory = item.sprite_inventory;
-        sprite_handMale_Front = item.sprite_handMale_Front;
-        sprite_handMale_Back = item.sprite_handMale_Back;
-        sprite_handFemale_Front = item.sprite_handFemale_Front;
-        sprite_handFemale_Back = item.sprite_handFemale_Back;
-        sprite_equipMale_Front = item.sprite_equipMale_Front;
-        sprite_equipMale_Back = item.sprite_equipMale_Back;
-        sprite_equipFemale_Front = item.sprite_equipFemale_Front;
-        sprite_equipFemale_Back = item.sprite_equipFemale_Back;
         inventoryCapacity = item.inventoryCapacity;
         fullAuto = item.fullAuto;
         ammo = item.ammo;
@@ -471,7 +408,6 @@ public class Item : MonoBehaviour
         fullSetBonus = item.fullSetBonus;
         isUpgrade = item.isUpgrade;
     }
-
 
     private void Start()
     {
@@ -589,7 +525,7 @@ public class Item : MonoBehaviour
 
         UpdateMagicCrystalsByAge((int)FindAnyObjectByType<PlayerStats>().playerStats["age"]);
 
-        if(weaponClass == PlayerStats.WeaponClass.Magic)
+        if (weaponClass == PlayerStats.WeaponClass.Magic)
             magicSkillBonuses = new();
     }
 
@@ -719,14 +655,14 @@ public class Item : MonoBehaviour
         }
 
         // Used spell
-        if(weaponClass == PlayerStats.WeaponClass.Magic)
+        if (weaponClass == PlayerStats.WeaponClass.Magic)
             UsedSpell();
     }
 
     private void UsedSpell()
     {
         // One crystal slot available
-        if(magicCrystals.Count == 1)
+        if (magicCrystals.Count == 1)
         {
             spell = magicCrystals[0] switch
             {
@@ -757,7 +693,7 @@ public class Item : MonoBehaviour
             return;
 
         Dictionary<int, MagicCrystalType> oldMagicCrystals = new();
-        if(magicCrystals != null)
+        if (magicCrystals != null)
             oldMagicCrystals = magicCrystals;
 
         magicCrystals = age switch

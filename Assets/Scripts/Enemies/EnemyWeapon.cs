@@ -39,9 +39,9 @@ public class EnemyWeapon : MonoBehaviour
     public bool HasWeapon(out Item weapon)
     {
         if (weaponMelee != null)
-            weapon = new(weaponMelee);
+            weapon = weaponMelee.ToItem();
         else if (weaponRanged != null)
-            weapon = new(weaponRanged);
+            weapon = weaponRanged.ToItem();
         else
         {
             weapon = null;

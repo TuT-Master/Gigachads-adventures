@@ -13,23 +13,27 @@ MonoBehaviour:
   m_Name: WoodenSpikes
   m_EditorClassIdentifier: 
   itemName: Wooden spikes
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   description: Sharpened spikes
   amount: 0
   isStackable: 0
   stackSize: 0
+  slotType: 0
+  craftedIn: 4
+  requieredCraftingLevel: 0
+  recipeItems: []
   emitsLight: 0
   AoE: 0
   weaponType: 37
-  craftedIn: 4
-  requieredCraftingLevel: 0
-  recipeMaterials: []
-  recipeMaterialsAmount: 
   sprite_inventory: {fileID: 0}
   model: {fileID: 7910833422986085406, guid: 2308c8ed0e0238a46bbbe7959be5bf8b, type: 3}
   damage: 3
-  penetration: 2
-  armorIgnore: 0.15
   poisonDamage: 0
   bleedingDamage: 0
+  burningChance: 0
+  penetration: 2
+  armorIgnore: 0.15
   knockback: 2
   weight: 10
+  price: 0

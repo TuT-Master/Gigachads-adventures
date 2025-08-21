@@ -6,10 +6,6 @@ using UnityEngine;
 public class BeltSO : ItemSO
 {
     public Sprite sprite_inventory;
-    public Sprite sprite_equipMale_Front;
-    public Sprite sprite_equipMale_Back;
-    public Sprite sprite_equipFemale_Front;
-    public Sprite sprite_equipFemale_Back;
 
     [Header("Stats")]
     public int inventoryCapacity;
@@ -28,6 +24,8 @@ public class BeltSO : ItemSO
 
     public override Item ToItem()
     {
-        return new(this);
+        Item item = itemPrefab.GetComponent<Item>();
+        item.SetItem(this);
+        return item;
     }
 }

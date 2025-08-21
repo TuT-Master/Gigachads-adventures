@@ -13,29 +13,32 @@ MonoBehaviour:
   m_Name: PrimitiveMagicStaff
   m_EditorClassIdentifier: 
   itemName: Primitive magic staff
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   description: Magic branch from some magic wood.
   amount: 0
   isStackable: 0
   stackSize: 0
+  slotType: 0
+  craftedIn: 5
+  requieredCraftingLevel: 0
+  recipeItems: []
   emitsLight: 0
   fullAuto: 0
   twoHanded: 1
   AoE: 0
   weaponType: 36
-  craftedIn: 5
-  requieredCraftingLevel: 0
-  recipeMaterials:
-  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
-  - {fileID: 11400000, guid: 990210ba53bf8bb4aa043c44a739c044, type: 2}
-  recipeMaterialsAmount: 0500000002000000
   sprite_inventory: {fileID: 3286163911610860551, guid: 51ceafb0ea9d9c244a6e0171532347cd,
     type: 3}
-  sprite_hand: {fileID: 3286163911610860551, guid: 51ceafb0ea9d9c244a6e0171532347cd,
-    type: 3}
   damage: 5
+  poisonDamage: 0
+  bleedingDamage: 0
+  burningChance: 0
   penetration: 0
   armorIgnore: 0.15
   attackSpeed: 1
+  critDamage: 0
+  critChance: 0
   staminaCost: 0
   manaCost: 10
   spread: 1
@@ -45,4 +48,6 @@ MonoBehaviour:
   rangeY: 1
   defense: 10
   weight: 8
+  price: 0
+  isUpgrade: 0
   upgradedVersionsOfWeapon: {fileID: 0}

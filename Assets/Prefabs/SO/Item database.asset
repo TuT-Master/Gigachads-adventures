@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e492eb93face1f4c835c917ff0e5af5, type: 3}
   m_Name: Item database
   m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   weaponsMelee:
   - {fileID: 11400000, guid: 412e6c6a2e0d5e0479f518c694aed94d, type: 2}
   - {fileID: 11400000, guid: 6c20bbdce8e2d1046af11c7176596bd1, type: 2}

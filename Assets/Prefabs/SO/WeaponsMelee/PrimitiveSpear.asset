@@ -13,30 +13,21 @@ MonoBehaviour:
   m_Name: PrimitiveSpear
   m_EditorClassIdentifier: 
   itemName: Primitive spear
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   description: Sharpened stick
   amount: 0
   isStackable: 0
+  stackSize: 0
+  slotType: 0
+  craftedIn: 5
+  requieredCraftingLevel: 0
+  recipeItems: []
   emitsLight: 0
   twoHanded: 1
   AoE: 0
   weaponType: 11
-  craftedIn: 5
-  requieredCraftingLevel: 0
-  recipeMaterials:
-  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
-  - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
-  - {fileID: 11400000, guid: 990210ba53bf8bb4aa043c44a739c044, type: 2}
-  - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
-  recipeMaterialsAmount: 05000000030000000200000001000000
   sprite_inventory: {fileID: 3286163911610860551, guid: 8f96ca8c6ac06884ea9ff10523f50179,
-    type: 3}
-  sprite_handMale_Front: {fileID: 21300000, guid: e57d2b8c696d2a74a810dbd2e4df4129,
-    type: 3}
-  sprite_handMale_Back: {fileID: 21300000, guid: e57d2b8c696d2a74a810dbd2e4df4129,
-    type: 3}
-  sprite_handFemale_Front: {fileID: 21300000, guid: e57d2b8c696d2a74a810dbd2e4df4129,
-    type: 3}
-  sprite_handFemale_Back: {fileID: 21300000, guid: e57d2b8c696d2a74a810dbd2e4df4129,
     type: 3}
   damage: 12
   poisonDamage: 0
@@ -55,4 +46,5 @@ MonoBehaviour:
   armorIncrease: 0
   weight: 10
   price: 0
+  isUpgrade: 0
   upgradedVersionsOfWeapon: {fileID: 0}

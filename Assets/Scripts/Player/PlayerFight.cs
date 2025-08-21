@@ -238,7 +238,7 @@ public class PlayerFight : MonoBehaviour
             float angle = GetComponent<PlayerMovement>().angleRaw + UnityEngine.Random.Range(-itemInHand.stats["spread"], itemInHand.stats["spread"]);
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, angle, 0));
 
-            projectile.GetComponent<Projectile>().projectile = new(itemInHand.ammo[0]);
+            projectile.GetComponent<Projectile>().projectile = itemInHand.ammo[0].ToItem();
             Vector3 victor = projectile.GetComponent<Projectile>().projectile.stats["projectileSpeed"] * new Vector3(VectorFromAngle(angle).z, 0.05f, VectorFromAngle(angle).x);
 
             projectile.GetComponent<Rigidbody>().mass = projectile.GetComponent<Projectile>().projectile.stats["weight"];

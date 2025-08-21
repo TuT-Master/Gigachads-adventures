@@ -13,17 +13,19 @@ MonoBehaviour:
   m_Name: Primitive arrow
   m_EditorClassIdentifier: 
   itemName: Primitive arrow
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   description: Small sharpened stick
+  amount: 0
+  isStackable: 0
   stackSize: 420
+  slotType: 0
+  craftedIn: 5
+  requieredCraftingLevel: 0
+  recipeItems: []
   sprite_inventory: {fileID: 3286163911610860551, guid: a77f99ae15b02d24fab129ae2a80e679,
     type: 3}
   sprite_projectile: {fileID: 0}
-  craftedIn: 5
-  requieredCraftingLevel: 0
-  recipeMaterials:
-  - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
-  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
-  recipeMaterialsAmount: 0100000001000000
   selfHoming: 0
   damage: 1
   poisonDamage: 0

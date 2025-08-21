@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Hide
   m_EditorClassIdentifier: 
   itemName: Hide
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   description: Hide & Seak
   amount: 1
   isStackable: 0

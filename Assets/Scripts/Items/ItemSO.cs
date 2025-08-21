@@ -14,6 +14,8 @@ public abstract class ItemSO : ScriptableObject
 {
     [Header("Basic info")]
     public string itemName;
+    public GameObject itemPrefab;
+
     [TextArea]
     public string description;
     public int amount;

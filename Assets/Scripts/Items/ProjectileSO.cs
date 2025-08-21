@@ -43,6 +43,8 @@ public class ProjectileSO : ItemSO
 
     public override Item ToItem()
     {
-        return new(this);
+        Item item = itemPrefab.GetComponent<Item>();
+        item.SetItem(this);
+        return item;
     }
 }

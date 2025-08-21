@@ -13,30 +13,21 @@ MonoBehaviour:
   m_Name: PrimitiveClub_upgrade1
   m_EditorClassIdentifier: 
   itemName: Primitive club upgrade
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   description: Stick with stone
   amount: 0
   isStackable: 0
+  stackSize: 0
+  slotType: 0
+  craftedIn: 5
+  requieredCraftingLevel: 0
+  recipeItems: []
   emitsLight: 0
   twoHanded: 0
   AoE: 0
   weaponType: 7
-  craftedIn: 5
-  requieredCraftingLevel: 0
-  recipeMaterials:
-  - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
-  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
-  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
-  recipeMaterialsAmount: 010000000200000003000000
-  isUpgrade: 1
   sprite_inventory: {fileID: 3286163911610860551, guid: b577ae89eb0f3c148a177521c91d0721,
-    type: 3}
-  sprite_handMale_Front: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c,
-    type: 3}
-  sprite_handMale_Back: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c,
-    type: 3}
-  sprite_handFemale_Front: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c,
-    type: 3}
-  sprite_handFemale_Back: {fileID: 21300000, guid: 59e5128a0135e7b4f927833233953f9c,
     type: 3}
   damage: 13
   poisonDamage: 0
@@ -55,5 +46,6 @@ MonoBehaviour:
   armorIncrease: 0
   weight: 3
   price: 0
+  isUpgrade: 1
   upgradedVersionsOfWeapon: {fileID: 11400000, guid: 3a03d0f9821162b41a818b83d83e1a51,
     type: 2}

@@ -564,15 +564,15 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
         // Armor
         if (armors.Count > 0)
             foreach (Item item in armors)
-                foreach (string key in item.armorStats.Keys)
+                foreach (string key in item.stats.Keys)
                     if(key.ToLower() != "price")
-                        bonusStats[key] += item.armorStats[key];
+                        bonusStats[key] += item.stats[key];
 
         // Equipment
         if (equipment.Count > 0)
             foreach (Item item in equipment)
-                foreach (string key in item.armorStats.Keys)
-                    bonusStats[key] += item.armorStats[key];
+                foreach (string key in item.stats.Keys)
+                    bonusStats[key] += item.stats[key];
 
         // Backpack
         if (backpackSlot.transform.childCount > 0)
@@ -589,7 +589,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
                 if(item.stats != null)
                     bonusStats["weight"] += item.stats["weight"] * item.amount;
                 else
-                    bonusStats["weight"] += item.armorStats["weight"] * item.amount;
+                    bonusStats["weight"] += item.stats["weight"] * item.amount;
             }
         }
 

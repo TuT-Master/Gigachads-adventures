@@ -120,7 +120,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     foreach (string stat in statsList)
                     {
                         float bonus = playerStats.GetSkillBonusStats(item.weaponClass).TryGetValue(stat, out float b) ? b : 0;
-                        AddStat(stat, item.armorStats != null ? item.armorStats[stat] : item.stats[stat], bonus, item);
+                        AddStat(stat, item.stats[stat], bonus, item);
                     }
 
                 // Item description
@@ -195,9 +195,9 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     itemCardStat.AddStatEffect(StatEffect.Piercing, value);
                 break;
             case "armor":
-                if (item.armorStats.TryGetValue("bleedingResistance", out value) && value > 0)
+                if (item.stats.TryGetValue("bleedingResistance", out value) && value > 0)
                     itemCardStat.AddStatEffect(StatEffect.BleedingResistance, value);
-                if (item.armorStats.TryGetValue("poisonResistance", out value) && value > 0)
+                if (item.stats.TryGetValue("poisonResistance", out value) && value > 0)
                     itemCardStat.AddStatEffect(StatEffect.PoisonResistance, value);
                 if (item.fullSetBonus != null)
                     itemCardStat.AddStatEffect_FullSetBonus(StatEffect.FullSetBonus, item.fullSetBonus);

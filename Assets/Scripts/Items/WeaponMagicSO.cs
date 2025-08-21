@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Item;
 
 [CreateAssetMenu(fileName = "WeaponMagic", menuName = "Scriptable objects/WeaponMagic")]
 public class WeaponMagicSO : ItemSO
@@ -15,10 +14,6 @@ public class WeaponMagicSO : ItemSO
     public Item.WeaponType weaponType;
 
     public Sprite sprite_inventory;
-    public Sprite sprite_handMale_Front;
-    public Sprite sprite_handMale_Back;
-    public Sprite sprite_handFemale_Front;
-    public Sprite sprite_handFemale_Back;
 
     [Header("Stats")]
     [SerializeField] private float damage = 0;
@@ -71,10 +66,12 @@ public class WeaponMagicSO : ItemSO
     public WeaponMagicSO upgradedVersionsOfWeapon;
 
 
-    public Dictionary<int, MagicCrystalType> magicCrystals;
+    public Dictionary<int, Item.MagicCrystalType> magicCrystals;
 
     public override Item ToItem()
     {
-        return new(this);
+        Item item = itemPrefab.GetComponent<Item>();
+        item.SetItem(this);
+        return item;
     }
 }

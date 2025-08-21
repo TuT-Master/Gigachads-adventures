@@ -6,10 +6,6 @@ using UnityEngine;
 public class ConsumableSO : ItemSO
 {
     public Sprite sprite_inventory;
-    public Sprite sprite_handMale_Front;
-    public Sprite sprite_handMale_Back;
-    public Sprite sprite_handFemale_Front;
-    public Sprite sprite_handFemale_Back;
 
     [Header("Stats")]
     [SerializeField] private float hpRefill;
@@ -35,6 +31,8 @@ public class ConsumableSO : ItemSO
 
     public override Item ToItem()
     {
-        return new(this);
+        Item item = itemPrefab.GetComponent<Item>();
+        item.SetItem(this);
+        return item;
     }
 }

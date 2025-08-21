@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Primitive Belt
   m_EditorClassIdentifier: 
   itemName: Primitive Belt
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   description: test belt
   amount: 0
   isStackable: 0
@@ -23,10 +25,6 @@ MonoBehaviour:
   recipeItems: []
   sprite_inventory: {fileID: 3286163911610860551, guid: 08aa881cdcc40f54083688124b10f7ca,
     type: 3}
-  sprite_equipMale_Front: {fileID: 0}
-  sprite_equipMale_Back: {fileID: 0}
-  sprite_equipFemale_Front: {fileID: 0}
-  sprite_equipFemale_Back: {fileID: 0}
   inventoryCapacity: 2
   weight: 0.5
   price: 0

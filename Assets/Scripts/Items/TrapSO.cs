@@ -12,10 +12,6 @@ public class TrapSO : ItemSO
     public Item.WeaponType weaponType;
 
     public Sprite sprite_inventory;
-    public Sprite sprite_handMale_Front;
-    public Sprite sprite_handMale_Back;
-    public Sprite sprite_handFemale_Front;
-    public Sprite sprite_handFemale_Back;
 
     public GameObject model;
 
@@ -48,6 +44,8 @@ public class TrapSO : ItemSO
 
     public override Item ToItem()
     {
-        return new(this);
+        Item item = itemPrefab.GetComponent<Item>();
+        item.SetItem(this);
+        return item;
     }
 }

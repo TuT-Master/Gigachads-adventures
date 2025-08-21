@@ -13,24 +13,23 @@ MonoBehaviour:
   m_Name: PrimitiveShield
   m_EditorClassIdentifier: 
   itemName: Primitive shield
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   description: Just a shield
   amount: 0
   isStackable: 0
+  stackSize: 0
+  slotType: 0
+  craftedIn: 4
+  requieredCraftingLevel: 0
+  recipeItems: []
   emitsLight: 0
   sprite_inventory: {fileID: 3286163911610860551, guid: ab907d1c3ab7da44197fe7354e7b956e,
     type: 3}
-  sprite_equipFront: {fileID: 0}
-  sprite_equipBack: {fileID: 0}
   weaponType: 5
-  craftedIn: 4
-  requieredCraftingLevel: 0
-  recipeMaterials:
-  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
-  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
-  - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
-  recipeMaterialsAmount: 0a0000000500000002000000
   defense: 50
   staminaPerBlock: 15
   weight: 10
   price: 0
+  isUpgrade: 0
   upgradedVersionsOfShield: {fileID: 0}

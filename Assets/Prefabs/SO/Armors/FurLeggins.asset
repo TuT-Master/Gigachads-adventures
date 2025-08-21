@@ -13,17 +13,18 @@ MonoBehaviour:
   m_Name: FurLeggins
   m_EditorClassIdentifier: 
   itemName: Fur leggins
-  description: Who doesn't want to wear some animal legs?
-  sprite_inventory: {fileID: 3286163911610860551, guid: 9b3cbfd786acaa74f8bf977673c00788,
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
-  sprite_equipFront: {fileID: 0}
-  sprite_equipBack: {fileID: 0}
+  description: Who doesn't want to wear some animal legs?
+  amount: 0
+  isStackable: 0
+  stackSize: 0
   slotType: 11
   craftedIn: 5
   requieredCraftingLevel: 0
-  recipeMaterials:
-  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
-  recipeMaterialsAmount: 14000000
+  recipeItems: []
+  sprite_inventory: {fileID: 3286163911610860551, guid: 9b3cbfd786acaa74f8bf977673c00788,
+    type: 3}
   hideHairWhenEquiped: 0
   hideBeardWhenEquiped: 0
   hideBodyWhenEquiped: 0
@@ -37,4 +38,5 @@ MonoBehaviour:
   hpMax: 10
   staminaMax: 10
   manaMax: -10
+  isUpgrade: 0
   upgradedVersionsOfArmor: {fileID: 0}

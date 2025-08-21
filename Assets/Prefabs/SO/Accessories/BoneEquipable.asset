@@ -13,20 +13,17 @@ MonoBehaviour:
   m_Name: BoneEquipable
   m_EditorClassIdentifier: 
   itemName: 
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
   description: 
   amount: 0
   isStackable: 0
   stackSize: 0
-  sprite_inventory: {fileID: 0}
-  sprite_equipMale_Front: {fileID: 0}
-  sprite_equipMale_Back: {fileID: 0}
-  sprite_equipFemale_Front: {fileID: 0}
-  sprite_equipFemale_Back: {fileID: 0}
   slotType: 0
   craftedIn: 0
   requieredCraftingLevel: 0
-  recipeMaterials: []
-  recipeMaterialsAmount: 
+  recipeItems: []
+  sprite_inventory: {fileID: 0}
   weight: 0
   price: 0
   hpMax: 0
