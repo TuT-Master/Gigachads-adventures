@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Hide
   description: Hide & Seak
+  amount: 1
+  isStackable: 0
   stackSize: 420
-  sprite_inventory: {fileID: 3286163911610860551, guid: 7a1c01cf3f681254bbd8d62b7738202b,
-    type: 3}
+  slotType: 0
   craftedIn: 6
   requieredCraftingLevel: 0
-  recipeMaterials: []
-  recipeMaterialsAmount: 
+  recipeItems: []
+  sprite_inventory: {fileID: 3286163911610860551, guid: 7a1c01cf3f681254bbd8d62b7738202b,
+    type: 3}
+  crystalType: 0
   weight: 0.3
+  price: 0

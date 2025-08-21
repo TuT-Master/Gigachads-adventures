@@ -649,6 +649,8 @@ MonoBehaviour:
     type: 3}
   fillBarBackground: {fileID: 3286163911610860551, guid: d58fe0754b85c934a908c4b9765a747a,
     type: 3}
+  fillBarMain_image: {fileID: 1689037165145120722}
+  fillBarBonus_image: {fileID: 3259053867274647556}
   damage: {fileID: 3286163911610860551, guid: cc79e9e04a9b0bc41a9287aa16cd5159, type: 3}
   penetration: {fileID: 3286163911610860551, guid: ca7a1970bc5d85c43aafad3eafe06646,
     type: 3}

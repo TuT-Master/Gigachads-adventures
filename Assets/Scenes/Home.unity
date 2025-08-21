@@ -90700,10 +90700,11 @@ MonoBehaviour:
     type: 3}
   weight: {fileID: 1823878485}
   price: {fileID: 1617894594}
-  gfx: {fileID: 0}
-  itemImage: {fileID: 0}
-  itemName: {fileID: 0}
-  itemDescription: {fileID: 0}
+  gfx: {fileID: 897747799721506647}
+  itemImage: {fileID: 4952626116490624928}
+  itemName: {fileID: 4858309807092595127}
+  itemDescription: {fileID: 420908200490094956}
+  playerStats: {fileID: 220485077}
   pointerOnItemUI: 0
 --- !u!224 &7973748719840225488
 RectTransform:

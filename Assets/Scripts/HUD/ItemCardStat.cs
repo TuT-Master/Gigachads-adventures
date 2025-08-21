@@ -23,6 +23,8 @@ public class ItemCardStat : MonoBehaviour
     [SerializeField] private Sprite fillBarBonus_plus;
     [SerializeField] private Sprite fillBarBonus_minus;
     [SerializeField] private Sprite fillBarBackground;
+    [SerializeField] private Image fillBarMain_image;
+    [SerializeField] private Image fillBarBonus_image;
 
 
     [Header("Stat images")]
@@ -67,8 +69,6 @@ public class ItemCardStat : MonoBehaviour
     effect (equipables)
     */
 
-    private Image fillBarMain_image;
-    private Image fillBarBonus_image;
 
     private Dictionary<string, (string displayName, Sprite sprite)> statDisplayData;
     private void Awake()
@@ -88,12 +88,6 @@ public class ItemCardStat : MonoBehaviour
             { "armor", ("Armor", armor) },
             { "magicResistance", ("Magic resistance", magicResistance) },
         };
-    }
-
-    private void Start()
-    {
-        fillBarMain_image = fillBar_main.GetComponent<Image>();
-        fillBarBonus_image = fillBar_bonus.GetComponent<Image>();
     }
 
 

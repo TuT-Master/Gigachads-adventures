@@ -7,11 +7,6 @@ public class MaterialSO : ItemSO
 {
     public Sprite sprite_inventory;
 
-    public PlayerBase.BaseUpgrade craftedIn;
-    public int requieredCraftingLevel;
-    public List<ItemSO> recipeMaterials;
-    public List<int> recipeMaterialsAmount;
-
     public Item.MagicCrystalType crystalType;
 
     [Header("Stats")]

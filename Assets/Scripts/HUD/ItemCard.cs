@@ -48,7 +48,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
     [SerializeField] private TextMeshProUGUI itemDescription;
 
     private List<ItemCardStat> stats = new();
-    private PlayerStats playerStats;
+    [SerializeField] private PlayerStats playerStats;
 
     [HideInInspector] public bool pointerOnItemUI = false;
     private bool pointerOnItemCard = false;
@@ -56,7 +56,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
     private Item _item;
 
 
-    private static readonly Dictionary<Slot.SlotType, List<string>> statMap = new()
+    private readonly Dictionary<Slot.SlotType, List<string>> statMap = new()
     {
         { Slot.SlotType.WeaponMelee, new List<string>{ "damage", "penetration", "armorIgnore", "critChance", "critDamage", "defense" } },
         { Slot.SlotType.WeaponRanged, new List<string>{ "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime", "defense" } },
@@ -91,7 +91,6 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
         yield return new WaitForSecondsRealtime(0.75f);
         if (pointerOnItemUI && _item == item)
         {
-            playerStats = GetComponentInParent<PlayerStats>();
             if (isOpen)
             {
                 HideItemCard();
@@ -121,7 +120,7 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                     foreach (string stat in statsList)
                     {
                         float bonus = playerStats.GetSkillBonusStats(item.weaponClass).TryGetValue(stat, out float b) ? b : 0;
-                        AddStat(stat, item.stats[stat], bonus, item);
+                        AddStat(stat, item.armorStats != null ? item.armorStats[stat] : item.stats[stat], bonus, item);
                     }
 
                 // Item description

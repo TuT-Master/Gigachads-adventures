@@ -49,22 +49,13 @@ public class DataPersistanceManager : MonoBehaviour
         gameData.playerInventory.Add(playerInventory.transform.GetChild(1).GetComponent<Slot>().id, "Primitive bow-1");
         gameData.playerInventory.Add(playerInventory.transform.GetChild(2).GetComponent<Slot>().id, "Primitive arrow-20");
         gameData.playerInventory.Add(playerInventory.transform.GetChild(3).GetComponent<Slot>().id, "Primitive magic staff-1");
-        string rndCrystalName = "";
-        switch (new System.Random().Next(4))
+        string rndCrystalName = new System.Random().Next(4) switch
         {
-            case 0:
-                rndCrystalName = "Fire crystal-1";
-                break;
-            case 1:
-                rndCrystalName = "Water crystal-1";
-                break;
-            case 2:
-                rndCrystalName = "Wind crystal-1";
-                break;
-            case 3:
-                rndCrystalName = "Earth crystal-1";
-                break;
-        }
+            0 => "Fire crystal-1",
+            1 => "Water crystal-1",
+            2 => "Wind crystal-1",
+            3 => "Earth crystal-1",
+        };
         gameData.playerInventory.Add(playerInventory.transform.GetChild(4).GetComponent<Slot>().id, rndCrystalName);
 
         FindAnyObjectByType<StartScreen>().CreateNewCharacter();

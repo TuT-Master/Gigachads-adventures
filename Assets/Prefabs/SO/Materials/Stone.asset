@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Stone
   description: Stone
+  amount: 1
+  isStackable: 0
   stackSize: 420
-  sprite_inventory: {fileID: 3286163911610860551, guid: 08b99541b016698419efb5636376eee0,
-    type: 3}
+  slotType: 0
   craftedIn: 6
   requieredCraftingLevel: 0
-  recipeMaterials: []
-  recipeMaterialsAmount: 
+  recipeItems: []
+  sprite_inventory: {fileID: 3286163911610860551, guid: 08b99541b016698419efb5636376eee0,
+    type: 3}
+  crystalType: 0
   weight: 0.4
+  price: 0

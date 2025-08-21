@@ -11,11 +11,6 @@ public class ConsumableSO : ItemSO
     public Sprite sprite_handFemale_Front;
     public Sprite sprite_handFemale_Back;
 
-    public PlayerBase.BaseUpgrade craftedIn;
-    public int requieredCraftingLevel;
-    public List<ItemSO> recipeMaterials;
-    public List<int> recipeMaterialsAmount;
-
     [Header("Stats")]
     [SerializeField] private float hpRefill;
     [SerializeField] private float staminaRefill;

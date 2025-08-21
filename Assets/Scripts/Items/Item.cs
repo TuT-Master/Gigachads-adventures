@@ -84,7 +84,7 @@ public class Item : MonoBehaviour
 
     public bool fullAuto;
 
-    public int amount;
+    public int amount = 1;
 
     public int inventoryCapacity;
 
@@ -167,7 +167,6 @@ public class Item : MonoBehaviour
     private TextMeshProUGUI text;
 
 
-
     public Item(WeaponMeleeSO weaponSO)
     {
         itemName = weaponSO.itemName;
@@ -187,8 +186,6 @@ public class Item : MonoBehaviour
         craftedIn = weaponSO.craftedIn;
         requieredCraftingLevel = weaponSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
-            recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
         isUpgrade = weaponSO.isUpgrade;
     }
@@ -214,8 +211,6 @@ public class Item : MonoBehaviour
         craftedIn = weaponSO.craftedIn;
         requieredCraftingLevel = weaponSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
-            recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
         isUpgrade = weaponSO.isUpgrade;
     }
@@ -240,8 +235,6 @@ public class Item : MonoBehaviour
         craftedIn = weaponSO.craftedIn;
         requieredCraftingLevel = weaponSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < weaponSO.recipeMaterials.Count; i++)
-            recipe.Add(weaponSO.recipeMaterials[i], weaponSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
         magicCrystals = weaponSO.magicCrystals;
         isUpgrade = weaponSO.isUpgrade;
@@ -262,8 +255,6 @@ public class Item : MonoBehaviour
         craftedIn = consumableSO.craftedIn;
         requieredCraftingLevel = consumableSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < consumableSO.recipeMaterials.Count; i++)
-            recipe.Add(consumableSO.recipeMaterials[i], consumableSO.recipeMaterialsAmount[i]);
     }
     public Item(ProjectileSO projectile)
     {
@@ -278,8 +269,6 @@ public class Item : MonoBehaviour
         craftedIn = projectile.craftedIn;
         requieredCraftingLevel = projectile.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < projectile.recipeMaterials.Count; i++)
-            recipe.Add(projectile.recipeMaterials[i], projectile.recipeMaterialsAmount[i]);
         selfHoming = projectile.selfHoming;
     }
     public Item(ArmorSO armorSO)
@@ -297,8 +286,6 @@ public class Item : MonoBehaviour
         craftedIn = armorSO.craftedIn;
         requieredCraftingLevel = armorSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < armorSO.recipeMaterials.Count; i++)
-            recipe.Add(armorSO.recipeMaterials[i], armorSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = armorSO.upgradedVersionsOfArmor;
         hideHairWhenEquiped = armorSO.hideHairWhenEquiped;
         hideBeardWhenEquiped = armorSO.hideBeardWhenEquiped;
@@ -323,8 +310,6 @@ public class Item : MonoBehaviour
         craftedIn = backpackSO.craftedIn;
         requieredCraftingLevel = backpackSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < backpackSO.recipeMaterials.Count; i++)
-            recipe.Add(backpackSO.recipeMaterials[i], backpackSO.recipeMaterialsAmount[i]);
     }
     public Item(BeltSO beltSO)
     {
@@ -343,8 +328,6 @@ public class Item : MonoBehaviour
         craftedIn = beltSO.craftedIn;
         requieredCraftingLevel = beltSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < beltSO.recipeMaterials.Count; i++)
-            recipe.Add(beltSO.recipeMaterials[i], beltSO.recipeMaterialsAmount[i]);
     }
     public Item(ShieldSO shieldSO)
     {
@@ -362,8 +345,6 @@ public class Item : MonoBehaviour
         craftedIn = shieldSO.craftedIn;
         requieredCraftingLevel = shieldSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < shieldSO.recipeMaterials.Count; i++)
-            recipe.Add(shieldSO.recipeMaterials[i], shieldSO.recipeMaterialsAmount[i]);
         upgradedVersionOfItem = shieldSO.upgradedVersionsOfShield;
         isUpgrade = shieldSO.isUpgrade;
     }
@@ -372,7 +353,8 @@ public class Item : MonoBehaviour
         itemName = materialSO.itemName;
         description = materialSO.description;
         sprite_inventory = materialSO.sprite_inventory;
-        stackSize= materialSO.stackSize;
+        amount = materialSO.amount;
+        stackSize = materialSO.stackSize;
         isStackable = true;
         stats = materialSO.Stats();
         if (itemName.ToLower().Contains("crystal"))
@@ -382,8 +364,6 @@ public class Item : MonoBehaviour
         craftedIn = materialSO.craftedIn;
         requieredCraftingLevel = materialSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < materialSO.recipeMaterials.Count; i++)
-            recipe.Add(materialSO.recipeMaterials[i], materialSO.recipeMaterialsAmount[i]);
         crystalType = materialSO.crystalType;
     }
     public Item(ThrowableSO throwableSO)
@@ -402,8 +382,6 @@ public class Item : MonoBehaviour
         craftedIn = throwableSO.craftedIn;
         requieredCraftingLevel = throwableSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < throwableSO.recipeMaterials.Count; i++)
-            recipe.Add(throwableSO.recipeMaterials[i], throwableSO.recipeMaterialsAmount[i]);
     }
     public Item(AccessorySO equipableSO)
     {
@@ -420,8 +398,6 @@ public class Item : MonoBehaviour
         craftedIn = equipableSO.craftedIn;
         requieredCraftingLevel = equipableSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < equipableSO.recipeMaterials.Count; i++)
-            recipe.Add(equipableSO.recipeMaterials[i], equipableSO.recipeMaterialsAmount[i]);
     }
     public Item(TrapSO trapSO)
     {
@@ -439,8 +415,6 @@ public class Item : MonoBehaviour
         craftedIn = trapSO.craftedIn;
         requieredCraftingLevel = trapSO.requieredCraftingLevel;
         recipe = new();
-        for (int i = 0; i < trapSO.recipeMaterials.Count; i++)
-            recipe.Add(trapSO.recipeMaterials[i], trapSO.recipeMaterialsAmount[i]);
     }
     public Item(BaseUpgradeSO baseUpgradeSO)
     {
@@ -822,7 +796,7 @@ public class Item : MonoBehaviour
             else if (recipe.GetType() == typeof(BackpackSO)) items.Add(itemDatabase.GetBackpack((recipe as BackpackSO).itemName));
             else if (recipe.GetType() == typeof(BeltSO)) items.Add(itemDatabase.GetBelt((recipe as BeltSO).itemName));
             else if (recipe.GetType() == typeof(ConsumableSO)) items.Add(itemDatabase.GetConsumable((recipe as ConsumableSO).itemName));
-            else if (recipe.GetType() == typeof(AccessorySO)) items.Add(itemDatabase.GetEquipable((recipe as AccessorySO).itemName));
+            else if (recipe.GetType() == typeof(AccessorySO)) items.Add(itemDatabase.GetAccessory((recipe as AccessorySO).itemName));
             else if (recipe.GetType() == typeof(MaterialSO)) items.Add(itemDatabase.GetMaterial((recipe as MaterialSO).itemName));
             else if (recipe.GetType() == typeof(ProjectileSO)) items.Add(itemDatabase.GetProjectile((recipe as ProjectileSO).itemName));
             else if (recipe.GetType() == typeof(ShieldSO)) items.Add(itemDatabase.GetShield((recipe as ShieldSO).itemName));

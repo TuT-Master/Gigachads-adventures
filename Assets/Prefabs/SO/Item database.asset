@@ -31,11 +31,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 482c5cd403d4b5e4bbc435a5cf84c105, type: 2}
   - {fileID: 11400000, guid: 4f924105a3a39704e86ae54ad365efc9, type: 2}
   - {fileID: 11400000, guid: 4a48b2b0ecab3e842a991303b29cfc9a, type: 2}
-  equipables:
-  - {fileID: 11400000, guid: 8c3e18838a0d1de43baa77a36701ccf9, type: 2}
-  - {fileID: 11400000, guid: f13f5a625095b184e9e41387eb150e2d, type: 2}
-  - {fileID: 11400000, guid: 343f26b201654e941ab3fce6e177cbb2, type: 2}
-  - {fileID: 11400000, guid: 66e3d90045c1fe34e8c40103869ab88e, type: 2}
+  accessories: []
   consumables:
   - {fileID: 11400000, guid: a762031ea8bea694789206638365315c, type: 2}
   projectiles:
@@ -49,17 +45,17 @@ MonoBehaviour:
   materials:
   - {fileID: 11400000, guid: 3bdacfc805c0a3f4399e0b13116369ca, type: 2}
   - {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
+  - {fileID: 11400000, guid: 87cafdc583bbf6b49aa7a1832172cb08, type: 2}
   - {fileID: 11400000, guid: 21b02db8ce0c1334b83dfbf7c65f066b, type: 2}
   - {fileID: 11400000, guid: 990210ba53bf8bb4aa043c44a739c044, type: 2}
+  - {fileID: 11400000, guid: 85ed78efe8b7ca54086d75167b2c75f2, type: 2}
   - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
   - {fileID: 11400000, guid: 1346f861001ef7044a39b2e2e5f43548, type: 2}
   - {fileID: 11400000, guid: 78503e4701a1e5e449ada3d37c443dd2, type: 2}
   - {fileID: 11400000, guid: 82beacbf306b0ee4b92299549ecf4299, type: 2}
-  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
   - {fileID: 11400000, guid: b40850c18cb274b4ca74f771d4ec079c, type: 2}
-  - {fileID: 11400000, guid: 85ed78efe8b7ca54086d75167b2c75f2, type: 2}
   - {fileID: 11400000, guid: 6b44488b0e66d7d449a7beeb82a13d63, type: 2}
-  - {fileID: 11400000, guid: 87cafdc583bbf6b49aa7a1832172cb08, type: 2}
+  - {fileID: 11400000, guid: 76d12b84093de5348b3d4431549ecf7e, type: 2}
   baseUpgradesSO:
   - {fileID: 11400000, guid: befac37e7a68c954bba54312eb155588, type: 2}
   - {fileID: 11400000, guid: f6c7dfdf430b9e14bb635418f7e836c7, type: 2}

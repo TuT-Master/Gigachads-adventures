@@ -15,11 +15,6 @@ public class ShieldSO : ItemSO
 
     public Item.WeaponType weaponType;
 
-    public PlayerBase.BaseUpgrade craftedIn;
-    public int requieredCraftingLevel;
-    public List<ItemSO> recipeMaterials;
-    public List<int> recipeMaterialsAmount;
-
     [Header("Stats")]
     [SerializeField] private float defense = 0;
     [SerializeField] private float staminaPerBlock = 0;

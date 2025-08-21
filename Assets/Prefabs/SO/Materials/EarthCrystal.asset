@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Earth crystal
   description: 
+  amount: 1
+  isStackable: 0
   stackSize: 1
-  sprite_inventory: {fileID: 3286163911610860551, guid: 135475cf78703f0439209d65215f6b90,
-    type: 3}
+  slotType: 0
   craftedIn: 6
   requieredCraftingLevel: 0
-  recipeMaterials: []
-  recipeMaterialsAmount: 
+  recipeItems: []
+  sprite_inventory: {fileID: 3286163911610860551, guid: 135475cf78703f0439209d65215f6b90,
+    type: 3}
   crystalType: 4
   weight: 1
+  price: 0

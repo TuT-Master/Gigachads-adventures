@@ -120,9 +120,10 @@ public class PlayerInteract : MonoBehaviour
 
     private void RemoveIcon(IInteractable interactable)
     {
-        if (activeIcons.TryGetValue(interactable, out var icon))
+        if (interactable != null && activeIcons.TryGetValue(interactable, out GameObject icon))
         {
-            Destroy(icon);
+            if(icon != null)
+                Destroy(icon);
             activeIcons.Remove(interactable);
         }
     }

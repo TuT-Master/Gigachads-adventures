@@ -14,14 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Primitive Belt
   description: test belt
-  sprite_inventory: {fileID: 3286163911610860551, guid: 08aa881cdcc40f54083688124b10f7ca,
-    type: 3}
-  sprite_equipFront: {fileID: 0}
-  sprite_equipBack: {fileID: 0}
+  amount: 0
+  isStackable: 0
+  stackSize: 0
+  slotType: 0
   craftedIn: 4
   requieredCraftingLevel: 0
-  recipeMaterials:
-  - {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
-  recipeMaterialsAmount: 05000000
+  recipeItems: []
+  sprite_inventory: {fileID: 3286163911610860551, guid: 08aa881cdcc40f54083688124b10f7ca,
+    type: 3}
+  sprite_equipMale_Front: {fileID: 0}
+  sprite_equipMale_Back: {fileID: 0}
+  sprite_equipFemale_Front: {fileID: 0}
+  sprite_equipFemale_Back: {fileID: 0}
   inventoryCapacity: 2
   weight: 0.5
+  price: 0

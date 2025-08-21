@@ -16,8 +16,11 @@ public class DungeonDatabase : ScriptableObject
 
     public List<GameObject> doors;
 
-    public List<GameObject> obstacles_noShoot;
-    public List<GameObject> obstacles_shoot;
+    public List<GameObject> obstacles_noShoot_1x1;
+    public List<GameObject> obstacles_noShoot_2x1;
+    public List<GameObject> obstacles_noShoot_3x1;
+    public List<GameObject> obstacles_noShoot_2x2;
+    public List<GameObject> obstacles_shoot_1x1;
     public List<GameObject> resources;
     public List<GameObject> lightsources;
     public List<GameObject> lootBoxes;
@@ -38,10 +41,10 @@ public class DungeonDatabase : ScriptableObject
         foreach (GameObject go in traps)
             if (go.name == name)
                 return go;
-        foreach (GameObject go in obstacles_noShoot)
+        foreach (GameObject go in obstacles_noShoot_1x1)
             if(go.name == name)
                 return go;
-        foreach (GameObject go in obstacles_shoot)
+        foreach (GameObject go in obstacles_shoot_1x1)
             if (go.name == name)
                 return go;
         foreach (GameObject go in resources)
@@ -101,8 +104,8 @@ public class DungeonDatabase : ScriptableObject
     {
         List<GameObject> objs = new();
 
-        objs.AddRange(obstacles_noShoot);
-        objs.AddRange(obstacles_shoot);
+        objs.AddRange(obstacles_noShoot_1x1);
+        objs.AddRange(obstacles_shoot_1x1);
         objs.AddRange(resources);
         objs.AddRange(lootBoxes);
         objs.AddRange(lightsources);

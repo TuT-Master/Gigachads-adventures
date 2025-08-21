@@ -14,10 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Fur backpack
   description: Hide backpack
+  amount: 0
+  isStackable: 0
+  stackSize: 0
+  recipeItems:
+  - item: {fileID: 11400000, guid: 42cae84d88fae2c40998a2a42af44452, type: 2}
+    amount: 10
+  - item: {fileID: 11400000, guid: 7e3182616c012d746b389b158d21b0e0, type: 2}
+    amount: 2
   sprite_inventory: {fileID: 3286163911610860551, guid: b07335b858a8d514bafbe4a7b4243fee,
     type: 3}
-  sprite_equipFront: {fileID: 0}
-  sprite_equipBack: {fileID: 0}
+  sprite_equipMale_Front: {fileID: 0}
+  sprite_equipMale_Back: {fileID: 0}
+  sprite_equipFemale_Front: {fileID: 0}
+  sprite_equipFemale_Back: {fileID: 0}
   craftedIn: 4
   requieredCraftingLevel: 0
   recipeMaterials:
@@ -26,3 +36,4 @@ MonoBehaviour:
   recipeMaterialsAmount: 0a00000002000000
   inventoryCapacity: 4
   weight: 5
+  price: 0

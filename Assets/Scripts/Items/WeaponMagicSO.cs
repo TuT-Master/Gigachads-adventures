@@ -14,11 +14,6 @@ public class WeaponMagicSO : ItemSO
 
     public Item.WeaponType weaponType;
 
-    public PlayerBase.BaseUpgrade craftedIn;
-    public int requieredCraftingLevel;
-    public List<ItemSO> recipeMaterials;
-    public List<int> recipeMaterialsAmount;
-
     public Sprite sprite_inventory;
     public Sprite sprite_handMale_Front;
     public Sprite sprite_handMale_Back;

@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Item;
 
 public class PlayerInventory : MonoBehaviour, IDataPersistance
 {
@@ -162,7 +163,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     }
 
 
-    void RemoveSlot(Transform parent, int index)
+    private void RemoveSlot(Transform parent, int index)
     {
         // Check if there are any items in it
         if (parent.GetChild(index).childCount > 0)
@@ -227,8 +228,9 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         }
         if (!done)
         {
-            if(FindAnyObjectByType<Dungeon>().currentRoom != null)
-                DropItemOnDaFloor(item, transform.position, FindAnyObjectByType<Dungeon>().currentRoom.transform);
+            Dungeon dungeon = FindAnyObjectByType<Dungeon>();
+            if (dungeon != null && dungeon.currentRoom != null)
+                DropItemOnDaFloor(item, transform.position, dungeon.currentRoom.transform);
             else
                 DropItemOnDaFloor(item, transform.position, null);
         }
@@ -254,24 +256,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     }
 
 
-    IEnumerator LoadingDelay(GameData data)
-    {
-        yield return new WaitForSeconds(0.1f);
-        foreach (int id in data.playerInventory.Keys)
-            if (data.playerInventory[id] != "" && data.playerInventory[id] != null && FindSlotById(id, out Transform trans))
-                AddItemToSlot(GetItemForLoading(data.playerInventory[id]), trans);
-    }
-    private bool FindSlotById(int id, out Transform slotTransform)
-    {
-        foreach(Slot slot in FindObjectsOfType<MonoBehaviour>(true).OfType<Slot>())
-            if(slot.id == id)
-            {
-                slotTransform = slot.transform;
-                return true;
-            }
-        slotTransform = null;
-        return false;
-    }
     public Item GetItemForLoading(string item)
     {
         string name = "";
@@ -318,149 +302,181 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     }
     public void LoadData(GameData data)
     {
-        backpackSize = data.backpackSize;
-        beltSize = data.beltSize;
-        pocketsSize = data.pocketSize;
-        StartCoroutine(LoadingDelay(data));
+        // Clear any old items if necessary
+        ClearAllInventories();
+
+        Dictionary<int, string> inventory = data.playerInventory;
+
+        // Containers
+        LoadContainer(backpackInventory.transform, inventory);
+        LoadContainer(ammoSlots.transform, inventory);
+        LoadContainer(beltInventory.transform, inventory);
+        LoadContainer(pocketsInventory.transform, inventory);
+        LoadContainer(armorSlots.transform, inventory);
+        LoadContainer(equipmentSlots.transform, inventory);
+
+        // Single slots
+        LoadSingleSlot(LeftHandSlot, inventory);
+        LoadSingleSlot(RightHandSlot, inventory);
+        LoadSingleSlot(backpackSlot, inventory);
+        LoadSingleSlot(beltSlot, inventory);
     }
+    private Item DeserializeItem(string data, Transform parent)
+    {
+        if (string.IsNullOrEmpty(data)) return null;
+
+        // Split off crystals if present
+        string[] parts = data.Split('|');
+        string core = parts[0]; // everything before crystals
+        string crystals = parts.Length > 1 ? parts[1] : null;
+
+        // Handle magazine
+        string[] magSplit = core.Split('/');
+        string basePart = magSplit[0]; // itemName-amount
+        int currentMag = (magSplit.Length > 1 && int.TryParse(magSplit[1], out int magVal)) ? magVal : 0;
+
+        // Name and amount
+        string[] nameSplit = basePart.Split('-');
+        string itemName = nameSplit[0];
+        int amount = (nameSplit.Length > 1 && int.TryParse(nameSplit[1], out int amtVal)) ? amtVal : 1;
+
+        // Instantiate prefab under parent
+        GameObject itemObj = Instantiate(itemPrefab, parent);
+        Item item = itemObj.GetComponent<Item>();
+        item.SetUpByItem(itemDatabase.GetItemByNameAndAmount(itemName, amount));
+
+        // Set values
+        item.itemName = itemName;
+        item.amount = amount;
+
+        item.stats ??= new();
+
+        if (currentMag > 0)
+            item.stats["currentMagazine"] = currentMag;
+
+        if (!string.IsNullOrEmpty(crystals))
+        {
+            item.magicCrystals = new();
+            for(int i = 0; i < crystals.Length; i++)
+            {
+                int crystalInt = (int)char.GetNumericValue(crystals[0]);
+                item.magicCrystals.Add(i, (MagicCrystalType)crystalInt);
+            }
+        }
+
+        return item;
+    }
+    private void LoadContainer(Transform container, Dictionary<int, string> inventory)
+    {
+        for (int i = 0; i < container.childCount; i++)
+        {
+            Slot slot = container.GetChild(i).GetComponent<Slot>();
+            if (inventory.TryGetValue(slot.id, out string data))
+            {
+                if (!string.IsNullOrEmpty(data))
+                {
+                    DeserializeItem(data, container.GetChild(i));
+                }
+            }
+        }
+    }
+    private void LoadSingleSlot(GameObject slotObj, Dictionary<int, string> inventory)
+    {
+        Slot slot = slotObj.GetComponent<Slot>();
+        if (inventory.TryGetValue(slot.id, out string data))
+        {
+            if (!string.IsNullOrEmpty(data))
+            {
+                DeserializeItem(data, slotObj.transform);
+            }
+        }
+    }
+    private void ClearAllInventories()
+    {
+        foreach (Transform child in backpackInventory.transform)
+            foreach (Transform item in child)
+                Destroy(item.gameObject);
+
+        foreach (Transform child in ammoSlots.transform)
+            foreach (Transform item in child)
+                Destroy(item.gameObject);
+
+        // ...repeat for belt, pockets, armor, equipment, hands, etc.
+    }
+
     public void SaveData(ref GameData data)
     {
         data.backpackSize = backpackSize;
         data.beltSize = beltSize;
         data.pocketSize = pocketsSize;
 
-        // Inventory saving
         Dictionary<int, string> inventory = new();
-        // Backpack inventory
-        for(int i = 0; i < backpackInventory.transform.childCount; i++)
+
+        // Containers
+        SaveContainer(backpackInventory.transform, inventory);
+        SaveContainer(ammoSlots.transform, inventory);
+        SaveContainer(beltInventory.transform, inventory);
+        SaveContainer(pocketsInventory.transform, inventory);
+        SaveContainer(armorSlots.transform, inventory);
+        SaveContainer(equipmentSlots.transform, inventory);
+
+        // Single slots
+        SaveSingleSlot(LeftHandSlot, inventory);
+        SaveSingleSlot(RightHandSlot, inventory);
+        SaveSingleSlot(backpackSlot, inventory);
+        SaveSingleSlot(beltSlot, inventory);
+
+        data.playerInventory = new();
+        for (int i = 0; i < inventory.Count; i++)
         {
-            inventory.Add(backpackInventory.transform.GetChild(i).GetComponent<Slot>().id, "");
-            if(backpackInventory.transform.GetChild(i).childCount > 0 && backpackInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
-            {
-                inventory[backpackInventory.transform.GetChild(i).GetComponent<Slot>().id] = item.itemName + "-" + item.amount.ToString();
-                if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
-                    inventory[backpackInventory.transform.GetChild(i).GetComponent<Slot>().id] += "/" + item.stats["currentMagazine"].ToString();
-                if (item.stats != null && item.magicCrystals != null)
-                {
-                    inventory[backpackInventory.transform.GetChild(i).GetComponent<Slot>().id] += "|";
-                    for (int j = 0; j < item.magicCrystals.Count; j++)
-                        inventory[backpackInventory.transform.GetChild(i).GetComponent<Slot>().id] += (int)item.magicCrystals[j];
-                }
-            }
+            if (inventory.TryGetValue(i, out string itemString) && itemString != "")
+                data.playerInventory[i] = itemString;
+            else
+                data.playerInventory[i] = "";
         }
-        // Ammo slots inventory
-        for (int i = 0; i < ammoSlots.transform.childCount; i++)
+    }
+    private string SerializeItem(Item item)
+    {
+        if (item == null) return "";
+
+        string result = $"{item.itemName}-{item.amount}";
+
+        if (item.stats != null && item.stats.TryGetValue("currentMagazine", out float mag) && mag > 0)
+            result += $"/{mag}";
+
+        if (item.stats != null && item.magicCrystals != null && item.magicCrystals.Count > 0)
         {
-            inventory.Add(ammoSlots.transform.GetChild(i).GetComponent<Slot>().id, "");
-            if (ammoSlots.transform.GetChild(i).childCount > 0 && ammoSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
-            {
-                inventory[ammoSlots.transform.GetChild(i).GetComponent<Slot>().id] = item.itemName + "-" + item.amount.ToString();
-                if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
-                    inventory[ammoSlots.transform.GetChild(i).GetComponent<Slot>().id] += "/" + item.stats["currentMagazine"].ToString();
-                if (item.stats != null && item.magicCrystals != null)
-                {
-                    inventory[ammoSlots.transform.GetChild(i).GetComponent<Slot>().id] += "|";
-                    for (int j = 0; j < item.magicCrystals.Count; j++)
-                        inventory[ammoSlots.transform.GetChild(i).GetComponent<Slot>().id] += (int)item.magicCrystals[j];
-                }
-            }
-        }
-        // Belt inventory
-        for (int i = 0; i < beltInventory.transform.childCount; i++)
-        {
-            inventory.Add(beltInventory.transform.GetChild(i).GetComponent<Slot>().id, "");
-            if (beltInventory.transform.GetChild(i).childCount > 0 && beltInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
-            {
-                inventory[beltInventory.transform.GetChild(i).GetComponent<Slot>().id] = item.itemName + "-" + item.amount.ToString();
-                if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
-                    inventory[beltInventory.transform.GetChild(i).GetComponent<Slot>().id] += "/" + item.stats["currentMagazine"].ToString();
-                if (item.stats != null && item.magicCrystals != null)
-                {
-                    inventory[backpackInventory.transform.GetChild(i).GetComponent<Slot>().id] += "|";
-                    for (int j = 0; j < item.magicCrystals.Count; j++)
-                        inventory[backpackInventory.transform.GetChild(i).GetComponent<Slot>().id] += (int)item.magicCrystals[j];
-                }
-            }
-        }
-        // Pocket inventory
-        for (int i = 0; i < pocketsInventory.transform.childCount; i++)
-        {
-            inventory.Add(pocketsInventory.transform.GetChild(i).GetComponent<Slot>().id, "");
-            if (pocketsInventory.transform.GetChild(i).childCount > 0 && pocketsInventory.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
-            {
-                inventory[pocketsInventory.transform.GetChild(i).GetComponent<Slot>().id] = item.itemName + "-" + item.amount.ToString();
-                if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
-                    inventory[pocketsInventory.transform.GetChild(i).GetComponent<Slot>().id] += "/" + item.stats["currentMagazine"].ToString();
-            }
-        }
-        // Hand slots
-        inventory.Add(LeftHandSlot.GetComponent<Slot>().id, "");
-        inventory.Add(RightHandSlot.GetComponent<Slot>().id, "");
-        if (LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item _item))
-        {
-            inventory[LeftHandSlot.GetComponent<Slot>().id] = _item.itemName + "-" + _item.amount.ToString();
-            if (_item.stats != null && _item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
-                inventory[LeftHandSlot.GetComponent<Slot>().id] += "/" + _item.stats["currentMagazine"].ToString();
-            if (_item.stats != null && _item.magicCrystals != null)
-            {
-                inventory[LeftHandSlot.GetComponent<Slot>().id] += "|";
-                for (int j = 0; j < _item.magicCrystals.Count; j++)
-                    inventory[LeftHandSlot.GetComponent<Slot>().id] += (int)_item.magicCrystals[j];
-            }
-        }
-        if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out _item))
-        {
-            inventory[RightHandSlot.GetComponent<Slot>().id] = _item.itemName + "-" + _item.amount.ToString();
-            if (_item.stats != null && _item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
-                inventory[RightHandSlot.GetComponent<Slot>().id] += "/" + _item.stats["currentMagazine"].ToString();
-            if (_item.stats != null && _item.magicCrystals != null)
-            {
-                inventory[RightHandSlot.GetComponent<Slot>().id] += "|";
-                for (int j = 0; j < _item.magicCrystals.Count; j++)
-                    inventory[RightHandSlot.GetComponent<Slot>().id] += (int)_item.magicCrystals[j];
-            }
-        }
-        // Armor slots
-        for (int i = 0; i < armorSlots.transform.childCount; i++)
-        {
-            inventory.Add(armorSlots.transform.GetChild(i).GetComponent<Slot>().id, "");
-            if (armorSlots.transform.GetChild(i).childCount > 0 && armorSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
-            {
-                inventory[armorSlots.transform.GetChild(i).GetComponent<Slot>().id] = item.itemName + "-" + item.amount.ToString();
-                if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
-                    inventory[armorSlots.transform.GetChild(i).GetComponent<Slot>().id] += "/" + item.stats["currentMagazine"].ToString();
-            }
-        }
-        // Equipment slots
-        for (int i = 0; i < equipmentSlots.transform.childCount; i++)
-        {
-            inventory.Add(equipmentSlots.transform.GetChild(i).GetComponent<Slot>().id, "");
-            if (equipmentSlots.transform.GetChild(i).childCount > 0 && equipmentSlots.transform.GetChild(i).GetChild(0).TryGetComponent(out Item item))
-            {
-                inventory[equipmentSlots.transform.GetChild(i).GetComponent<Slot>().id] = item.itemName + "-" + item.amount.ToString();
-                if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
-                    inventory[equipmentSlots.transform.GetChild(i).GetComponent<Slot>().id] += "/" + item.stats["currentMagazine"].ToString();
-            }
-        }
-        // Backpack slot
-        inventory.Add(backpackSlot.GetComponent<Slot>().id, "");
-        if (backpackSlot.transform.childCount > 0 && backpackSlot.transform.GetChild(0).TryGetComponent(out _item))
-        {
-            inventory[backpackSlot.GetComponent<Slot>().id] = _item.itemName + "-" + _item.amount.ToString();
-            if (_item.stats != null && _item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
-                inventory[backpackSlot.GetComponent<Slot>().id] += "/" + _item.stats["currentMagazine"].ToString();
-        }
-        // Belt slot
-        inventory.Add(beltSlot.GetComponent<Slot>().id, "");
-        if (beltSlot.transform.childCount > 0 && beltSlot.transform.GetChild(0).TryGetComponent(out _item))
-        {
-            inventory[beltSlot.GetComponent<Slot>().id] = _item.itemName + "-" + _item.amount.ToString();
-            if (_item.stats != null && _item.stats.ContainsKey("currentMagazine") && _item.stats["currentMagazine"] > 0)
-                inventory[beltSlot.GetComponent<Slot>().id] += "/" + _item.stats["currentMagazine"].ToString();
+            result += "|";
+            for (int j = 0; j < item.magicCrystals.Count; j++)
+                result += (int)item.magicCrystals[j];
         }
 
-        data.playerInventory.Clear();
-        foreach(int id in inventory.Keys)
-            data.playerInventory.Add(id, inventory[id]);
+        return result;
     }
+    private void SaveContainer(Transform container, Dictionary<int, string> inventory)
+    {
+        for (int i = 0; i < container.childCount; i++)
+        {
+            Slot slot = container.GetChild(i).GetComponent<Slot>();
+            inventory[slot.id] = "";
+
+            if (container.GetChild(i).childCount > 0 &&
+                container.GetChild(i).GetChild(0).TryGetComponent(out Item item))
+            {
+                inventory[slot.id] = SerializeItem(item);
+            }
+        }
+    }
+    private void SaveSingleSlot(GameObject slotObj, Dictionary<int, string> inventory)
+    {
+        Slot slot = slotObj.GetComponent<Slot>();
+        inventory[slot.id] = "";
+
+        if (slotObj.transform.childCount > 0 &&
+            slotObj.transform.GetChild(0).TryGetComponent(out Item item))
+        {
+            inventory[slot.id] = SerializeItem(item);
+        }
+    }
+
 }

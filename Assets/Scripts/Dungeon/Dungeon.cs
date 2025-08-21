@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Dungeon : MonoBehaviour
@@ -237,6 +238,27 @@ public class Dungeon : MonoBehaviour
         pop.transform.SetParent(newRoom.transform);
         pop.transform.localPosition = new(-3.75f, 0, -3.75f);
         Transform parent = pop.transform;
+        GameObject GetObjectFromDatabaseByType(string tileType)
+        {
+            return tileType switch
+            {
+                "1" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_noShoot_1x1.Count)],
+                "2" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_noShoot_2x1.Count)],
+                "4" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_noShoot_3x1.Count)],
+                "5" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_noShoot_2x2.Count)],
+                "6" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_shoot_1x1.Count)],
+                "7" => database.obstacles_noShoot_1x1[Random.Range(0, database.lightsources.Count)],
+                "8" => database.obstacles_noShoot_1x1[Random.Range(0, database.resources.Count)],
+                "9" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_mAgressive.Count)],
+                "10" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_mEvasive.Count)],
+                "11" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_mWandering.Count)],
+                "12" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_mStealth.Count)],
+                "13" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_rStatic.Count)],
+                "14" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_rWandering.Count)],
+                "15" => database.obstacles_noShoot_1x1[Random.Range(0, database.traps.Count)],
+                _ => null
+            };
+        }
         foreach (int key in tiles.Keys)
         {
             string value = tiles[key];
@@ -252,24 +274,8 @@ public class Dungeon : MonoBehaviour
             Vector3 localPos = new(fineX * fineTileSize, 0, fineY * fineTileSize);
 
             // Place object
-            GameObject test = Instantiate(testObject, parent);
-            test.transform.localPosition = localPos;
-
-            /*switch(value)
-            {
-                case "2": // 2x1 noShoot obstacle
-
-                    break;
-                case "3": // 3x1 noShoot obstacle
-
-                    break;
-                case "4": // 2x2 noShoot obstacle
-
-                    break;
-                default: // 1x1 tile
-
-                    break;
-            }*/
+            GameObject newObject = Instantiate(GetObjectFromDatabaseByType(value), parent);
+            newObject.transform.localPosition = localPos;
         }
 
         return newRoom;

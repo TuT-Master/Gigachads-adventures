@@ -8,12 +8,6 @@ public class ProjectileSO : ItemSO
     public Sprite sprite_inventory;
     public Sprite sprite_projectile;
 
-    public PlayerBase.BaseUpgrade craftedIn;
-    public int requieredCraftingLevel;
-    public List<ItemSO> recipeMaterials;
-    public List<int> recipeMaterialsAmount;
-
-
     [Header("Stats")]
     public bool selfHoming;
     [SerializeField] private float damage = 0;

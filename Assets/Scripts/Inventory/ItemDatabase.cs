@@ -39,7 +39,11 @@ public class ItemDatabase : ScriptableObject
     {
         foreach (ItemSO itemSO in list)
             if (itemSO.itemName == name)
-                return itemSO.ToItem();
+            {
+                Item item = itemSO.ToItem();
+                item.amount = 1;
+                return item;
+            }
         return null;
     }
     public Item GetWeaponMelee(string name) => GetItemFromList(weaponsMelee, name);
@@ -52,37 +56,46 @@ public class ItemDatabase : ScriptableObject
     public Item GetProjectile(string name) => GetItemFromList(projectiles, name);
     public Item GetShield(string name) => GetItemFromList(shields, name);
     public Item GetMaterial(string name) => GetItemFromList(materials, name);
-    public Item GetEquipable(string name) => GetItemFromList(accessories, base.name);
+    public Item GetAccessory(string name) => GetItemFromList(accessories, name);
     public Item GetThrowable(string name) => GetItemFromList(throwables, name);
     public Item GetTrap(string name) => GetItemFromList(traps, name);
+    private Dictionary<string, ItemSO> allItemsSO;
+    private void Awake()
+    {
+        allItemsSO = new();
+        foreach (WeaponMeleeSO item in weaponsMelee)
+            allItemsSO[item.itemName] = item;
+        foreach (WeaponRangedSO item in weaponsRanged)
+            allItemsSO[item.itemName] = item;
+        foreach (WeaponMagicSO item in weaponsMagic)
+            allItemsSO[item.itemName] = item;
+        foreach (ArmorSO item in armors)
+            allItemsSO[item.itemName] = item;
+        foreach (BackpackSO item in backpacks)
+            allItemsSO[item.itemName] = item;
+        foreach (BeltSO item in belts)
+            allItemsSO[item.itemName] = item;
+        foreach (ConsumableSO item in consumables)
+            allItemsSO[item.itemName] = item;
+        foreach (ProjectileSO item in projectiles)
+            allItemsSO[item.itemName] = item;
+        foreach (ShieldSO item in shields)
+            allItemsSO[item.itemName] = item;
+        foreach (MaterialSO item in materials)
+            allItemsSO[item.itemName] = item;
+        foreach (AccessorySO item in accessories)
+            allItemsSO[item.itemName] = item;
+        foreach (ThrowableSO item in throwables)
+            allItemsSO[item.itemName] = item;
+        foreach (TrapSO item in traps)
+            allItemsSO[item.itemName] = item;
+    }
     public Item GetItemByNameAndAmount(string name, int amount)
     {
-        List<Func<string, Item>> lookups = new()
-        {
-            GetWeaponMelee,
-            GetWeaponRanged,
-            GetWeaponMagic,
-            GetArmor,
-            GetBackpack,
-            GetBelt,
-            GetConsumable,
-            GetProjectile,
-            GetShield,
-            GetMaterial,
-            GetEquipable,
-            GetThrowable,
-            GetTrap,
-        };
-        foreach (var lookup in lookups)
-        {
-            Item item = lookup(name);
-            if (item != null)
-            {
-                item.amount = amount;
-                return item;
-            }
-        }
-        return null;
+        Debug.Log(allItemsSO.Count);
+        Item item = allItemsSO.TryGetValue(name, out ItemSO itemSO) ? itemSO.ToItem() : null;
+        item.amount = amount;
+        return item;
     }
     public List<Item> GetAllItems()
     {
@@ -108,8 +121,6 @@ public class ItemDatabase : ScriptableObject
                 allItems.Add(item.ToItem());
         return allItems;
     }
-
-
     public Item GetCrystalByType(Item.MagicCrystalType type)
     {
         return type switch
@@ -123,7 +134,6 @@ public class ItemDatabase : ScriptableObject
             _ => null
         };
     }
-
     public BaseUpgradeSO GetBaseUpgrade(BaseUpgrade baseUpgrade, int level)
     {
         foreach (BaseUpgradeSO upgradeSO in baseUpgradesSO)
@@ -131,7 +141,6 @@ public class ItemDatabase : ScriptableObject
                 return upgradeSO;
         return null;
     }
-
     public Item GetBaseUpgradeAsItem(BaseUpgrade baseUpgrade, int level)
     {
         Item item = null;

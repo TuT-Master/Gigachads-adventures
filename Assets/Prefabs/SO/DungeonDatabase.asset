@@ -23,25 +23,40 @@ MonoBehaviour:
   - {fileID: 2100000, guid: de3dcb391ed1a8d469c97ecfb11cb85c, type: 2}
   doors:
   - {fileID: 5326635467952911954, guid: 96d19cfec6d6a084db3296ab7b16ab5e, type: 3}
-  obstacles_noShoot: []
-  obstacles_shoot:
-  - {fileID: 919132149155446097, guid: 0d53d07752c3a0f4cabbcaa0b7c4d4d0, type: 3}
+  obstacles_noShoot_1x1:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  obstacles_noShoot_2x1:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  obstacles_noShoot_3x1:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  obstacles_noShoot_2x2:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  obstacles_shoot_1x1:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
   resources:
   - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
-  lightsources: []
+  lightsources:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
   lootBoxes:
   - {fileID: 5857961823447582917, guid: 3b6631833aacfa049b825d89a4b37ac8, type: 3}
-  enemies_mAgressive: []
-  enemies_mEvasive: []
-  enemies_mStealth: []
-  enemies_mWandering: []
-  enemies_rStatic: []
-  enemies_rWandering: []
+  enemies_mAgressive:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  enemies_mEvasive:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  enemies_mStealth:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  enemies_mWandering:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  enemies_rStatic:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  enemies_rWandering:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
   enemies_boss:
   - {fileID: 6408875644297024470, guid: f00f5a41f71cf184e8bf4c67296df98d, type: 3}
   - {fileID: 5857961823447582917, guid: 3b6631833aacfa049b825d89a4b37ac8, type: 3}
   - {fileID: 5326635467952911954, guid: 96d19cfec6d6a084db3296ab7b16ab5e, type: 3}
-  traps: []
+  traps:
+  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
   weaponMaterials:
   - {fileID: 2100000, guid: ae8554b6deeb7f142b52680513762cfd, type: 2}
   firstChampionNames: []

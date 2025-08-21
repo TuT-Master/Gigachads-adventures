@@ -461,7 +461,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistance
             WeaponClass.TwoHandStrenght => playerSkillBonusStats_TwoHandedStrength,
             WeaponClass.RangeDexterity => playerSkillBonusStats_RangedDexterity,
             WeaponClass.RangeStrenght => playerSkillBonusStats_RangedStrength,
-            _ => null
+            _ => new()
         };
     }
     public Dictionary<string, float> GetSkillBonusStats(Item.MagicCrystalType crystalType, float multiplier)
