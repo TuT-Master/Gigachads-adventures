@@ -120,4 +120,14 @@ public class DungeonDatabase : ScriptableObject
 
         return objs;
     }
+    public string GetRandomFirstChampionName()
+    {
+        System.Random rnd = new();
+        return firstChampionNames[rnd.Next(firstChampionNames.Count)];
+    }
+    public string GetRandomLastChampionName()
+    {
+        System.Random rnd = new();
+        return secondChampionNames[rnd.Next(secondChampionNames.Count)];
+    }
 }

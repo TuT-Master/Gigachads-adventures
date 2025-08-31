@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class Dungeon : MonoBehaviour
@@ -27,13 +28,6 @@ public class Dungeon : MonoBehaviour
     [SerializeField] private DungeonType dungeonType;
 
 
-    private void OnDisable()
-    {
-        int childCount = transform.childCount;
-        for (int i = 0; i < childCount; i++)
-            Destroy(transform.GetChild(0).gameObject);
-        FindAnyObjectByType<DungeonMap>(FindObjectsInactive.Include).ClearMap();
-    }
     public void EnterDungeon(Transform player)
     {
         FindAnyObjectByType<DungeonGenerator>().GenerateDungeon(dungeonType);
@@ -243,19 +237,19 @@ public class Dungeon : MonoBehaviour
             return tileType switch
             {
                 "1" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_noShoot_1x1.Count)],
-                "2" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_noShoot_2x1.Count)],
-                "4" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_noShoot_3x1.Count)],
-                "5" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_noShoot_2x2.Count)],
-                "6" => database.obstacles_noShoot_1x1[Random.Range(0, database.obstacles_shoot_1x1.Count)],
-                "7" => database.obstacles_noShoot_1x1[Random.Range(0, database.lightsources.Count)],
-                "8" => database.obstacles_noShoot_1x1[Random.Range(0, database.resources.Count)],
-                "9" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_mAgressive.Count)],
-                "10" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_mEvasive.Count)],
-                "11" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_mWandering.Count)],
-                "12" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_mStealth.Count)],
-                "13" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_rStatic.Count)],
-                "14" => database.obstacles_noShoot_1x1[Random.Range(0, database.enemies_rWandering.Count)],
-                "15" => database.obstacles_noShoot_1x1[Random.Range(0, database.traps.Count)],
+                "2" => database.obstacles_noShoot_2x1[Random.Range(0, database.obstacles_noShoot_2x1.Count)],
+                "4" => database.obstacles_noShoot_3x1[Random.Range(0, database.obstacles_noShoot_3x1.Count)],
+                "5" => database.obstacles_noShoot_2x2[Random.Range(0, database.obstacles_noShoot_2x2.Count)],
+                "6" => database.obstacles_shoot_1x1[Random.Range(0, database.obstacles_shoot_1x1.Count)],
+                "7" => database.lightsources[Random.Range(0, database.lightsources.Count)],
+                "8" => database.resources[Random.Range(0, database.resources.Count)],
+                "9" => database.enemies_mAgressive[Random.Range(0, database.enemies_mAgressive.Count)],
+                "10" => database.enemies_mEvasive[Random.Range(0, database.enemies_mEvasive.Count)],
+                "11" => database.enemies_mWandering[Random.Range(0, database.enemies_mWandering.Count)],
+                "12" => database.enemies_mStealth[Random.Range(0, database.enemies_mStealth.Count)],
+                "13" => database.enemies_rStatic[Random.Range(0, database.enemies_rStatic.Count)],
+                "14" => database.enemies_rWandering[Random.Range(0, database.enemies_rWandering.Count)],
+                "15" => database.traps[Random.Range(0, database.traps.Count)],
                 _ => null
             };
         }
@@ -277,6 +271,9 @@ public class Dungeon : MonoBehaviour
             GameObject newObject = Instantiate(GetObjectFromDatabaseByType(value), parent);
             newObject.transform.localPosition = localPos;
         }
+
+        // Create nav mesh plan
+        newRoom.GetComponent<NavMeshSurface>().BuildNavMesh();
 
         return newRoom;
     }

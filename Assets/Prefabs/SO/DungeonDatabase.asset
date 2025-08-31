@@ -40,7 +40,7 @@ MonoBehaviour:
   lootBoxes:
   - {fileID: 5857961823447582917, guid: 3b6631833aacfa049b825d89a4b37ac8, type: 3}
   enemies_mAgressive:
-  - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
+  - {fileID: 1750774390416495193, guid: 28746225b87407048a84380db33e6e6e, type: 3}
   enemies_mEvasive:
   - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
   enemies_mStealth:

@@ -7,7 +7,7 @@ using UnityEngine;
 public class DungeonRoom : MonoBehaviour
 {
     public List<GameObject> population = new();
-    public List<IInteractableEnemy> enemies = new();
+    public List<Enemy> enemies = new();
     //public List<MineableResource> resources = new();
 
     public TextMeshProUGUI messageObj;

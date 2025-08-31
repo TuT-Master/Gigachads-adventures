@@ -6198,6 +6198,37 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 199487166}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &200485145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 200485146}
+  m_Layer: 0
+  m_Name: RespawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &200485146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200485145}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 213958366}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &209748951
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6590,6 +6621,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 850135315}
+  - {fileID: 200485146}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7104,7 +7136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bc8c14671bc1b84faaa6ae8b4da341b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnPoint: {fileID: 0}
+  respawnPoint: {fileID: 200485146}
   hp: 100
   stamina: 100
   mana: 100
@@ -9472,7 +9504,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1957144431}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9125
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -22601,7 +22633,7 @@ BoxCollider:
     m_Bits: 512
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 261623
+    m_Bits: 523767
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -56306,7 +56338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1544400130}
   - component: {fileID: 1544400131}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WeaponRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56338,10 +56370,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 262144
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 261111
+    m_Bits: 262135
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -61696,7 +61728,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 494609620}
   m_Direction: 2
   m_Value: -0.00000069971566
-  m_Size: 0.8909643
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

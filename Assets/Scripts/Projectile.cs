@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
 
     public bool alive = false;
 
-    private List<IInteractableEnemy> enemies = new();
+    private List<Enemy> enemies = new();
 
 
     private void OnTriggerEnter(Collider other)
@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour
         if (!alive)
             return;
 
-        if (other.transform.parent.TryGetComponent(out IInteractableEnemy enemy) && !enemies.Contains(enemy) && other.gameObject.layer == 10)
+        if (other.transform.parent.TryGetComponent(out Enemy enemy) && !enemies.Contains(enemy) && other.gameObject.layer == 10)
         {
             enemies.Add(enemy);
             Debug.Log(enemy.ToString());
@@ -27,9 +27,9 @@ public class Projectile : MonoBehaviour
             float armorIgnore = weapon.stats["armorIgnore"] + projectile.stats["armorIgnore"];
             float finalDamage = 0f;
 
-            foreach(IInteractableEnemy IEnemy in enemies)
+            foreach(Enemy IEnemy in enemies)
             {
-                IEnemy.HurtEnemy(damage, penetration, armorIgnore, out float partialFinalDamage);
+                IEnemy.ReceiveDamage(damage, penetration, armorIgnore, 1f, out float partialFinalDamage);
                 finalDamage += partialFinalDamage;
             }
 

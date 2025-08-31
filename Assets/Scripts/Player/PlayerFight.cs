@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerFight : MonoBehaviour
@@ -33,7 +34,7 @@ public class PlayerFight : MonoBehaviour
     [SerializeField]
     private Transform weaponEffectSpawnPoint;
 
-    private List<IInteractableEnemy> enemyList = new();
+    private Dictionary<Enemy, List<EnemyHitbox>> enemyList = new();
     private Dictionary<string, float> fistsStats = new(){
                 {"damage", 2f},
                 {"penetration", 0f},
@@ -66,7 +67,7 @@ public class PlayerFight : MonoBehaviour
         ActiveWeapon();
         MyInput();
 
-        foreach (IInteractableEnemy enemy in enemyList)
+        foreach (Enemy enemy in enemyList.Keys)
         {
             if (!enemy.CanInteract())
             {
@@ -177,7 +178,12 @@ public class PlayerFight : MonoBehaviour
         canAttackAgain = false;
 
         if (enemyList.Count > 0)
-            enemyList[0].HurtEnemy(fistsStats["damage"], fistsStats["penetration"], fistsStats["armorIgnore"], out float finalDamage);
+            enemyList.Keys.ToArray()[0].ReceiveDamage(
+                fistsStats["damage"],
+                fistsStats["penetration"],
+                fistsStats["armorIgnore"],
+                enemyList[enemyList.Keys.ToArray()[0]][0].damageMultiplier,
+                out float _);
 
         StartCoroutine(CanAttackAgain());
     }
@@ -212,7 +218,12 @@ public class PlayerFight : MonoBehaviour
 
 
                 // Deal damage
-                enemyList[0].HurtEnemy(damage, petration, armorIgnore, out finalDamage);
+                enemyList.Keys.ToArray()[0].ReceiveDamage(
+                    damage,
+                    petration,
+                    armorIgnore,
+                    enemyList[enemyList.Keys.ToArray()[0]][0].damageMultiplier,
+                    out float _);
             }
             if (finalDamage > 0)
                 playerStats.AddExp(itemInHand, finalDamage);
@@ -367,19 +378,31 @@ public class PlayerFight : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 14)
-            return;
-        var enemy = other.GetComponentInParent<IInteractableEnemy>();
-        if (enemy != null && enemy.CanInteract())
-            enemyList.Add(enemy);
+        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyHitbox"))
+        {
+            if (other.TryGetComponent(out EnemyHitbox enemyHitbox))
+            {
+                Enemy enemy = enemyHitbox.enemy;
+                if (!enemyList.ContainsKey(enemy))
+                    enemyList.Add(enemy, new List<EnemyHitbox> { enemyHitbox });
+                else if (!enemyList[enemy].Contains(enemyHitbox))
+                    enemyList[enemy].Add(enemyHitbox);
+            }
+        }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 14)
-            return;
-        var enemy = other.GetComponentInParent<IInteractableEnemy>();
-        if (enemyList.Contains(enemy))
-            enemyList.Remove(enemy);
+        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyHitbox"))
+            if (other.TryGetComponent(out EnemyHitbox enemyHitbox))
+            {
+                Enemy enemy = enemyHitbox.enemy;
+                if (enemyList.ContainsKey(enemy) && enemyList[enemy].Contains(enemyHitbox))
+                {
+                    enemyList[enemy].Remove(enemyHitbox);
+                    if (enemyList[enemy].Count == 0)
+                        enemyList.Remove(enemy);
+                }
+            }
     }
 
 
