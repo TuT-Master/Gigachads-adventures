@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static PlayerStats;
 
 public class ItemCardStatEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -56,31 +57,31 @@ public class ItemCardStatEffect : MonoBehaviour, IPointerEnterHandler, IPointerE
                 break;
         }
     }
-    public void SetUp(Dictionary<string, float> values, Sprite gfx)
+    public void SetUp(Dictionary<StatType, float> values, Sprite gfx)
     {
         pointerOn = false;
         GetComponent<Image>().sprite = gfx;
         effectName.text = "Full-set bonus";
         effectDescription.text = "";
-        foreach (string val in values.Keys)
+        foreach (StatType val in values.Keys)
         {
             switch (val)
             {
-                case "hpMax":
+                case StatType.HpMax:
                     effectDescription.text += "Max health ";
                     if (values[val] > 0)
                         effectDescription.text += "+" + values[val] + "\n";
                     else
                         effectDescription.text += values[val] + "\n";
                     break;
-                case "staminaMax":
+                case StatType.StaminaMax:
                     effectDescription.text += "Max stamina ";
                     if (values[val] > 0)
                         effectDescription.text += "+" + values[val] + "\n";
                     else
                         effectDescription.text += values[val] + "\n";
                     break;
-                case "manaMax":
+                case StatType.ManaMax:
                     effectDescription.text += "Max mana ";
                     if (values[val] > 0)
                         effectDescription.text += "+" + values[val] + "\n";

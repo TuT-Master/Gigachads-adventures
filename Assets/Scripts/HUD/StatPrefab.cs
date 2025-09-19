@@ -2,27 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StatPrefab : MonoBehaviour
 {
-    private enum Stat
-    {
-        Hp,
-        Stamina,
-        Mana,
-        HpMax,
-        StaminaMax,
-        ManaMax,
-        Armor,
-        MagicResistance,
-        Evade,
-        Defense,
-        Weight,
-        MovementSpeed,
-        Knockback,
-    }
-    [SerializeField] private Stat stat;
+    [SerializeField] private PlayerStats.StatType stat;
     [SerializeField] private bool isMainStat;
 
     [Header("No touchey down there")]
@@ -60,9 +43,9 @@ public class StatPrefab : MonoBehaviour
     {
         return stat switch
         {
-            Stat.Hp => new float[] { playerStats.playerStats["hp"], playerStats.playerBaseStats["hp"], playerStats.playerStats["hpMax"] },
-            Stat.Stamina => new float[] { playerStats.playerStats["stamina"], playerStats.playerBaseStats["stamina"], playerStats.playerStats["staminaMax"] },
-            Stat.Mana => new float[] { playerStats.playerStats["mana"], playerStats.playerBaseStats["mana"], playerStats.playerStats["manaMax"] },
+            PlayerStats.StatType.Hp => new float[] { playerStats.playerStats[PlayerStats.StatType.Hp], playerStats.playerBaseStats[PlayerStats.StatType.Hp], playerStats.playerStats[PlayerStats.StatType.HpMax] },
+            PlayerStats.StatType.Stamina => new float[] { playerStats.playerStats[PlayerStats.StatType.Stamina], playerStats.playerBaseStats[PlayerStats.StatType.Stamina], playerStats.playerStats[PlayerStats.StatType.StaminaMax] },
+            PlayerStats.StatType.Mana => new float[] { playerStats.playerStats[PlayerStats.StatType.Mana], playerStats.playerBaseStats[PlayerStats.StatType.Mana], playerStats.playerStats[PlayerStats.StatType.ManaMax] },
             _ => new float[] {0f, 0f, 0f},
         };
     }
@@ -71,9 +54,9 @@ public class StatPrefab : MonoBehaviour
     {
         return stat switch
         {
-            Stat.Hp => "Health",
-            Stat.Stamina => "Stamina",
-            Stat.Mana => "Mana",
+            PlayerStats.StatType.Hp => "Health",
+            PlayerStats.StatType.Stamina => "Stamina",
+            PlayerStats.StatType.Mana => "Mana",
             _ => null,
         };
     }

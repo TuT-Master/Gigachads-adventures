@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Item;
+using static PlayerStats;
 
 public class AmmoInMagazine : MonoBehaviour
 {
@@ -17,13 +19,12 @@ public class AmmoInMagazine : MonoBehaviour
         ammoCount_text = GetComponentInChildren<TextMeshProUGUI>();
         image = GetComponent<Image>();
     }
-
     void Update()
     {
-        if (playerFight.itemInHand != null && playerFight.itemInHand.slotType == Slot.SlotType.WeaponRanged && playerFight.itemInHand.stats["magazineSize"] > 0)
+        if (playerFight.activeWeapon != null && playerFight.activeWeapon.slotType == Slot.SlotType.WeaponRanged && playerFight.activeWeapon.stats[StatType.MagazineSize] > 0)
         {
             image.color = Color.white;
-            ammoCount_text.text = playerFight.itemInHand.stats["currentMagazine"] + " / " + playerFight.itemInHand.stats["magazineSize"];
+            ammoCount_text.text = playerFight.activeWeapon.stats[StatType.CurrentMagazine] + " / " + playerFight.activeWeapon.stats[StatType.MagazineSize];
         }
         else
         {

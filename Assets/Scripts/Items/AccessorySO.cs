@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats;
 
 [CreateAssetMenu(fileName = "Equipable", menuName = "Scriptable objects/Equipable")]
 public class AccessorySO : ItemSO
 {
-    public Sprite sprite_inventory;
-
     [Header("Stats")]
     [SerializeField] private float weight;
     [SerializeField] private float price;
@@ -17,21 +16,21 @@ public class AccessorySO : ItemSO
     [SerializeField] private float manaMax;
 
 
-    public Dictionary<string, float> Stats()
+    public Dictionary<StatType, float> Stats()
     {
         return new()
         {
-            {"weight", weight },
-            {"price", price},
+            {StatType.Weight, weight },
+            {StatType.Price, price},
         };
     }
-    public Dictionary<string, float> Bonus()
+    public Dictionary<StatType, float> Bonus()
     {
         return new()
         {
-            {"hpMax", hpMax },
-            {"staminaMax", staminaMax },
-            {"manaMax", manaMax },
+            {StatType.HpMax, hpMax },
+            {StatType.StaminaMax, staminaMax },
+            {StatType.ManaMax, manaMax },
         };
     }
 

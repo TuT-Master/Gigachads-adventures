@@ -19,14 +19,15 @@ MonoBehaviour:
   amount: 0
   isStackable: 0
   stackSize: 0
-  slotType: 0
+  slotType: 18
+  itemType: 4
   craftedIn: 4
   requieredCraftingLevel: 0
   recipeItems: []
   emitsLight: 0
   sprite_inventory: {fileID: 3286163911610860551, guid: ab907d1c3ab7da44197fe7354e7b956e,
     type: 3}
-  weaponType: 5
+  weaponClass: 0
   defense: 50
   staminaPerBlock: 15
   weight: 10

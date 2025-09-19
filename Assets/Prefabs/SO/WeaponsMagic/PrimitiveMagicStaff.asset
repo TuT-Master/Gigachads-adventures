@@ -19,7 +19,8 @@ MonoBehaviour:
   amount: 0
   isStackable: 0
   stackSize: 0
-  slotType: 0
+  slotType: 20
+  itemType: 0
   craftedIn: 5
   requieredCraftingLevel: 0
   recipeItems: []
@@ -27,7 +28,7 @@ MonoBehaviour:
   fullAuto: 0
   twoHanded: 1
   AoE: 0
-  weaponType: 36
+  weaponClass: 0
   sprite_inventory: {fileID: 3286163911610860551, guid: 51ceafb0ea9d9c244a6e0171532347cd,
     type: 3}
   damage: 5

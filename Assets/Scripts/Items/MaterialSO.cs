@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats;
 
 [CreateAssetMenu(fileName = "Material", menuName = "Scriptable objects/Material")]
 public class MaterialSO : ItemSO
 {
-    public Sprite sprite_inventory;
 
     public Item.MagicCrystalType crystalType;
 
@@ -13,12 +13,12 @@ public class MaterialSO : ItemSO
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
 
-    public Dictionary<string, float> Stats()
+    public Dictionary<StatType, float> Stats()
     {
         return new()
         {
-            { "weight", weight},
-            { "price", price},
+            {StatType.Weight, weight},
+            {StatType.Price, price},
         };
     }
 

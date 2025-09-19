@@ -16,14 +16,14 @@ public class Slot : MonoBehaviour, IDropHandler
         Ammo,
         Material,
         Toolbar,
-        Head,
-        HeadEquipment,
-        Torso,
-        TorsoEquipment,
-        Legs,
-        LegsEquipment,
-        Gloves,
-        GlovesEquipment,
+        Helmet,
+        HelmetAccessory,
+        Chestplate,
+        ChestplateAccessory,
+        Leggins,
+        LegginsAccessory,
+        Gauntlets,
+        GauntletsAccessory,
         Belt,
         Backpack,
         PrimaryHand,
@@ -78,28 +78,28 @@ public class Slot : MonoBehaviour, IDropHandler
             case SlotType.All:
                 image.sprite = slotImages[0];
                 break;
-            case SlotType.Head:
+            case SlotType.Helmet:
                 image.sprite = slotImages[3];
                 break;
-            case SlotType.HeadEquipment:
+            case SlotType.HelmetAccessory:
                 image.sprite = slotImages[7];
                 break;
-            case SlotType.Torso:
+            case SlotType.Chestplate:
                 image.sprite = slotImages[4];
                 break;
-            case SlotType.TorsoEquipment:
+            case SlotType.ChestplateAccessory:
                 image.sprite = slotImages[8];
                 break;
-            case SlotType.Legs:
+            case SlotType.Leggins:
                 image.sprite = slotImages[5];
                 break;
-            case SlotType.LegsEquipment:
+            case SlotType.LegginsAccessory:
                 image.sprite = slotImages[9];
                 break;
-            case SlotType.Gloves:
+            case SlotType.Gauntlets:
                 image.sprite = slotImages[6];
                 break;
-            case SlotType.GlovesEquipment:
+            case SlotType.GauntletsAccessory:
                 image.sprite = slotImages[10];
                 break;
             case SlotType.Belt:

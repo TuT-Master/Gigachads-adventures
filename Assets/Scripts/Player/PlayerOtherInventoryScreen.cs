@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static PlayerStats;
 
 public class PlayerOtherInventoryScreen : MonoBehaviour
 {
@@ -165,8 +166,8 @@ public class PlayerOtherInventoryScreen : MonoBehaviour
                     else
                         otherInventory.Add(i, item.itemName + "-" + item.amount.ToString());
 
-                    if (item.stats != null && item.stats.ContainsKey("currentMagazine") && item.stats["currentMagazine"] > 0)
-                        otherInventory[i] += "/" + item.stats["currentMagazine"].ToString();
+                    if (item.stats != null && item.stats.ContainsKey(StatType.CurrentMagazine) && item.stats[StatType.CurrentMagazine] > 0)
+                        otherInventory[i] += "/" + item.stats[StatType.CurrentMagazine].ToString();
                 }
                 else
                     otherInventory[i] = "";

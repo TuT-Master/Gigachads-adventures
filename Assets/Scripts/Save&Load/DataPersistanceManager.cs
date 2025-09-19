@@ -14,7 +14,7 @@ public class DataPersistanceManager : MonoBehaviour
 
     public static DataPersistanceManager instance { get; private set; }
 
-    private GameData gameData;
+    public GameData gameData;
     private List<IDataPersistance> dataPersistanceObjects;
     private FileDataHandler dataHandler;
 

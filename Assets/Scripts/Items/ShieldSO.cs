@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats;
 
 [CreateAssetMenu(fileName = "Shield", menuName = "Scriptable objects/Shield")]
 public class ShieldSO : ItemSO
 {
     public bool emitsLight;
 
-    public Sprite sprite_inventory;
-
-    public Item.WeaponType weaponType;
+    public WeaponClass weaponClass;
 
     [Header("Stats")]
     [SerializeField] private float defense = 0;
@@ -17,14 +16,14 @@ public class ShieldSO : ItemSO
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
 
-    public Dictionary<string, float> Stats()
+    public Dictionary<StatType, float> Stats()
     {
-        return new Dictionary<string, float>()
+        return new()
         {
-            {"defense", defense},
-            {"staminaPerBlock", staminaPerBlock},
-            {"weight", weight},
-            {"price", price},
+            {StatType.BonusDefense, defense},
+            {StatType.StaminaCost, staminaPerBlock},
+            {StatType.Weight, weight},
+            {StatType.Price, price},
         };
     }
 

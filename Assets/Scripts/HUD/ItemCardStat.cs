@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using static Item;
+using static PlayerStats;
 
 public class ItemCardStat : MonoBehaviour
 {
@@ -49,20 +51,20 @@ public class ItemCardStat : MonoBehaviour
 
 
     // Each stat has its own fillbar max values per age
-    private readonly Dictionary<string, List<float>> fillBarMaxValues = new()
+    private readonly Dictionary<StatType, List<float>> fillBarMaxValues = new()
     {
-        {"damage", new List<float>(){ 20, 40, 60, 80, 100 } },
-        {"penetration", new List<float>(){ 10, 20, 30, 40, 50 } },
-        {"armorIgnore", new List<float>(){ 1, 1, 1, 1, 1 } },
-        {"critChance", new List<float>(){ 1, 1, 1, 1, 1 } },
-        {"critDamage", new List<float>(){ 3, 3, 3, 3, 3 } },
-        {"magazineSize", new List<float>(){ 15, 20, 40, 100, 500 } },
-        {"attackSpeed", new List<float>(){ 5, 10, 15, 20, 40 } },
-        {"reloadTime", new List<float>(){ 5, 5, 5, 5, 5 } },
-        {"defense", new List<float>(){ 100, 100, 100, 100, 100 } },
-        {"backpackSize", new List<float>(){ 20, 20, 20, 20, 20 } },
-        {"armor", new List<float>(){ 15, 30, 45, 60, 75 } },
-        {"magicResistance", new List<float>(){ 15, 30, 45, 60, 75 } },
+        {StatType.Damage, new List<float>(){ 20, 40, 60, 80, 100 } },
+        {StatType.Penetration, new List<float>(){ 10, 20, 30, 40, 50 } },
+        {StatType.ArmorIgnore, new List<float>(){ 1, 1, 1, 1, 1 } },
+        {StatType.CritChance, new List<float>(){ 1, 1, 1, 1, 1 } },
+        {StatType.CritDamage, new List<float>(){ 3, 3, 3, 3, 3 } },
+        {StatType.MagazineSize, new List<float>(){ 15, 20, 40, 100, 500 } },
+        {StatType.AttackSpeed, new List<float>(){ 5, 10, 15, 20, 40 } },
+        {StatType.ReloadTime, new List<float>(){ 5, 5, 5, 5, 5 } },
+        {StatType.BonusDefense, new List<float>(){ 100, 100, 100, 100, 100 } },
+        {StatType.AdditionalInventorySlots, new List<float>(){ 20, 20, 20, 20, 20 } },
+        {StatType.Armor, new List<float>(){ 15, 30, 45, 60, 75 } },
+        {StatType.MagicResistance, new List<float>(){ 15, 30, 45, 60, 75 } },
     };
     /*
     ammo
@@ -70,63 +72,63 @@ public class ItemCardStat : MonoBehaviour
     */
 
 
-    private Dictionary<string, (string displayName, Sprite sprite)> statDisplayData;
+    private Dictionary<StatType, (string displayName, Sprite sprite)> statDisplayData;
     private void Awake()
     {
-        statDisplayData = new Dictionary<string, (string, Sprite)>
+        statDisplayData = new Dictionary<StatType, (string, Sprite)>
         {
-            { "damage", ("Damage", damage) },
-            { "penetration", ("Penetration", penetration) },
-            { "armorIgnore", ("Armor ignore", armorIgnore) },
-            { "critChance", ("Critical chance", critChance) },
-            { "critDamage", ("Critical damage", critDamage) },
-            { "magazineSize", ("Magazine size", magazineSize) },
-            { "attackSpeed", ("Attack speed", attackSpeed) },
-            { "reloadTime", ("Reload time", reloadTime) },
-            { "defense", ("Defense", defense) },
-            { "backpackSize", ("Additional slots", additionalSlots) },
-            { "armor", ("Armor", armor) },
-            { "magicResistance", ("Magic resistance", magicResistance) },
+            { StatType.Damage, ("Damage", damage) },
+            { StatType.Penetration, ("Penetration", penetration) },
+            { StatType.ArmorIgnore, ("Armor ignore", armorIgnore) },
+            { StatType.CritChance, ("Critical chance", critChance) },
+            { StatType.CritDamage, ("Critical damage", critDamage) },
+            { StatType.MagazineSize, ("Magazine size", magazineSize) },
+            { StatType.AttackSpeed, ("Attack speed", attackSpeed) },
+            { StatType.ReloadTime, ("Reload time", reloadTime) },
+            { StatType.BonusDefense, ("Defense", defense) },
+            { StatType.AdditionalInventorySlots, ("Additional slots", additionalSlots) },
+            { StatType.Armor, ("Armor", armor) },
+            { StatType.MagicResistance, ("Magic resistance", magicResistance) },
         };
     }
 
 
 
-    public void SetUp(string stat, float defaultValue, float bonusValue)
+    public void SetUp(StatType statType, float defaultValue, float bonusValue)
     {
         statEffect_Sprite_pairs = new();
         for(int i = 0; i < _statEffect.Count; i++)
             statEffect_Sprite_pairs.Add(_statEffect[i], _statEffectSprites[i]);
 
         // Set up name of stat
-        if (statDisplayData.TryGetValue(stat, out var displayData))
+        if (statDisplayData.TryGetValue(statType, out var displayData))
         {
             statName.text = displayData.displayName;
             statImage.sprite = displayData.sprite;
         }
         else
         {
-            statName.text = $"Stat '{stat}' not found!";
+            statName.text = $"Stat '{statType}' not found!";
             statImage.sprite = null;
         }
 
         // Set up values of stat
         static string Format(float value, int decimals = 2) => Math.Round(value, decimals).ToString();
 
-        if (stat == "armorIgnore")
+        if (statType == StatType.ArmorIgnore)
             statValue.text = $"{Format((defaultValue + bonusValue) * 100)}%";
-        else if (stat == "attackSpeed")
+        else if (statType == StatType.AttackSpeed)
             statValue.text = $"{Format(defaultValue + bonusValue)} / s";
-        else if (stat == "reloadTime")
+        else if (statType == StatType.ReloadTime)
             statValue.text = $"{Format(defaultValue + bonusValue)} s";
-        else if (stat == "backpackSize")
+        else if (statType == StatType.AdditionalInventorySlots)
             statValue.text = $"+ {Format(defaultValue + bonusValue)}";
         else
             statValue.text = Format(defaultValue + bonusValue);
 
         // Update fillBar
-        float _mainValue = defaultValue / fillBarMaxValues[stat][age];
-        float _bonusValue = (defaultValue + bonusValue) / fillBarMaxValues[stat][age];
+        float _mainValue = defaultValue / fillBarMaxValues[statType][age];
+        float _bonusValue = (defaultValue + bonusValue) / fillBarMaxValues[statType][age];
         
         fillBarMain_image.sprite = fillBarMain;
         fillBarMain_image.type = Image.Type.Filled;
@@ -155,7 +157,7 @@ public class ItemCardStat : MonoBehaviour
         GameObject newStatEffect = Instantiate(statEffectPrefab, statEffects);
         newStatEffect.GetComponent<ItemCardStatEffect>().SetUp(statEffect, value, statEffect_Sprite_pairs[statEffect]);
     }
-    public void AddStatEffect_FullSetBonus(ItemCard.StatEffect statEffect, Dictionary<string, float> values)
+    public void AddStatEffect_FullSetBonus(ItemCard.StatEffect statEffect, Dictionary<StatType, float> values)
     {
         GameObject newStatEffect = Instantiate(statEffectPrefab, statEffects);
         newStatEffect.GetComponent<ItemCardStatEffect>().SetUp(values, statEffect_Sprite_pairs[statEffect]);

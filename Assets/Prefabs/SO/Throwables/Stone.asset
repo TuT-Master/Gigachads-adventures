@@ -19,13 +19,14 @@ MonoBehaviour:
   amount: 0
   isStackable: 1
   stackSize: 69
-  slotType: 0
+  slotType: 2
+  itemType: 41
   craftedIn: 4
   requieredCraftingLevel: 0
   recipeItems: []
   emitsLight: 0
   AoE: 0
-  weaponType: 33
+  weaponClass: 0
   sprite_inventory: {fileID: 3286163911610860551, guid: 08b99541b016698419efb5636376eee0,
     type: 3}
   sprite_projectile: {fileID: 0}

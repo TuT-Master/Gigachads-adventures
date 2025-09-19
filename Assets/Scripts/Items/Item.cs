@@ -1,23 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static PlayerStats;
 
 public class Item : MonoBehaviour
 {
-    public Dictionary<string, float> stats;
+    public Dictionary<StatType, float> stats;
 
     public string itemName;
     [TextArea]
     public string description;
 
     public Slot.SlotType slotType;
-    public enum WeaponType
+    public enum ItemType
     {
-        NotAWeapon,
         // Melle ONE HANDED
         // Dexterity
         Whip,
@@ -31,6 +30,7 @@ public class Item : MonoBehaviour
         Hammer_oneHanded,
         HeavyShield,
 
+
         // Melle TWO HANDED
         // Dexterity
         QuarterStaff,
@@ -40,6 +40,7 @@ public class Item : MonoBehaviour
         Halbert,
         Hammer_twoHanded,
         Zweihander,
+
 
         // Range
         // Dexterity
@@ -57,6 +58,7 @@ public class Item : MonoBehaviour
         SniperRifle,
         Launcher,
 
+
         // Magic weapon
         MagicWeapon_fire,
         MagicWeapon_water,
@@ -65,16 +67,32 @@ public class Item : MonoBehaviour
         MagicWeapon_light,
         MagicWeapon_dark,
 
-        // Global
-        Global,
+
+        // Armors
+        Helmet,
+        Chestplate,
+        Leggings,
+        Gauntlets,
+
+
+        // Accessory
+        HelmetAccessory,
+        ChestplateAccessory,
+        LeggingsAccessory,
+        GauntletsAccessory,
+
 
         // Other
         Throwable,
-        MagicWeapon,
         Trap,
+        Projectile,
+        Consumable,
+        Backpack,
+        Belt,
+        Material,
     }
-    public WeaponType weaponType;
-    public PlayerStats.WeaponClass weaponClass;
+    public ItemType itemType;
+    public WeaponClass weaponClass;
 
     public bool isStackable;
     public int stackSize;
@@ -91,6 +109,7 @@ public class Item : MonoBehaviour
     public bool AoE;
 
     public Sprite sprite_inventory;
+    public GameObject itemModel;
 
     public List<ProjectileSO> ammo;
 
@@ -101,7 +120,7 @@ public class Item : MonoBehaviour
     public bool selfHoming;
 
     // Full-set bonus
-    public Dictionary<string, float> fullSetBonus;
+    public Dictionary<StatType, float> fullSetBonus;
 
     // Crafting
     public PlayerBase.BaseUpgrade craftedIn;
@@ -167,7 +186,7 @@ public class Item : MonoBehaviour
         stats = weaponSO.Stats();
         isStackable = weaponSO.isStackable;
         emitsLight = weaponSO.emitsLight;
-        weaponType = weaponSO.weaponType;
+        itemType = weaponSO.itemType;
         twoHanded = weaponSO.twoHanded;
         AoE = weaponSO.AoE;
         craftedIn = weaponSO.craftedIn;
@@ -175,6 +194,7 @@ public class Item : MonoBehaviour
         recipe = new();
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
         isUpgrade = weaponSO.isUpgrade;
+        itemModel = weaponSO.itemModel;
     }
     public void SetItem(WeaponRangedSO weaponSO)
     {
@@ -188,7 +208,7 @@ public class Item : MonoBehaviour
         emitsLight = weaponSO.emitsLight;
         fullAuto = weaponSO.fullAuto;
         ammo = weaponSO.ammo;
-        weaponType = weaponSO.weaponType;
+        itemType = weaponSO.itemType;
         twoHanded = weaponSO.twoHanded;
         AoE = weaponSO.AoE;
         craftedIn = weaponSO.craftedIn;
@@ -196,6 +216,7 @@ public class Item : MonoBehaviour
         recipe = new();
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
         isUpgrade = weaponSO.isUpgrade;
+        itemModel = weaponSO.itemModel;
     }
     public void SetItem(WeaponMagicSO weaponSO)
     {
@@ -208,7 +229,7 @@ public class Item : MonoBehaviour
         stackSize = weaponSO.stackSize;
         emitsLight = weaponSO.emitsLight;
         fullAuto = weaponSO.fullAuto;
-        weaponType = weaponSO.weaponType;
+        itemType = weaponSO.itemType;
         twoHanded = weaponSO.twoHanded;
         AoE = weaponSO.AoE;
         craftedIn = weaponSO.craftedIn;
@@ -217,12 +238,15 @@ public class Item : MonoBehaviour
         upgradedVersionOfItem = weaponSO.upgradedVersionsOfWeapon;
         magicCrystals = weaponSO.magicCrystals;
         isUpgrade = weaponSO.isUpgrade;
+        itemModel = weaponSO.itemModel;
     }
     public void SetItem(ConsumableSO consumableSO)
     {
         itemName = consumableSO.itemName;
         description = consumableSO.description;
         slotType = Slot.SlotType.Consumable;
+        weaponClass = WeaponClass.None;
+        itemType = ItemType.Consumable;
         sprite_inventory = consumableSO.sprite_inventory;
         isStackable = consumableSO.isStackable;
         stackSize = consumableSO.stackSize;
@@ -230,10 +254,13 @@ public class Item : MonoBehaviour
         craftedIn = consumableSO.craftedIn;
         requieredCraftingLevel = consumableSO.requieredCraftingLevel;
         recipe = new();
+        itemModel = consumableSO.itemModel;
     }
     public void SetItem(ProjectileSO projectile)
     {
         slotType = Slot.SlotType.Ammo;
+        weaponClass = WeaponClass.Projectile;
+        itemType = ItemType.Projectile;
         itemName = projectile.itemName;
         description = projectile.description;
         sprite_inventory = projectile.sprite_inventory;
@@ -252,6 +279,8 @@ public class Item : MonoBehaviour
         stats = armorSO.Stats();
         amount = 1;
         slotType = armorSO.slotType;
+        weaponClass = WeaponClass.None;
+        itemType = armorSO.itemType;
         sprite_inventory = armorSO.sprite_inventory;
         craftedIn = armorSO.craftedIn;
         requieredCraftingLevel = armorSO.requieredCraftingLevel;
@@ -271,8 +300,10 @@ public class Item : MonoBehaviour
         inventoryCapacity = backpackSO.inventoryCapacity;
         isStackable = false;
         stackSize = 1;
-        stats = backpackSO.Stats();
+        stats = backpackSO.BackpackStats();
         slotType = Slot.SlotType.Backpack;
+        itemType = backpackSO.itemType;
+        weaponClass = WeaponClass.None;
         craftedIn = backpackSO.craftedIn;
         requieredCraftingLevel = backpackSO.requieredCraftingLevel;
         recipe = new();
@@ -287,6 +318,8 @@ public class Item : MonoBehaviour
         stackSize = 1;
         stats = beltSO.BeltStats();
         slotType = Slot.SlotType.Belt;
+        itemType = ItemType.Belt;
+        weaponClass = WeaponClass.None;
         craftedIn = beltSO.craftedIn;
         requieredCraftingLevel = beltSO.requieredCraftingLevel;
         recipe = new();
@@ -305,6 +338,7 @@ public class Item : MonoBehaviour
         recipe = new();
         upgradedVersionOfItem = shieldSO.upgradedVersionsOfShield;
         isUpgrade = shieldSO.isUpgrade;
+        itemModel = shieldSO.itemModel;
     }
     public void SetItem(MaterialSO materialSO)
     {
@@ -319,6 +353,8 @@ public class Item : MonoBehaviour
             slotType = Slot.SlotType.MagicCrystal;
         else
             slotType = Slot.SlotType.Material;
+        itemType = ItemType.Material;
+        weaponClass = WeaponClass.None;
         craftedIn = materialSO.craftedIn;
         requieredCraftingLevel = materialSO.requieredCraftingLevel;
         recipe = new();
@@ -336,17 +372,18 @@ public class Item : MonoBehaviour
         craftedIn = throwableSO.craftedIn;
         requieredCraftingLevel = throwableSO.requieredCraftingLevel;
         recipe = new();
+        itemModel = throwableSO.itemModel;
     }
-    public void SetItem(AccessorySO equipableSO)
+    public void SetItem(AccessorySO accessorySO)
     {
-        itemName = equipableSO.itemName;
-        description = equipableSO.description;
-        sprite_inventory = equipableSO.sprite_inventory;
+        itemName = accessorySO.itemName;
+        description = accessorySO.description;
+        sprite_inventory = accessorySO.sprite_inventory;
         isStackable = true;
-        stats = equipableSO.Stats();
-        slotType = Slot.SlotType.Material;
-        craftedIn = equipableSO.craftedIn;
-        requieredCraftingLevel = equipableSO.requieredCraftingLevel;
+        stats = accessorySO.Stats();
+        slotType = accessorySO.slotType;
+        craftedIn = accessorySO.craftedIn;
+        requieredCraftingLevel = accessorySO.requieredCraftingLevel;
         recipe = new();
     }
     public void SetItem(TrapSO trapSO)
@@ -357,10 +394,11 @@ public class Item : MonoBehaviour
         stackSize = trapSO.stackSize;
         isStackable = true;
         stats = trapSO.Stats();
-        slotType = Slot.SlotType.Material;
+        slotType = trapSO.slotType;
         craftedIn = trapSO.craftedIn;
         requieredCraftingLevel = trapSO.requieredCraftingLevel;
         recipe = new();
+        itemModel = trapSO.itemModel;
     }
     public void SetItem(BaseUpgradeSO baseUpgradeSO)
     {
@@ -389,7 +427,8 @@ public class Item : MonoBehaviour
         inventoryCapacity = item.inventoryCapacity;
         fullAuto = item.fullAuto;
         ammo = item.ammo;
-        weaponType = item.weaponType;
+        itemType = item.itemType;
+        weaponClass = item.weaponClass;
         twoHanded = item.twoHanded;
         AoE = item.AoE;
         craftedIn = item.craftedIn;
@@ -407,128 +446,22 @@ public class Item : MonoBehaviour
         hideBodyWhenEquiped = item.hideBodyWhenEquiped;
         fullSetBonus = item.fullSetBonus;
         isUpgrade = item.isUpgrade;
+        itemModel = item.itemModel;
     }
+
 
     private void Start()
     {
-        switch (weaponType)
-        {
-            case WeaponType.NotAWeapon:
-                weaponClass = PlayerStats.WeaponClass.None;
-                break;
-            case WeaponType.Whip:
-                weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
-                break;
-            case WeaponType.Dagger:
-                weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
-                break;
-            case WeaponType.Sword:
-                weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
-                break;
-            case WeaponType.Rapier:
-                weaponClass = PlayerStats.WeaponClass.OneHandDexterity;
-                break;
-            case WeaponType.Axe:
-                weaponClass = PlayerStats.WeaponClass.OneHandStrenght;
-                break;
-            case WeaponType.Mace:
-                weaponClass = PlayerStats.WeaponClass.OneHandStrenght;
-                break;
-            case WeaponType.Hammer_oneHanded:
-                weaponClass = PlayerStats.WeaponClass.OneHandStrenght;
-                break;
-            case WeaponType.QuarterStaff:
-                weaponClass = PlayerStats.WeaponClass.TwoHandDexterity;
-                break;
-            case WeaponType.Spear:
-                weaponClass = PlayerStats.WeaponClass.TwoHandDexterity;
-                break;
-            case WeaponType.Longsword:
-                weaponClass = PlayerStats.WeaponClass.TwoHandDexterity;
-                break;
-            case WeaponType.Halbert:
-                weaponClass = PlayerStats.WeaponClass.TwoHandStrenght;
-                break;
-            case WeaponType.Hammer_twoHanded:
-                weaponClass = PlayerStats.WeaponClass.TwoHandStrenght;
-                break;
-            case WeaponType.Zweihander:
-                weaponClass = PlayerStats.WeaponClass.TwoHandStrenght;
-                break;
-            case WeaponType.Bow:
-                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
-                break;
-            case WeaponType.SMG:
-                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
-                break;
-            case WeaponType.Pistol:
-                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
-                break;
-            case WeaponType.AttackRifle:
-                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
-                break;
-            case WeaponType.Thrower:
-                weaponClass = PlayerStats.WeaponClass.RangeDexterity;
-                break;
-            case WeaponType.Longbow:
-                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
-                break;
-            case WeaponType.Crossbow:
-                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
-                break;
-            case WeaponType.Shotgun:
-                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
-                break;
-            case WeaponType.Revolver:
-                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
-                break;
-            case WeaponType.Machinegun:
-                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
-                break;
-            case WeaponType.SniperRifle:
-                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
-                break;
-            case WeaponType.Launcher:
-                weaponClass = PlayerStats.WeaponClass.RangeStrenght;
-                break;
-            case WeaponType.MagicWeapon_fire:
-                weaponClass = PlayerStats.WeaponClass.Magic;
-                break;
-            case WeaponType.MagicWeapon_water:
-                weaponClass = PlayerStats.WeaponClass.Magic;
-                break;
-            case WeaponType.MagicWeapon_earth:
-                weaponClass = PlayerStats.WeaponClass.Magic;
-                break;
-            case WeaponType.MagicWeapon_air:
-                weaponClass = PlayerStats.WeaponClass.Magic;
-                break;
-            case WeaponType.MagicWeapon_light:
-                weaponClass = PlayerStats.WeaponClass.Magic;
-                break;
-            case WeaponType.MagicWeapon_dark:
-                weaponClass = PlayerStats.WeaponClass.Magic;
-                break;
-            case WeaponType.MagicWeapon:
-                weaponClass = PlayerStats.WeaponClass.Magic;
-                break;
-            default:
-                Debug.Log(itemName);
-                break;
-        }
+        SetWeaponClass();
 
-        if (isRecipe)
-            return;
+        if (isRecipe) return;
+
         text = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Image>().sprite = sprite_inventory;
         recipe ??= new();
 
-        UpdateMagicCrystalsByAge((int)FindAnyObjectByType<PlayerStats>().playerStats["age"]);
-
-        if (weaponClass == PlayerStats.WeaponClass.Magic)
-            magicSkillBonuses = new();
+        UpdateMagicCrystalsByAge((int)FindAnyObjectByType<PlayerStats>().playerStats[StatType.Age]);
     }
-
     private void Update()
     {
         if (isRecipe)
@@ -543,7 +476,8 @@ public class Item : MonoBehaviour
             text.text = amount.ToString();
 
         // Magic skills bonus
-        if (weaponClass == PlayerStats.WeaponClass.Magic)
+        if (weaponClass == (WeaponClass.MagicAir | WeaponClass.MagicFire | WeaponClass.MagicEarth |
+            WeaponClass.MagicWater | WeaponClass.MagicLight | WeaponClass.MagicDark))
         {
             Dictionary<MagicCrystalType, int> crystals = new()
             {
@@ -655,9 +589,103 @@ public class Item : MonoBehaviour
         }
 
         // Used spell
-        if (weaponClass == PlayerStats.WeaponClass.Magic)
+        if (IsMagicWeapon())
             UsedSpell();
     }
+    private void SetWeaponClass()
+    {
+        if (itemType == ItemType.Consumable ||
+            itemType == ItemType.Backpack ||
+            itemType == ItemType.Belt ||
+            itemType == ItemType.Helmet ||
+            itemType == ItemType.Chestplate ||
+            itemType == ItemType.Leggings ||
+            itemType == ItemType.Gauntlets ||
+            itemType == ItemType.HelmetAccessory ||
+            itemType == ItemType.ChestplateAccessory ||
+            itemType == ItemType.LeggingsAccessory ||
+            itemType == ItemType.GauntletsAccessory ||
+            itemType == ItemType.Material)
+        {
+            weaponClass = WeaponClass.None;
+        }
+        else if (itemType == ItemType.Projectile)
+        {
+            weaponClass = WeaponClass.Projectile;
+        }
+        else if (itemType == ItemType.Whip ||
+                 itemType == ItemType.Dagger ||
+                 itemType == ItemType.Sword ||
+                 itemType == ItemType.Rapier ||
+                 itemType == ItemType.LightShield)
+        {
+            weaponClass = WeaponClass.OneHandDexterity;
+        }
+        else if (itemType == ItemType.Axe ||
+                 itemType == ItemType.Mace ||
+                 itemType == ItemType.Hammer_oneHanded ||
+                 itemType == ItemType.HeavyShield)
+        {
+            weaponClass = WeaponClass.OneHandStrenght;
+        }
+        else if (itemType == ItemType.QuarterStaff ||
+                 itemType == ItemType.Spear ||
+                 itemType == ItemType.Longsword)
+        {
+            weaponClass = WeaponClass.TwoHandDexterity;
+        }
+        else if (itemType == ItemType.Halbert ||
+                 itemType == ItemType.Hammer_twoHanded ||
+                 itemType == ItemType.Zweihander)
+        {
+            weaponClass = WeaponClass.TwoHandStrenght;
+        }
+        else if (itemType == ItemType.Bow ||
+                 itemType == ItemType.SMG ||
+                 itemType == ItemType.Pistol ||
+                 itemType == ItemType.AttackRifle ||
+                 itemType == ItemType.Thrower)
+        {
+            weaponClass = WeaponClass.RangeDexterity;
+        }
+        else if (itemType == ItemType.Longbow ||
+                 itemType == ItemType.Crossbow ||
+                 itemType == ItemType.Shotgun ||
+                 itemType == ItemType.Revolver ||
+                 itemType == ItemType.Machinegun ||
+                 itemType == ItemType.SniperRifle ||
+                 itemType == ItemType.Launcher)
+        {
+            weaponClass = WeaponClass.RangeStrenght;
+        }
+        else if (itemType == ItemType.MagicWeapon_fire)
+        {
+            weaponClass = WeaponClass.MagicFire;
+        }
+        else if (itemType == ItemType.MagicWeapon_water)
+        {
+            weaponClass = WeaponClass.MagicWater;
+        }
+        else if (itemType == ItemType.MagicWeapon_earth)
+        {
+            weaponClass = WeaponClass.MagicEarth;
+        }
+        else if (itemType == ItemType.MagicWeapon_air)
+        {
+            weaponClass = WeaponClass.MagicAir;
+        }
+        else if (itemType == ItemType.MagicWeapon_light)
+        {
+            weaponClass = WeaponClass.MagicLight;
+        }
+        else if (itemType == ItemType.MagicWeapon_dark)
+        {
+            weaponClass = WeaponClass.MagicDark;
+        }
+        else
+            Debug.LogError($"Nepodaøilo se urèit weaponClass itemu: '{itemName}' - weaponType '{itemType}'");
+    }
+
 
     private void UsedSpell()
     {
@@ -686,15 +714,21 @@ public class Item : MonoBehaviour
 
         }
     }
-
+    public bool IsMagicWeapon()
+    {
+        return weaponClass == WeaponClass.MagicFire ||
+               weaponClass == WeaponClass.MagicWater ||
+               weaponClass == WeaponClass.MagicAir ||
+               weaponClass == WeaponClass.MagicEarth ||
+               weaponClass == WeaponClass.MagicLight ||
+               weaponClass == WeaponClass.MagicDark;
+    }
     public void UpdateMagicCrystalsByAge(int age)
     {
-        if (weaponType != WeaponType.MagicWeapon)
+        if (!IsMagicWeapon())
             return;
 
-        Dictionary<int, MagicCrystalType> oldMagicCrystals = new();
-        if (magicCrystals != null)
-            oldMagicCrystals = magicCrystals;
+        Dictionary<int, MagicCrystalType> oldMagicCrystals = magicCrystals ?? new();
 
         magicCrystals = age switch
         {
@@ -714,13 +748,11 @@ public class Item : MonoBehaviour
         for (int i = 0; i < oldMagicCrystals.Count; i++)
             magicCrystals[i] = oldMagicCrystals[i];
     }
-
     private IEnumerator DestroyItem()
     {
         yield return new WaitForEndOfFrame();
         Destroy(gameObject);
     }
-
     public List<Item> GetMaterials()
     {
         ItemDatabase itemDatabase = FindAnyObjectByType<PlayerInventory>().itemDatabase;

@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using static PlayerStats;
 
 [CreateAssetMenu(fileName = "Armor", menuName = "Scriptable objects/Armor")]
 public class ArmorSO : ItemSO
 {
-    public Sprite sprite_inventory;
-
     public bool hideHairWhenEquiped;
     public bool hideBeardWhenEquiped;
     public bool hideBodyWhenEquiped;
@@ -26,26 +24,25 @@ public class ArmorSO : ItemSO
     [SerializeField] private float staminaMax;
     [SerializeField] private float manaMax;
 
-    public Dictionary <string, float> Stats()
+    public Dictionary <StatType, float> Stats()
     {
         return new()
         {
-            {"armor", armor },
-            {"magicResistance", magicResistance },
-            {"bleedingResistance", bleedingResistance },
-            {"poisonResistance", poisonResistance },
-            {"weight", weight },
-            {"price", price},
+            {StatType.Armor, armor },
+            {StatType.MagicResistance, magicResistance },
+            {StatType.BleedingResistance, bleedingResistance },
+            {StatType.PoisonResistance, poisonResistance },
+            {StatType.Weight, weight },
+            {StatType.Price, price},
         };
     }
-
-    public Dictionary<string, float> FullsetBonus()
+    public Dictionary<StatType, float> FullsetBonus()
     {
         return new()
         {
-            {"hpMax", hpMax },
-            {"staminaMax", staminaMax },
-            {"manaMax", manaMax },
+            {StatType.HpMax, hpMax },
+            {StatType.StaminaMax, staminaMax },
+            {StatType.ManaMax, manaMax },
         };
     }
 

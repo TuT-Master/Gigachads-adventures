@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats;
 
 [CreateAssetMenu(fileName = "Consumable", menuName = "Scriptable objects/Consumable")]
 public class ConsumableSO : ItemSO
 {
-    public Sprite sprite_inventory;
-
     [Header("Stats")]
     [SerializeField] private float hpRefill;
     [SerializeField] private float staminaRefill;
@@ -16,16 +15,16 @@ public class ConsumableSO : ItemSO
     [SerializeField] private float price;
 
 
-    public Dictionary<string, float> Stats()
+    public Dictionary<StatType, float> Stats()
     {
         return new()
         {
-            { "hpRefill", hpRefill},
-            { "staminaRefill", staminaRefill},
-            { "manaRefill", manaRefill},
-            { "cooldown", cooldown},
-            { "weight", weight},
-            {"price", price},
+            {StatType.HpRegen, hpRefill},
+            {StatType.StaminaRegen, staminaRefill},
+            {StatType.ManaRegen, manaRefill},
+            {StatType.Cooldown, cooldown},
+            {StatType.Weight, weight},
+            {StatType.Price, price},
         };
     }
 

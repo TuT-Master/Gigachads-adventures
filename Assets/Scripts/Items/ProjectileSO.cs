@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats;
 
 [CreateAssetMenu(fileName = "Projectile", menuName = "Scriptable objects/Projectile")]
 public class ProjectileSO : ItemSO
 {
-    public Sprite sprite_inventory;
     public Sprite sprite_projectile;
 
     [Header("Stats")]
@@ -22,22 +22,22 @@ public class ProjectileSO : ItemSO
     [SerializeField] private float splashRadius = 0;
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
-    public Dictionary<string, float> Stats()
+    public Dictionary<StatType, float> Stats()
     {
         return new()
         {
-            { "damage", damage },
-            { "poisonDamage", poisonDamage},
-            { "bleedingDamage", bleedingDamage},
-            {"burningChance", burningChance},
-            { "penetration", penetration },
-            { "armorIgnore", armorIgnore },
-            { "piercing", piercing },
-            { "projectileSpeed", projectileSpeed },
-            { "splashDamage", splashDamage },
-            { "splashRadius", splashRadius},
-            { "weight", weight},
-            {"price", price},
+            {StatType.Damage, damage },
+            {StatType.PoisonDamage, poisonDamage},
+            {StatType.BleedingDamage, bleedingDamage},
+            {StatType.BurningChance, burningChance},
+            {StatType.Penetration, penetration },
+            {StatType.ArmorIgnore, armorIgnore },
+            {StatType.Piercing, piercing },
+            {StatType.ProjectileSpeed, projectileSpeed },
+            {StatType.SplashDamage, splashDamage },
+            {StatType.SplashRadius, splashRadius},
+            {StatType.Weight, weight},
+            {StatType.Price, price},
         };
     }
 

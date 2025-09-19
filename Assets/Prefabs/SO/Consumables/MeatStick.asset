@@ -19,7 +19,8 @@ MonoBehaviour:
   amount: 0
   isStackable: 1
   stackSize: 69
-  slotType: 0
+  slotType: 3
+  itemType: 44
   craftedIn: 2
   requieredCraftingLevel: 0
   recipeItems: []

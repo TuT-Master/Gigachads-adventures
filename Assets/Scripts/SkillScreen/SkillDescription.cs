@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static PlayerStats;
 
 public class SkillDescription : MonoBehaviour
 {
     [HideInInspector]
-    public Skill skill;
-    private Skill tempSkill;
+    public LearnableSkill skill;
+    private LearnableSkill tempSkill;
 
     [SerializeField]
     private TextMeshProUGUI skillName;
@@ -32,7 +33,7 @@ public class SkillDescription : MonoBehaviour
         if (skill == null)
             return;
 
-        if(skill.maxLevel || playerStats.playerStats["skillPoints"] <= 0)
+        if(skill.maxLevel || playerStats.playerStats[StatType.SkillPoints] <= 0)
         {
             upgradeButton.SetActive(false);
             cannotUpgradeSkill.SetActive(true);
@@ -44,13 +45,13 @@ public class SkillDescription : MonoBehaviour
         }
     }
 
-    public void ShowSkillDetails(Skill skill)
+    public void ShowSkillDetails(LearnableSkill skill)
     {
         tempSkill = skill;
         skillName.text = skill.skillName;
         skillDescription.text = skill.description;
         string fokinText = "";
-        foreach (string key in skill.bonusStats.Keys)
+        foreach (StatType key in skill.bonusStats.Keys)
         {
             if (skill.bonusStats[key] > 0)
                 fokinText += key + ": + " + skill.bonusStats[key].ToString() + "%\n";
@@ -63,7 +64,7 @@ public class SkillDescription : MonoBehaviour
     public void ShowChosenSkillDetails()
     {
         string fokinText = "";
-        foreach (string key in skill.bonusStats.Keys)
+        foreach (StatType key in skill.bonusStats.Keys)
         {
             if (skill.bonusStats[key] > 0)
                 fokinText += key + ": + " + skill.bonusStats[key].ToString() + "%\n";
@@ -93,7 +94,7 @@ public class SkillDescription : MonoBehaviour
         ShowSkillDetails(skill);
 
         PlayerStats playerStats = FindAnyObjectByType<PlayerStats>();
-        playerStats.playerStats["skillPoints"]--;
+        playerStats.playerStats[StatType.SkillPoints]--;
         playerStats.UpdateSkillBonusStats();
 
         Debug.Log("Upgrading skill /" + skill.skillName + "/ to level " + skill.levelOfSkill.ToString());

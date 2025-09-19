@@ -15,11 +15,12 @@ MonoBehaviour:
   itemName: Primitive arrow
   itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
     type: 3}
-  description: Small sharpened stick
+  description: Small sharpened stick. Could be used for piercing enemies from afar...
   amount: 0
-  isStackable: 0
+  isStackable: 1
   stackSize: 420
-  slotType: 0
+  slotType: 4
+  itemType: 43
   craftedIn: 5
   requieredCraftingLevel: 0
   recipeItems: []

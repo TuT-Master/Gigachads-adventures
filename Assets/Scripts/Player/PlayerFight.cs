@@ -3,50 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static PlayerStats;
 
 public class PlayerFight : MonoBehaviour
 {
-    [HideInInspector]
-    public Item itemInHand;
-    [HideInInspector]
-    public Item secondaryItemInHand;
+    [HideInInspector] public Item activeWeapon;
+    private Item previousActiveWeapon;
+    [HideInInspector] public Item secondaryItemInHand;
 
-    [HideInInspector]
-    public bool canAttackAgain;
-    [HideInInspector]
-    public bool reloading;
-    [HideInInspector]
-    public bool defending;
+    [HideInInspector] public bool canAttackAgain;
+    [HideInInspector] public bool reloading;
+    [HideInInspector] public bool defending;
 
     [Header("Colliders")]
-    [SerializeField]
-    private BoxCollider weaponRange;
+    [SerializeField] private BoxCollider weaponRange;
 
     [Header("Projectile")]
-    [SerializeField]
-    private GameObject projectilePrefab;
-    [SerializeField]
-    private Transform projectileSpawnPoint;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private Transform projectileSpawnPoint;
 
     [Header("Effects")]
-    [SerializeField]
-    private EffectManager effectManager;
-    [SerializeField]
-    private Transform weaponEffectSpawnPoint;
+    [SerializeField] private EffectManager effectManager;
+    [SerializeField] private Transform weaponEffectSpawnPoint;
+
+    [Header("UI items rendering")]
+    [SerializeField] private Transform mainHand_transform;
+    [SerializeField] private Transform secondHand_transform;
+    [SerializeField] private Transform twoHanded_transform;
+    private WeaponInHand mainHand_weapon;
+    private WeaponInHand secondHand_weapon;
+
+
 
     private Dictionary<Enemy, List<EnemyHitbox>> enemyList = new();
-    private Dictionary<string, float> fistsStats = new(){
-                {"damage", 2f},
-                {"penetration", 0f},
-                {"armorIgnore", 0f},
-                {"attackSpeed", 1.5f},
-                {"staminaCost", 5f},
-                {"manaCost", 0f},
-                {"rangeX", 0.75f},
-                {"rangeY", 0.75f},
-                {"defense", 10f },
-                {"weight", 0f}
-    };
 
     private PlayerStats playerStats;
     private PlayerSkill playerSkill;
@@ -64,7 +53,6 @@ public class PlayerFight : MonoBehaviour
 
     private void Update()
     {
-        ActiveWeapon();
         MyInput();
 
         foreach (Enemy enemy in enemyList.Keys)
@@ -79,27 +67,25 @@ public class PlayerFight : MonoBehaviour
 
     void MyInput()
     {
-        if (GetComponent<HUDmanager>().AnyScreenOpen() | reloading)
+        if (GetComponent<HUDmanager>().AnyScreenOpen() || reloading)
             return;
 
         // LMB - Attack
         if (Input.GetMouseButtonDown(0))
         {
             // Semi-auto weapons
-            if (itemInHand != null)
+            if (activeWeapon != null)
             {
-                if (itemInHand.slotType == Slot.SlotType.WeaponMelee)
+                if (activeWeapon.slotType == Slot.SlotType.WeaponMelee)
                     MeleeAttack();
-                else if (itemInHand.slotType == Slot.SlotType.WeaponRanged)
+                else if (activeWeapon.slotType == Slot.SlotType.WeaponRanged)
                     RangedAttack();
             }
-            else
-                FistsAttack();
         }
         else if (Input.GetMouseButton(0))
         {
             // Full-auto weapons (only ranged weapons)
-            if (itemInHand != null && itemInHand.fullAuto && canAttackAgain)
+            if (activeWeapon != null && activeWeapon.fullAuto && canAttackAgain)
                 RangedAttack();
         }
 
@@ -107,19 +93,24 @@ public class PlayerFight : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             if(!defending)
-                playerStats.playerStats["speed"] /= 2;
+                playerStats.playerStats[StatType.Speed] /= 2;
             Defend();
         }
         else
         {
             if (defending)
-                playerStats.playerStats["speed"] *= 2;
+                playerStats.playerStats[StatType.Speed] *= 2;
+
+            // Play animation
+            if (defending)
+                ToggleBlockAnimation(false);
+
             defending = false;
         }
 
         // Reload
-        if (itemInHand != null && itemInHand.slotType == Slot.SlotType.WeaponRanged && !reloading)
-            if (Input.GetKeyDown(KeyCode.R) | itemInHand.stats["currentMagazine"] == 0)
+        if (activeWeapon != null && activeWeapon.slotType == Slot.SlotType.WeaponRanged && !reloading)
+            if (Input.GetKeyDown(KeyCode.R) | activeWeapon.stats[StatType.CurrentMagazine] == 0)
                 StartCoroutine(Reload());
 
         // E - Use consumable
@@ -129,19 +120,19 @@ public class PlayerFight : MonoBehaviour
         // Space - Active skill
         if (Input.GetKeyDown(KeyCode.Space) && secondaryItemInHand != null && defending)
             UseActiveSkill(true);
-        else if (Input.GetKeyDown(KeyCode.Space) && itemInHand != null && !defending)
+        else if (Input.GetKeyDown(KeyCode.Space) && activeWeapon != null && !defending)
             UseActiveSkill(false);
     }
 
     private void UseActiveSkill(bool shield)
     {
-        if(shield && playerSkill.playerWeaponTypeSkillLevels[secondaryItemInHand.weaponType][PlayerSkill.SkillType.Active] > 0)
+        if(shield && playerSkill.playerWeaponTypeSkillLevels[secondaryItemInHand.itemType][PlayerSkill.SkillType.Active] > 0)
         {
             Debug.Log("Using " + secondaryItemInHand.itemName + "'s active skill!");
         }
-        else if(!shield && playerSkill.playerWeaponTypeSkillLevels[itemInHand.weaponType][PlayerSkill.SkillType.Active] > 0)
+        else if(!shield && playerSkill.playerWeaponTypeSkillLevels[activeWeapon.itemType][PlayerSkill.SkillType.Active] > 0)
         {
-            Debug.Log("Using " + itemInHand.itemName + "'s active skill!");
+            Debug.Log("Using " + activeWeapon.itemName + "'s active skill!");
         }
     }
     private void UseConsumable(Item consumable)
@@ -151,13 +142,13 @@ public class PlayerFight : MonoBehaviour
 
         canUseConsumable = false;
 
-        playerStats.playerStats["hp"] += consumable.stats["hpRefill"];
-        playerStats.playerStats["stamina"] += consumable.stats["staminaRefill"];
-        playerStats.playerStats["mana"] += consumable.stats["manaRefill"];
+        playerStats.playerStats[StatType.Hp] += consumable.stats[StatType.HpRegen];
+        playerStats.playerStats[StatType.Stamina] += consumable.stats[StatType.StaminaRegen];
+        playerStats.playerStats[StatType.Mana] += consumable.stats[StatType.ManaRegen];
 
         consumable.amount--;
 
-        StartCoroutine(ConsumableCooldown(consumable.stats["cooldown"]));
+        StartCoroutine(ConsumableCooldown(consumable.stats[StatType.Cooldown]));
     }
     private IEnumerator ConsumableCooldown(float cooldown)
     {
@@ -165,54 +156,44 @@ public class PlayerFight : MonoBehaviour
         canUseConsumable = true;
     }
 
-    void Defend()
+    private void Defend()
     {
+        playerStats.playerStats[StatType.Stamina] -= Time.deltaTime * 2;
+
+        // Player animation
+        if (!defending)
+            ToggleBlockAnimation(true);
+
         defending = true;
-        playerStats.playerStats["stamina"] -= Time.deltaTime * 2;
     }
+    private void ToggleBlockAnimation(bool toggle) => mainHand_weapon.PlayAnimation(toggle ? WeaponInHand.AnimationType.BlockStart : WeaponInHand.AnimationType.BlockEnd);
 
-    void FistsAttack()
-    {
-        if (!canAttackAgain)
-            return;
-        canAttackAgain = false;
-
-        if (enemyList.Count > 0)
-            enemyList.Keys.ToArray()[0].ReceiveDamage(
-                fistsStats["damage"],
-                fistsStats["penetration"],
-                fistsStats["armorIgnore"],
-                enemyList[enemyList.Keys.ToArray()[0]][0].damageMultiplier,
-                out float _);
-
-        StartCoroutine(CanAttackAgain());
-    }
-
-    void MeleeAttack()
+    private void MeleeAttack()
     {
         if(!canAttackAgain)
             return;
-        if(playerStats.playerStats["stamina"] - itemInHand.stats["staminaCost"] < 0)
+
+        if(playerStats.playerStats[StatType.Stamina] - activeWeapon.stats[StatType.StaminaCost] < 0)
         {
             Debug.Log("Not enough stamina for attack!");
             return;
         }
         canAttackAgain = false;
-        playerStats.playerStats["stamina"] -= itemInHand.stats["staminaCost"];
+        playerStats.playerStats[StatType.Stamina] -= activeWeapon.stats[StatType.StaminaCost];
 
         if (enemyList.Count > 0)
         {
             float finalDamage = 0f;
-            if (itemInHand.AoE)
+            if (activeWeapon.AoE)
             {
                 // AoE attack
             }
             else
             {
                 // Get base stats of weapon
-                float damage = itemInHand.stats["damage"];
-                float petration = itemInHand.stats["penetration"];
-                float armorIgnore = itemInHand.stats["armorIgnore"];
+                float damage = activeWeapon.stats[StatType.Damage];
+                float petration = activeWeapon.stats[StatType.Penetration];
+                float armorIgnore = activeWeapon.stats[StatType.ArmorIgnore];
 
                 // Add any bonuses to damage (skills, equipment)
 
@@ -223,39 +204,39 @@ public class PlayerFight : MonoBehaviour
                     petration,
                     armorIgnore,
                     enemyList[enemyList.Keys.ToArray()[0]][0].damageMultiplier,
-                    out float _);
+                    out finalDamage);
             }
             if (finalDamage > 0)
-                playerStats.AddExp(itemInHand, finalDamage);
+                playerStats.AddExp(activeWeapon, finalDamage);
         }
 
         // Play animation
-
+        mainHand_weapon.PlayAnimation(WeaponInHand.AnimationType.Attack);
 
         StartCoroutine(CanAttackAgain());
     }
 
-    void RangedAttack()
+    private void RangedAttack()
     {
         if (!canAttackAgain)
             return;
         canAttackAgain = false;
 
 
-        if (itemInHand.stats["currentMagazine"] > 0)
+        if (activeWeapon.stats[StatType.CurrentMagazine] > 0)
         {
-            itemInHand.stats["currentMagazine"]--;
+            activeWeapon.stats[StatType.CurrentMagazine]--;
 
-            float angle = GetComponent<PlayerMovement>().angleRaw + UnityEngine.Random.Range(-itemInHand.stats["spread"], itemInHand.stats["spread"]);
+            float angle = GetComponent<PlayerMovement>().angleRaw + UnityEngine.Random.Range(-activeWeapon.stats[StatType.Spread], activeWeapon.stats[StatType.Spread]);
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.Euler(0, angle, 0));
 
-            projectile.GetComponent<Projectile>().projectile = itemInHand.ammo[0].ToItem();
-            Vector3 victor = projectile.GetComponent<Projectile>().projectile.stats["projectileSpeed"] * new Vector3(VectorFromAngle(angle).z, 0.05f, VectorFromAngle(angle).x);
+            projectile.GetComponent<Projectile>().projectile = activeWeapon.ammo[0].ToItem();
+            Vector3 victor = projectile.GetComponent<Projectile>().projectile.stats[StatType.ProjectileSpeed] * new Vector3(VectorFromAngle(angle).z, 0.05f, VectorFromAngle(angle).x);
 
-            projectile.GetComponent<Rigidbody>().mass = projectile.GetComponent<Projectile>().projectile.stats["weight"];
+            projectile.GetComponent<Rigidbody>().mass = projectile.GetComponent<Projectile>().projectile.stats[StatType.Weight];
             projectile.GetComponent<Rigidbody>().AddForce(victor, ForceMode.Force);
 
-            projectile.GetComponent<Projectile>().weapon = itemInHand;
+            projectile.GetComponent<Projectile>().weapon = activeWeapon;
             projectile.GetComponent<Projectile>().alive = true;
 
             StartCoroutine(CanAttackAgain());
@@ -264,7 +245,7 @@ public class PlayerFight : MonoBehaviour
         {
             Debug.Log("No ammo!");
 
-            if (itemInHand.stats["magazineSize"] == 1)
+            if (activeWeapon.stats[StatType.MagazineSize] == 1)
                 StartCoroutine(Reload());
             else
                 canAttackAgain = true;
@@ -277,18 +258,16 @@ public class PlayerFight : MonoBehaviour
         return new((float)Math.Sin(angle), 0, -(float)Math.Cos(angle));
     }
 
-    IEnumerator CanAttackAgain()
+    private IEnumerator CanAttackAgain()
     {
-        if (itemInHand != null)
-            yield return new WaitForSeconds(itemInHand.stats["attackSpeed"]);
-        else
-            yield return new WaitForSeconds(fistsStats["attackSpeed"]);
+        if (activeWeapon != null)
+            yield return new WaitForSeconds(activeWeapon.stats[StatType.AttackSpeed]);
         canAttackAgain = true;
     }
 
-    IEnumerator Reload()
+    private IEnumerator Reload()
     {
-        if (itemInHand.stats["currentMagazine"] < itemInHand.stats["magazineSize"])
+        if (activeWeapon.stats[StatType.CurrentMagazine] < activeWeapon.stats[StatType.MagazineSize])
         {
             reloading = true;
             PlayerInventory inventory = GetComponent<PlayerInventory>();
@@ -296,7 +275,7 @@ public class PlayerFight : MonoBehaviour
 
             // TODO - Choose ammo
 
-            List<Item> items = inventory.HasAmmo(itemInHand.ammo[0].itemName);
+            List<Item> items = inventory.HasAmmo(activeWeapon.ammo[0].itemName);
 
             // Find ammo Items in inventory
             List<Item> chosenItems = new();
@@ -306,16 +285,16 @@ public class PlayerFight : MonoBehaviour
             {
                 if(!done)
                 {
-                    if (item.amount >= itemInHand.stats["magazineSize"])
+                    if (item.amount >= activeWeapon.stats[StatType.MagazineSize])
                     {
                         chosenItems.Add(item);
                         done = true;
                     }
-                    else if (item.amount < itemInHand.stats["magazineSize"] && !done)
+                    else if (item.amount < activeWeapon.stats[StatType.MagazineSize] && !done)
                     {
                         chosenItems.Add(item);
                         ammoCounter += item.amount;
-                        if(ammoCounter >= itemInHand.stats["magazineSize"])
+                        if(ammoCounter >= activeWeapon.stats[StatType.MagazineSize])
                             done = true;
                     }
                 }
@@ -327,28 +306,28 @@ public class PlayerFight : MonoBehaviour
             else
             {
                 // Wait for reload
-                if (itemInHand.stats["magazineSize"] == 1)
+                if (activeWeapon.stats[StatType.MagazineSize] == 1)
                 {
-                    yield return new WaitForSeconds(1 / itemInHand.stats["attackSpeed"]);
+                    yield return new WaitForSeconds(1 / activeWeapon.stats[StatType.AttackSpeed]);
                 }
                 else
                 {
-                    yield return new WaitForSeconds(itemInHand.stats["reloadTime"]);
+                    yield return new WaitForSeconds(activeWeapon.stats[StatType.ReloadTime]);
                 }
 
                 // Reload
                 for (int i = 0; i < chosenItems.Count; i++)
                 {
-                    if (itemInHand.stats["currentMagazine"] < itemInHand.stats["magazineSize"])
+                    if (activeWeapon.stats[StatType.CurrentMagazine] < activeWeapon.stats[StatType.MagazineSize])
                     {
-                        if (chosenItems[i].amount >= itemInHand.stats["magazineSize"] - itemInHand.stats["currentMagazine"])
+                        if (chosenItems[i].amount >= activeWeapon.stats[StatType.MagazineSize] - activeWeapon.stats[StatType.CurrentMagazine])
                         {
-                            chosenItems[i].amount -= (int)(itemInHand.stats["magazineSize"] - itemInHand.stats["currentMagazine"]);
-                            itemInHand.stats["currentMagazine"] = itemInHand.stats["magazineSize"];
+                            chosenItems[i].amount -= (int)(activeWeapon.stats[StatType.MagazineSize] - activeWeapon.stats[StatType.CurrentMagazine]);
+                            activeWeapon.stats[StatType.CurrentMagazine] = activeWeapon.stats[StatType.MagazineSize];
                         }
                         else
                         {
-                            itemInHand.stats["currentMagazine"] += chosenItems[i].amount;
+                            activeWeapon.stats[StatType.CurrentMagazine] += chosenItems[i].amount;
                             chosenItems[i].amount = 0;
                         }
                     }
@@ -359,19 +338,32 @@ public class PlayerFight : MonoBehaviour
         }
     }
 
-    void ActiveWeapon()
+    public void ActiveWeapon(Item activeItem)
     {
-        if (itemInHand == null) // No active weapon -> fists as weapon
-        {
-            weaponRange.size = new Vector3(0.05f, 0.05f, fistsStats["rangeX"]);
-            weaponRange.center = new Vector3(0, 0, weaponRange.size.z / 2);
+        activeWeapon = activeItem;
+
+        if (activeWeapon == previousActiveWeapon)
             return;
-        }
-        if (itemInHand.slotType == (Slot.SlotType.WeaponMelee | Slot.SlotType.WeaponRanged)) // itemInHand is some weapon
+
+        if (mainHand_transform.childCount > 0)
+            Destroy(mainHand_transform.GetChild(0).gameObject);
+        if (twoHanded_transform.childCount > 0)
+            Destroy(twoHanded_transform.GetChild(0).gameObject);
+
+        if (activeWeapon.slotType == Slot.SlotType.WeaponMelee || activeWeapon.slotType == Slot.SlotType.WeaponRanged) // itemInHand is some weapon
         {
-            weaponRange.size = new Vector3(0.05f, 0.05f, itemInHand.stats["rangeX"]);
+            weaponRange.size = new Vector3(0.05f, 0.05f, activeWeapon.stats[StatType.RangeX]);
             weaponRange.center = new Vector3(0, 0, weaponRange.size.z / 2);
-            return;
+
+            if (activeWeapon.itemModel == null) return;
+
+            Debug.Log("Set mainHand weapon to " + activeWeapon.itemName);
+
+            GameObject item = Instantiate(activeWeapon.itemModel, activeWeapon.twoHanded ? twoHanded_transform : mainHand_transform);
+            item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            mainHand_weapon = item.GetComponent<WeaponInHand>();
+
+            previousActiveWeapon = activeWeapon;
         }
     }
 

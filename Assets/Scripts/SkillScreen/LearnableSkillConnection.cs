@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillConnection : MonoBehaviour
+public class LearnableSkillConnection : MonoBehaviour
 {
     [SerializeField]
     private PlayerStats playerStats;
     [SerializeField]
-    private Skill previousSkill;
+    private LearnableSkill previousSkill;
     [SerializeField]
-    private Skill nextSkill;
+    private LearnableSkill nextSkill;
 
     [SerializeField]
     private Image lineDefault;
@@ -25,7 +25,7 @@ public class SkillConnection : MonoBehaviour
 
     private void Start()
     {
-        if(previousSkill == null | nextSkill == null)
+        if(previousSkill == null || nextSkill == null)
         {
             Debug.Log(gameObject.name + " parameters previousSkill or nextSkill not set up!");
             return;
@@ -50,14 +50,11 @@ public class SkillConnection : MonoBehaviour
             case PlayerStats.WeaponClass.RangeStrenght:
                 levelType = "level_rangedStrenght";
                 break;
-            case PlayerStats.WeaponClass.Magic:
-                levelType = "level_oneHandDexterity";
-                break;
         }
     }
 
     public void UpdateSkillConnection()
     {
-        Debug.Log("Updating skill joints...");
+        //Debug.Log("Updating skill joints...");
     }
 }

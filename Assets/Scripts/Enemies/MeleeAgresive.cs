@@ -11,7 +11,8 @@ public class MeleeAgresive : Enemy
     }
     private void Update()
     {
-        CheckHealth();
+        if (!IsStillAlive())
+            return;
         PlayWalkAnimation();
 
         if (CanAttack())

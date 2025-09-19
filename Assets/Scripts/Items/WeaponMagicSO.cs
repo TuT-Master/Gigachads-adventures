@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats;
 
 [CreateAssetMenu(fileName = "WeaponMagic", menuName = "Scriptable objects/WeaponMagic")]
 public class WeaponMagicSO : ItemSO
@@ -11,9 +12,7 @@ public class WeaponMagicSO : ItemSO
     public bool twoHanded;
     public bool AoE;
 
-    public Item.WeaponType weaponType;
-
-    public Sprite sprite_inventory;
+    public WeaponClass weaponClass;
 
     [Header("Stats")]
     [SerializeField] private float damage = 0;
@@ -35,29 +34,29 @@ public class WeaponMagicSO : ItemSO
     [SerializeField] private float defense = 0;
     [SerializeField] private float weight = 0;
     [SerializeField] private float price;
-    public Dictionary<string, float> Stats()
+    public Dictionary<StatType, float> Stats()
     {
-        return new Dictionary<string, float>()
+        return new Dictionary<StatType, float>()
         {
-            {"damage", damage},
-            {"poisonDamage", poisonDamage},
-            {"bleedingDamage", bleedingDamage},
-            {"burningChance", burningChance},
-            {"penetration", penetration},
-            {"armorIgnore", armorIgnore},
-            {"attackSpeed", attackSpeed},
-            {"critDamage", critDamage},
-            {"critChance", critChance},
-            {"staminaCost", staminaCost},
-            {"manaCost", manaCost},
-            {"spread", spread},
-            {"splashDamage", splashDamage},
-            {"splashRadius", splashRadius},
-            {"rangeX", rangeX},
-            {"rangeY", rangeY},
-            {"defense", defense},
-            {"weight", weight},
-            {"price", price},
+            {StatType.Damage, damage},
+            {StatType.PoisonDamage, poisonDamage},
+            {StatType.BleedingDamage, bleedingDamage},
+            {StatType.BurningChance, burningChance},
+            {StatType.Penetration, penetration},
+            {StatType.ArmorIgnore, armorIgnore},
+            {StatType.AttackSpeed, attackSpeed},
+            {StatType.CritDamage, critDamage},
+            {StatType.CritChance, critChance},
+            {StatType.StaminaCost, staminaCost},
+            {StatType.ManaCost, manaCost},
+            {StatType.Spread, spread},
+            {StatType.SplashDamage, splashDamage},
+            {StatType.SplashRadius, splashRadius},
+            {StatType.RangeX, rangeX},
+            {StatType.RangeY, rangeY},
+            {StatType.BonusDefense, defense},
+            {StatType.Weight, weight},
+            {StatType.Price, price},
         };
     }
 

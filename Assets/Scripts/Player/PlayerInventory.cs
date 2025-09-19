@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Item;
+using static PlayerStats;
 
 public class PlayerInventory : MonoBehaviour, IDataPersistance
 {
@@ -16,15 +17,12 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     public GameObject backpackSlot;
     public GameObject beltSlot;
 
-    [SerializeField]
-    private GameObject inventoryCanvas;
+    [SerializeField] private GameObject inventoryCanvas;
     public GameObject backpackInventory;
     public int backpackSize;
-    [SerializeField]
-    private GameObject beltInventory;
+    [SerializeField] private GameObject beltInventory;
     public int beltSize;
-    [SerializeField]
-    private GameObject pocketsInventory;
+    [SerializeField] private GameObject pocketsInventory;
     public int pocketsSize;
 
     private PlayerStats playerStats;
@@ -32,29 +30,27 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     public ItemDatabase itemDatabase;
 
     // Hands
-    [SerializeField]
-    private GameObject LeftHandSlot;
-    [SerializeField]
-    private GameObject RightHandSlot;
+    [SerializeField] private GameObject LeftHandSlot;
+    [SerializeField] private GameObject RightHandSlot;
 
     // Prefabs
-    [SerializeField]
-    private GameObject itemPrefab;
-    [SerializeField]
-    private GameObject itemOnDaFloorPrefab;
+    [SerializeField] private GameObject itemPrefab;
+    [SerializeField] private GameObject itemOnDaFloorPrefab;
 
     // Ammo slots
     [Header("Ammo slots")]
     [SerializeField] private GameObject ammoSlots;
 
 
+    private PlayerFight playerFight;
+
 
     private void Start()
     {
         playerStats = GetComponent<PlayerStats>();
+        playerFight = GetComponent<PlayerFight>();
         ToggleInventory(false);
     }
-
     private void Update()
     {
         UpdatePlayerStats();
@@ -73,12 +69,12 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     void UpdateHands()
     {
         // Left hand
-        if(LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item item))
-            GetComponent<PlayerFight>().itemInHand = item;
+        if (LeftHandSlot.transform.childCount > 0 && LeftHandSlot.transform.GetChild(0).TryGetComponent(out Item item) && playerFight.activeWeapon != item)
+            playerFight.ActiveWeapon(item);
 
         // Right hand
-        if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out item))
-            GetComponent<PlayerFight>().secondaryItemInHand = item;
+        if (RightHandSlot.transform.childCount > 0 && RightHandSlot.transform.GetChild(0).TryGetComponent(out item) && playerFight.secondaryItemInHand != item)
+            playerFight.secondaryItemInHand = item;
     }
 
 
@@ -96,9 +92,9 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
     {
         if (playerStats.playerStats == null)
             return;
-        backpackSize = (int)playerStats.playerStats["backpackSize"];
-        beltSize = (int)playerStats.playerStats["beltSize"];
-        pocketsSize = (int)playerStats.playerStats["pocketSize"];
+        backpackSize = (int)playerStats.playerStats[StatType.BackpackSize];
+        beltSize = (int)playerStats.playerStats[StatType.BeltSize];
+        pocketsSize = (int)playerStats.playerStats[StatType.PocketSize];
     }
 
 
@@ -291,7 +287,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
         // Current magazine
         if(int.TryParse(currentMagazineString, out int currentMagazine))
-            loadedItem.stats["currentMagazine"] = currentMagazine;
+            loadedItem.stats[StatType.CurrentMagazine] = currentMagazine;
 
         // Magic crystals
         loadedItem.magicCrystals ??= new();
@@ -352,7 +348,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
         item.stats ??= new();
 
         if (currentMag > 0)
-            item.stats["currentMagazine"] = currentMag;
+            item.stats[StatType.CurrentMagazine] = currentMag;
 
         if (!string.IsNullOrEmpty(crystals))
         {
@@ -441,7 +437,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
 
         string result = $"{item.itemName}-{item.amount}";
 
-        if (item.stats != null && item.stats.TryGetValue("currentMagazine", out float mag) && mag > 0)
+        if (item.stats != null && item.stats.TryGetValue(StatType.CurrentMagazine, out float mag) && mag > 0)
             result += $"/{mag}";
 
         if (item.stats != null && item.magicCrystals != null && item.magicCrystals.Count > 0)
@@ -478,5 +474,4 @@ public class PlayerInventory : MonoBehaviour, IDataPersistance
             inventory[slot.id] = SerializeItem(item);
         }
     }
-
 }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Weapon_Spear_Override
+  m_Controller: {fileID: 9100000, guid: ea75d42b873d4004b8d25e0bc6971bed, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 27a4532d58469864eb7e963f9c3c7eae, type: 2}
+    m_OverrideClip: {fileID: 6072376781603516217, guid: 414e278466d8e484090ae2d99f13a80e,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 429dcc2c5c59a754a9401052a3cabaf3, type: 2}
+    m_OverrideClip: {fileID: 6956072986027647606, guid: 414e278466d8e484090ae2d99f13a80e,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: fd2e1a6861e58e14fb42f87d8bf13ddd, type: 2}
+    m_OverrideClip: {fileID: -5407399707600442618, guid: 414e278466d8e484090ae2d99f13a80e,
+      type: 3}

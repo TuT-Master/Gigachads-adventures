@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static PlayerStats;
 
 public class StatBar : MonoBehaviour
 {
-    [SerializeField] private string field;
+    [SerializeField] private StatType statCurrent;
+    [SerializeField] private StatType statMax;
     [SerializeField] private RectTransform fill;
     [SerializeField] private Image fillEnd;
 
@@ -24,9 +26,9 @@ public class StatBar : MonoBehaviour
         if (playerStats.playerStats == null)
             return;
 
-        thisRectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerStats.playerStats[field + "Max"] * 3);
-        fill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerStats.playerStats[field] * 3);
-        float statRatio = playerStats.playerStats[field] / playerStats.playerStats[field + "Max"];
+        thisRectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerStats.playerStats[statMax] * 3);
+        fill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerStats.playerStats[statCurrent] * 3);
+        float statRatio = playerStats.playerStats[statCurrent] / playerStats.playerStats[statMax];
         if (statRatio <= 0.2f)
         {
             fillImage.color = new Color(1, 1, 1, statRatio / 0.2f);

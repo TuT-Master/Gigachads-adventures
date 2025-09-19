@@ -19,16 +19,19 @@ MonoBehaviour:
   amount: 0
   isStackable: 0
   stackSize: 0
-  slotType: 0
+  slotType: 1
+  itemType: 6
+  itemModel: {fileID: 7966028204722114634, guid: e0d77077abb0b8d4d950d11271334c5e,
+    type: 3}
+  sprite_inventory: {fileID: 3286163911610860551, guid: b577ae89eb0f3c148a177521c91d0721,
+    type: 3}
   craftedIn: 5
   requieredCraftingLevel: 0
   recipeItems: []
   emitsLight: 0
   twoHanded: 0
   AoE: 0
-  weaponType: 7
-  sprite_inventory: {fileID: 3286163911610860551, guid: b577ae89eb0f3c148a177521c91d0721,
-    type: 3}
+  weaponClass: 2
   damage: 13
   poisonDamage: 0
   bleedingDamage: 0

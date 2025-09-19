@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStats;
 
 public class Projectile : MonoBehaviour
 {
@@ -22,9 +23,9 @@ public class Projectile : MonoBehaviour
             enemies.Add(enemy);
             Debug.Log(enemy.ToString());
 
-            float damage = weapon.stats["damage"] + projectile.stats["damage"];
-            float penetration = weapon.stats["penetration"] + projectile.stats["penetration"];
-            float armorIgnore = weapon.stats["armorIgnore"] + projectile.stats["armorIgnore"];
+            float damage = weapon.stats[StatType.Damage] + projectile.stats[StatType.Damage];
+            float penetration = weapon.stats[StatType.Penetration] + projectile.stats[StatType.Penetration];
+            float armorIgnore = weapon.stats[StatType.ArmorIgnore] + projectile.stats[StatType.ArmorIgnore];
             float finalDamage = 0f;
 
             foreach(Enemy IEnemy in enemies)
@@ -36,7 +37,7 @@ public class Projectile : MonoBehaviour
             if (finalDamage > 0)
                 FindAnyObjectByType<PlayerStats>().AddExp(weapon, finalDamage);
 
-            if (projectile.stats["splashRadius"] > 0 && projectile.stats["splashDamage"] > 0)
+            if (projectile.stats[StatType.SplashRadius] > 0 && projectile.stats[StatType.SplashDamage] > 0)
             {
                 // TODO - splash damage
             }
@@ -45,7 +46,7 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            if (projectile != null && projectile.stats["splashRadius"] > 0)
+            if (projectile != null && projectile.stats[StatType.SplashRadius] > 0)
             {
                 // TODO - splash damage
             }

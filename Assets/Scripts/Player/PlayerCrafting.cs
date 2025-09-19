@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static PlayerStats;
 
 public class PlayerCrafting : MonoBehaviour
 {
@@ -212,12 +213,12 @@ public class PlayerCrafting : MonoBehaviour
 
         // Upgraded stats
         statField.text = "";
-        foreach (string stat in upgradedVersionOfItem.stats.Keys)
+        foreach (StatType stat in upgradedVersionOfItem.stats.Keys)
         {
             string deltaStat = Math.Round(upgradedVersionOfItem.stats[stat] - itemInUpgradeSlot.stats[stat], 2).ToString();
             // Text color
             string textColor;
-            if (stat == "weight" || stat == "reloadTime")
+            if (stat == (StatType.Weight | StatType.ReloadTime))
                 textColor = "#ff0000ff";
             else
                 textColor = "#00ff00ff";
@@ -228,32 +229,32 @@ public class PlayerCrafting : MonoBehaviour
                 statField.text += GetTextFromStat(stat) + ": " + "<color=" + textColor + ">" + deltaStat + "</color>" + "\n";
         }
     }
-    private string GetTextFromStat(string stat)
+    private string GetTextFromStat(StatType statType)
     {
-        return stat switch
+        return statType switch
         {
-            "armor" => "Armor",
-            "weight" => "Weight",
-            "hpMax" => "Max hp",
-            "manaMax" => "Max mana",
-            "staminaMax" => "Max stamina",
-            "defense" => "Defense",
-            "damage" => "Damage",
-            "penetration" => "Penetration",
-            "armorIgnore" => "Armor ignore",
-            "attackSpeed" => "Attack speed",
-            "staminaCost" => "Stamina cost",
-            "manaCost" => "Mana cost",
-            "poisonDamage" => "Poison damage",
-            "bleedingDamage" => "Bleeding damage",
-            "knockback" => "Knockback",
-            "spread" => "Spread",
-            "magazineSize" => "Magazine size",
-            "reloadTime" => "Reload time",
-            "splashDamage" => "Splash damage",
-            "splashRadius" => "Splash radius",
-            "rangeX" => "Wide range",
-            "rangeY" => "Long range",
+            StatType.Armor => "Armor",
+            StatType.Weight => "Weight",
+            StatType.HpMax => "Max hp",
+            StatType.ManaMax => "Max mana",
+            StatType.StaminaMax => "Max stamina",
+            StatType.Player_Defense => "Defense",
+            StatType.Damage => "Damage",
+            StatType.Penetration => "Penetration",
+            StatType.ArmorIgnore => "Armor ignore",
+            StatType.AttackSpeed => "Attack speed",
+            StatType.StaminaCost => "Stamina cost",
+            StatType.ManaCost => "Mana cost",
+            StatType.PoisonDamage => "Poison damage",
+            StatType.BleedingDamage => "Bleeding damage",
+            StatType.Knockback => "Knockback",
+            StatType.Spread => "Spread",
+            StatType.MagazineSize => "Magazine size",
+            StatType.ReloadTime => "Reload time",
+            StatType.SplashDamage => "Splash damage",
+            StatType.SplashRadius => "Splash radius",
+            StatType.RangeX => "Wide range",
+            StatType.RangeY => "Long range",
             _ => null,
         };
     }
@@ -276,7 +277,7 @@ public class PlayerCrafting : MonoBehaviour
                     upgrade.GetComponent<Recipe>().CreateRecipe();
                 }
                 else if (playerBase.baseUpgrades[baseUpgrade].nextLevel != null &&
-                        playerBase.baseUpgrades[baseUpgrade].nextLevel.requieredAge <= GetComponent<PlayerStats>().playerStats["age"])
+                        playerBase.baseUpgrades[baseUpgrade].nextLevel.requieredAge <= GetComponent<PlayerStats>().playerStats[StatType.Age])
                 {
                     // Upgraded already
                     GameObject upgrade = Instantiate(recipePrefab, baseUpgradesTransform);

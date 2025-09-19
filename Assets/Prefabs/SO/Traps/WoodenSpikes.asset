@@ -20,12 +20,13 @@ MonoBehaviour:
   isStackable: 0
   stackSize: 0
   slotType: 0
+  itemType: 42
   craftedIn: 4
   requieredCraftingLevel: 0
   recipeItems: []
   emitsLight: 0
   AoE: 0
-  weaponType: 37
+  weaponClass: 0
   sprite_inventory: {fileID: 0}
   model: {fileID: 7910833422986085406, guid: 2308c8ed0e0238a46bbbe7959be5bf8b, type: 3}
   damage: 3

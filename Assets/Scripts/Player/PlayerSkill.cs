@@ -13,46 +13,46 @@ public class PlayerSkill : MonoBehaviour
         Passive,
         Active
     }
-    public Dictionary<Item.WeaponType, Dictionary<SkillType, int>> playerWeaponTypeSkillLevels = new()
+    public Dictionary<Item.ItemType, Dictionary<SkillType, int>> playerWeaponTypeSkillLevels = new()
     {
         // One handed
-        { Item.WeaponType.Whip, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Dagger, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Sword, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Rapier, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.LightShield, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Whip, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Dagger, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Sword, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Rapier, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.LightShield, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
 
-        { Item.WeaponType.Axe, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Mace, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Hammer_oneHanded, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.HeavyShield, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Axe, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Mace, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Hammer_oneHanded, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.HeavyShield, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
         // Two handed
-        { Item.WeaponType.QuarterStaff, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Spear, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Longsword, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.QuarterStaff, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Spear, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Longsword, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
 
-        { Item.WeaponType.Halbert, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Hammer_twoHanded, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Zweihander, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Halbert, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Hammer_twoHanded, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Zweihander, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
         // Ranged
-        { Item.WeaponType.Bow, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.SMG, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Pistol, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.AttackRifle, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Thrower, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Bow, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.SMG, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Pistol, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.AttackRifle, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Thrower, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
 
-        { Item.WeaponType.Longbow, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Crossbow, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Shotgun, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Revolver, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Machinegun, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.SniperRifle, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.Launcher, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Longbow, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Crossbow, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Shotgun, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Revolver, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Machinegun, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.SniperRifle, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.Launcher, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
         // Magic
-        { Item.WeaponType.MagicWeapon_fire, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.MagicWeapon_water, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.MagicWeapon_earth, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
-        { Item.WeaponType.MagicWeapon_air, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.MagicWeapon_fire, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.MagicWeapon_water, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.MagicWeapon_earth, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
+        { Item.ItemType.MagicWeapon_air, new(){ {SkillType.Passive, 0}, {SkillType.Active, 0} } },
     };
 
     public bool skillScreenOpen;
@@ -71,13 +71,13 @@ public class PlayerSkill : MonoBehaviour
 
     private HUDmanager hudManager;
 
-    private List<SkillConnection> skillConnections;
+    private List<LearnableSkillConnection> skillConnections;
 
 
     void Start()
     {
         hudManager = GetComponent<HUDmanager>();
-        skillConnections = FindObjectsOfType<SkillConnection>().ToList();
+        skillConnections = FindObjectsOfType<LearnableSkillConnection>().ToList();
         skillScreenOpen = false;
         OpenTab(0);
         ToggleSkillScreen(false);
@@ -97,7 +97,7 @@ public class PlayerSkill : MonoBehaviour
         {
             Time.timeScale = 0f;
             OpenTab(0);
-            foreach(SkillConnection connection in skillConnections)
+            foreach(LearnableSkillConnection connection in skillConnections)
                 connection.UpdateSkillConnection();
             categoryButtons[0].clicked = true;
             categoryButtons[1].clicked = categoryButtons[2].clicked = categoryButtons[3].clicked = false;

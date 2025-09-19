@@ -24,6 +24,11 @@ public abstract class ItemSO : ScriptableObject
 
     [Header("Slot type")]
     public Slot.SlotType slotType;
+    public Item.ItemType itemType;
+
+    [Header("GFX")]
+    public GameObject itemModel;
+    public Sprite sprite_inventory;
 
     [Header("Crafting")]
     public PlayerBase.BaseUpgrade craftedIn;

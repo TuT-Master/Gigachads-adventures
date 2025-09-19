@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.AI;
 using static Item;
+using static PlayerStats;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float speed;
+    private float angularSpeedDefault;
     private bool getNewRandomPoint;
     [HideInInspector] public NavMeshAgent agent;
 
@@ -52,6 +54,7 @@ public class Enemy : MonoBehaviour
         // Stats
         hp = hpMax;
         agent.speed = speed;
+        angularSpeedDefault = agent.angularSpeed;
 
         // Name
         if (isChampion)
@@ -74,13 +77,15 @@ public class Enemy : MonoBehaviour
         canAttackAgain = true;
         getNewRandomPoint = true;
     }
-    public void CheckHealth()
+    public bool IsStillAlive()
     {
         if (hp <= 0)
         {
             DropLoot();
             Destroy(gameObject);
+            return false;
         }
+        return true;
     }
 
 
@@ -125,7 +130,7 @@ public class Enemy : MonoBehaviour
 
         if (finalDamage > 0)
         {
-            Debug.Log("Hitting enemy and dealing " + finalDamage + " damage to hp!");
+            Debug.Log($"Hitting {enemyName} and dealing " + finalDamage + " damage to its hp!");
             // Spawn blood stain
 
 
@@ -173,7 +178,7 @@ public class Enemy : MonoBehaviour
         canAttackAgain = false;
 
         if (weapon != null)
-            playerStats.DealDamage(weapon.stats["damage"], weapon.stats["penetration"], weapon.stats["armorIgnore"]);
+            playerStats.DealDamage(weapon.stats[StatType.Damage], weapon.stats[StatType.Penetration], weapon.stats[StatType.ArmorIgnore]);
         else
             playerStats.DealDamage(damage, penetration, armorIgnore);
 
@@ -218,11 +223,21 @@ public class Enemy : MonoBehaviour
     }
     public void PlayWalkAnimation()
     {
-        if(agent.velocity.magnitude > 0.01f && !isStunned)
+        if (agent.velocity.magnitude > 0.01f && !isStunned && !agent.isStopped)
             animator.SetBool("Walking", true);
         else
             animator.SetBool("Walking", false);
     }
-    public void StopMovement() => agent.speed = 0f;
-    public void ResumeMovement() => agent.speed = speed;
+    public void StopMovement()
+    {
+        agent.isStopped = true;
+        agent.speed = 0f;
+        agent.angularSpeed = 0f;
+    }
+    public void ResumeMovement()
+    {
+        agent.isStopped = false;
+        agent.speed = speed;
+        agent.angularSpeed = angularSpeedDefault;
+    }
 }

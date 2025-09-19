@@ -1,12 +1,57 @@
 using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
+using static Item;
 using static PlayerBase;
+using static PlayerStats;
 
 [Serializable]
 public class GameData
 {
     // Player stats
-    public SerializableDictionary<string, float> playerStats;
+    public SerializableDictionary<StatType, float> playerStats;
+    public Dictionary<StatType, float> baseStats = new()
+        {
+            { StatType.Hp,                          100 },
+            { StatType.Stamina,                     100 },
+            { StatType.Mana,                        100 },
+            { StatType.HpMax,                       100 },
+            { StatType.StaminaMax,                  100 },
+            { StatType.ManaMax,                     100 },
+            { StatType.HpRegen,                     1 },
+            { StatType.StaminaRegen,                1 },
+            { StatType.ManaRegen,                   1 },
+            { StatType.Armor,                       0 },
+            { StatType.IncreaseArmorByPercentage,   0 },
+            { StatType.MagicResistance,             0 },
+            { StatType.BleedingResistance,          0 },
+            { StatType.PoisonResistance,            0 },
+            { StatType.Evade,                       0 },
+            { StatType.Player_Defense,              0 },
+            { StatType.BonusDefense,                0 },
+            { StatType.Weight,                      0 },
+            { StatType.Speed,                       1 },
+            { StatType.BackpackSize,                8 },
+            { StatType.BeltSize,                    0 },
+            { StatType.PocketSize,                  0 },
+            { StatType.AdditionalInventorySlots,    0 },
+            { StatType.Knockback,                   0 },
+            { StatType.ArmorIgnore,                 0 },
+            { StatType.NotConsumeStaminaChance,     0 },
+            { StatType.StaminaConsumptionReduction, 0 },
+            { StatType.AccuracyBonus,               0 },
+            { StatType.StunChance,                  0 },
+            { StatType.BleedingChance,              0 },
+            { StatType.PoisonChance,                0 },
+            { StatType.Range,                       0 },
+            { StatType.Player_Exp,                  0 },
+            { StatType.Player_Level,                0 },
+            { StatType.SkillPoints,                 0 },
+            { StatType.SkillIssuePoints,            0 },
+            { StatType.Age,                         0 },
+        };
 
     // Movement
     public Vector3 playerPos;
@@ -33,58 +78,9 @@ public class GameData
     public GameData()
     {
         // Set the default stats
-        playerStats = new()
-        {
-            { "hp", 100 },
-            { "stamina", 100},
-            { "mana", 100 },
-            { "hpMax", 100 },
-            { "staminaMax", 100 },
-            { "manaMax", 100 },
-            { "hpRegen", 1 },
-            { "staminaRegen", 1 },
-            { "manaRegen", 1 },
-            { "armor", 0 },
-            { "evasion", 0 },
-            { "defense", 0 },
-            { "weight", 80 },
-            { "speed", 1 },
-            { "exp_player", 0 },
-            { "level_player", 0 },
-            { "exp_oneHandDexterity", 0 },
-            { "level_oneHandDexterity", 0 },
-            { "exp_oneHandStrenght", 0 },
-            { "level_oneHandStrenght", 0 },
-            { "exp_twoHandDexterity", 0 },
-            { "level_twoHandDexterity", 0 },
-            { "exp_twoHandStrenght", 0 },
-            { "level_twoHandStrenght", 0 },
-            { "exp_rangedDexterity", 0 },
-            { "level_rangedDexterity", 0 },
-            { "exp_rangedStrenght", 0 },
-            { "level_rangedStrenght", 0 },
-            { "exp_magicFire", 0 },
-            { "level_magicFire", 0 },
-            { "exp_magicAir", 0 },
-            { "level_magicAir", 0 },
-            { "exp_magicWater", 0 },
-            { "level_magicWater", 0 },
-            { "exp_magicEarth", 0 },
-            { "level_magicEarth", 0 },
-            { "exp_magicLight", 0 },
-            { "level_magicLight", 0 },
-            { "exp_magicDark", 0 },
-            { "level_magicDark", 0 },
-            { "skillPoints", 0 },
-            { "accuracyBonus", 0 },
-            { "penetrationBonus", 0 },
-            { "armorIgnoreBonus", 0 },
-            { "skillIssue", 0 },
-            { "backpackSize", 8 },
-            { "beltSize", 0 },
-            { "pocketSize", 0 },
-            { "age", 0 },
-        };
+        playerStats = new();
+        foreach(var pair in baseStats)
+            playerStats[pair.Key] = pair.Value;
         playerInventory = new();
         playerPos = new Vector3(-52, 0, -52);
 

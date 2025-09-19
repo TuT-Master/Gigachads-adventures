@@ -1,11 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.XR;
+using static PlayerStats;
 
 public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler, IPointerClickHandler
 {
@@ -20,10 +20,10 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
         Piercing,
         BleedingResistance,
         PoisonResistance,
+        MagicResistance,
         Knockback,
         StunChance,
     }
-
 
     private bool isOpen;
     [SerializeField]
@@ -55,20 +55,19 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 
     private Item _item;
 
-
-    private readonly Dictionary<Slot.SlotType, List<string>> statMap = new()
+    private readonly Dictionary<Slot.SlotType, List<StatType>> statMapping = new()
     {
-        { Slot.SlotType.WeaponMelee, new List<string>{ "damage", "penetration", "armorIgnore", "critChance", "critDamage", "defense" } },
-        { Slot.SlotType.WeaponRanged, new List<string>{ "damage", "penetration", "armorIgnore", "magazineSize", "attackSpeed", "reloadTime", "defense" } },
-        { Slot.SlotType.MagicWeapon, new List<string>{ "damage", "penetration", "armorIgnore", "defense" } },
-        { Slot.SlotType.Ammo, new List<string>{ "damage", "penetration", "armorIgnore" } },
-        { Slot.SlotType.Shield, new List<string>{ "defense" } },
-        { Slot.SlotType.Backpack, new List<string>{ "backpackSize" } },
-        { Slot.SlotType.Belt, new List<string>{ "backpackSize" } },
-        { Slot.SlotType.Head, new List<string>{ "armor", "magicResistance" } },
-        { Slot.SlotType.Torso, new List<string>{ "armor", "magicResistance" } },
-        { Slot.SlotType.Legs, new List<string>{ "armor", "magicResistance" } },
-        { Slot.SlotType.Gloves, new List<string>{ "armor", "magicResistance" } },
+        { Slot.SlotType.WeaponMelee, new List<StatType>{ StatType.Damage, StatType.Penetration, StatType.ArmorIgnore, StatType.CritChance, StatType.CritDamage, StatType.BonusDefense } },
+        { Slot.SlotType.WeaponRanged, new List<StatType>{ StatType.Damage, StatType.Penetration, StatType.ArmorIgnore, StatType.MagazineSize, StatType.AttackSpeed, StatType.ReloadTime, StatType.BonusDefense } },
+        { Slot.SlotType.MagicWeapon, new List<StatType>{ StatType.Damage, StatType.Penetration, StatType.ArmorIgnore, StatType.BonusDefense } },
+        { Slot.SlotType.Ammo, new List<StatType>{ StatType.Damage, StatType.Penetration, StatType.ArmorIgnore } },
+        { Slot.SlotType.Shield, new List<StatType>{ StatType.BonusDefense } },
+        { Slot.SlotType.Backpack, new List<StatType>{ StatType.AdditionalInventorySlots } },
+        { Slot.SlotType.Belt, new List<StatType>{ StatType.AdditionalInventorySlots } },
+        { Slot.SlotType.Helmet, new List<StatType>{ StatType.Armor, StatType.MagicResistance } },
+        { Slot.SlotType.Chestplate, new List<StatType>{ StatType.Armor, StatType.MagicResistance } },
+        { Slot.SlotType.Leggins, new List<StatType>{ StatType.Armor, StatType.MagicResistance } },
+        { Slot.SlotType.Gauntlets, new List<StatType>{ StatType.Armor, StatType.MagicResistance } },
     };
 
 
@@ -85,6 +84,8 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
         if (!pointerOnItemUI)
             StopAllCoroutines();
     }
+
+
     public IEnumerator ShowItemCard(Item item)
     {
         _item = item;
@@ -116,95 +117,25 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
                 // Item name
                 itemName.text = item.itemName;
 
-                if (statMap.TryGetValue(item.slotType, out List<string> statsList))
-                    foreach (string stat in statsList)
+                if (statMapping.TryGetValue(item.slotType, out List<StatType> statsList))
+                    foreach (StatType stat in statsList)
                     {
-                        float bonus = playerStats.GetSkillBonusStats(item.weaponClass).TryGetValue(stat, out float b) ? b : 0;
+                        float bonus = 0;
+                        if(playerStats.bonusesFromSkills.ContainsKey(item.weaponClass))
+                            bonus = playerStats.bonusesFromSkills[item.weaponClass].TryGetValue(stat, out float b) ? b : 0;
                         AddStat(stat, item.stats[stat], bonus, item);
                     }
 
                 // Item description
-                itemDescription.text = $"{(item.twoHanded ? "Two handed" : "One handed")} {GetWeaponClass(item.weaponType)}\n{item.description}";
+                string itemType = GetItemTypeAsString(item.itemType);
+                itemDescription.text = $"{(ShowTwoHanded(item.itemType) ? (item.twoHanded ? "Two handed " : "One handed ") : "")}{itemType}\n{item.description}";
+
+                // Weight and price
+                weight.text = Math.Round(item.stats[StatType.Weight] * item.amount, 1).ToString();
+                price.text = Math.Round(item.stats[StatType.Price] * item.amount, 1).ToString();
             }
         }
     }
-
-    private string GetWeaponClass(Item.WeaponType weaponType)
-    {
-        return weaponType switch
-        {
-            Item.WeaponType.Whip => "whip",
-            Item.WeaponType.Dagger => "dagger",
-            Item.WeaponType.Sword => "sword",
-            Item.WeaponType.Rapier => "rapier",
-            Item.WeaponType.LightShield => "light shield",
-            Item.WeaponType.Axe => "axe",
-            Item.WeaponType.Mace => "mace",
-            Item.WeaponType.Hammer_oneHanded => "hammer",
-            Item.WeaponType.HeavyShield => "heavy shield",
-            Item.WeaponType.QuarterStaff => "quarter staff",
-            Item.WeaponType.Spear => "spear",
-            Item.WeaponType.Longsword => "longsword",
-            Item.WeaponType.Halbert => "halbert",
-            Item.WeaponType.Hammer_twoHanded => "hammer",
-            Item.WeaponType.Zweihander => "zweihander",
-            Item.WeaponType.Bow => "bow",
-            Item.WeaponType.SMG => "smg",
-            Item.WeaponType.Pistol => "pistol",
-            Item.WeaponType.AttackRifle => "attack rifle",
-            Item.WeaponType.Thrower => "thrower",
-            Item.WeaponType.Longbow => "longbow",
-            Item.WeaponType.Crossbow => "crossbow",
-            Item.WeaponType.Shotgun => "shotgun",
-            Item.WeaponType.Revolver => "revolver",
-            Item.WeaponType.Machinegun => "machinegun",
-            Item.WeaponType.SniperRifle => "sniper rifle",
-            Item.WeaponType.Launcher => "launcher",
-            Item.WeaponType.Throwable => "throwable",
-            Item.WeaponType.Trap => "trap",
-            _ => null
-        };
-    }
-
-    private void AddStat(string statName, float baseValue, float bonusValue, Item item)
-    {
-        ItemCardStat stat = Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>();
-        stat.age = (int)playerStats.playerStats["age"];
-        stat.SetUp(statName, baseValue, bonusValue);
-        AddStatEffects(item, stat, statName);
-        stats.Add(stat);
-    }
-    private void AddStatEffects(Item item, ItemCardStat itemCardStat, string stat)
-    {
-        switch (stat)
-        {
-            case "damage":
-                if (item.AoE)
-                    itemCardStat.AddStatEffect(StatEffect.AoE, 0);
-                if (item.selfHoming)
-                    itemCardStat.AddStatEffect(StatEffect.Homing, 0);
-                if (item.stats.TryGetValue("poisonDamage", out float value) && value > 0)
-                    itemCardStat.AddStatEffect(StatEffect.Poison, value);
-                if (item.stats.TryGetValue("bleedingDamage", out value) && value > 0)
-                    itemCardStat.AddStatEffect(StatEffect.Bleeding, value);
-                if (item.stats.TryGetValue("burningChance", out value) && value > 0)
-                    itemCardStat.AddStatEffect(StatEffect.BurningChance, value);
-                break;
-            case "penetration":
-                if (item.stats.TryGetValue("piercing", out value) && value > 0)
-                    itemCardStat.AddStatEffect(StatEffect.Piercing, value);
-                break;
-            case "armor":
-                if (item.stats.TryGetValue("bleedingResistance", out value) && value > 0)
-                    itemCardStat.AddStatEffect(StatEffect.BleedingResistance, value);
-                if (item.stats.TryGetValue("poisonResistance", out value) && value > 0)
-                    itemCardStat.AddStatEffect(StatEffect.PoisonResistance, value);
-                if (item.fullSetBonus != null)
-                    itemCardStat.AddStatEffect_FullSetBonus(StatEffect.FullSetBonus, item.fullSetBonus);
-                break;
-        }
-    }
-
     public void HideItemCard()
     {
         _item = null;
@@ -225,7 +156,109 @@ public class ItemCard : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
         StopAllCoroutines();
         gameObject.SetActive(false);
     }
-
+    private bool ShowTwoHanded(Item.ItemType itemType)
+    {
+        return itemType != Item.ItemType.Projectile &&
+               itemType != Item.ItemType.Consumable &&
+               itemType != Item.ItemType.Helmet &&
+               itemType != Item.ItemType.Chestplate &&
+               itemType != Item.ItemType.Leggings &&
+               itemType != Item.ItemType.Gauntlets &&
+               itemType != Item.ItemType.HelmetAccessory &&
+               itemType != Item.ItemType.ChestplateAccessory &&
+               itemType != Item.ItemType.LeggingsAccessory &&
+               itemType != Item.ItemType.GauntletsAccessory &&
+               itemType != Item.ItemType.Backpack &&
+               itemType != Item.ItemType.Belt;
+    }
+    private string GetItemTypeAsString(Item.ItemType itemType)
+    {
+        return itemType switch
+        {
+            Item.ItemType.Whip => "whip",
+            Item.ItemType.Dagger => "dagger",
+            Item.ItemType.Sword => "sword",
+            Item.ItemType.Rapier => "rapier",
+            Item.ItemType.LightShield => "light shield",
+            Item.ItemType.Axe => "axe",
+            Item.ItemType.Mace => "mace",
+            Item.ItemType.Hammer_oneHanded => "hammer",
+            Item.ItemType.HeavyShield => "heavy shield",
+            Item.ItemType.QuarterStaff => "quarter staff",
+            Item.ItemType.Spear => "spear",
+            Item.ItemType.Longsword => "longsword",
+            Item.ItemType.Halbert => "halbert",
+            Item.ItemType.Hammer_twoHanded => "hammer",
+            Item.ItemType.Zweihander => "zweihander",
+            Item.ItemType.Bow => "bow",
+            Item.ItemType.SMG => "smg",
+            Item.ItemType.Pistol => "pistol",
+            Item.ItemType.AttackRifle => "attack rifle",
+            Item.ItemType.Thrower => "thrower",
+            Item.ItemType.Longbow => "longbow",
+            Item.ItemType.Crossbow => "crossbow",
+            Item.ItemType.Shotgun => "shotgun",
+            Item.ItemType.Revolver => "revolver",
+            Item.ItemType.Machinegun => "machinegun",
+            Item.ItemType.SniperRifle => "sniper rifle",
+            Item.ItemType.Launcher => "launcher",
+            Item.ItemType.Throwable => "throwable",
+            Item.ItemType.Trap => "trap",
+            Item.ItemType.Projectile => "Projectile",
+            Item.ItemType.Consumable => "Consumable",
+            Item.ItemType.Backpack => "Backpack",
+            Item.ItemType.Belt => "Belt",
+            Item.ItemType.Helmet => "Helmet",
+            Item.ItemType.Chestplate => "Chestplate",
+            Item.ItemType.Leggings => "Leggings",
+            Item.ItemType.Gauntlets => "Gauntlets",
+            Item.ItemType.HelmetAccessory => "Helmet accessory",
+            Item.ItemType.ChestplateAccessory => "Chestplate accessory",
+            Item.ItemType.LeggingsAccessory => "Leggings accessory",
+            Item.ItemType.GauntletsAccessory => "Gauntlets accessory",
+            _ => string.Empty,
+        };
+    }
+    private void AddStat(StatType statType, float baseValue, float bonusValue, Item item)
+    {
+        ItemCardStat stat = Instantiate(statPrefab, transform.Find("ItemStats")).GetComponent<ItemCardStat>();
+        stat.age = (int)playerStats.playerStats[StatType.Age];
+        stat.SetUp(statType, baseValue, bonusValue);
+        AddStatEffects(item, stat, statType);
+        stats.Add(stat);
+    }
+    private void AddStatEffects(Item item, ItemCardStat itemCardStat, StatType statType)
+    {
+        switch (statType)
+        {
+            case StatType.Damage:
+                if (item.AoE)
+                    itemCardStat.AddStatEffect(StatEffect.AoE, 0);
+                if (item.selfHoming)
+                    itemCardStat.AddStatEffect(StatEffect.Homing, 0);
+                if (item.stats.TryGetValue(StatType.PoisonDamage, out float value) && value > 0)
+                    itemCardStat.AddStatEffect(StatEffect.Poison, value);
+                if (item.stats.TryGetValue(StatType.BleedingDamage, out value) && value > 0)
+                    itemCardStat.AddStatEffect(StatEffect.Bleeding, value);
+                if (item.stats.TryGetValue(StatType.BurningChance, out value) && value > 0)
+                    itemCardStat.AddStatEffect(StatEffect.BurningChance, value);
+                break;
+            case StatType.Penetration:
+                if (item.stats.TryGetValue(StatType.Piercing, out value) && value > 0)
+                    itemCardStat.AddStatEffect(StatEffect.Piercing, value);
+                break;
+            case StatType.Armor:
+                if (item.stats.TryGetValue(StatType.BleedingResistance, out value) && value > 0)
+                    itemCardStat.AddStatEffect(StatEffect.BleedingResistance, value);
+                if (item.stats.TryGetValue(StatType.PoisonResistance, out value) && value > 0)
+                    itemCardStat.AddStatEffect(StatEffect.PoisonResistance, value);
+                if (item.stats.TryGetValue(StatType.MagicResistance, out value) && value > 0)
+                    itemCardStat.AddStatEffect(StatEffect.MagicResistance, value);
+                if (item.fullSetBonus != null)
+                    itemCardStat.AddStatEffect_FullSetBonus(StatEffect.FullSetBonus, item.fullSetBonus);
+                break;
+        }
+    }
 
 
     public void OnPointerExit(PointerEventData eventData) { pointerOnItemCard = false; }
