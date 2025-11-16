@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8391f245896305a418bd3e6dd883c0c5, type: 3}
+  m_Name: Pickaxe
+  m_EditorClassIdentifier: 
+  itemName: Pickaxe
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
+  description: Primitive pickaxe for mining primitive resources from rocks
+  amount: 0
+  isStackable: 0
+  stackSize: 0
+  slotType: 1
+  itemType: 48
+  itemModel: {fileID: 3202492096914340254, guid: de68c781c4248544090cd6846de225b8,
+    type: 3}
+  sprite_inventory: {fileID: 0}
+  craftedIn: 0
+  requieredCraftingLevel: 0
+  recipeItems: []
+  emitsLight: 0
+  twoHanded: 1
+  AoE: 0
+  weaponClass: 4
+  damage: 1
+  poisonDamage: 0
+  bleedingDamage: 0
+  burningChance: 0
+  penetration: 0
+  armorIgnore: 0
+  attackSpeed: 1
+  critDamage: 0
+  critChance: 0
+  staminaCost: 5
+  manaCost: 0
+  rangeX: 1
+  rangeY: 1
+  defense: 0
+  armorIncrease: 0
+  weight: 5
+  price: 1
+  isUpgrade: 0
+  upgradedVersionsOfWeapon: {fileID: 0}

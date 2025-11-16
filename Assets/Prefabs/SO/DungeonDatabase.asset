@@ -35,6 +35,7 @@ MonoBehaviour:
   - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
   resources:
   - {fileID: 919132149155446097, guid: ee75a463c0426d14096976543a056e35, type: 3}
+  - {fileID: 1397264771400034484, guid: 45975c208aef554469fa08405d1f6ec4, type: 3}
   lightsources:
   - {fileID: 4239474064859534736, guid: 8968f28f1d330a3459f8748134eda71e, type: 3}
   lootBoxes:

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483b3d4845a237f4e9ec5fc5ec39cb2b, type: 3}
+  m_Name: MetalOre
+  m_EditorClassIdentifier: 
+  itemName: Metal ore
+  itemPrefab: {fileID: 211604260712709183, guid: d5f78788650a06743b7495a57b098820,
+    type: 3}
+  description: Chunk of metal ore
+  amount: 0
+  isStackable: 1
+  stackSize: 420
+  slotType: 0
+  itemType: 47
+  itemModel: {fileID: 5641450465338852707, guid: cc1e2da5b1bd4d74db042dd896b3538d,
+    type: 3}
+  sprite_inventory: {fileID: 0}
+  craftedIn: 0
+  requieredCraftingLevel: 0
+  recipeItems: []
+  crystalType: 0
+  weight: 1
+  price: 1

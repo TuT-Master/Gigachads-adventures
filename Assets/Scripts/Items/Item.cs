@@ -90,6 +90,7 @@ public class Item : MonoBehaviour
         Backpack,
         Belt,
         Material,
+        Pickaxe,
     }
     public ItemType itemType;
     public WeaponClass weaponClass;
