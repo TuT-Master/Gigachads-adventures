@@ -8,11 +8,11 @@ using UnityEngine.UI;
 
 public class Editor_SpecificObj : MonoBehaviour, IPointerClickHandler
 {
-    private Editor editor;
+    private RoomEditor editor;
     private Image image;
     public string specificObjName;
 
-    public void SetUp(string specificObjName, Editor editor)
+    public void SetUp(string specificObjName, RoomEditor editor)
     {
         this.specificObjName = specificObjName;
         this.editor = editor;

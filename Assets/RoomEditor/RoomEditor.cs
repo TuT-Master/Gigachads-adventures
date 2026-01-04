@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class Editor : MonoBehaviour
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+public class RoomEditor : MonoBehaviour
 {
     [Header("Dungeon database")]
     [SerializeField] private DungeonDatabase dungeonDatabase;
@@ -496,8 +497,9 @@ public class Editor_Room
             string dataToStore = JsonUtility.ToJson(this, true);
 
             File.WriteAllText(fullPath, dataToStore);
-
+            #if UNITY_EDITOR
             AssetDatabase.Refresh();
+            #endif
             Debug.Log($"Room saved to {fullPath}");
         }
         catch (Exception e)
